@@ -1,18 +1,33 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}template-blogindexpage{% endblock %}
+{% block body_class %}template-mech-homepage{% endblock %}
 
 {% block content %}
     <h1>{{ page.title }}</h1>
-
-    <div class="intro">{{ page.intro|richtext }}</div>
-
+<!-- Navbar here -->
     {% for post in page.get_children %}
         <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
         {{ post.specific.intro }}
-        {{ post.specific.body|richtext }}
+    {% endfor %}
+<!-- Carousal -->
+    {% for item in page.gallery_images.all %}
+        <div style="float: left; margin: 10px">
+            {% image item.image fill-320x240 %}
+            <p>{{ item.caption }}</p>
+        </div>
+    {% endfor %}
+<!-- Intro -->
+    <div class="intro">{{ page.intro|richtext }}</div>
+<!-- Mini Articles -->
+    {% for item in page.text_panels.all %}
+        <div style="float: left; margin: 10px">
+		    <h2>{{item.title}}</h2>
+		    <h4>{{item.date}}</h4>	    
+		    <h3>{{item.description}}</h3>
+
+        </div>
     {% endfor %}
 
 {% endblock %}
