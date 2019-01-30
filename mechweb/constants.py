@@ -5,3 +5,12 @@ TEXT_PANEL_CONTENT_TYPES=(
 LOCATIONS=(
 	('seminar_hall', 'seminar_hall'),
 )
+
+EVENTS=(
+	('meeting', 'meeting'),
+	('seminar', 'seminar'),
+	('workshop', 'workshop'),
+	('informal_event', 'informal_event'),
+	('conference', 'conference'),
+	('PhD_viva', 'PhD_viva'),
+)
