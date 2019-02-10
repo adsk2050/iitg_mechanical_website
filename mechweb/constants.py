@@ -110,3 +110,11 @@ STUDENT_PROGRAMME = (
 	('Research_Scholar', 'Research_Scholar'),
 	('PostDoc', 'PostDoc'),
 )
+
+STAFF_DESIGNATION = (
+	('Project_Staff', 'Project_Staff'),
+	('Lab_Staff', 'Lab_Staff'),
+	('Administrative_Staff', 'Administrative_Staff'),
+	('Technicial_staff', 'Technicial_staff'),
+	('Others', 'Others'),
+)

@@ -14,10 +14,13 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, FACULTY_DESIGNATION, STUDENT_PROGRAMME
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, FACULTY_DESIGNATION, STUDENT_PROGRAMME, STAFF_DESIGNATION
 
 ######################################################
 
+#Need to work on how URLs work in wagtail. Can't access the pages !!!
+
+######################################################
 class MechHomePage(Page):
 	intro = RichTextField(blank=True) 
 
@@ -64,8 +67,7 @@ class MechHomePageGalleryImage(Orderable):
 		FieldPanel('caption'),
 	]
 
-#######################################################
-
+######################################################
 class EventHomePage(Page):
 	featured_event = models.ForeignKey(
 		'EventPage', 
@@ -148,11 +150,7 @@ class EventPageLink(Orderable):
 		FieldPanel('link'),
 	]
 
-#######################################################
-
-#Need to work on how URLs work in wagtail. Can't access the pages !!!
-
-#######################################################
+######################################################
 class FacultyHomePage(Page):	
 	intro = RichTextField(blank=True)
 	# head_of_dept = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='head_of_hept')
@@ -278,15 +276,11 @@ class FacultyPageGalleryImage(Orderable):
 	]
 
 ######################################################
-
 class StudentHomePage(Page):  
 	intro = RichTextField(blank=True)
-	# head_of_dept = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='head_of_hept')
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
-	# PageChooserPanel('head_of_dept'),
-	#InlinePanel('event_page', label="New Event"),
 	]
 
 	parent_page_types=['MechHomePage']
@@ -295,7 +289,7 @@ class StudentHomePage(Page):
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
-		student_list = self.get_children().live().order_by('designation')
+		student_list = self.get_children().live().order_by('programme').order_by('enrolment_year')
 		context['student_list'] = student_list
 		return context
 
@@ -391,6 +385,53 @@ class StudentPageGalleryImage(Orderable):
 		FieldPanel('caption'),
 	]
 
+######################################################
+class StaffHomePage(Page):  
+	intro = RichTextField(blank=True)
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['StaffPage']
+
+	def get_context(self, request):
+		# Update context to include only published posts, ordered by reverse-chron
+		context = super().get_context(request)
+		staff_list = self.get_children().live().order_by('designation').order_by('joining_year')
+		context['staff_list'] = staff_list
+		return context
+
+class StaffPage(Page):
+	name = models.CharField(max_length=100)
+	contact_number = models.CharField(max_length=20, blank=True)
+	address = models.CharField(max_length=100, blank=True)
+	email_id = models.EmailField()
+	joining_year = models.DateField()
+	designation = models.CharField(max_length=25, choices=STAFF_DESIGNATION, default='Project_Staff')
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	intro = models.CharField(max_length=250)
+	#if lab staff: 
+	# lab = models.ForeignKey('ResearchLabPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='lab')
+
+	content_panels = Page.content_panels + [
+		FieldPanel('name'),
+		FieldPanel('joining_year'),
+		ImageChooserPanel('photo'), 
+		FieldPanel('email_id'), 
+		FieldPanel('contact_number'),
+		FieldPanel('address'),
+		FieldPanel('intro'),
+	]
+
+	parent_page_types=['StaffHomePage']
+	subpage_types=[]
 
 ######################################################
+# class ResearchHomePage(Page):
+# 	pass
 
+# class ResearchLabPage(Page):
+# 	name = models.CharField(max_length=100)
+# 	pass
