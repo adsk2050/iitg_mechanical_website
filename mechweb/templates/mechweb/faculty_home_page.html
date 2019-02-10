@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-event-homepage{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+    <!-- Intro -->
+    <h2>Intro:</h2>
+    <div class="intro">{{ page.intro|richtext }}</div>
+    <hr>
+    <!-- Featured Event -->
+
+
+
+{% endblock %}

@@ -66,3 +66,56 @@ class EventPageLink(Orderable):
 ###################################################################
 
 
+class DepartmentalCommities(Page):
+  head_of_dept = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='Head_of_Dept')
+
+  DPPC_Chairman = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DPPC_Chairman')
+  DPPC_Secretary = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DPPC_Secretary')
+  DPPC_Faculty_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DPPC_Faculty_Member')
+  DPPC_External_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DPPC_External_Member')
+  DPPC_PhD_Student_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DPPC_PhD_Student_Member')
+  DPPC_MTech_Student_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DPPC_MTech_Student_Member')
+
+  DUPC_Chairman = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DUPC_Chairman')
+  DUPC_Secretary = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DUPC_Secretary')
+  DUPC_Faculty_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DUPC_Faculty_Member')
+  DUPC_External_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DUPC_External_Member')
+  DUPC_3rd_year_BTech = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DUPC_3rd_year_BTech')
+  DUPC_2nd_year_BTech = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DUPC_2nd_year_BTech')
+
+  DISCIPLINARY_COMMITTEE_Chairman = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISCIPLINARY_COMMITTEE_Chairman')
+  DISCIPLINARY_COMMITTEE_Secretary = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISCIPLINARY_COMMITTEE_Secretary')
+  DISCIPLINARY_COMMITTEE_Member_Secretary = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISCIPLINARY_COMMITTEE_Member_Secretary')
+  DISCIPLINARY_COMMITTEE_Student_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISCIPLINARY_COMMITTEE_Student_Member')
+
+  FACULTY_IN_CHARGE_BTP_Co_ordinator = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_BTP_Co_ordinator')
+  FACULTY_IN_CHARGE_MTP_Co_ordinator = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_MTP_Co_ordinator')
+  FACULTY_IN_CHARGE_Central_Workshop = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Central_Workshop')
+  FACULTY_IN_CHARGE_Library_Committee = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Library_Committee')
+  FACULTY_IN_CHARGE_Training_and_Placement = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Training_and_Placement')
+  FACULTY_IN_CHARGE_Departmental_Seminar_Room = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Departmental_Seminar_Room')
+  FACULTY_IN_CHARGE_Secretary_Faculty_Meeting = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Secretary_Faculty_Meeting')
+  FACULTY_IN_CHARGE_PG_Computational_Lab = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_PG_Computational_Lab')
+  FACULTY_IN_CHARGE_Research_Scholar_Room = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Research_Scholar_Room')
+  FACULTY_IN_CHARGE_Time_Table_Committee = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Time_Table_Committee')
+  FACULTY_IN_CHARGE_Departmental_Website = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='FACULTY_IN_CHARGE_Departmental_Website')
+
+  LABORATORY_IN_CHARGE_Advanced_Manufacturing_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Advanced_Manufacturing_Laboratory')
+  LABORATORY_IN_CHARGE_CAD_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_CAD_Laboratory')
+  LABORATORY_IN_CHARGE_Central_Workshop = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Central_Workshop')
+  LABORATORY_IN_CHARGE_Fluid_Mechanics_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Fluid_Mechanics_Laboratory')
+  LABORATORY_IN_CHARGE_IC_Engines_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_IC_Engines_Laboratory')
+  LABORATORY_IN_CHARGE_Instrumentation_and_Control_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Instrumentation_and_Control_Laboratory')
+  LABORATORY_IN_CHARGE_Material_Science_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Material_Science_Laboratory')
+  LABORATORY_IN_CHARGE_Tribology_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Tribology_Laboratory')
+  LABORATORY_IN_CHARGE_Mechatronics_and_Robotics_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Mechatronics_and_Robotics_Laboratory')
+  LABORATORY_IN_CHARGE_Strength_of_Materials_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Strength_of_Materials_Laboratory')
+  LABORATORY_IN_CHARGE_Theory_of_Machines_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Theory_of_Machines_Laboratory')
+  LABORATORY_IN_CHARGE_Thermal_Science_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Thermal_Science_Laboratory')
+  LABORATORY_IN_CHARGE_Turbo_Machinary_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Turbo_Machinary_Laboratory')
+  LABORATORY_IN_CHARGE_Vibrations_and_Acoustics_Laboratory = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='LABORATORY_IN_CHARGE_Vibrations_and_Acoustics_Laboratory')
+
+  DISPOSAL_COMMITTEE_Chairman = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISPOSAL_COMMITTEE_Chairman')
+  DISPOSAL_COMMITTEE_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISPOSAL_COMMITTEE_Member')
+  DISPOSAL_COMMITTEE_External_Member = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISPOSAL_COMMITTEE_External_Member')
+  DISPOSAL_COMMITTEE_Non_Member_Secretary = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='DISPOSAL_COMMITTEE_Non_Member_Secretary')

@@ -4,12 +4,17 @@ from django import forms
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel,  PageChooserPanel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel,  PageChooserPanel, MultiFieldPanel
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from modelcluster.fields import ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase
 from wagtail.images.edit_handlers import ImageChooserPanel
+# for tagging
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase
 
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, FACULTY_DESIGNATION, STUDENT_PROGRAMME
 
 ######################################################
 
@@ -23,7 +28,7 @@ class MechHomePage(Page):
 	]
 
 	parent_page_types=[]
-	subpage_types=['EventHomePage']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage']
 
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
@@ -145,7 +150,247 @@ class EventPageLink(Orderable):
 
 #######################################################
 
+#Need to work on how URLs work in wagtail. Can't access the pages !!!
+
+#######################################################
+class FacultyHomePage(Page):	
+	intro = RichTextField(blank=True)
+	# head_of_dept = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='head_of_hept')
+
+	content_panels = Page.content_panels + [
+			FieldPanel('intro'),
+			# PageChooserPanel('head_of_dept'),
+			#InlinePanel('event_page', label="New Event"),
+		]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['FacultyPage']
+
+	def get_context(self, request):
+		# Update context to include only published posts, ordered by reverse-chron
+		context = super().get_context(request)
+		faculty_list = self.get_children().live().order_by('designation')
+		context['faculty_list'] = faculty_list
+		return context
+
+class FacultyResearchInterestTag(TaggedItemBase):
+	content_object = ParentalKey(
+		'FacultyPage', 
+		related_name='tagged_items', 
+		on_delete=models.CASCADE )
+
+class FacultyPage(Page):
+	name = models.CharField(max_length=100)
+	office_contact_number = models.CharField(max_length=20, blank=True)
+	home_contact_number = models.CharField(max_length=20, blank=True)
+	office_address_line_1 = models.CharField(max_length=25, blank=True)
+	office_address_line_2 = models.CharField(max_length=50, blank=True)
+	office_address_line_3 = models.CharField(max_length=100, blank=True)
+	home_address_line_1 = models.CharField(max_length=25, blank=True)
+	home_address_line_2 = models.CharField(max_length=50, blank=True)
+	home_address_line_3 = models.CharField(max_length=100, blank=True)
+	email_id = models.EmailField()
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	intro = models.CharField(max_length=250)
+	body = RichTextField(blank=True)
+	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
+	joining_date = models.DateField()
+	designation = models.CharField(max_length=25, choices=FACULTY_DESIGNATION, default='Assistant_Professor')
+	website = models.URLField(max_length=250, null=True)
+	# additional_roles = models.CharField(max_length=25, choices=FACULTY_ROLES, default='Assistant_Professor')
+	#students
+	#labs
+	#projects
+
+	content_panels = Page.content_panels + [
+		FieldPanel('name'),
+		FieldPanel('joining_date'),
+		FieldPanel('designation'),
+		# FieldPanel('additional_roles'),
+		ImageChooserPanel('photo'),	
+		FieldPanel('email_id'),	
+		FieldPanel('website'),	
+		MultiFieldPanel([
+			FieldPanel('office_address_line_1'),
+			FieldPanel('office_address_line_2'),
+			FieldPanel('office_address_line_3'),
+			FieldPanel('office_contact_number'),
+
+		], heading="Office Address"),
+		MultiFieldPanel([
+			FieldPanel('home_address_line_1'),
+			FieldPanel('home_address_line_2'),
+			FieldPanel('home_address_line_3'),
+			FieldPanel('home_contact_number'),
+		], heading="Residence Address"),
+		FieldPanel('intro'),
+		FieldPanel('body'),
+		InlinePanel('publications', label="Publications"),
+		FieldPanel('research_interests'),
+		InlinePanel('gallery_images', label="Gallery images"),
+		InlinePanel('links', label="Related Links"),
+		
+	]
+
+	parent_page_types=['FacultyHomePage']
+	subpage_types=[]
+
+	# def get_context(self, request):
+	# 	# Filter by tag
+	# 	tag = request.GET.get('tag')
+	# 	blogpages = BlogPage.objects.filter(tags__name=tag)
+
+	# 	# Update template context
+	# 	context = super().get_context(request)
+	# 	context['blogpages'] = blogpages
+	# 	return context
+
+class FacultyPublicationDocument(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='publications')
+	document = models.ForeignKey(
+		'wagtaildocs.Document', 
+		null=True, blank=True, 
+		on_delete=models.SET_NULL, 
+		related_name='+'
+	)
+	abstract = RichTextField(blank=True)
+	link = models.URLField(max_length=250, blank=True)
+	panels = [
+		DocumentChooserPanel('document'),
+		FieldPanel('abstract'),
+		# FieldPanel('link'),
+	]
+
+class FacultyPageLink(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+class FacultyPageGalleryImage(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='gallery_images')
+	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		ImageChooserPanel('image'),
+		FieldPanel('caption'),
+	]
+
+######################################################
+
+class StudentHomePage(Page):  
+	intro = RichTextField(blank=True)
+	# head_of_dept = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='head_of_hept')
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+	# PageChooserPanel('head_of_dept'),
+	#InlinePanel('event_page', label="New Event"),
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['StudentPage']
+
+	def get_context(self, request):
+		# Update context to include only published posts, ordered by reverse-chron
+		context = super().get_context(request)
+		student_list = self.get_children().live().order_by('designation')
+		context['student_list'] = student_list
+		return context
+
+class StudentResearchInterestTag(TaggedItemBase):
+	content_object = ParentalKey(
+		'StudentPage', 
+		related_name='tagged_items', 
+		on_delete=models.CASCADE 
+	)
+
+class StudentPage(Page):
+	name = models.CharField(max_length=100)
+	contact_number = models.CharField(max_length=20, blank=True)
+	hostel_address_line_1 = models.CharField(max_length=25, blank=True)
+	hostel_address_line_2 = models.CharField(max_length=50, blank=True)
+	hostel_address_line_3 = models.CharField(max_length=100, blank=True)
+	email_id = models.EmailField()
+	enrolment_year = models.DateField()
+	programme = models.CharField(max_length=25, choices=STUDENT_PROGRAMME, default='Bachelor')
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	intro = models.CharField(max_length=250)
+	body = RichTextField(blank=True)
+	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
+	website = models.URLField(max_length=250, null=True)
+	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
+
+	content_panels = Page.content_panels + [
+		FieldPanel('name'),
+		FieldPanel('enrolment_year'),
+		ImageChooserPanel('photo'), 
+		FieldPanel('email_id'), 
+		FieldPanel('contact_number'),
+		MultiFieldPanel([
+			FieldPanel('hostel_address_line_1'),
+			FieldPanel('hostel_address_line_2'),
+			FieldPanel('hostel_address_line_3'),
+		], heading="Address"),
+		FieldPanel('intro'),
+		FieldPanel('body'),
+		PageChooserPanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
+		InlinePanel('projects', label="Projects"),
+		FieldPanel('research_interests'),
+		InlinePanel('gallery_images', label="Gallery images"),
+		InlinePanel('links', label="Related Links"),
+	]
+
+	parent_page_types=['StudentHomePage']
+	subpage_types=[]
+
+class StudentProject(Orderable):
+	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='projects')
+	guide = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='guide')
+	co_guide = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='co_guide')
+	document = models.ForeignKey(
+		'wagtaildocs.Document', 
+		null=True, blank=True, 
+		on_delete=models.SET_NULL, 
+		related_name='+'
+	)
+	photo_1 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo_2 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo_3 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	abstract = RichTextField(blank=True)
+	link = models.URLField(max_length=250, blank=True)
+	panels = [
+
+		PageChooserPanel('guide'),
+		PageChooserPanel('co_guide'),
+		DocumentChooserPanel('document'),
+		FieldPanel('abstract'),
+		FieldPanel('link'),
+		MultiFieldPanel([
+			ImageChooserPanel('photo_1'), 
+			ImageChooserPanel('photo_2'), 
+			ImageChooserPanel('photo_3'),
+		], heading ="Featured Photos")
+		 
+	]
+
+class StudentPageLink(Orderable):
+	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+class StudentPageGalleryImage(Orderable):
+	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='gallery_images')
+	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		ImageChooserPanel('image'),
+		FieldPanel('caption'),
+	]
 
 
-
+######################################################
 
