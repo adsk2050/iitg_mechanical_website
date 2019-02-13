@@ -31,7 +31,7 @@ class MechHomePage(Page):
 	]
 
 	parent_page_types=[]
-	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure']
 
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
@@ -400,7 +400,7 @@ class StaffHomePage(Page):
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
-		staff_list = self.get_children().live().order_by('designation').order_by('joining_year')
+		staff_list = self.get_children().live().order_by('-first_published_at')
 		context['staff_list'] = staff_list
 		return context
 
@@ -640,6 +640,72 @@ class ProjectPageGalleryImage(Orderable):
 	panels = [
 		ImageChooserPanel('image'),
 		FieldPanel('caption'),
+	]
+
+######################################################
+class CourseStructure(Page):
+	parent_page_types=['MechHomePage']
+	subpage_types=['CoursePage']
+
+class CoursePage(Page):
+	name = models.CharField(max_length=50)
+	code = models.CharField(max_length=10)
+	lectures = models.IntegerField()
+	tutorials = models.IntegerField()
+	practicals = models.IntegerField()
+	credits = models.IntegerField()
+	semester = models.IntegerField()
+	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, verbose_name="Minimum qualification")
+	description = RichTextField()
+	course_page_link = models.URLField()
+	document = models.ForeignKey(
+		'wagtaildocs.Document', 
+		null=True, blank=True, 
+		on_delete=models.SET_NULL, 
+		related_name='+'
+	)	#if can add function to add multiple students at once, then and only then add this.
+	# list_of_students = 
+
+	content_panels =  Page.content_panels + [
+		FieldPanel('name'),
+		InlinePanel('course_announcements', label="Announcement"),
+		MultiFieldPanel([
+			FieldPanel('code'),
+			FieldPanel('lectures'),
+			FieldPanel('tutorials'),
+			FieldPanel('practicals'),
+			FieldPanel('credits'),
+			DocumentChooserPanel('document'),
+			FieldPanel('semester'),
+			FieldPanel('eligible_programmes'),
+			FieldPanel('course_page_link'),
+		], heading="Course Details"),
+		FieldPanel('description'),
+		InlinePanel('course_instructor', label="Course Instructor"),
+		
+	]
+	
+class CoursePageFaculty(Orderable):
+	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_instructor')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='course_instructor')
+	introduction = RichTextField(blank=True)
+	panels = [
+		PageChooserPanel('faculty'),
+		FieldPanel('introduction'),
+	]
+
+class CourseAnnouncementPage(Orderable):
+	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_announcements')
+	announcement = RichTextField(max_length=250)
+	document = models.ForeignKey(
+		'wagtaildocs.Document', 
+		null=True, blank=True, 
+		on_delete=models.SET_NULL, 
+		related_name='+'
+	) 
+	panels = [
+		FieldPanel('announcement'),
+		DocumentChooserPanel('document'),
 	]
 
 ######################################################
