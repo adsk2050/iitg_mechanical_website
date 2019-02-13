@@ -14,7 +14,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, FACULTY_DESIGNATION, STUDENT_PROGRAMME, STAFF_DESIGNATION
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, FACULTY_DESIGNATION, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPE
 
 ######################################################
 
@@ -312,6 +312,7 @@ class StudentPage(Page):
 	email_id = models.EmailField()
 	enrolment_year = models.DateField()
 	programme = models.CharField(max_length=25, choices=STUDENT_PROGRAMME, default='Bachelor')
+	roll_no = models.IntegerField(default=160103001)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
 	body = RichTextField(blank=True)
@@ -331,6 +332,8 @@ class StudentPage(Page):
 			FieldPanel('hostel_address_line_3'),
 		], heading="Address"),
 		FieldPanel('intro'),
+		FieldPanel('programme'),
+		FieldPanel('roll_no'),
 		FieldPanel('body'),
 		PageChooserPanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
 		InlinePanel('projects', label="Projects"),
@@ -589,9 +592,11 @@ class ProjectPage(Page):
 	budget = models.FloatField(blank=True)
 	funding_agency = models.CharField(max_length=100)
 	funding_agency_link = models.URLField(blank=True, max_length=100)
+	project_type = models.CharField(max_length=20, default='Academic', choices=PROJECT_TYPE)
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		PageChooserPanel('principal_investigator'),
+		FieldPanel('project_type'),
 		FieldPanel('budget'),
 		FieldPanel('start_date'),
 		FieldPanel('end_date'),
@@ -636,4 +641,5 @@ class ProjectPageGalleryImage(Orderable):
 		ImageChooserPanel('image'),
 		FieldPanel('caption'),
 	]
+
 ######################################################

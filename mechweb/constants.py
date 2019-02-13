@@ -118,3 +118,8 @@ STAFF_DESIGNATION = (
 	('Technicial_staff', 'Technicial_staff'),
 	('Others', 'Others'),
 )
+
+PROJECT_TYPE=(
+	('Academic','Academic'), 
+	('Consultancy','Consultancy')
+)
