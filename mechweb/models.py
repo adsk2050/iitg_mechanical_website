@@ -32,8 +32,7 @@ class MechHomePage(Page):
 
 	parent_page_types=[]
 	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage']
-	# subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure']
-
+	
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
