@@ -1,0 +1,16 @@
+Using tabs to create a cleaner admin interface
+____________________________________________________________________
+https://www.youtube.com/watch?v=uZc0aZrHtQw&list=PLY8A6V6_4EmNcA47HXnauZ66c3lXjh6Pb&index=3
+
+Content tab, Promote tab, Settings tab are by default... If you want to add more tabs, then watch it...
+
+
+
+******* Organising Images and Documents using Wagtail Collections
+
+_____________________________________________________________________
+https://www.youtube.com/watch?v=HGXHtFpLDCA&list=PLY8A6V6_4EmNcA47HXnauZ66c3lXjh6Pb&index=4
+
+Very important bro!!! Watch whole video and research about it as well as implement it
+
+Very VERY importanttttttttttttt

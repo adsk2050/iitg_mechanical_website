@@ -1,8 +1,33 @@
-{% if page.tags.all.count %}
-    <div class="tags">
-        <h3>Tags</h3>
-        {% for tag in page.tags.all %}
-            <a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button">{{ tag }}</button></a>
-        {% endfor %}
-    </div>
-{% endif %}
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-event-homepage{% endblock %}
+
+{% block content %}
+    <h1>{{ page.specific.name }}</h1>
+    <h2>{{ page.specific.designation }}</h2> 
+    <div>{% image page.specific.photo fill-100x100 %}</div>
+    <!-- Intro -->
+    <h2>About {{ page.specific.name }}:</h2>
+    <hr>
+
+    <div class="intro">{{ page.specific.body|richtext }}</div>
+    <hr>
+    
+	<div>Office contact number: {{ page.specific.office_contact_number  }}</div>
+	<div>Home contact Number: {{ page.specific.home_contact_number  }}</div>
+	<div>Office Address: {{ page.specific.office_address_line_1  }}, {{ page.specific.office_address_line_2 }}, {{ page.specific.office_address_line_3  }}</div>
+	<div>Home address: {{ page.specific.home_address_line_1 }}, {{ page.specific.home_address_line_2 }}, {{ page.specific.home_address_line_3 }}</div>
+	<div>Mail ID: {{ page.specific.email_id }}</div>
+	
+	<div>Research Interests: {{ page.specific. }}
+	{% for tag in page.specific.research_interests.all %}
+	    <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+	{% endfor %}
+	</div>
+	<div>Joining Date: {{ page.specific.joining_date }}</div>
+	<div>Personal Website: {{ page.specific.website }}</div>
+    <hr>
+
+{% endblock %}

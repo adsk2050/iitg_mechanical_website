@@ -1,3 +1,10 @@
+student_home_page.html
+research_home_page.html
+course_structure.html
+staff_home_page.html
+alumni_home_page.html 
+
+
 class AlumniHomePage(StudentHomePage):
 	content_panels = StudentHomePage.content_panels + [
 		InlinePanel('distinguished_alumni', label="Distinguished Alumni"),

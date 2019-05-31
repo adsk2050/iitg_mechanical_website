@@ -10,7 +10,21 @@
     <h2>Intro:</h2>
     <div class="intro">{{ page.intro|richtext }}</div>
     <hr>
+    <!-- {% for research_interest in page.specific.all_research_intersts %}
+        <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> |
+    {% endfor %} -->
+    <hr>
     <!-- Featured Event -->
+    {% for faculty in faculty_list %}
+    <div>
+        <h2><a href="{{ faculty.specific.url }}">{{ faculty.specific.name }}</a></h2>
+        {% image faculty.specific.photo fill-50x50 %}
+        <h3>Designation  : {{ faculty.specific.designation }}</h3>
+        <h3>Joining Date : {{faculty.specific.joining_date }}</h3>
+
+    </div>
+        
+    {% endfor %}
 
 
 
