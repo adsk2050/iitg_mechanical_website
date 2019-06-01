@@ -15,14 +15,52 @@ EVENTS=(
 	('PhD_viva', 'PhD_viva'),
 )
 
+# STUDENT_BATCH = (
+# 	('2016', '2016-20'),
+# 	('2017', '2017-21'),
+# 	('2019', '2019-22'),
+# 	('2020', '2020-23'),
+# 	('2021', '2021-24'),
+# 	('2022', '2022-25'),
+# 	('2023', '2023-26'),
+# 	('2024', '2024-27'),
+# )
+
+STUDENT_PROGRAMME = (
+	('Bachelor', 'Bachelor'),
+	('Masters', 'Masters'),
+	('Research_Scholar', 'Research_Scholar'),
+	('PostDoc', 'PostDoc'),
+)
+
+STAFF_DESIGNATION = (
+	('Project_Staff', 'Project_Staff'),
+	('Lab_Staff', 'Lab_Staff'),
+	('Administrative_Staff', 'Administrative_Staff'),
+	('Technicial_staff', 'Technicial_staff'),
+	('Others', 'Others'),
+)
+
+PROJECT_TYPE=(
+	('Academic','Academic'), 
+	('Consultancy','Consultancy')
+)
+
+############################# Faculty
+FACULTY_ROLES=(
+	('Not_Applicable', 'Not_Applicable'),
+	('HoD', 'HoD'),
+	('Director', 'Director')
+)
+
 FACULTY_DESIGNATION = (
+	('HAG', 'HAG'),
 	('Professor', 'Professor'),
 	('Assistant_Professor', 'Assistant_Professor'),
 	('Associate_Professor', 'Associate_Professor'),
 	('Visiting_Professor', 'Visiting_Professor'),
 	('Professor_On_lien', 'Professor_On_lien'),
 )
-
 
 DPPC = (
 	('Not_Applicable', 'Not_Applicable'),
@@ -33,6 +71,7 @@ DPPC = (
 	('PhD_Student_Member', 'PhD_Student_Member'),
 	('MTech_Student_Member', 'MTech_Student_Member'),
 )
+
 DUPC = (
 	('Not_Applicable', 'Not_Applicable'),
 	('Chairman', 'Chairman'),
@@ -91,35 +130,3 @@ DISPOSAL_COMMITTEE = (
 	('External_Member', 'External_Member'),
 	('Non_Member_Secretary', 'Non_Member_Secretary'),
 )	
-
-
-# STUDENT_BATCH = (
-# 	('2016', '2016-20'),
-# 	('2017', '2017-21'),
-# 	('2019', '2019-22'),
-# 	('2020', '2020-23'),
-# 	('2021', '2021-24'),
-# 	('2022', '2022-25'),
-# 	('2023', '2023-26'),
-# 	('2024', '2024-27'),
-# )
-
-STUDENT_PROGRAMME = (
-	('Bachelor', 'Bachelor'),
-	('Masters', 'Masters'),
-	('Research_Scholar', 'Research_Scholar'),
-	('PostDoc', 'PostDoc'),
-)
-
-STAFF_DESIGNATION = (
-	('Project_Staff', 'Project_Staff'),
-	('Lab_Staff', 'Lab_Staff'),
-	('Administrative_Staff', 'Administrative_Staff'),
-	('Technicial_staff', 'Technicial_staff'),
-	('Others', 'Others'),
-)
-
-PROJECT_TYPE=(
-	('Academic','Academic'), 
-	('Consultancy','Consultancy')
-)

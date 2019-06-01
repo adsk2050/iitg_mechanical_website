@@ -7,6 +7,7 @@ from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel,  PageChooserPanel, MultiFieldPanel
 from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
@@ -15,8 +16,11 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
 
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, FACULTY_DESIGNATION, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPE
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
+
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPE
+
+from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
 
 ######################################################
 
@@ -161,32 +165,29 @@ class EventPageLink(Orderable):
 ######################################################
 class FacultyHomePage(Page):	
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	# head_of_dept = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='head_of_hept')
-
+	
 	content_panels = Page.content_panels + [
 			FieldPanel('intro'),
-			# PageChooserPanel('head_of_dept'),
-			#InlinePanel('event_page', label="New Event"),
 		]
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['FacultyPage']
 
-	# def get_context(self, request):
-	# 	# Update context to include only published posts, ordered by reverse-chron
-	# 	context = super().get_context(request)
-		
-	# 	context['faculty_list'] = faculty_list
-	# 	return context
+	# This function is not working here
+	# def list_common_interests(self):
+	# 	live_tags = FacultyResearchInterestTag.objects.all()
+	# 	common_tags = []
+	# 	for tag in live_tags:
+	# 		tag2 = tag.__str__().split('tagged with ', 1)
+	# 		tag3 = tag2.pop()
+	# 		if tag3 not in common_tags:
+	# 			common_tags.append(tag3)
+	# 	return common_tags
 
 	def serve(self, request):
 		# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
 		faculty_list = self.get_children().live().order_by('facultypage__designation', 'facultypage__name')
 
-
-		# Get all tags
-		#all_research_intersts = Tag.objects.all()
-		# Not working!!!!
 
 
 		# Filter by tag
@@ -198,7 +199,7 @@ class FacultyHomePage(Page):
 		return render(request, self.template, {
 			'page': self,
 			'faculty_list': faculty_list,
-			#'all_research_intersts':all_research_intersts,
+			'all_research_intersts':FacultyResearchInterestTag.list_common_interests(),
 		})
 
 class FacultyResearchInterestTag(TaggedItemBase):
@@ -207,16 +208,23 @@ class FacultyResearchInterestTag(TaggedItemBase):
 		related_name='tagged_items', 
 		on_delete=models.CASCADE )
 
+	# This function was not working in FacultyHomePage class but its working here
+	def list_common_interests():
+		live_tags = FacultyResearchInterestTag.objects.all()
+		common_tags = []
+		for tag in live_tags:
+			tag2 = tag.__str__().split('tagged with ', 1)
+			tag3 = tag2.pop()
+			if tag3 not in common_tags:
+				common_tags.append(tag3)
+		return common_tags
+
 class FacultyPage(Page):
 	name = models.CharField(max_length=100)
 	office_contact_number = models.CharField(max_length=20, blank=True)
 	home_contact_number = models.CharField(max_length=20, blank=True)
 	office_address_line_1 = models.CharField(max_length=25, blank=True)
-	office_address_line_2 = models.CharField(max_length=50, blank=True)
-	office_address_line_3 = models.CharField(max_length=100, blank=True)
 	home_address_line_1 = models.CharField(max_length=25, blank=True)
-	home_address_line_2 = models.CharField(max_length=50, blank=True)
-	home_address_line_3 = models.CharField(max_length=100, blank=True)
 	email_id = models.EmailField()
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
@@ -225,66 +233,87 @@ class FacultyPage(Page):
 	joining_date = models.DateField()
 	designation = models.CharField(max_length=25, choices=FACULTY_DESIGNATION, default='Assistant_Professor')
 	website = models.URLField(max_length=250, null=True)
-	# additional_roles = models.CharField(max_length=25, choices=FACULTY_ROLES, default='Assistant_Professor')
+	#################################################################
+
+	additional_roles = models.CharField(max_length=25, choices=FACULTY_ROLES, default='Not_Applicable')
+	disposal_committee = models.CharField(max_length=25, choices=DISPOSAL_COMMITTEE, default='Not_Applicable')
+	laboratory_in_charge = models.CharField(max_length=25, choices=LABORATORY_IN_CHARGE, default='Not_Applicable')
+	faculty_in_charge = models.CharField(max_length=25, choices=FACULTY_IN_CHARGE, default='Not_Applicable')
+	disciplinary_committee = models.CharField(max_length=25, choices=DISCIPLINARY_COMMITTEE, default='Not_Applicable')
+	dupc = models.CharField(max_length=25, choices=DUPC, default='Not_Applicable')
+	dppc = models.CharField(max_length=25, choices=DPPC, default='Not_Applicable')
+
+	#################################################################
+
+
 	#students
 	#labs
 	#projects
+
 
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('joining_date'),
 		FieldPanel('designation'),
-		# FieldPanel('additional_roles'),
 		ImageChooserPanel('photo'),	
 		FieldPanel('email_id'),	
 		FieldPanel('website'),	
 		MultiFieldPanel([
 			FieldPanel('office_address_line_1'),
-			FieldPanel('office_address_line_2'),
-			FieldPanel('office_address_line_3'),
 			FieldPanel('office_contact_number'),
 
 		], heading="Office Address"),
 		MultiFieldPanel([
 			FieldPanel('home_address_line_1'),
-			FieldPanel('home_address_line_2'),
-			FieldPanel('home_address_line_3'),
 			FieldPanel('home_contact_number'),
 		], heading="Residence Address"),
 		FieldPanel('intro'),
 		FieldPanel('body'),
-		InlinePanel('publications', label="Publications"),
+		# InlinePanel('publications', label="Publications"),
 		FieldPanel('research_interests'),
-		InlinePanel('gallery_images', label="Gallery images"),
-		InlinePanel('links', label="Related Links"),
-		
+		InlinePanel('gallery_images', label="Gallery images"),		
 	]
+	# Creating custom tabs
+	custom_tab_panels = [
+		FieldPanel('additional_roles'),
+		FieldPanel('laboratory_in_charge'),	
+		FieldPanel('faculty_in_charge'),	
+		FieldPanel('dupc'),	
+		FieldPanel('dppc'),	
+		FieldPanel('disciplinary_committee'),	
+		FieldPanel('disposal_committee'),	
+	]
+
+	announcement_tab_panels = [
+		InlinePanel('faculty_announcement', label="Announcement"),	
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(custom_tab_panels, heading="Administration"),
+		ObjectList(announcement_tab_panels, heading="Announcement"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+	
 
 	parent_page_types=['FacultyHomePage']
 	subpage_types=[]
 
-#After implementing publications document in research section, I want to know if we need to implement this or somehow list the publications from that model directly
-class FacultyPublicationDocument(Orderable):
-	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='publications')
+class FacultyAnnouncement(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='faculty_announcement')
+	link = models.URLField(max_length=250)
 	document = models.ForeignKey(
 		'wagtaildocs.Document', 
 		null=True, blank=True, 
 		on_delete=models.SET_NULL, 
 		related_name='+'
 	)
-	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	link = models.URLField(max_length=250, blank=True)
+	message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
 		DocumentChooserPanel('document'),
-		FieldPanel('abstract'),
-		# FieldPanel('link'),
-	]
-
-class FacultyPageLink(Orderable):
-	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='links')
-	link = models.URLField(max_length=250)
-	panels = [
 		FieldPanel('link'),
+		FieldPanel('message'),
 	]
 
 class FacultyPageGalleryImage(Orderable):
@@ -643,8 +672,7 @@ class PublicationPage(Page):
 	)
 	name = models.CharField(max_length=100, blank=True)
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-
+	# photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	# student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
 	# faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_pub')
 
@@ -652,11 +680,12 @@ class PublicationPage(Page):
 		DocumentChooserPanel('document'),
 		FieldPanel('name'),
 		FieldPanel('abstract'),
-		ImageChooserPanel('photo'),
+		InlinePanel('images', label="Images"),
+		# ImageChooserPanel('photo'),
 		# PageChooserPanel('student'),
 		# PageChooserPanel('faculty'),
-		InlinePanel('students', label="Students"),
 		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('students', label="Students"),
 		InlinePanel('links', label="Links"),	
 	]
 
@@ -676,6 +705,13 @@ class PublicationPageFaculty(Orderable):
 	panels = [
 		PageChooserPanel('faculty'),
 		FieldPanel('research_statement'),
+	]
+
+class PublicationPageGalleryImage(Orderable):
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='images')
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	panels = [
+		ImageChooserPanel('photo'),
 	]
 
 class PublicationPageLink(Orderable):
