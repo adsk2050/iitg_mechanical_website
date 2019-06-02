@@ -1,5 +1,72 @@
     <!-- Intro -->
     <h2>Intro:</h2>
+    <div>{{ page.specific.intro }}</div>
+    <hr>
+    <div>{{ page.specific.body|richtext }}</div>
+    <hr>
+    <h3>Details:</h3>
+    <ul>
+        <li>Contact number : {{ page.specific.contact_number }}</li>
+        <li>Address : {{ page.specific.hostel_address_line_1 }}</li>
+        <li>Email ID : {{ page.specific.email_id }}</li>
+        <li>Enrolment Year: {{ page.specific.enrolment_year }}</li>
+        <li>Programme : {{ page.specific.programme }}</li>
+        <li>Roll Number : {{ page.specific.roll_no }}</li>
+        <li><a href="{{ page.specific.website }}">Personal website</a></li>
+    </ul>
+    <hr>
+    <h3>Faculty Advisor : <a href="{{ page.specific.faculty_advisor.url }}">{{ page.specific.faculty_advisor }}</a></h3>
+
+    <div>Research Interests:
+        {% for tag in page.specific.research_interests.all %}
+            <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+        {% endfor %}
+    </div>
+    <hr>
+
+    <!-- I want to show projects as popups which come up and display when clicked -->
+    <h2>Projects:</h2>
+    <ul>
+        {% for project in page.specific.projects.all %}
+            <li>
+                <h4>{{ project.title }}</h4>
+
+                <div>{% image project.photo_1 fill-100x100 %}</div>
+                <div>{% image project.photo_2 fill-100x100 %}</div>
+                <div>{% image project.photo_3 fill-100x100 %}</div>
+
+                <div>Guide : {{ project.guide}}</div>
+                {% if project.co_guide %}
+                    <div>Co-guide : {{ project.co_guide}}</div>
+                {% endif %}
+                <div>{{ project.document|truncatechars:10 }} <a href="{{ project.document.url }}">Download</a></div>
+                <h5>Abstract: </h5>
+                <div>{{ project.abstract|richtext }}</div>
+                <div><a href="{{ project.link}}">Link</a></div>
+            </li>
+            
+        {% endfor %}
+    </ul>
+    <hr>
+    
+    <h3>Images</h3>
+    <ul>
+        {% for pic in page.specific.gallery_images.all %}
+            <li>{% image pic.image fill-100x100 %}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+
+    <h3>Links</h3>
+    <ul>
+        {% for link in page.specific.links.all %}
+            <li><a href="{{ link }}">{{ link|truncatechars:10 }}</a></li>
+        {% endfor %}
+    </ul>
+    <hr>  
+
+    <!-- Intro -->
+    <h2>Intro:</h2>
     <!-- <div class="intro">{{ page.intro|richtext }}</div> -->
     <hr>
     <!-- Featured Event -->

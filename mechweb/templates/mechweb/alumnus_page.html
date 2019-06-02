@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-student-page{% endblock %}
+
+{% block content %}
+    {{ page.title }}
+    <h1><a href="{{ page.specific.url }}">{{ page.specific.name }}</a></h1>
+	<div>{% image page.specific.photo fill-100x100 %}</div>
+
+	<div>{{ page.specific.enrolment_year }} batch</div>
+	<div>Programme : {{ page.specific.programme }}</div>
+	<h2>Intro : </h2>
+	<div>{{ page.specific.intro }}</div>
+	<h2>Description : </h2>
+	<div>{{ page.specific.description|richtext }}</div>
+
+	<hr>
+	
+	<div>Email ID: {{ page.specific.email_id }}, {{ page.specific.email_id_2}}</div>
+	<div>
+		Contact Number : {{ page.specific.contact_number}}, 
+		{% if page.specific.contact_number_2 %}
+			{{ page.specific.contact_number_2}}
+		{% endif %}
+	</div>
+	<div>
+		Address : {{ page.specific.address_line_1}}, 
+		{% if page.specific.address_line_2 %}
+			{{ page.specific.address_line_2}}, 
+		{% endif %}
+		{% if page.specific.address_line_3 %}
+			{{ page.specific.address_line_3}}
+		{% endif %}
+	</div>
+	<div>Roll Number : {{ page.specific.roll_no }}</div>
+	<div>Job details : {{ page.specific.job_details }}</div>
+	<div>Interests : 
+		{% for tag in page.specific.interests.all %}
+		<a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+		{% endfor %}
+	</div>
+    
+{% endblock %}
+
+
+
+
+

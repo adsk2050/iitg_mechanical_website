@@ -176,18 +176,13 @@ class FacultyHomePage(Page):
 
 	# This function is not working here
 	# def list_common_interests(self):
-	# 	live_tags = FacultyResearchInterestTag.objects.all()
-	# 	common_tags = []
-	# 	for tag in live_tags:
-	# 		tag2 = tag.__str__().split('tagged with ', 1)
-	# 		tag3 = tag2.pop()
-	# 		if tag3 not in common_tags:
-	# 			common_tags.append(tag3)
-	# 	return common_tags
-
+	
 	def serve(self, request):
 		# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
+		# Used the same method in student and alumni home pages
 		faculty_list = self.get_children().live().order_by('facultypage__designation', 'facultypage__name')
+
+		all_research_interests = faculty_interests()
 
 		# Filter by tag
 		tag = request.GET.get('tag')
@@ -198,7 +193,8 @@ class FacultyHomePage(Page):
 		return render(request, self.template, {
 			'page': self,
 			'faculty_list': faculty_list,
-			'all_research_intersts':FacultyResearchInterestTag.list_common_interests(),
+			'all_research_interests': all_research_interests,
+			'tag':tag,
 		})
 
 class FacultyResearchInterestTag(TaggedItemBase):
@@ -206,17 +202,8 @@ class FacultyResearchInterestTag(TaggedItemBase):
 		'FacultyPage', 
 		related_name='tagged_items', 
 		on_delete=models.CASCADE )
-
-	# This function was not working in FacultyHomePage class but its working here
-	def list_common_interests():
-		live_tags = FacultyResearchInterestTag.objects.all()
-		common_tags = []
-		for tag in live_tags:
-			tag2 = tag.__str__().split('tagged with ', 1)
-			tag3 = tag2.pop()
-			if tag3 not in common_tags:
-				common_tags.append(tag3)
-		return common_tags
+	# This function is working here only in shell but not during rendering
+	# def list_common_interests(self):
 
 class FacultyPage(Page):
 	name = models.CharField(max_length=100)
@@ -328,6 +315,16 @@ class FacultyPageGalleryImage(Orderable):
 		FieldPanel('caption'),
 	]
 
+def faculty_interests():
+	live_tags = FacultyResearchInterestTag.objects.all()
+	common_tags = []
+	for tag in live_tags:
+		tag2 = tag.__str__().split('tagged with ', 1)
+		tag3 = tag2.pop()
+		if tag3 not in common_tags:
+			common_tags.append(tag3)
+	return common_tags
+
 ######################################################
 class StudentHomePage(Page):  
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -340,19 +337,19 @@ class StudentHomePage(Page):
 	subpage_types=['StudentPage']
 
 	def serve(self, request):
-		# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
 		student_list = self.get_children().live().order_by('studentpage__name')
 
+		all_research_interests = student_interests()
 		# Filter by tag
 		tag = request.GET.get('tag')
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
-				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code 
 
 		return render(request, self.template, {
 			'page': self,
 			'student_list': student_list,
-			'all_research_intersts':StudentResearchInterestTag.list_common_interests(),
+			'all_research_interests': all_research_interests,
+			'tag':tag,
 		})
 
 class StudentResearchInterestTag(TaggedItemBase):
@@ -361,16 +358,6 @@ class StudentResearchInterestTag(TaggedItemBase):
 		related_name='tagged_items', 
 		on_delete=models.CASCADE 
 	)
-
-	def list_common_interests():
-		live_tags = StudentResearchInterestTag.objects.all()
-		common_tags = []
-		for tag in live_tags:
-			tag2 = tag.__str__().split('tagged with ', 1)
-			tag3 = tag2.pop()
-			if tag3 not in common_tags:
-				common_tags.append(tag3)
-		return common_tags
 
 class StudentPage(Page):
 	name = models.CharField(max_length=100)
@@ -463,6 +450,16 @@ class StudentPageGalleryImage(Orderable):
 		FieldPanel('caption'),
 	]
 
+def student_interests():
+	live_tags = StudentResearchInterestTag.objects.all()
+	common_tags = []
+	for tag in live_tags:
+		tag2 = tag.__str__().split('tagged with ', 1)
+		tag3 = tag2.pop()
+		if tag3 not in common_tags:
+			common_tags.append(tag3)
+	return common_tags
+
 ######################################################
 class AlumniHomePage(StudentHomePage):
 	content_panels = StudentHomePage.content_panels + [
@@ -472,12 +469,21 @@ class AlumniHomePage(StudentHomePage):
 	parent_page_types=['MechHomePage']
 	subpage_types=['AlumnusPage']
 
-	def get_context(self, request):
-		# Update context to include only published posts, ordered by reverse-chron
-		context = super().get_context(request)
-		alumni_list = self.get_children().live().order_by('programme').order_by('enrolment_year')
-		context['alumni_list'] = alumni_list
-		return context
+	def serve(self, request):
+		alumni_list = self.get_children().live().order_by('alumnuspage__programme', 'alumnuspage__enrolment_year')
+
+		all_interests = alumni_interests()
+		# Filter by tag
+		tag = request.GET.get('tag')
+		if tag:
+			new_template = 'mechweb/alumni_tag_page.html'
+			alumni_list = alumni_list.filter(alumnuspage__interests__name=tag)
+		return render(request, self.template, {
+			'page': self,
+			'alumni_list': alumni_list,
+			'all_interests':all_interests,
+			'tag':tag,
+		})
 
 class AlumniInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
@@ -501,7 +507,7 @@ class AlumnusPage(Page):
 	roll_no = models.IntegerField(default=160103001)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
-	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	interests = ClusterTaggableManager(through=AlumniInterestTag, blank=True, verbose_name='Interests')
 	website = models.URLField(max_length=250, null=True)
 
@@ -515,15 +521,16 @@ class AlumnusPage(Page):
 		FieldPanel('contact_number_2'),
 		MultiFieldPanel([
 			FieldPanel('address_line_1'),
-			FieldPanel('address_line_1'),
+			FieldPanel('address_line_2'),
 			FieldPanel('address_line_3'),
 		], heading="Address"),
 		FieldPanel('intro'),
 		FieldPanel('programme'),
 		FieldPanel('roll_no'),
-		FieldPanel('body'),
+		FieldPanel('description'),
 		InlinePanel('job_details', label="Job Details"),
 		FieldPanel('interests'),
+		FieldPanel('website'),
 	]
 
 	parent_page_types=['AlumniHomePage']
@@ -550,6 +557,18 @@ class DistinguishedAlumni(Orderable):
 		PageChooserPanel('distinguished_alumnus'),
 		FieldPanel('about'),
 	]
+
+def alumni_interests():
+	live_tags = AlumniInterestTag.objects.all()
+	common_tags = []
+	for tag in live_tags:
+		tag2 = tag.__str__().split('tagged with ', 1)
+		tag3 = tag2.pop()
+		if tag3 not in common_tags:
+			common_tags.append(tag3)
+	return common_tags
+
+# How to make this function, student_interests() and faculty_interests() into one?
 
 ######################################################
 class StaffHomePage(Page):  

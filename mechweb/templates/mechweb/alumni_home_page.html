@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-alumni-homepage{% endblock %}
+
+{% block content %}
+
+    <h1>{{ page.title }}</h1>
+    <!-- Intro -->
+    {% if tag %}
+    	<h2>Results for {{ tag }}</h2>
+    {% else %}
+		<h2>Intro:</h2>
+	    <div class="intro">{{ page.intro|richtext }}</div>
+	    <hr>
+	    <h2>Distinguished Alumni : </h2>
+	    <ul>
+	    {% for alumnus in page.distinguished_alumni.all %}
+		    <li>
+		        <h2><a href="{{ alumnus.distinguished_alumnus.url }}">{{ alumnus.distinguished_alumnus.name }}</a></h2>
+		        <div>{% image alumnus.distinguished_alumnus.photo fill-50x50 %}</div>
+		        <div>Proramme : {{ alumnus.distinguished_alumnus.programme }}</div>
+		        <div>Enrolment year : {{ alumnus.distinguished_alumnus.enrolment_year }}</div>
+		        <div>{{ alumnus.about|richtext }}</div>
+		    </li>
+	    {% endfor %}
+		</ul>
+		<hr>
+    {% endif %}
+
+    <ul>
+    {% for alumnus in alumni_list %}
+	    {% if alumnus in page.distinguished_alumni.all %}
+
+	    {% else %}
+		    <li>
+		        <h2><a href="{{ alumnus.specific.url }}">{{ alumnus.specific.name }}</a></h2>
+		        <div>{% image alumnus.specific.photo fill-50x50 %}</div>
+		        <div>Proramme : {{ alumnus.specific.programme }}</div>
+		        <div>Enrolment year : {{ alumnus.specific.enrolment_year }}</div>
+		        <!-- {% if alumnus.specific.job_details.all|length != 0 %}
+		        	<div>{{ alumnus.specific.job_details.0.title }}</div> at {{ alumnus.specific.job_details.0.company }}company
+		        {% endif %} -->
+		    </li>
+		{% endif %}
+    {% endfor %}
+	</ul>
+	<hr>
+	<div>Interests:
+		{% for tag in all_interests %}
+			<a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> |
+		{% endfor %}
+	</div>	
+{% endblock %}
