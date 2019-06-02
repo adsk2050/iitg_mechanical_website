@@ -1,0 +1,20 @@
+{% extends base.html %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-alumni-homepage{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+      <p>{{ page.intro|richtext }}</p>
+
+    </div>
+
+    {% for alumnus in alumni_list %}
+    
+
+
+
+    {% endfor %}
+{% endblock %}

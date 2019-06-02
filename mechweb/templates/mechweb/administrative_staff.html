@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-staff-homepage{% endblock %}
+
+{% block content %}
+    <h3>{{ page.intro|richtext }}</h3>
+    {% for staff in staff_list %}
+      {% if page.specific.designation == Administrative_Staff %}
+        <a href="{% pageurl staff %}">
+         {% image staff.specific.photo fill-180x180-c100 %}
+         <p></p>
+         {{ staff.specific.name }}
+        </a>
+        <h4>{{ staff.specific.designation }}</h4>
+        <p>{{ staff.specific.email_id }}</p>
+        <p>{{ staff.specific.contact_number }}</p>
+        <p></p>
+      {% endif %}
+
+    {% endfor %}
+
+{% endblock %}

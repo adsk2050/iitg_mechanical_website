@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-staff-page{% endblock %}
+
+{% block content %}
+
+
+     <h1>{{ page.name }}</h1>
+     <div style="float: left; margin: 10px">
+            {% image page.photo fill-160x100 %}
+     </div>
+    <h1>{{ page.designation }}</h1>
+
+    <h2>{{ page.email_id }}</h2>
+    <h2>{{ page.joining_year }}</h2>
+    <h2>{{ page.contact_number }}</h2>
+    <h3>{{ page.address }}</h3>
+    <h3>{{ page.intro|richtext }}</h3>
+
+
+
+
+{% endblock %}
