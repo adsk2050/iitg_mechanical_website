@@ -2,63 +2,97 @@
 
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}template-event-homepage{% endblock %}
+{% block body_class %}template-faculty-page{% endblock %}
 
 {% block content %}
-    <h1>{{ page.specific.name }}</h1>
-    <h2>{{ page.specific.designation }}</h2> 
-    <div>{% image page.specific.photo fill-100x100 %}</div>
-    <!-- Intro -->
-    <h2>About {{ page.specific.name }}:</h2>
-    <hr>
+	<h1>{{ page.specific.name }}</h1>
+	<h2>{{ page.specific.designation }}</h2> 
+	<div>{% image page.specific.photo fill-100x100 %}</div>
+	<hr>
 
-    <div class="intro">{{ page.specific.body|richtext }}</div>
-    <hr>
-    
-	<div>Office contact number: {{ page.specific.office_contact_number  }}</div>
+	<!-- Intro -->
+	<h2>About {{ page.specific.name }}:</h2>
+	<div class="intro">{{ page.specific.body|richtext }}</div>
+
+	<hr>
+	<div>Office contact number: {{ page.specific.office_contact_number }}</div>
 	<div>Home contact Number: {{ page.specific.home_contact_number  }}</div>
 	<div>Office Address: {{ page.specific.office_address_line_1  }}</div>
-	<div>Home address: {{ page.specific.home_address_line_1 }}, {{ page.specific.home_address_line_2 }}, {{ page.specific.home_address_line_3 }}</div>
+	<div>Home address: {{ page.specific.home_address_line_1 }}</div>
 	<div>Mail ID: {{ page.specific.email_id }}</div>
-	
-	<div>Research Interests: {{ page.specific. }}
-	{% for tag in page.specific.research_interests.all %}
-	    <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
-	{% endfor %}
+	<div>Research Interests:
+		{% for tag in page.specific.research_interests.all %}
+		<a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+		{% endfor %}
 	</div>
 	<div>Joining Date: {{ page.specific.joining_date }}</div>
 	<div>Personal Website: {{ page.specific.website }}</div>
-    <hr>
-    <div>
-    	<h3>Administrative responsibilities</h3>
-    	<ul>
-    		{% if page.specific.additional_roles != "Not_Applicable" %}
-    		<li>Additional Role: {{ page.specific.additional_roles }}</li>
-    		{% endif %}
-			
+
+	<hr>    
+	<!-- Administrative responsibilities -->
+	<div>
+		<h3>Administrative responsibilities</h3>
+		<ul>
+			{% if page.specific.additional_roles != "Not_Applicable" %}
+				<li>Additional Role: {{ page.specific.additional_roles }}</li>
+			{% endif %}
+
 			{% if page.specific.laboratory_in_charge != "Not_Applicable" %}
-			<li>Laboratory in charge: {{ page.specific.laboratory_in_charge }}</li>
+				<li>Laboratory in charge: {{ page.specific.laboratory_in_charge }}</li>
 			{% endif %}	
-			
+
 			{% if page.specific.faculty_in_charge != "Not_Applicable" %}
-			<li>Faculty in charge: {{ page.specific.faculty_in_charge }}</li>
+				<li>Faculty in charge: {{ page.specific.faculty_in_charge }}</li>
 			{% endif %}	
-			
+
 			{% if page.specific.dupc != "Not_Applicable" %}
-			<li>DUPC: {{ page.specific.dupc }}</li>
+				<li>DUPC: {{ page.specific.dupc }}</li>
 			{% endif %}
-			
+
 			{% if page.specific.dppc != "Not_Applicable" %}
-			<li>DPPC: {{ page.specific.dppc }}</li>
+				<li>DPPC: {{ page.specific.dppc }}</li>
 			{% endif %}
-			
+
 			{% if page.specific.disciplinary_committee != "Not_Applicable" %}
-			<li>Disciplinary committee: {{ page.specific.disciplinary_committee }}</li>
+				<li>Disciplinary committee: {{ page.specific.disciplinary_committee }}</li>
 			{% endif %}
 
 			{% if page.specific.disposal_committee != "Not_Applicable" %}
-			<li>Disposal committee: {{ page.specific.disposal_committee }}</li>
+				<li>Disposal committee: {{ page.specific.disposal_committee }}</li>
 			{% endif %}
 		</ul>
+	</div>
+	<hr>
+	<!-- Gallery Pics -->
+	<div>
+		{% for pic in page.gallery_images.all %}
+			<div style="float: left; margin: 10px">
+				<h3>{{ pic.caption }}</h3>
+				<div>{% image pic.image fill-500x500 %}</div>
+			</div>
+		{% endfor %}
+	</div>
+	<br>
+
+	<!-- Announcements -->
+	<div>
+		{% for announcement in page.faculty_announcement.all %}
+			<div>
+				<h3>{{ announcement.title }}</h3>
+				<div>{{ announcement.date }}</div>
+				<div>{{ announcement.message|richtext }}</div>
+				<a href="{{ announcement.link }}">Link</a>
+				<div>
+					<div>{{ announcement.document|truncatechars:25 }}</div>
+					<a href="{{ announcement.document.url }}">Download pdf</a>
+			</div>
+			<br>
+		{% endfor %}
+
+	</div>
+
+	<!-- Publications --> <!-- Do It soon -->
+	<div>
+		<h3> Publications</h3>
 	</div>
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-publication-homepage{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+    <!-- Intro -->
+    <h2>List of Publications</h2>
+    {% for publication in page.get_children %}	
+    	<h2><a href="{{ publication.specific.url }}">{{ publication.specific.name }}</a></h2>
+    	<h3>Team</h3>
+    	check why is list of faculty not coming
+    	<ul>
+	    	{% for faculty in publication.specfic.faculty.all %}
+		        <li>
+		            <a href="{{ faculty.url }}">{{ faculty.faculty }}</a>
+		        </li>
+	    	{% endfor %}
+	    	{% for student in publication.students.all %}
+		        <li>
+		            <a href="{{ student.url }}">{{ student.student }}</a>
+		        </li>
+	    	{% endfor %}
+    	</ul>
+    {% endfor %}
+
+{% endblock %}

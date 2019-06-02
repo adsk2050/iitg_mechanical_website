@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-publication-page{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+	<h3>Abstract</h3>
+	<div>{{ page.specific.abstract|richtext }}</div>
+    <hr>
+
+	<div>{{ page.specific.document|truncatechars:25 }}<a href="{{ page.specific.document.url }}"> : Download</a></div>
+	<h2>{{page.specific.name }}</h2>
+	
+	
+	
+
+
+	<h2>Faculty</h2>
+    <ul>
+    {% for faculty in page.faculty.all %}
+        <li>
+            <a href="{{ faculty.url }}">{{ faculty.faculty }}</a>
+        </li>
+        <li>{{ student.research_statement|richtext }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Students</h2>
+    list students only if they are there
+    <ul>
+    {% for student in page.students.all %}
+        <li>
+            <a href="{{ student.url }}">{{ student.student }}</a>
+        </li>
+        <li>{{ student.research_statement|richtext }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Links</h2>
+    <ul>
+    {% for ref_link in page.links.all %}
+        <li>
+            <a href="{{ ref_link.link }}">{{ ref_link.link }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-research-homepage{% endblock %}
+
+{% block content %}
+    <!-- Navbar -->
+    <ul>
+	    {% for child in page.get_children %}
+	    	<li><a href="{{ child.url }}">{{ child.title }}</a></li>
+	    {% endfor %}
+	</ul>
+
+    <h1>{{ page.title }}</h1>
+    <!-- Intro -->
+    <div class="intro">{{ page.intro|richtext }}</div>
+    <hr>
+{% endblock %}

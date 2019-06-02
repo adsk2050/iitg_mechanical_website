@@ -2,6 +2,7 @@
 from django.db import models
 from django import forms
 from django.shortcuts import render
+from django.utils import timezone
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
@@ -188,8 +189,6 @@ class FacultyHomePage(Page):
 		# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
 		faculty_list = self.get_children().live().order_by('facultypage__designation', 'facultypage__name')
 
-
-
 		# Filter by tag
 		tag = request.GET.get('tag')
 		if tag:
@@ -310,10 +309,14 @@ class FacultyAnnouncement(Orderable):
 		related_name='+'
 	)
 	message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	title = models.CharField(blank=True, max_length=50)
+	date = models.DateTimeField(blank=True, default=timezone.now)
 	panels = [
+		FieldPanel('title'),
+		FieldPanel('message'),
+		FieldPanel('date'),		
 		DocumentChooserPanel('document'),
 		FieldPanel('link'),
-		FieldPanel('message'),
 	]
 
 class FacultyPageGalleryImage(Orderable):
@@ -566,6 +569,12 @@ class StaffPage(Page):
 
 ######################################################
 class ResearchHomePage(Page):
+	intro = RichTextField(blank=True)
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+	]
+
 	parent_page_types=['MechHomePage']
 	subpage_types=['ResearchLabPage', 'PublicationHomePage', 'ProjectHomePage']
 
@@ -589,7 +598,6 @@ class ResearchLabPage(Page):
 		FieldPanel('intro'),
 		FieldPanel('body'),
 		InlinePanel('students', label="Students"),
-		InlinePanel('equipment', label="Lab Equipments"),
 		InlinePanel('links', label="Related Links"),
 		MultiFieldPanel([
 			ImageChooserPanel('photo_1'), 
@@ -598,10 +606,22 @@ class ResearchLabPage(Page):
 		], heading ="Featured Photos")
 	]
 
+	lab_equipment_panels = [
+		InlinePanel('equipment', label="Lab Equipments"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(lab_equipment_panels, heading="Equipments"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
 	parent_page_types=['ResearchHomePage']
 	subpage_types=[]
 
 class LabEquipment(Orderable):
+	name = models.CharField(max_length=25, blank=True)
 	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='equipment')
 	operator = models.ForeignKey('StaffPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='operator')
 	document = models.ForeignKey(
@@ -610,31 +630,20 @@ class LabEquipment(Orderable):
 		on_delete=models.SET_NULL, 
 		related_name='+'
 	)
-	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	specifications = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	cost = models.FloatField(blank=True)
 	date_of_procurement = models.DateField(blank=True)
 	link = models.URLField(max_length=250, blank=True)
 	photo_1 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	photo_2 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	photo_3 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	photo_4 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	photo_5 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	panels = [
+		FieldPanel('name'),
 		PageChooserPanel('operator'),
 		DocumentChooserPanel('document'),
-		FieldPanel('description'),
+		FieldPanel('specifications'),
 		FieldPanel('link'),
 		FieldPanel('cost'),
 		FieldPanel('date_of_procurement'),
-		MultiFieldPanel([
-			ImageChooserPanel('photo_1'), 
-			ImageChooserPanel('photo_2'), 
-			ImageChooserPanel('photo_3'),
-			ImageChooserPanel('photo_4'),
-			ImageChooserPanel('photo_5'),
-		], heading ="Featured Photos")
-		 
+		ImageChooserPanel('photo_1'), 
 	]
 
 class ResearchLabPageLink(Orderable):
