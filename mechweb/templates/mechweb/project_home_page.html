@@ -6,8 +6,17 @@
 
 {% block content %}
     <h1>{{ page.title }}</h1>
-    <!-- Intro -->
-    <h2>Intro:</h2>
-    <div class="intro">{{ page.intro|richtext }}</div>
-    <hr>
+    <!-- work on giving the page ability to sort using date, topic, faculty, etc -->
+    <ul>
+	    {% for project in page.get_children.specific %}
+	    <li>	
+	    	<h2><a href="{{ project.url }}">{{ project.name }}</a></h2>
+	    	<h2>Principal Investigator : <a href="{{ project.principal_investigator.url }}">{{ project.principal_investigator }}</a></h2>
+	    	<div>Project type : {{ project.project_type }}</div>
+	    	<div>Budget : {{ project.budget }}</div>
+	    	<div>From: {{ project.start_date }} | To : {{ project.end_date }}</div>
+	    </li>
+	    {% endfor %}
+	</ul>
+
 {% endblock %}

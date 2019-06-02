@@ -339,12 +339,21 @@ class StudentHomePage(Page):
 	parent_page_types=['MechHomePage']
 	subpage_types=['StudentPage']
 
-	def get_context(self, request):
-		# Update context to include only published posts, ordered by reverse-chron
-		context = super().get_context(request)
-		student_list = self.get_children().live().order_by('programme').order_by('enrolment_year')
-		context['student_list'] = student_list
-		return context
+	def serve(self, request):
+		# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
+		student_list = self.get_children().live().order_by('studentpage__name')
+
+		# Filter by tag
+		tag = request.GET.get('tag')
+		if tag:
+			student_list = student_list.filter(studentpage__research_interests__name=tag)
+				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code 
+
+		return render(request, self.template, {
+			'page': self,
+			'student_list': student_list,
+			'all_research_intersts':StudentResearchInterestTag.list_common_interests(),
+		})
 
 class StudentResearchInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
@@ -353,12 +362,20 @@ class StudentResearchInterestTag(TaggedItemBase):
 		on_delete=models.CASCADE 
 	)
 
+	def list_common_interests():
+		live_tags = StudentResearchInterestTag.objects.all()
+		common_tags = []
+		for tag in live_tags:
+			tag2 = tag.__str__().split('tagged with ', 1)
+			tag3 = tag2.pop()
+			if tag3 not in common_tags:
+				common_tags.append(tag3)
+		return common_tags
+
 class StudentPage(Page):
 	name = models.CharField(max_length=100)
 	contact_number = models.CharField(max_length=20, blank=True)
 	hostel_address_line_1 = models.CharField(max_length=25, blank=True)
-	hostel_address_line_2 = models.CharField(max_length=50, blank=True)
-	hostel_address_line_3 = models.CharField(max_length=100, blank=True)
 	email_id = models.EmailField()
 	enrolment_year = models.DateField()
 	programme = models.CharField(max_length=25, choices=STUDENT_PROGRAMME, default='Bachelor')
@@ -367,7 +384,7 @@ class StudentPage(Page):
 	intro = models.CharField(max_length=250)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
-	website = models.URLField(max_length=250, null=True)
+	website = models.URLField(max_length=250, blank=True)
 	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
 
 	content_panels = Page.content_panels + [
@@ -375,28 +392,38 @@ class StudentPage(Page):
 		FieldPanel('enrolment_year'),
 		ImageChooserPanel('photo'), 
 		FieldPanel('email_id'), 
+		FieldPanel('website'), 
 		FieldPanel('contact_number'),
-		MultiFieldPanel([
-			FieldPanel('hostel_address_line_1'),
-			FieldPanel('hostel_address_line_2'),
-			FieldPanel('hostel_address_line_3'),
-		], heading="Address"),
+		FieldPanel('hostel_address_line_1'),
 		FieldPanel('intro'),
 		FieldPanel('programme'),
 		FieldPanel('roll_no'),
 		FieldPanel('body'),
 		PageChooserPanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
-		InlinePanel('projects', label="Projects"),
 		FieldPanel('research_interests'),
 		InlinePanel('gallery_images', label="Gallery images"),
 		InlinePanel('links', label="Related Links"),
 	]
+
+	project_tab_panels = [
+		InlinePanel('projects', label="Projects"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(project_tab_panels, heading="Projects"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+
 
 	parent_page_types=['StudentHomePage']
 	subpage_types=[]
 
 class StudentProject(Orderable):
 	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='projects')
+	title = models.CharField(blank=True, max_length=50)
 	guide = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='guide')
 	co_guide = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='co_guide')
 	document = models.ForeignKey('wagtaildocs.Document', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
@@ -406,7 +433,7 @@ class StudentProject(Orderable):
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	link = models.URLField(max_length=250, blank=True)
 	panels = [
-
+		FieldPanel('title'),
 		PageChooserPanel('guide'),
 		PageChooserPanel('co_guide'),
 		DocumentChooserPanel('document'),
@@ -664,10 +691,7 @@ class ResearchLabStudents(Orderable):
 
 #------------------------------------------
 class PublicationHomePage(Page):
-	content_panels = Page.content_panels + [
-		#InlinePanel('publication')
-	]
-
+	# Add featured publications
 	parent_page_types=['ResearchHomePage']
 	subpage_types=['PublicationPage']
 
@@ -737,6 +761,7 @@ class ProjectHomePage(Page):
 
 class ProjectPage(Page):
 	principal_investigator = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
+	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	name = models.CharField(max_length=100)
 	start_date = models.DateField(blank=True)
 	end_date = models.DateField(blank=True)
@@ -747,6 +772,7 @@ class ProjectPage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		PageChooserPanel('principal_investigator'),
+		FieldPanel('description'),
 		FieldPanel('project_type'),
 		FieldPanel('budget'),
 		FieldPanel('start_date'),
@@ -819,7 +845,6 @@ class CoursePage(Page):
 
 	content_panels =  Page.content_panels + [
 		FieldPanel('name'),
-		InlinePanel('course_announcements', label="Announcement"),
 		MultiFieldPanel([
 			FieldPanel('code'),
 			FieldPanel('lectures'),
@@ -835,6 +860,17 @@ class CoursePage(Page):
 		InlinePanel('course_instructor', label="Course Instructor"),
 		
 	]
+
+	announcement_tab_panels = [
+		InlinePanel('course_announcements', label="Announcement"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(announcement_tab_panels, heading="Announcements"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
 
 class CoursePageFaculty(Orderable):
 	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_instructor')

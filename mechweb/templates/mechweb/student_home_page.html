@@ -5,9 +5,27 @@
 {% block body_class %}template-student-homepage{% endblock %}
 
 {% block content %}
+
     <h1>{{ page.title }}</h1>
     <!-- Intro -->
     <h2>Intro:</h2>
     <div class="intro">{{ page.intro|richtext }}</div>
-    <hr>
+    
+	<div>Research Interests:
+		{% for tag in page.specific.research_interests.all %}
+			<a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+		{% endfor %}
+	</div>
+
+    <!-- Featured Event -->
+    <ul>
+    {% for student in student_list %}
+	    <li>
+	        <h2><a href="{{ student.specific.url }}">{{ student.specific.name }}</a></h2>
+	        <div>{% image student.specific.photo fill-50x50 %}</div>
+	        <div>Proramme : {{ student.specific.programme }}</div>
+	        <div>Enrolment year : {{ student.specific.enrolment_year }}</div>
+	    </li>
+    {% endfor %}
+	</ul>
 {% endblock %}

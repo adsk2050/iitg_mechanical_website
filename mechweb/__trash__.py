@@ -1,3 +1,17 @@
+    <!-- Intro -->
+    <h2>Intro:</h2>
+    <!-- <div class="intro">{{ page.intro|richtext }}</div> -->
+    <hr>
+    <!-- Featured Event -->
+    <!-- <div>
+        <h2>Featured Course: <a href="{% pageurl page.featured_event %}">{{ page.featured_event.specific.event_name }}</a></h2>
+        <div>{% image page.featured_event.specific.poster fill-320x240 %}</div>
+        <div>The {{ page.featured_event.specific.event_type }} will be held from: {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.venue }} </div>   
+        <hr>
+    </div> -->
+
+
+
 class ResearchHomePage(Page):
 	intro = RichTextField(blank=True)
 

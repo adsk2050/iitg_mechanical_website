@@ -8,22 +8,28 @@
     <h1>{{ page.title }}</h1>
     <!-- Intro -->
     <h2>List of Publications</h2>
-    {% for publication in page.get_children %}	
-    	<h2><a href="{{ publication.specific.url }}">{{ publication.specific.name }}</a></h2>
-    	<h3>Team</h3>
-    	check why is list of faculty not coming
-    	<ul>
-	    	{% for faculty in publication.specfic.faculty.all %}
-		        <li>
-		            <a href="{{ faculty.url }}">{{ faculty.faculty }}</a>
-		        </li>
-	    	{% endfor %}
-	    	{% for student in publication.students.all %}
-		        <li>
-		            <a href="{{ student.url }}">{{ student.student }}</a>
-		        </li>
-	    	{% endfor %}
-    	</ul>
-    {% endfor %}
+    <!-- work on giving the page ability to sort using date, topic, faculty, etc -->
+    <ul>
+	    {% for publication in page.get_children.specific %}
+    	<!-- Why did it work when i used specific keyword here? 
+    		This is why: https://github.com/wagtail/wagtail/blob/master/docs/releases/1.1.rst#specific-method-on-pagequeryset -->
+	    <li>	
+	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
+	    	<h3>Team</h3>
+	    	<ul>
+		    	{% for faculty in publication.faculty.all %}
+			        <li>
+			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+			        </li>
+		    	{% endfor %}
+		    	{% for student in publication.students.all %}
+			        <li>
+			            <a href="{{ student.student.url }}">{{ student.student }}</a>
+			        </li>
+		    	{% endfor %}
+	    	</ul>
+	    </li>
+	    {% endfor %}
+	</ul>
 
 {% endblock %}
