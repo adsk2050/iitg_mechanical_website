@@ -84,9 +84,6 @@
         {% wagtailuserbar %}
 
         {% block content %}{% endblock %}
-        {% for childs in page.get_children %}
-            <li class="different"><a href="{{ childs.url }}">{{ childs.title }}</a></li>
-        {% endfor %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/iitg_mechanical_website.js' %}"></script>

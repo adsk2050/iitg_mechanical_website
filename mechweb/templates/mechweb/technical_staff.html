@@ -7,10 +7,6 @@
 {% block body_class %}template-staff-homepage{% endblock %}
 
 
-  {% block extra_css %}
-        <link href="static/css/staff.css" rel="stylesheet" type="text/css">
-  {% endblock %}
-
 {% block content %}
     <div class="izmir">
         <div class="row">
@@ -25,8 +21,7 @@
         <div class="row bread-list">
 
           {% for staff in staff_list %}
-          <h4 id="ides">hi check</h4>
-            <div class="col-xs-12 col-md-6 bread-list-item">
+              <div class="col-xs-12 col-md-6 bread-list-item">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 image">
                       <a href="{% pageurl staff %}">
