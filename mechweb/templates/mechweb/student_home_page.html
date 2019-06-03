@@ -6,14 +6,17 @@
 
 {% block content %}
 
-    <h1>{{ page.title }}</h1>
+	{{ page.title }}
+	<h1>Students</h1>
     {% if tag %}
     	<h2>Results for {{ tag }}</h2>
     {% else %}
-	    <!-- Intro -->
-	    <h2>Intro:</h2>
-	    <div class="intro">{{ page.intro|richtext }}</div>
-	    <!-- Student List -->
+    	{% if student_list.number == 1 %}
+		    <!-- Intro -->
+		    <h2>Intro:</h2>
+		    <div class="intro">{{ page.intro|richtext }}</div>
+		    <!-- Student List -->
+		{% endif %} 
     {% endif %}
 
     <ul>
@@ -26,6 +29,25 @@
 	    </li>
     {% endfor %}
 	</ul>
+
+	<hr>
+    <div class="pagination">
+        <span class="step-links">
+            {% if student_list.has_previous %}
+                <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}">&laquo; first</a>
+                <a href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ student_list.number }} of {{ student_list.paginator.num_pages }}.
+            </span>
+
+            {% if student_list.has_next %}
+                <a href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}">next</a>
+                <a href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 
 	<div>Research Interests:
 		{% for interest in all_research_interests %}

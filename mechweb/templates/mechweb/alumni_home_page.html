@@ -10,7 +10,7 @@
     <!-- Intro -->
     {% if tag %}
     	<h2>Results for {{ tag }}</h2>
-    {% else %}
+    {% elif alumni_list.number == 1 %}
 		<h2>Intro:</h2>
 	    <div class="intro">{{ page.intro|richtext }}</div>
 	    <hr>
@@ -26,12 +26,13 @@
 		    </li>
 	    {% endfor %}
 		</ul>
-		<hr>
+		
     {% endif %}
-
+	<hr>
     <ul>
     {% for alumnus in alumni_list %}
 	    {% if alumnus in page.distinguished_alumni.all %}
+	    <!-- This wont work cuz page.distinguished_alumni.all is not a list of alumnusPage objects but list of DistinguishedAlumnus objcts -->
 
 	    {% else %}
 		    <li>
@@ -47,6 +48,24 @@
     {% endfor %}
 	</ul>
 	<hr>
+   	<div class="pagination">
+        <span class="step-links">
+            {% if alumni_list.has_previous %}
+                <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}">&laquo; first</a>
+                <a href="?page_no={{ alumni_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ alumni_list.number }} of {{ alumni_list.paginator.num_pages }}.
+            </span>
+
+            {% if alumni_list.has_next %}
+                <a href="?page_no={{ alumni_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}">next</a>
+                <a href="?page_no={{ alumni_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
 	<div>Interests:
 		{% for tag in all_interests %}
 			<a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> |

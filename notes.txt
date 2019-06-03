@@ -14,3 +14,22 @@ https://www.youtube.com/watch?v=HGXHtFpLDCA&list=PLY8A6V6_4EmNcA47HXnauZ66c3lXjh
 Very important bro!!! Watch whole video and research about it as well as implement it
 
 Very VERY importanttttttttttttt
+
+_____________________________________________________________________
+https://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits/11593308
+
+git checkout --patch mittal /path/to/file
+
+doesn't work if the file is not already there in master branch
+
+_____________________________________________________________________
+ USE django-import-export 
+
+ https://django-import-export.readthedocs.io/en/latest/getting_started.html#importing
+
+_____________________________________________________________________
+Context processor makes all data publicly available whatever is declared in it
+
+https://stackoverflow.com/questions/17901341/django-how-to-make-a-variable-available-to-all-templates
+ 
+can also see this: https://stackoverflow.com/questions/47894252/django-send-context-to-base-html?rq=1

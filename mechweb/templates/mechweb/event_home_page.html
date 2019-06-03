@@ -7,26 +7,46 @@
 {% block content %}
     <h1>{{ page.title }}</h1>
     <!-- Intro -->
-    <h2>Intro:</h2>
-    <div class="intro">{{ page.intro|richtext }}</div>
-    <hr>
-    <!-- Featured Event -->
-    <div>
-        <h2>Featured Event: <a href="{% pageurl page.featured_event %}">{{ page.featured_event.specific.event_name }}</a></h2>
-        <div>{% image page.featured_event.specific.poster fill-320x240 %}</div>
-        <div>The {{ page.featured_event.specific.event_type }} will be held from: {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.venue }} </div>   
+    {% if event_list.number == 1 %}
+        <h2>Intro:</h2>
+        <div class="intro">{{ page.intro|richtext }}</div>
         <hr>
-    </div>
+        <!-- Featured Event -->
+        <div>
+            <h2>Featured Event: <a href="{% pageurl page.featured_event %}">{{ page.featured_event.specific.event_name }}</a></h2>
+            <div>{% image page.featured_event.specific.poster fill-320x240 %}</div>
+            <div>The {{ page.featured_event.specific.event_type }} will be held from: {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.venue }} </div>   
+            <hr>
+        </div>
+    {% endif %}
 
 
     <!-- List of events here -->
-    {% for post in page.get_children %}
-    <div>
-        <h2><a href="{% pageurl post %}">{{ post.specific.event_name }}</a></h2>
-        <div>The {{ post.specific.event_type }} will be held from: {{ post.specific.start_date }} to {{ post.specific.end_date }} at {{ post.specific.venue }} </div>   
-    </div>
-        
+    {% for event in event_list %}
+        <div>
+            <h2><a href="{{ event.url }}">{{ event.specific.event_name }}</a></h2>
+            <div>The {{ event.specific.event_type }} will be held from: {{ event.specific.start_date }} to {{ event.specific.end_date }} at {{ event.specific.venue }} </div>   
+        </div>
     {% endfor %}
+
+    <hr>
+    <div class="pagination">
+        <span class="step-links">
+            {% if event_list.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ event_list.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ event_list.number }} of {{ event_list.paginator.num_pages }}.
+            </span>
+
+            {% if event_list.has_next %}
+                <a href="?page={{ event_list.next_page_number }}">next</a>
+                <a href="?page={{ event_list.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 
 
 {% endblock %}

@@ -3,6 +3,8 @@ from django.db import models
 from django import forms
 from django.shortcuts import render
 from django.utils import timezone
+from django.core.paginator import Paginator
+
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
@@ -31,7 +33,6 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 class MechHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
 	# intro = RichTextField(blank=True) 
-
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
@@ -102,6 +103,9 @@ class EventHomePage(Page):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
 		event_list = self.get_children().live().order_by('-first_published_at')
+		paginator = Paginator(event_list, 1) # Show 1 events per page
+		page = request.GET.get('page')
+		event_list = paginator.get_page(page)
 		context['event_list'] = event_list
 		return context
 
@@ -173,6 +177,7 @@ class FacultyHomePage(Page):
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['FacultyPage']
+	max_count = 1
 
 	# This function is not working here
 	# def list_common_interests(self):
@@ -189,12 +194,16 @@ class FacultyHomePage(Page):
 		if tag:
 			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
 				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code 
+		paginator = Paginator(faculty_list, 1) # Show 10 faculty per page
+		page_no = request.GET.get('page_no')
+		faculty_list = paginator.get_page(page_no)
 
 		return render(request, self.template, {
 			'page': self,
 			'faculty_list': faculty_list,
 			'all_research_interests': all_research_interests,
 			'tag':tag,
+			'page_no':page_no,
 		})
 
 class FacultyResearchInterestTag(TaggedItemBase):
@@ -217,6 +226,7 @@ class FacultyPage(Page):
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
 	joining_date = models.DateField()
+	leaving_date = models.DateField(blank=True, null=True)
 	designation = models.CharField(max_length=25, choices=FACULTY_DESIGNATION, default='Assistant_Professor')
 	website = models.URLField(max_length=250, null=True)
 	#################################################################
@@ -240,6 +250,7 @@ class FacultyPage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('joining_date'),
+		FieldPanel('leaving_date'),
 		FieldPanel('designation'),
 		ImageChooserPanel('photo'),	
 		FieldPanel('email_id'),	
@@ -281,7 +292,21 @@ class FacultyPage(Page):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
-	
+
+	# def get_context(self, request):
+	# 	context = super().get_context(request)
+	# 	admin = {
+	# 		'additional_roles':self.additional_roles, 
+	# 		'disposal_committee':self.disposal_committee, 
+	# 		'laboratory_in_charge':self.laboratory_in_charge, 
+	# 		'faculty_in_charge':self.faculty_in_charge, 
+	# 		'disciplinary_committee':self.disciplinary_committee, 
+	# 		'dupc':self.dupc, 
+	# 		'dppc':self.dppc, 
+	# 	}
+	# 	context['admin'] = admin
+	# 	return context
+
 
 	parent_page_types=['FacultyHomePage']
 	subpage_types=[]
@@ -344,12 +369,16 @@ class StudentHomePage(Page):
 		tag = request.GET.get('tag')
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
+		paginator = Paginator(student_list, 10) # Show 10 faculty per page
+		page_no = request.GET.get('page_no')
+		student_list = paginator.get_page(page_no)
 
 		return render(request, self.template, {
 			'page': self,
 			'student_list': student_list,
 			'all_research_interests': all_research_interests,
 			'tag':tag,
+			'page_no':page_no,
 		})
 
 class StudentResearchInterestTag(TaggedItemBase):
@@ -478,11 +507,16 @@ class AlumniHomePage(StudentHomePage):
 		if tag:
 			new_template = 'mechweb/alumni_tag_page.html'
 			alumni_list = alumni_list.filter(alumnuspage__interests__name=tag)
+		paginator = Paginator(alumni_list, 10) # Show 10 faculty per page
+		page_no = request.GET.get('page_no')
+		alumni_list = paginator.get_page(page_no)
+
 		return render(request, self.template, {
 			'page': self,
 			'alumni_list': alumni_list,
 			'all_interests':all_interests,
 			'tag':tag,
+			'page_no':page_no,
 		})
 
 class AlumniInterestTag(TaggedItemBase):
@@ -915,4 +949,3 @@ class CourseAnnouncementPage(Orderable):
 	]
 
 ######################################################
-

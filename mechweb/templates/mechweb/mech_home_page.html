@@ -6,13 +6,6 @@
 
 {% block content %}
     <h1>{{ page.title }}</h1>
-<!-- Navbar here -->
-    <ul>
-        {% for post in page.get_children %}
-            <li><a href="{% pageurl post %}">{{ post.title }}</a></li>
-            <!-- <div>{{ post.specific.intro|richtext }}</div> -->
-        {% endfor %}
-    </ul>
     
 <!-- Carousal -->
     {% for item in page.gallery_images.all %}

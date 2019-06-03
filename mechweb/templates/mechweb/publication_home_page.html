@@ -11,8 +11,6 @@
     <!-- work on giving the page ability to sort using date, topic, faculty, etc -->
     <ul>
 	    {% for publication in page.get_children.specific %}
-    	<!-- Why did it work when i used specific keyword here? 
-    		This is why: https://github.com/wagtail/wagtail/blob/master/docs/releases/1.1.rst#specific-method-on-pagequeryset -->
 	    <li>	
 	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
 	    	<h3>Team</h3>

@@ -27,7 +27,14 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-
+        <!-- Navbar -->
+        <ul> 
+            <li><a href="http://127.0.0.1:8000/">Home</a></li>
+            {% for post in navlist %}
+                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <hr>
         {% block content %}{% endblock %}
 
         {# Global javascript #}

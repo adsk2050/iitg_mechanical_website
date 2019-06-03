@@ -1,3 +1,5 @@
+{% if tag %}&tag={{ tag }}{% endif %}
+
     <!-- Intro -->
     <h2>Intro:</h2>
     <div>{{ page.specific.intro }}</div>
