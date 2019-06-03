@@ -10,12 +10,12 @@
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href= "static/css/base.css" rel="stylesheet" type="text/css">
+    <link href= "/static/css/base.css" rel="stylesheet" type="text/css">
 
-<!--
+
     {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
-    {% endblock %} -->
+    {% endblock %}
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -48,7 +48,7 @@
               <div class="col-4">
                   <a class="blog-header-logo text-dark"  href="#">
                     <img height="85px" width="85px"
-                          src="{% static "images/logo.png" %}" class="center"></a>
+                          src="{% static "images/logo.png" %}" class = "center"></a>
               </div>
               <div class="col-4 d-flex justify-content-end align-items-center">
                   <a class="text-muted" href="#"></a>
@@ -68,17 +68,12 @@
           <nav>
               <div id="wrapper">
                   <ul>
-<<<<<<< HEAD
                     <li class="different active"><a href="">Home</a></li>
                     <li class="different"><a href="{{ pageurl }}">Faculty</a></li>
-
-                    {% for childs in MechHomePage.navlist %}
+                    {% for childs in page.get_children %}
                         <li class="different"><a href="{{ childs.url }}">{{ childs.title }}</a></li>
-=======
-                    {% for child in mech_home_page.get_children %}
-                        <li class="different"><a href="{{ child.url }}">{{ child.title }}</a></li>
->>>>>>> 7e5043644f79d0b9f2bd5381d796d1ff3e2d9de5
                     {% endfor %}
+
 
                   </ul>
               </div>

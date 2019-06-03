@@ -1,5 +1,5 @@
-
 {% extends "base.html" %}
+
 {% load static %}
 
 
@@ -16,7 +16,7 @@
     Department research focus:
     this part of code is not working
     {% for research_interest in page.specific.all_research_intersts %}
-        <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> 
+        <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a>
     {% endfor %}
     <hr>
 
