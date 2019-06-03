@@ -7,17 +7,7 @@
 
 {% block content %}
     <h1>{{ page.title }}</h1>
-    
-<!-- Carousal -->
-    {% for item in page.gallery_images.all %}
-        <div style="float: left; margin: 10px">
-            {% image item.image fill-320x240 %}
-            <p>{{ item.caption }}</p>
 
-    <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
-
-        <img height="450px" width="100%" src="{% static "images/main.PNG" %}">
-    </div>
 
 
 
