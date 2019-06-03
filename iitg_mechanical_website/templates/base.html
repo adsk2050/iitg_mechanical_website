@@ -10,7 +10,12 @@
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="static/css/mech_home_page.css" rel="stylesheet" type="text/css">
+    <link href= "static/css/base.css" rel="stylesheet" type="text/css">
+
+<!--
+    {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+    {% endblock %} -->
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -32,52 +37,56 @@
 
 </head>
 
-<header style="background-color: #3A5157;" class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-        <div class="col-4 pt-1">
-        </div>
-        <div class="col-4">
-            <a class="blog-header-logo text-dark"  href="#">
-              <img height="85px" width="85px"
-                    src="{% static "images/logo.png" %}" class="center"></a>
-        </div>
-        <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="text-muted" href="#"></a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-1"></div>
-        <div style="color: white;" align="middle" class="col-10 text-center">
-            <h2>Department of Mechanical Engineering</h2>
-        </div>
-        <div class="col"></div>
-    </div>
-</header>
-
 
 
     <body class="{% block body_class %}{% endblock %}">
+
+      <header style="background-color: #3A5157;" class="blog-header py-3">
+          <div class="row flex-nowrap justify-content-between align-items-center">
+              <div class="col-4 pt-1">
+              </div>
+              <div class="col-4">
+                  <a class="blog-header-logo text-dark"  href="#">
+                    <img height="85px" width="85px"
+                          src="{% static "images/logo.png" %}" class="center"></a>
+              </div>
+              <div class="col-4 d-flex justify-content-end align-items-center">
+                  <a class="text-muted" href="#"></a>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-1"></div>
+              <div style="color: white;" align="middle" class="col-10 text-center">
+                  <h2>Department of Mechanical Engineering</h2>
+              </div>
+              <div class="col"></div>
+          </div>
+      </header>
+
+
       <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
           <nav>
               <div id="wrapper">
                   <ul>
-                    {% for childs in mech_home_page.get_children %}
-                        <li class="different"><a href="{% pageurl childs %}">{{ childs.title }}</a></li>
+                    <li class="different active"><a href="">Home</a></li>
+                    <li class="different"><a href="{{ pageurl }}">Faculty</a></li>
+
+                    {% for childs in MechHomePage.navlist %}
+                        <li class="different"><a href="{{ childs.url }}">{{ childs.title }}</a></li>
                     {% endfor %}
 
-                      <!-- <li class="different active"><a href="">Home</a></li>
-                      <li class="different"><a href="">People</a></li>
-                      <li class="different"><a href="">Academics</a></li>
-                      <li class="different"><a href="">Research</a></li>
-                      <li class="different"><a href="">Contact</a></li> -->
                   </ul>
               </div>
           </nav>
         </div>
 
+
         {% wagtailuserbar %}
 
         {% block content %}{% endblock %}
+        {% for childs in page.get_children %}
+            <li class="different"><a href="{{ childs.url }}">{{ childs.title }}</a></li>
+        {% endfor %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/iitg_mechanical_website.js' %}"></script>
@@ -85,47 +94,51 @@
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
         {% endblock %}
+
+        <footer class="blog-footer">
+            <div class="row">
+                <div class="col-md-2 col-sm-0"></div>
+                <div class="cola">
+                    <div class="foot-head">News and Events</div><br>
+                    <p>
+                        <a href="#">Faculty Recruitment</a><br>
+                        <a href="#">PG Admission</a><br>
+                        <a href="#">Summer Internship</a><br>
+                        <a href="#">Upcoming Events</a><br>
+                        <a href="#">Past Events</a><br>
+                    </p>
+                </div>
+
+                <div class="cola">
+                    <div class="foot-head">Departmental Links</div><br>
+                    <p>
+                        <a href="#">Departmental Committees</a><br>
+                        <a href="#">Time Table and Instructors</a><br>
+                        <a href="#">Online Hall Booking</a><br>
+                        <a href="#">Faculty Advisor</a><br>
+                        <a href="#">Forms, Minutes & Downloads </a><br>
+                        <a href="#">TA Allotment and Related Forms </a><br>
+                        <a href="#">Related Links</a><br>
+                    </p>
+                </div>
+                <div class="cola">
+                    <div class="foot-head">Quick Links</div><br>
+                    <p>
+                        <a href="#">IITG Webmail</a><br>
+                        <a href="#">IITG Home</a><br>
+                        <a href="#">Phone Directory</a><br>
+                        <a href="#">RuTAG-NE</a><br>
+                        <a href="#">NPTEL</a><br>
+                        <a href="#">IITG MESA</a><br>
+                        <a href="#">Automobile Club</a><br>
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
     </body>
 
-    <footer class="blog-footer">
-        <div class="row">
-            <div class="col-md-2 col-sm-0"></div>
-            <div class="cola">
-                <div class="foot-head">News and Events</div><br>
-                <p>
-                    <a href="#">Faculty Recruitment</a><br>
-                    <a href="#">PG Admission</a><br>
-                    <a href="#">Summer Internship</a><br>
-                    <a href="#">Upcoming Events</a><br>
-                    <a href="#">Past Events</a><br>
-                </p>
-            </div>
 
-            <div class="cola">
-                <div class="foot-head">Departmental Links</div><br>
-                <p>
-                    <a href="#">Departmental Committees</a><br>
-                    <a href="#">Time Table and Instructors</a><br>
-                    <a href="#">Online Hall Booking</a><br>
-                    <a href="#">Faculty Advisor</a><br>
-                    <a href="#">Forms, Minutes & Downloads </a><br>
-                    <a href="#">TA Allotment and Related Forms </a><br>
-                    <a href="#">Related Links</a><br>
-                </p>
-            </div>
-            <div class="cola">
-                <div class="foot-head">Quick Links</div><br>
-                <p>
-                    <a href="#">IITG Webmail</a><br>
-                    <a href="#">IITG Home</a><br>
-                    <a href="#">Phone Directory</a><br>
-                    <a href="#">RuTAG-NE</a><br>
-                    <a href="#">NPTEL</a><br>
-                    <a href="#">IITG MESA</a><br>
-                    <a href="#">Automobile Club</a><br>
-                </p>
-            </div>
-        </div>
-    </footer>
-    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 </html>

@@ -1,23 +1,25 @@
+
 {% extends "base.html" %}
+{% load static %}
+
 
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}template-event-homepage{% endblock %}
+{% block body_class %}template-faculty-homepage{% endblock %}
 
 {% block content %}
+
     <h1>{{ page.title }}</h1>
-    <!-- Intro -->
     <h2>Intro:</h2>
     <div class="intro">{{ page.intro|richtext }}</div>
     <hr>
     Department research focus:
     this part of code is not working
     {% for research_interest in page.specific.all_research_intersts %}
-        <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> |
+        <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> 
     {% endfor %}
     <hr>
-    
-    <!-- Featured Event -->
+
     {% for faculty in faculty_list %}
     <div>
         {% if faculty.specific.additional_roles == "HoD" %}
@@ -31,6 +33,7 @@
     </div>
     <hr>
     {% endfor %}
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
 
 

@@ -42,7 +42,7 @@ STAFF_DESIGNATION = (
 )
 
 PROJECT_TYPE=(
-	('Academic','Academic'), 
+	('Academic','Academic'),
 	('Consultancy','Consultancy')
 )
 
@@ -129,4 +129,4 @@ DISPOSAL_COMMITTEE = (
 	('Member', 'Member'),
 	('External_Member', 'External_Member'),
 	('Non_Member_Secretary', 'Non_Member_Secretary'),
-)	
+)

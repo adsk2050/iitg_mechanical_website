@@ -6,47 +6,9 @@
 {% block body_class %}template-mech-homepage{% endblock %}
 
 {% block content %}
-<html lang="en">
-
-
-<body>
-
-
-
 
     <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
-        <nav>
-            <div id="wrapper">
-                <ul>
-                  {% for childs in page.get_children %}
-                      <li class="different"><a href="{% pageurl childs %}">{{ childs.title }}</a></li>
-                  {% endfor %}
 
-                    <!-- <li class="different active"><a href="">Home</a></li>
-                    <li class="different"><a href="">People</a></li>
-                    <li class="different"><a href="">Academics</a></li>
-                    <li class="different"><a href="">Research</a></li>
-                    <li class="different"><a href="">Contact</a></li> -->
-                </ul>
-            </div>
-        </nav>
-
-        <!--     <nav class="nav d-flex justify-content-between">
-            <div class="offset-2 p-2"></div>
-            <a class="nav-link p-2 active" href="#">Home</a>
-            <a class="nav-link p-2" href="#"></a>
-            <a class="nav-link p-2" href="#"></a>
-            <a class="nav-link p-2" href="#"></a>
-            <a class="nav-link p-2" href="#"></a>
-            <div class="offset-2 p-4"></div>
-        </nav>
-        -->
-        <!-- {% for item in page.gallery_images.all %}
-            <div style="float: left; margin: 10px">
-                {% image item.image fill-320x240 %}
-                <p>{{ item.caption }}</p>
-            </div>
-        {% endfor %} -->
         <img height="450px" width="100%" src="{% static "images/main.PNG" %}">
     </div>
 
@@ -111,7 +73,5 @@
 
 
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-</body>
 
-</html>
 {% endblock %}

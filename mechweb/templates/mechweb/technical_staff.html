@@ -6,21 +6,65 @@
 
 {% block body_class %}template-staff-homepage{% endblock %}
 
+
+  {% block extra_css %}
+        <link href="css/staff.css" rel="stylesheet" type="text/css">
+  {% endblock %}
+
 {% block content %}
-    <h3>{{ page.intro|richtext }}</h3>
-    {% for staff in staff_list %}
-      {% if page.specific.designation == Technicial_staff %}
-        <a href="{% pageurl staff %}">
-         {% image staff.specific.photo fill-180x180-c100 %}
-         <p></p>
-         {{ staff.specific.name }}
-        </a>
-        <h4>{{ staff.specific.designation }}</h4>
-        <p>{{ staff.specific.email_id }}</p>
-        <p>{{ staff.specific.contact_number }}</p>
-        <p></p>
-      {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ page.title }}</h1>
+                <!-- <p>{{ page.intro }}</p> -->
+            </div>
+        </div>
+    </div>
 
-    {% endfor %}
+    <div class="container">
+        <div class="row bread-list">
 
-{% endblock %}
+          {% for staff in staff_list %}
+          <h4>hi check</h4>
+            <div class="col-xs-12 col-md-6 bread-list-item">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 image">
+                      <a href="{% pageurl staff %}">
+                        {% image staff.specific.photo fill-180x180-c100 %}
+                            <img src="{{ image.url }}" width="{{ image.width }}"
+                                height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-7">
+                        <a href="{% pageurl staff %}">
+                            <h2>{{ staff.specific.name }}</h2>
+                        </a>
+                        <ul class="bread-meta">
+                        {% if staff.specific.designation %}
+                            <li><span>Designation</span> {{ staff.specific.designation }}</li>
+                        {% endif %}
+                        {% if staff.specific.email_id %}
+                            <li><span>Email</span> {{ staff.specific.email_id }}</li>
+                        {% endif %}
+                        {% if staff.specific.contact_number %}
+                            <li><span>Contact</span> {{ staff.specific.contact_number }}</li>
+                        {% endif %}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <!-- {% if breads.paginator.count > 1 %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                {% include "includes/pagination.html" with subpages=breads %}
+                </div>
+            </div>
+        </div>
+    {% endif %} -->
+{% endblock content %}

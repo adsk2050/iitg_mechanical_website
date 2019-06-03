@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>{{ page.specific.name }}</h1>
-    <h2>{{ page.specific.designation }}</h2> 
+    <h2>{{ page.specific.designation }}</h2>
     <div>{% image page.specific.photo fill-100x100 %}</div>
     <!-- Intro -->
     <h2>About {{ page.specific.name }}:</h2>
@@ -14,13 +14,13 @@
 
     <div class="intro">{{ page.specific.body|richtext }}</div>
     <hr>
-    
+
 	<div>Office contact number: {{ page.specific.office_contact_number  }}</div>
 	<div>Home contact Number: {{ page.specific.home_contact_number  }}</div>
 	<div>Office Address: {{ page.specific.office_address_line_1  }}</div>
 	<div>Home address: {{ page.specific.home_address_line_1 }}, {{ page.specific.home_address_line_2 }}, {{ page.specific.home_address_line_3 }}</div>
 	<div>Mail ID: {{ page.specific.email_id }}</div>
-	
+
 	<div>Research Interests: {{ page.specific. }}
 	{% for tag in page.specific.research_interests.all %}
 	    <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
@@ -35,23 +35,23 @@
     		{% if page.specific.additional_roles != "Not_Applicable" %}
     		<li>Additional Role: {{ page.specific.additional_roles }}</li>
     		{% endif %}
-			
+
 			{% if page.specific.laboratory_in_charge != "Not_Applicable" %}
 			<li>Laboratory in charge: {{ page.specific.laboratory_in_charge }}</li>
-			{% endif %}	
-			
+			{% endif %}
+
 			{% if page.specific.faculty_in_charge != "Not_Applicable" %}
 			<li>Faculty in charge: {{ page.specific.faculty_in_charge }}</li>
-			{% endif %}	
-			
+			{% endif %}
+
 			{% if page.specific.dupc != "Not_Applicable" %}
 			<li>DUPC: {{ page.specific.dupc }}</li>
 			{% endif %}
-			
+
 			{% if page.specific.dppc != "Not_Applicable" %}
 			<li>DPPC: {{ page.specific.dppc }}</li>
 			{% endif %}
-			
+
 			{% if page.specific.disciplinary_committee != "Not_Applicable" %}
 			<li>Disciplinary committee: {{ page.specific.disciplinary_committee }}</li>
 			{% endif %}
