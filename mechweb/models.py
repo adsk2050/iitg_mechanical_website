@@ -31,8 +31,8 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 
 ######################################################
 class MechHomePage(Page):
-	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
-	# intro = RichTextField(blank=True) 
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	# intro = RichTextField(blank=True)
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
@@ -44,7 +44,7 @@ class MechHomePage(Page):
 	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage']
 
 	max_count = 1
-	
+
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
@@ -59,8 +59,8 @@ class HomeTextPanel(Orderable):
 	date = models.DateTimeField()
 	#change the below content_type code to manage css accordingly
 	content_type=models.CharField(
-		default="mini_article", 
-		choices=TEXT_PANEL_CONTENT_TYPES, 
+		default="mini_article",
+		choices=TEXT_PANEL_CONTENT_TYPES,
 		max_length=50
 	)
 	panels = [
@@ -82,10 +82,10 @@ class MechHomePageGalleryImage(Orderable):
 ######################################################
 class EventHomePage(Page):
 	featured_event = models.ForeignKey(
-		'EventPage', 
+		'EventPage',
 		null=True,
-		blank=True, 
-		on_delete=models.SET_NULL, 
+		blank=True,
+		on_delete=models.SET_NULL,
 		related_name='featured_event'
 	)
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -119,9 +119,9 @@ class EventPage(Page):
 	venue = models.CharField(blank=True, max_length=50, choices=LOCATIONS, default='seminar_hall')
 	poster = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	document = models.ForeignKey(
-		'wagtaildocs.Document', 
-		null=True, blank=True, 
-		on_delete=models.SET_NULL, 
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
 		related_name='+'
 	)
 	event_type = models.CharField(max_length=50, choices=EVENTS, default='meeting')
@@ -148,8 +148,8 @@ class EventPage(Page):
 class EventPageGalleryImage(Orderable):
 	page = ParentalKey(EventPage, on_delete=models.CASCADE, related_name='gallery_images')
 	image = models.ForeignKey(
-		'wagtailimages.Image', 
-		on_delete=models.CASCADE, 
+		'wagtailimages.Image',
+		on_delete=models.CASCADE,
 		related_name='+'
 	)
 	caption = models.CharField(blank=True, max_length=250)
@@ -168,9 +168,9 @@ class EventPageLink(Orderable):
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
-class FacultyHomePage(Page):	
+class FacultyHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	
+
 	content_panels = Page.content_panels + [
 			FieldPanel('intro'),
 		]
@@ -208,8 +208,8 @@ class FacultyHomePage(Page):
 
 class FacultyResearchInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
-		'FacultyPage', 
-		related_name='tagged_items', 
+		'FacultyPage',
+		related_name='tagged_items',
 		on_delete=models.CASCADE )
 	# This function is working here only in shell but not during rendering
 	# def list_common_interests(self):
@@ -252,9 +252,9 @@ class FacultyPage(Page):
 		FieldPanel('joining_date'),
 		FieldPanel('leaving_date'),
 		FieldPanel('designation'),
-		ImageChooserPanel('photo'),	
-		FieldPanel('email_id'),	
-		FieldPanel('website'),	
+		ImageChooserPanel('photo'),
+		FieldPanel('email_id'),
+		FieldPanel('website'),
 		MultiFieldPanel([
 			FieldPanel('office_address_line_1'),
 			FieldPanel('office_contact_number'),
@@ -268,21 +268,21 @@ class FacultyPage(Page):
 		FieldPanel('body'),
 		# InlinePanel('publications', label="Publications"),
 		FieldPanel('research_interests'),
-		InlinePanel('gallery_images', label="Gallery images"),		
+		InlinePanel('gallery_images', label="Gallery images"),
 	]
 	# Creating custom tabs
 	custom_tab_panels = [
 		FieldPanel('additional_roles'),
-		FieldPanel('laboratory_in_charge'),	
-		FieldPanel('faculty_in_charge'),	
-		FieldPanel('dupc'),	
-		FieldPanel('dppc'),	
-		FieldPanel('disciplinary_committee'),	
-		FieldPanel('disposal_committee'),	
+		FieldPanel('laboratory_in_charge'),
+		FieldPanel('faculty_in_charge'),
+		FieldPanel('dupc'),
+		FieldPanel('dppc'),
+		FieldPanel('disciplinary_committee'),
+		FieldPanel('disposal_committee'),
 	]
 
 	announcement_tab_panels = [
-		InlinePanel('faculty_announcement', label="Announcement"),	
+		InlinePanel('faculty_announcement', label="Announcement"),
 	]
 
 	edit_handler = TabbedInterface([
@@ -292,6 +292,7 @@ class FacultyPage(Page):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
+
 
 	# def get_context(self, request):
 	# 	context = super().get_context(request)
@@ -315,9 +316,9 @@ class FacultyAnnouncement(Orderable):
 	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='faculty_announcement')
 	link = models.URLField(max_length=250)
 	document = models.ForeignKey(
-		'wagtaildocs.Document', 
-		null=True, blank=True, 
-		on_delete=models.SET_NULL, 
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
 		related_name='+'
 	)
 	message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -351,7 +352,7 @@ def faculty_interests():
 	return common_tags
 
 ######################################################
-class StudentHomePage(Page):  
+class StudentHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
 	content_panels = Page.content_panels + [
@@ -383,9 +384,9 @@ class StudentHomePage(Page):
 
 class StudentResearchInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
-		'StudentPage', 
-		related_name='tagged_items', 
-		on_delete=models.CASCADE 
+		'StudentPage',
+		related_name='tagged_items',
+		on_delete=models.CASCADE
 	)
 
 class StudentPage(Page):
@@ -456,11 +457,11 @@ class StudentProject(Orderable):
 		FieldPanel('abstract'),
 		FieldPanel('link'),
 		MultiFieldPanel([
-			ImageChooserPanel('photo_1'), 
-			ImageChooserPanel('photo_2'), 
+			ImageChooserPanel('photo_1'),
+			ImageChooserPanel('photo_2'),
 			ImageChooserPanel('photo_3'),
 		], heading ="Featured Photos")
-		 
+
 	]
 
 class StudentPageLink(Orderable):
@@ -521,9 +522,9 @@ class AlumniHomePage(StudentHomePage):
 
 class AlumniInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
-		'AlumnusPage', 
-		related_name='alumni_tagged_items', 
-		on_delete=models.CASCADE 
+		'AlumnusPage',
+		related_name='alumni_tagged_items',
+		on_delete=models.CASCADE
 	)
 
 class AlumnusPage(Page):
@@ -548,9 +549,9 @@ class AlumnusPage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('enrolment_year'),
-		ImageChooserPanel('photo'), 
-		FieldPanel('email_id'), 
-		FieldPanel('email_id_2'), 
+		ImageChooserPanel('photo'),
+		FieldPanel('email_id'),
+		FieldPanel('email_id_2'),
 		FieldPanel('contact_number'),
 		FieldPanel('contact_number_2'),
 		MultiFieldPanel([
@@ -605,15 +606,27 @@ def alumni_interests():
 # How to make this function, student_interests() and faculty_interests() into one?
 
 ######################################################
-class StaffHomePage(Page):  
+class StaffHomePage(Page):
+	use_other_template = models.IntegerField(default = 3)
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
+		FieldPanel('use_other_template')
 	]
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['StaffPage']
+
+	def get_template(self,request):
+		if self.use_other_template == 1 :
+			return 'mechweb/technical_staff.html'
+
+		elif self.use_other_template == 2 :
+			return 'mechweb/administrative_staff.html'
+
+		return 'mechweb/phd_staff.html'
 
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
@@ -631,15 +644,16 @@ class StaffPage(Page):
 	designation = models.CharField(max_length=25, choices=STAFF_DESIGNATION, default='Project_Staff')
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
-	#if lab staff: 
+	#if lab staff:
 	# lab = models.ForeignKey('ResearchLabPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='lab')
 
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('joining_year'),
-		ImageChooserPanel('photo'), 
-		FieldPanel('email_id'), 
+		ImageChooserPanel('photo'),
+		FieldPanel('email_id'),
 		FieldPanel('contact_number'),
+		FieldPanel('designation'),
 		FieldPanel('address'),
 		FieldPanel('intro'),
 	]
@@ -680,8 +694,8 @@ class ResearchLabPage(Page):
 		InlinePanel('students', label="Students"),
 		InlinePanel('links', label="Related Links"),
 		MultiFieldPanel([
-			ImageChooserPanel('photo_1'), 
-			ImageChooserPanel('photo_2'), 
+			ImageChooserPanel('photo_1'),
+			ImageChooserPanel('photo_2'),
 			ImageChooserPanel('photo_3'),
 		], heading ="Featured Photos")
 	]
@@ -705,9 +719,9 @@ class LabEquipment(Orderable):
 	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='equipment')
 	operator = models.ForeignKey('StaffPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='operator')
 	document = models.ForeignKey(
-		'wagtaildocs.Document', 
-		null=True, blank=True, 
-		on_delete=models.SET_NULL, 
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
 		related_name='+'
 	)
 	specifications = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -751,9 +765,9 @@ class PublicationHomePage(Page):
 class PublicationPage(Page):
 	#page = ParentalKey(PublicationHomePage, on_delete=models.PROTECT, related_name='publication')
 	document = models.ForeignKey(
-		'wagtaildocs.Document', 
-		null=True, blank=True, 
-		on_delete=models.SET_NULL, 
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
 		related_name='+'
 	)
 	name = models.CharField(max_length=100, blank=True)
@@ -772,7 +786,7 @@ class PublicationPage(Page):
 		# PageChooserPanel('faculty'),
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
-		InlinePanel('links', label="Links"),	
+		InlinePanel('links', label="Links"),
 	]
 
 class PublicationPageStudent(Orderable):
@@ -889,12 +903,12 @@ class CoursePage(Page):
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	course_page_link = models.URLField()
 	document = models.ForeignKey(
-		'wagtaildocs.Document', 
-		null=True, blank=True, 
-		on_delete=models.SET_NULL, 
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
 		related_name='+'
 	)	#if can add function to add multiple students at once, then and only then add this.
-	# list_of_students = 
+	# list_of_students =
 
 	content_panels =  Page.content_panels + [
 		FieldPanel('name'),
@@ -911,7 +925,7 @@ class CoursePage(Page):
 		], heading="Course Details"),
 		FieldPanel('description'),
 		InlinePanel('course_instructor', label="Course Instructor"),
-		
+
 	]
 
 	announcement_tab_panels = [
@@ -938,11 +952,11 @@ class CourseAnnouncementPage(Orderable):
 	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_announcements')
 	announcement = RichTextField(max_length=250, blank=True, features=CUSTOM_RICHTEXT)
 	document = models.ForeignKey(
-		'wagtaildocs.Document', 
-		null=True, blank=True, 
-		on_delete=models.SET_NULL, 
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
 		related_name='+'
-	) 
+	)
 	panels = [
 		FieldPanel('announcement'),
 		DocumentChooserPanel('document'),

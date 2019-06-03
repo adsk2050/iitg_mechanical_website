@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% load wagtailcore_tags wagtailimages_tags %}
 
@@ -12,18 +13,72 @@
         <div style="float: left; margin: 10px">
             {% image item.image fill-320x240 %}
             <p>{{ item.caption }}</p>
-        </div>
-    {% endfor %}
-<!-- Intro -->
-    <div class="intro">{{ page.intro|richtext }}</div>
-<!-- Mini Articles -->
-    {% for item in page.text_panels.all %}
-        <div style="float: left; margin: 10px">
-		    <h2>{{item.title}}</h2>
-		    <h4>{{item.date}}</h4>	    
-		    <h3>{{item.description}}</h3>
+
+    <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
+
+        <img height="450px" width="100%" src="{% static "images/main.PNG" %}">
+    </div>
+
+
+
+    <div style="background-color: white" class="timeline row py-1 mb-2">
+        <div style="border-left: 1px white;" class="dif col-2"><strong>16 January</strong><br>
+            <span>In eos viderer omittantur. Mel an nisl mollis, habemus torque</span></div>
+        <div class="dif col-2"><strong>31 January</strong><br>
+            <span>In eos viderer omittantur.</span></div>
+        <!-- <div class="dif col-2"><strong>3 March</strong><br>
+            <span>In eos viderer omittantur. Mel an nisl mollis, habemus torque</span></div>
+        <div class="dif col-2"><strong>19 September</strong><br>
+            <span>In eos viderer omittantur. Mel an nisl mollis, habemus torque</span></div>
+        <div class="dif col-2"><strong>18 November</strong><br>
+            <span>In eos viderer omittantur.</span></div> -->
+    </div>
+
+    <div class="container definite">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="{% static "images/prize.png" %}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Morbi enim nunc</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Sed egestas egestas fringilla phasellus
+                            faucibus scelerisque eleifend donec pretium.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Ac felis donec et odio pellentesqu</h5>
+                            <p style="padding-bottom: 25px;" class="card-text">Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed
+                                egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+            </div>
 
         </div>
-    {% endfor %}
+
+        <br>
+
+
+        <div class="row">
+            <div class="text-center"><button type="button" class="btn btn-outline-warning" align="middle"><strong>Donate To
+                        Us</strong></button></div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
 {% endblock %}

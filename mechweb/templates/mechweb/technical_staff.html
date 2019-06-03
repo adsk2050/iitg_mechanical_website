@@ -1,23 +1,31 @@
 {% extends "base.html" %}
+
+{% load static %}
+
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-staff-homepage{% endblock %}
 
-{% block content %}
-<h3>{{ page.intro|richtext }}</h3>
 
-    <div class="container">
+  {% block extra_css %}
+        <link href="static/css/staff.css" rel="stylesheet" type="text/css">
+  {% endblock %}
+
+{% block content %}
+    <div class="izmir">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" align='center'>
                 <h1>{{ page.title }}</h1>
-                <p>{{ page.introduction}}</p>
+                <!-- <p>{{ page.intro }}</p> -->
             </div>
         </div>
     </div>
 
     <div class="container">
         <div class="row bread-list">
+
           {% for staff in staff_list %}
+          <h4 id="ides">hi check</h4>
             <div class="col-xs-12 col-md-6 bread-list-item">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 image">
@@ -32,10 +40,10 @@
                             <h2>{{ staff.specific.name }}</h2>
                         </a>
                         <ul class="bread-meta">
-                        {% if staff.Designation %}
+                        {% if staff.specific.designation %}
                             <li><span>Designation</span> {{ staff.specific.designation }}</li>
                         {% endif %}
-                        {% if staff.email_id %}
+                        {% if staff.specific.email_id %}
                             <li><span>Email</span> {{ staff.specific.email_id }}</li>
                         {% endif %}
                         {% if staff.specific.contact_number %}
