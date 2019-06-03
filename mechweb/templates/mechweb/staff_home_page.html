@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-staff-homepage{% endblock %}
+
+{% block content %}
+{{ page.title }}
+    <div>{{ page.intro|richtext }}</div>
+
+    <ul>
+        {% for staff in staff_list %}
+        <li>
+            <div><a href="{{ staff.url }}">{{ staff.specific.name }}</a></div>
+            {% image staff.specific.photo fill-180x180-c100 %}
+            <div>{{ staff.specific.designation }}</div>
+            <div>{{ staff.specific.email_id }}</div>
+            <div>{{ staff.specific.contact_number }}</div>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
