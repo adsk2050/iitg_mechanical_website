@@ -33,3 +33,5 @@ Context processor makes all data publicly available whatever is declared in it
 https://stackoverflow.com/questions/17901341/django-how-to-make-a-variable-available-to-all-templates
  
 can also see this: https://stackoverflow.com/questions/47894252/django-send-context-to-base-html?rq=1
+
+https://stackoverflow.com/questions/22267977/no-template-context-processors-in-django (settings me keyword change kar diya hai)
