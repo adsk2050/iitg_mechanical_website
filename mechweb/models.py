@@ -607,7 +607,7 @@ def alumni_interests():
 
 ######################################################
 class StaffHomePage(Page):
-	use_other_template = models.IntegerField(default = 3)
+	use_other_template = models.IntegerField(default = 3)#Find a way to remove this shit without deleting the original entry
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
 
@@ -619,14 +619,9 @@ class StaffHomePage(Page):
 	parent_page_types=['MechHomePage']
 	subpage_types=['StaffPage']
 
+	# and this too
 	def get_template(self,request):
-		if self.use_other_template == 1 :
-			return 'mechweb/technical_staff.html'
-
-		elif self.use_other_template == 2 :
-			return 'mechweb/administrative_staff.html'
-
-		return 'mechweb/phd_staff.html'
+		return 'mechweb/staff_home_page.html'
 
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
