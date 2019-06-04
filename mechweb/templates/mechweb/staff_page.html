@@ -9,7 +9,7 @@
     <div>{{ page.intro|richtext }}</div>
     <hr>
     <div>{% image page.photo fill-160x100 %}</div>
-    <div>{{ page.designation }}</div>
+    <div>{{ page.get_designation_display }}</div>
     <div>Email ID : {{ page.email_id }}</div>
     <div>Joining year : {{ page.joining_year }}</div>
     <div>Contact Number : {{ page.contact_number }}</div>

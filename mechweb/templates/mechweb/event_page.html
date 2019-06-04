@@ -18,9 +18,9 @@
     <div class="intro">{{ page.intro|richtext }}</div>
 <!-- Event Details -->
         <div style="float: left; margin: 10px">
-		    <h2>Event type: {{ page.event_type }}</h2>
+		    <h2>Event type: {{ page.get_event_type_display }}</h2>
 		    <h4>Starts on : {{ page.start_date }} and  Ends on : {{page.end_date }}</h4>   
-		    <h3>Venue: {{ page.venue }} </h3>
+		    <h3>Venue: {{ page.get_venue_display }} </h3>
         </div>
         <!-- Related Links -->
         <ul>

@@ -16,7 +16,7 @@
             <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
             <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
             <li>Semester : {{ course.specific.semester }}</li>
-            <li>Eligible Programmes : {{ course.specific.eligible_programmes }}</li>
+            <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
         </ul>  
     </div>
         

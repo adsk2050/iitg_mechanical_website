@@ -10,7 +10,7 @@
 	<div>{% image page.specific.photo fill-100x100 %}</div>
 
 	<div>{{ page.specific.enrolment_year }} batch</div>
-	<div>Programme : {{ page.specific.programme }}</div>
+	<div>Programme : {{ page.specific.get_programme_display }}</div>
 	<h2>Intro : </h2>
 	<div>{{ page.specific.intro }}</div>
 	<h2>Description : </h2>

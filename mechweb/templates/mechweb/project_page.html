@@ -29,7 +29,7 @@ gallery_images
 	<h3>Description:</h3>
 	<div>{{ page.specific.description|richtext }}</div>
 	<hr>
-	<div>Project type : {{ page.specific.project_type }}</div>
+	<div>Project type : {{ page.specific.get_project_type_display }}</div>
 	<div>Budget : {{ page.specific.budget }}</div>
 	<div>From: {{ page.specific.start_date }} | To : {{ page.specific.end_date }}</div>
 

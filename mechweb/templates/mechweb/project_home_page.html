@@ -12,7 +12,7 @@
 	    <li>	
 	    	<h2><a href="{{ project.url }}">{{ project.name }}</a></h2>
 	    	<h2>Principal Investigator : <a href="{{ project.principal_investigator.url }}">{{ project.principal_investigator }}</a></h2>
-	    	<div>Project type : {{ project.project_type }}</div>
+	    	<div>Project type : {{ project.get_project_type_display }}</div>
 	    	<div>Budget : {{ project.budget }}</div>
 	    	<div>From: {{ project.start_date }} | To : {{ project.end_date }}</div>
 	    </li>

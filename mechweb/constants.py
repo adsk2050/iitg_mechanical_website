@@ -1,132 +1,121 @@
 TEXT_PANEL_CONTENT_TYPES=(
-	('mini_article', 'mini_article'),
+	('0', 'Mini article'),
 )
 
 LOCATIONS=(
-	('seminar_hall', 'seminar_hall'),
+	('0', 'Seminar hall'),
 )
 
 EVENTS=(
-	('meeting', 'meeting'),
-	('seminar', 'seminar'),
-	('workshop', 'workshop'),
-	('informal_event', 'informal_event'),
-	('conference', 'conference'),
-	('PhD_viva', 'PhD_viva'),
+	('0', 'Meeting'),
+	('1', 'Seminar'),
+	('2', 'Workshop'),
+	('3', 'Informal event'),
+	('4', 'Conference'),
+	('5', 'PhD viva'),
 )
 
-# STUDENT_BATCH = (
-# 	('2016', '2016-20'),
-# 	('2017', '2017-21'),
-# 	('2019', '2019-22'),
-# 	('2020', '2020-23'),
-# 	('2021', '2021-24'),
-# 	('2022', '2022-25'),
-# 	('2023', '2023-26'),
-# 	('2024', '2024-27'),
-# )
-
 STUDENT_PROGRAMME = (
-	('Bachelor', 'Bachelor'),
-	('Masters', 'Masters'),
-	('Research_Scholar', 'Research_Scholar'),
-	('PostDoc', 'PostDoc'),
+	('0', 'Bachelor'),
+	('1', 'Masters'),
+	('2', 'Research Scholar'),
+	('3', 'PostDoc'),
 )
 
 STAFF_DESIGNATION = (
-	('Project_Staff', 'Project_Staff'),
-	('Lab_Staff', 'Lab_Staff'),
-	('Administrative_Staff', 'Administrative_Staff'),
-	('Technicial_staff', 'Technicial_staff'),
-	('Others', 'Others'),
+	('0', 'Administrative Staff'),
+	('1', 'Project Staff'),
+	('2', 'Lab Staff'),
+	('3', 'Technicial staff'),
+	('4', 'Others'),
 )
 
 PROJECT_TYPE=(
-	('Academic','Academic'),
-	('Consultancy','Consultancy')
+	('1','Academic'),
+	('0','Consultancy')
 )
 
 ############################# Faculty
 FACULTY_ROLES=(
-	('Not_Applicable', 'Not_Applicable'),
-	('HoD', 'HoD'),
-	('Director', 'Director')
+	('2', 'Not Applicable'),
+	('1', 'HoD'),
+	('0', 'Director')
 )
 
 FACULTY_DESIGNATION = (
-	('HAG', 'HAG'),
-	('Professor', 'Professor'),
-	('Assistant_Professor', 'Assistant_Professor'),
-	('Associate_Professor', 'Associate_Professor'),
-	('Visiting_Professor', 'Visiting_Professor'),
-	('Professor_On_lien', 'Professor_On_lien'),
+	('0', 'HAG'),
+	('1', 'Professor'),
+	('2', 'Assistant Professor'),
+	('3', 'Associate Professor'),
+	('4', 'Visiting Professor'),
+	('5', 'Professor On lien'),
 )
 
 DPPC = (
-	('Not_Applicable', 'Not_Applicable'),
-	('Chairman', 'Chairman'),
-	('Secretary', 'Secretary'),
-	('Faculty_Member', 'Faculty_Member'),
-	('External_Member', 'External_Member'),
-	('PhD_Student_Member', 'PhD_Student_Member'),
-	('MTech_Student_Member', 'MTech_Student_Member'),
+	('6', 'Not Applicable'),
+	('0', 'Chairman'),
+	('1', 'Secretary'),
+	('2', 'Faculty Member'),
+	('3', 'External Member'),
+	('4', 'PhD Student Member'),
+	('5', 'MTech Student Member'),
 )
 
 DUPC = (
-	('Not_Applicable', 'Not_Applicable'),
-	('Chairman', 'Chairman'),
-	('Secretary', 'Secretary'),
-	('Faculty_Member', 'Faculty_Member'),
-	('External_Member', 'External_Member'),
-	('3rd_year_BTech', '3rd_year_BTech'),
-	('2nd_year_BTech', '2nd_year_BTech'),
+	('6', 'Not Applicable'),
+	('0', 'Chairman'),
+	('1', 'Secretary'),
+	('2', 'Faculty Member'),
+	('3', 'External Member'),
+	('4', '3rd year BTech'),
+	('5', '2nd year BTech'),
 )
 
 DISCIPLINARY_COMMITTEE = (
-	('Not_Applicable', 'Not_Applicable'),
-	('Chairman', 'Chairman'),
-	('Secretary', 'Secretary'),
-	('Member_Secretary', 'Member_Secretary'),
-	('Student_Member', 'Student_Member'),
+	('4', 'Not Applicable'),
+	('0', 'Chairman'),
+	('1', 'Secretary'),
+	('2', 'Member Secretary'),
+	('3', 'Student Member'),
 )
 
 FACULTY_IN_CHARGE = (
-	('Not_Applicable', 'Not_Applicable'),
-	('BTP_Co_ordinator', 'BTP_Co_ordinator'),
-	('MTP_Co_ordinator', 'MTP_Co_ordinator'),
-	('Central_Workshop', 'Central_Workshop'),
-	('Library_Committee', 'Library_Committee'),
-	('Training_and_Placement', 'Training_and_Placement'),
-	('Departmental_Seminar_Room', 'Departmental_Seminar_Room'),
-	('Secretary_Faculty_Meeting', 'Secretary_Faculty_Meeting'),
-	('PG_Computational_Lab', 'PG_Computational_Lab'),
-	('Research_Scholar_Room', 'Research_Scholar_Room'),
-	('Time_Table_Committee', 'Time_Table_Committee'),
-	('Departmental_Website', 'Departmental_Website'),
+	('11', 'Not Applicable'),
+	('0', 'BTP Co ordinator'),
+	('1', 'MTP Co ordinator'),
+	('2', 'Central Workshop'),
+	('3', 'Library Committee'),
+	('4', 'Training and Placement'),
+	('5', 'Departmental Seminar Room'),
+	('6', 'Secretary Faculty Meeting'),
+	('7', 'PG Computational Lab'),
+	('8', 'Research Scholar Room'),
+	('9', 'Time Table Committee'),
+	('10', 'Departmental Website'),
 )
 
 LABORATORY_IN_CHARGE = (
-	('Not_Applicable', 'Not_Applicable'),
-	('Advanced_Manufacturing_Laboratory', 'Advanced_Manufacturing_Laboratory'),
-	('CAD_Laboratory', 'CAD_Laboratory'),
-	('Central_Workshop', 'Central_Workshop'),
-	('Fluid_Mechanics_Laboratory', 'Fluid_Mechanics_Laboratory'),
-	('IC_Engines_Laboratory', 'IC_Engines_Laboratory'),
-	('Instrumentation_and_Control_Laboratory', 'Instrumentation_and_Control_Laboratory'),
-	('Material_Science_Laboratory', 'Material_Science_Laboratory'),
-	('Tribology_Laboratory', 'Tribology_Laboratory'),
-	('Mechatronics_and_Robotics_Laboratory', 'Mechatronics_and_Robotics_Laboratory'),
-	('Strength_of_Materials_Laboratory', 'Strength_of_Materials_Laboratory'),
-	('Theory_of_Machines_Laboratory', 'Theory_of_Machines_Laboratory'),
-	('Thermal_Science_Laboratory', 'Thermal_Science_Laboratory'),
-	('Turbo_Machinary_Laboratory', 'Turbo_Machinary_Laboratory'),
-	('Vibrations_and_Acoustics_Laboratory', 'Vibrations_and_Acoustics_Laboratory'),
+	('14', 'Not Applicable'),
+	('0', 'Advanced Manufacturing Laboratory'),
+	('1', 'CAD Laboratory'),
+	('2', 'Central Workshop'),
+	('3', 'Fluid Mechanics Laboratory'),
+	('4', 'IC Engines Laboratory'),
+	('5', 'Instrumentation and Control Laboratory'),
+	('6', 'Material Science Laboratory'),
+	('7', 'Tribology Laboratory'),
+	('8', 'Mechatronics and Robotics Laboratory'),
+	('9', 'Strength of Materials Laboratory'),
+	('10', 'Theory of Machines Laboratory'),
+	('11', 'Thermal Science Laboratory'),
+	('12', 'Turbo Machinary Laboratory'),
+	('13', 'Vibrations and Acoustics Laboratory'),
 )
 
 DISPOSAL_COMMITTEE = (
-	('Not_Applicable', 'Not_Applicable'),
-	('Chairman', 'Chairman'),
-	('Member', 'Member'),
-	('External_Member', 'External_Member'),
-	('Non_Member_Secretary', 'Non_Member_Secretary'),
+	('4', 'Not Applicable'),
+	('0', 'Chairman'),
+	('1', 'Member'),
+	('2', 'External Member'),
+	('3', 'Non Member Secretary'),
 )

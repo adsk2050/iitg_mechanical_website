@@ -59,7 +59,7 @@ class HomeTextPanel(Orderable):
 	date = models.DateTimeField()
 	#change the below content_type code to manage css accordingly
 	content_type=models.CharField(
-		default="mini_article",
+		default="0",
 		choices=TEXT_PANEL_CONTENT_TYPES,
 		max_length=50
 	)
@@ -116,7 +116,7 @@ class EventPage(Page):
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	start_date = models.DateTimeField()
 	end_date = models.DateTimeField()
-	venue = models.CharField(blank=True, max_length=50, choices=LOCATIONS, default='seminar_hall')
+	venue = models.CharField(blank=True, max_length=50, choices=LOCATIONS, default='0')
 	poster = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	document = models.ForeignKey(
 		'wagtaildocs.Document',
@@ -124,7 +124,7 @@ class EventPage(Page):
 		on_delete=models.SET_NULL,
 		related_name='+'
 	)
-	event_type = models.CharField(max_length=50, choices=EVENTS, default='meeting')
+	event_type = models.CharField(max_length=50, choices=EVENTS, default='0')
 	content_panels = Page.content_panels + [
 		FieldPanel('event_name'),
 		FieldPanel('description'),
@@ -227,17 +227,17 @@ class FacultyPage(Page):
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
 	joining_date = models.DateField()
 	leaving_date = models.DateField(blank=True, null=True)
-	designation = models.CharField(max_length=25, choices=FACULTY_DESIGNATION, default='Assistant_Professor')
+	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
 	website = models.URLField(max_length=250, null=True)
 	#################################################################
 
-	additional_roles = models.CharField(max_length=25, choices=FACULTY_ROLES, default='Not_Applicable')
-	disposal_committee = models.CharField(max_length=25, choices=DISPOSAL_COMMITTEE, default='Not_Applicable')
-	laboratory_in_charge = models.CharField(max_length=25, choices=LABORATORY_IN_CHARGE, default='Not_Applicable')
-	faculty_in_charge = models.CharField(max_length=25, choices=FACULTY_IN_CHARGE, default='Not_Applicable')
-	disciplinary_committee = models.CharField(max_length=25, choices=DISCIPLINARY_COMMITTEE, default='Not_Applicable')
-	dupc = models.CharField(max_length=25, choices=DUPC, default='Not_Applicable')
-	dppc = models.CharField(max_length=25, choices=DPPC, default='Not_Applicable')
+	additional_roles = models.CharField(max_length=2, choices=FACULTY_ROLES, default='2')
+	disposal_committee = models.CharField(max_length=2, choices=DISPOSAL_COMMITTEE, default='4')
+	laboratory_in_charge = models.CharField(max_length=2, choices=LABORATORY_IN_CHARGE, default='14')
+	faculty_in_charge = models.CharField(max_length=2, choices=FACULTY_IN_CHARGE, default='11')
+	disciplinary_committee = models.CharField(max_length=2, choices=DISCIPLINARY_COMMITTEE, default='4')
+	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
+	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
 
 	#################################################################
 
@@ -395,7 +395,7 @@ class StudentPage(Page):
 	hostel_address_line_1 = models.CharField(max_length=25, blank=True)
 	email_id = models.EmailField()
 	enrolment_year = models.DateField()
-	programme = models.CharField(max_length=25, choices=STUDENT_PROGRAMME, default='Bachelor')
+	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0')
 	roll_no = models.IntegerField(default=160103001)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
@@ -538,7 +538,7 @@ class AlumnusPage(Page):
 	address_line_2 = models.CharField(max_length=50, blank=True)
 	address_line_3 = models.CharField(max_length=100, blank=True)
 	enrolment_year = models.DateField()
-	programme = models.CharField(max_length=25, choices=STUDENT_PROGRAMME, default='Bachelor')
+	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0')
 	roll_no = models.IntegerField(default=160103001)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
@@ -641,7 +641,7 @@ class StaffPage(Page):
 	address = models.CharField(max_length=100, blank=True)
 	email_id = models.EmailField()
 	joining_year = models.DateField()
-	designation = models.CharField(max_length=25, choices=STAFF_DESIGNATION, default='Project_Staff')
+	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='1')
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
 	#if lab staff:
@@ -835,7 +835,7 @@ class ProjectPage(Page):
 	budget = models.FloatField(blank=True)
 	funding_agency = models.CharField(max_length=100)
 	funding_agency_link = models.URLField(blank=True, max_length=100)
-	project_type = models.CharField(max_length=20, default='Academic', choices=PROJECT_TYPE)
+	project_type = models.CharField(max_length=20, default='1', choices=PROJECT_TYPE)
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		PageChooserPanel('principal_investigator'),
@@ -899,7 +899,7 @@ class CoursePage(Page):
 	practicals = models.IntegerField()
 	credits = models.IntegerField()
 	semester = models.IntegerField()
-	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, verbose_name="Minimum qualification")
+	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', verbose_name="Minimum qualification")
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	course_page_link = models.URLField()
 	document = models.ForeignKey(

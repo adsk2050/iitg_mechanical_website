@@ -32,9 +32,7 @@
                             <h2>{{ staff.specific.name }}</h2>
                         </a>
                         <ul class="bread-meta">
-                        {% if staff.Designation %}
-                            <li><span>Designation</span> {{ staff.specific.designation }}</li>
-                        {% endif %}
+                            <li>Designation {{ staff.specific.get_designation_display }}</li>
                         {% if staff.email_id %}
                             <li><span>Email</span> {{ staff.specific.email_id }}</li>
                         {% endif %}
