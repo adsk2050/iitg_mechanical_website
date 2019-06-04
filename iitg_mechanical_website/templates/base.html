@@ -66,13 +66,10 @@
           <nav>
               <div id="wrapper">
                   <ul>
-                    <li class="different active"><a href="">Home</a></li>
-                    <li class="different"><a href="{{ pageurl }}">Faculty</a></li>
-                    {% for childs in page.get_children %}
-                        <li class="different"><a href="{{ childs.url }}">{{ childs.title }}</a></li>
+                      <li class="different active"><a href="http://127.0.0.1:8000">Home</a></li>
+                    {% for child in navlist %}
+                        <li class="different"><a href="{{ child.url }}">{{ child.title }}</a></li>
                     {% endfor %}
-
-
                   </ul>
               </div>
           </nav>
