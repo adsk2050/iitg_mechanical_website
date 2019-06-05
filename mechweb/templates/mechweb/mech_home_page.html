@@ -12,11 +12,11 @@
         {% for photo in page.gallery_images.all %}
             <!-- Full-width images with number and caption text -->
             {% image photo.photo width-400 as tmp_photo %}
-            <img src="{{ tmp_photo.url }}" style="width:100%" />
             <div class="mySlides fade">
-            <!-- <div class="numbertext">1 / 3</div> -->
-            <!-- <div class="img" style="width:100%" >{# % image photo.photo original % #}</div> -->
-            <div class="text">{{ photo.caption }}</div>
+                <img src="{{ tmp_photo.url }}" style="width:100%" />
+                <div class="text">{{ photo.caption }}</div>
+                <!-- <div class="numbertext">1 / 3</div> -->
+                <!-- <div class="img" style="width:100%" >{# % image photo.photo original % #}</div> -->
             </div>
         {% endfor %}
 
@@ -44,7 +44,6 @@
                         <h5 class="card-title">{{ notification.title }}</h5>
                         <strong>Date:{{ notification.date }}</strong><br>
                         <p class="card-text">
-                            
                             {{ notification.description }}
                         </p>
                     </div>
