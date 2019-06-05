@@ -714,8 +714,6 @@ class ResearchLabPage(Page):
 		FieldPanel('address'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
-		InlinePanel('faculty', label="Faculty"),
-		InlinePanel('students', label="Students"),
 		InlinePanel('links', label="Related Links"),
 		MultiFieldPanel([
 			ImageChooserPanel('photo_1'),
@@ -728,8 +726,14 @@ class ResearchLabPage(Page):
 		InlinePanel('equipment', label="Lab Equipments"),
 	]
 
+	people_panels = [
+		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('students', label="Students"),
+	]
+
 	edit_handler = TabbedInterface([
 		ObjectList(content_panels, heading="Content"),
+		ObjectList(people_panels, heading="People"),
 		ObjectList(lab_equipment_panels, heading="Equipments"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
@@ -829,10 +833,22 @@ class PublicationPage(Page):
 		# ImageChooserPanel('photo'),
 		# PageChooserPanel('student'),
 		# PageChooserPanel('faculty'),
-		InlinePanel('faculty', label="Faculty"),
-		InlinePanel('students', label="Students"),
+		# InlinePanel('faculty', label="Faculty"),
+		# InlinePanel('students', label="Students"),
 		InlinePanel('links', label="Links"),
 	]
+
+	people_panels = [
+		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('students', label="Students"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(people_panels, heading="People"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
 
 class PublicationPageStudent(Orderable):
 	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='students')
@@ -895,11 +911,21 @@ class ProjectPage(Page):
 		FieldPanel('end_date'),
 		FieldPanel('funding_agency'),
 		FieldPanel('funding_agency_link'),
-		InlinePanel('students', label="Students"),
-		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('links', label="Links"),
 		InlinePanel('gallery_images', label="Gallery images"),
 	]
+
+	people_panels = [
+		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('students', label="Students"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(people_panels, heading="People"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
 
 class ProjectPageFaculty(Orderable):
 	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty')
