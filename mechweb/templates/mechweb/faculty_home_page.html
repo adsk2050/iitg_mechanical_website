@@ -13,34 +13,50 @@
         {% if tag %}
             <h2>Results for {{ tag }}</h2>
         {% else %}
-            {% if faculty_list.number == 1 %}            
+            {% if faculty_list.number == 1 %}
                 <!-- Intro -->
                 <h2>Intro:</h2>
                 <div class="intro">{{ page.intro|richtext }}</div>
-                
+
             {% endif %}
         {% endif %}
     <hr>
 
-    
+
     <!-- Faculty List -->
     {% for faculty in faculty_list %}
-    <div>
-        {% if faculty.specific.additional_roles == "HoD" %}
-            <h3>Head of Department</h3>
-        {% endif %}
-        <h2><a href="{{ faculty.specific.url }}">{{ faculty.specific.name }}</a></h2>
-        {% image faculty.specific.photo fill-50x50 %}
-        <h3>Designation  : {{ faculty.specific.designation }}</h3>
-        <h3>Joining Date : {{faculty.specific.joining_date }}</h3>
+    <div class="col-xs-12 col-md-6 bread-list-item">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 image">
+              <a href="{% pageurl faculty %}">
+                {% image faculty.specific.photo fill-180x180-c100 %}
+                </a>
+            </div>
+            <div class="col-xs-6 col-sm-7">
+              {% if faculty.specific.additional_roles == "HoD" %}
+                  <h3>Head of Department</h3>
+              {% endif %}
+                <a href="{% pageurl faculty %}">
+                    <h2>{{ faculty.specific.name }}</h2>
+                </a>
+                <ul class="bread-meta">
+                {% if faculty.specific.designation %}
+                    <li><span>Designation</span> {{ faculty.specific.designation }}</li>
+                {% endif %}
+                {% if faculty.specific.joining_date %}
+                    <li><span>Joining Date</span> {{ faculty.specific.joining_date }}</li>
+                {% endif %}
 
+                </ul>
+            </div>
+        </div>
     </div>
     <hr>
     {% endfor %}
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
     <hr>
-    
+
     <div class="pagination">
         <span class="step-links">
             {% if faculty_list.has_previous %}
@@ -62,7 +78,7 @@
     <h2>Department research focus:</h2>
     <div>
         {% for research_interest in all_research_interests %}
-            <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> | 
+            <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> |
         {% endfor %}
     </div>
 {% endblock %}
