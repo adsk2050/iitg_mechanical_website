@@ -5,49 +5,64 @@
 {% block body_class %}template-event-homepage{% endblock %}
 
 {% block content %}
-{{ page.title }}
+{# page.title #}
     <h1>Events</h1>
-    <!-- Intro -->
-    {% if event_list.number == 1 %}
-        <h2>Intro:</h2>
-        <div class="intro">{{ page.intro|richtext }}</div>
-        <hr>
-        <!-- Featured Event -->
-        <div>
-            <h2>Featured Event: <a href="{% pageurl page.featured_event %}">{{ page.featured_event.specific.event_name }}</a></h2>
-            <div>{% image page.featured_event.specific.poster fill-320x240 %}</div>
-            <div>The {{ page.featured_event.specific.get_event_type_display }} will be held from: {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.get_venue_display }} </div>   
-            <hr>
-        </div>
-    {% endif %}
+       <div class="row row-eq-height blog-list">
+       {% if event_list.number == 1 %}
+       <h2>Featured Event</h2>
+             <li class="col-xs-12 col-sm-6 col-md-3 blog-list-item">
+               <a href="{{ page.featured_event }}">
+                   <div class="image">
+                       {% image page.featured_event.specific.poster fill-850x450-c50 as image %}
+                       <img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                   </div>
+                   <div class="text">
+                       <h2 class="blog-list-title">{{ page.featured_event.specific.event_name }}</h2>
+                       <p>{{ page.featured_event.specific.get_event_type_display }}</p>
+                   </div>
+                   <div class="small footer">
+                       The {{ page.featured_event.specific.get_event_type_display }} will be from {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.get_venue_display }}
+                   </div>
+               </a>
+             </li>
+       {% endif %}
+       <hr>
+       <hr>
+       <hr>
+       <hr>
+       <hr>
+           {% for event in event_list %}
+               <li class="col-xs-12 col-sm-6 col-md-3 blog-list-item">
+                   <a href="{{ event.url }}">
+                       <div class="image">
+                           {% image event.specific.poster fill-850x450 %}
+                       </div>
+                       <div class="text">
+                           <h2 class="blog-list-title">{{ event.specific.event_name }}</h2>
+                           <p>{{ event.specific.event_type|truncatewords:15 }}</p>
+                       </div>
+                       <div class="small footer">
+                   			The {{ page.featured_event.specific.get_event_type_display }} will be from {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.get_venue_display }}
+                       </div>
+                   </a>
+               </li>
+           {% endfor %}
+           <hr>
+           <div class="pagination">
+               <span class="step-links">
+                   {% if event_list.has_previous %}
+                       <a href="?page=1">&laquo; first</a>
+                       <a href="?page={{ event_list.previous_page_number }}">previous</a>
+                   {% endif %}
 
+                   <span class="current">
+                       Page {{ event_list.number }} of {{ event_list.paginator.num_pages }}.
+                   </span>
 
-    <!-- List of events here -->
-    {% for event in event_list %}
-        <div>
-            <h2><a href="{{ event.url }}">{{ event.specific.event_name }}</a></h2>
-            <div>The {{ event.specific.get_event_type_display }} will be held from: {{ event.specific.start_date }} to {{ event.specific.end_date }} at {{ event.specific.get_venue_display }} </div>   
-        </div>
-    {% endfor %}
-
-    <hr>
-    <div class="pagination">
-        <span class="step-links">
-            {% if event_list.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ event_list.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ event_list.number }} of {{ event_list.paginator.num_pages }}.
-            </span>
-
-            {% if event_list.has_next %}
-                <a href="?page={{ event_list.next_page_number }}">next</a>
-                <a href="?page={{ event_list.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-
-
-{% endblock %}
+                   {% if event_list.has_next %}
+                       <a href="?page={{ event_list.next_page_number }}">next</a>
+                       <a href="?page={{ event_list.paginator.num_pages }}">last &raquo;</a>
+                   {% endif %}
+           </div>
+   </div>
+{% endblock content %}
