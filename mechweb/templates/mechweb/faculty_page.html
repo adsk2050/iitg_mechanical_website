@@ -1,32 +1,113 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-faculty-page{% endblock %}
 
 {% block content %}
-	<h1>{{ page.specific.name }}</h1>
-	<h2>{{ page.specific.get_designation_display }}</h2> 
-	<div>{% image page.specific.photo fill-100x100 %}</div>
-	<hr>
 
-	<!-- Intro -->
-	<h2>About {{ page.specific.name }}:</h2>
-	<div class="intro">{{ page.specific.body|richtext }}</div>
+    <div class="container bread-detail">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="row">
+                        <h1>{{ page.specific.name }}</h1>
+                        <h3>{{ page.specific.get_designation_display }}</h3>
 
-	<hr>
-	<div>Office contact number: {{ page.specific.office_contact_number }}</div>
-	<div>Home contact Number: {{ page.specific.home_contact_number  }}</div>
-	<div>Office Address: {{ page.specific.office_address_line_1  }}</div>
-	<div>Home address: {{ page.specific.home_address_line_1 }}</div>
-	<div>Mail ID: {{ page.specific.email_id }}</div>
-	<div>Research Interests:
-		{% for tag in page.specific.research_interests.all %}
-		<a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
-		{% endfor %}
-	</div>
-	<div>Joining Date: {{ page.specific.joining_date }}</div>
-	<div>Personal Website: {{ page.specific.website }}</div>
+
+                        <!-- <figure class="hidden-md-up">
+                            {% image page.specific.photo fill-100x100 %}
+                        </figure> -->
+                        <div class="container">
+                          {% if page.intro %}
+                              <p class="introduction">
+                                  {{ page.intro }}
+                              </p>
+                          {% endif %}
+                        </div>
+                        <div>{{ page.specific.body|richtext }}</div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 col-md-offset-1 ">
+                    <div class="row">
+                      <h5>hi there</h5>
+                        <figure class="hidden-md-down facultypic">
+                            {% image page.specific.photo width-300 %}
+                        </figure>
+                        <ul class="bread-meta">
+                          {% if page.specific.office_address_line_1 %}
+                              <li>
+                                  <h4>Office Address</h4>
+                                  <p>{{ page.specific.office_address_line_1 }}</p>
+                              </li>
+                          {% endif %}
+
+                          {% if page.specific.office_contact_number %}
+                              <li>
+                                  <h4>Office contact number</h4>
+                                  <p>{{ page.specific.office_contact_number }}</p>
+                              </li>
+                          {% endif %}
+
+                          {% if page.specific.home_address_line_1 %}
+                              <li>
+                                  <h4>Home address</h4>
+                                  <p>{{ page.specific.home_address_line_1 }}</p>
+                              </li>
+                          {% endif %}
+
+                          {% if page.specific.home_contact_number %}
+                              <li>
+                                  <h4>Home contact Number</h4>
+                                  <p>{{ page.specific.home_contact_number }}</p>
+                              </li>
+                          {% endif %}
+
+                          {% if page.specific.email_id %}
+                              <li>
+                                  <h4>Mail ID</h4>
+                                  <p>{{ page.specific.email_id }}</p>
+                              </li>
+                          {% endif %}
+
+                          {% if page.specific.office_contact_number %}
+                              <li>
+                                  <h4>Personal Website</h4>
+                                  <p><a href="{{ page.specific.website }}">{{ page.specific.website }}</a></p>
+                              </li>
+                          {% endif %}
+
+                          {% if page.specific.joining_date %}
+                              <li>
+                                  <h4>Joining Date</h4>
+                                  <p>{{ page.specific.joining_date }}</p>
+                              </li>
+                          {% endif %}
+
+
+                            {% with interests=page.specific.research_interests.all %}
+                                {% if interests %}
+                                    <li>
+                                        <h4>Research Interests</h4>
+                                        <ul>
+                                            {% for tag in interests %}
+                                                <!-- <li> -->
+                                                    <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+                                                <!-- </li> -->
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endwith %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<hr>    
 	<!-- Administrative responsibilities -->
@@ -95,4 +176,5 @@
 	<div>
 		<h3> Publications</h3>
 	</div>
-{% endblock %}
+    
+{% endblock content %}
