@@ -5,12 +5,13 @@
 {% block body_class %}template-event-homepage{% endblock %}
 
 {% block content %}
-{{ page.title }}
+{# page.title #}
     <h1>Events</h1>
        <div class="row row-eq-height blog-list">
        {% if event_list.number == 1 %}
+       <h2>Featured Event</h2>
              <li class="col-xs-12 col-sm-6 col-md-3 blog-list-item">
-               <a href="{% pageurl page.featured_event %}">
+               <a href="{{ page.featured_event }}">
                    <div class="image">
                        {% image page.featured_event.specific.poster fill-850x450-c50 as image %}
                        <img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" alt="{{ image.alt }}" class="" />
@@ -25,6 +26,11 @@
                </a>
              </li>
        {% endif %}
+       <hr>
+       <hr>
+       <hr>
+       <hr>
+       <hr>
            {% for event in event_list %}
                <li class="col-xs-12 col-sm-6 col-md-3 blog-list-item">
                    <a href="{{ event.url }}">
