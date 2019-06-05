@@ -40,3 +40,8 @@ _____________________________________________________________________
 How to use image tags in templates important info -  used it to bring images to mechhomepage carousal
 
 https://docs.wagtail.io/en/v1.7/topics/images.html
+
+_____________________________________________________________________
+Customising listing view
+read this and implement so that we are able to sort the students automatically on student home page as well as on faculty, publication and lab etc
+https://docs.wagtail.io/en/v2.5.1/reference/contrib/modeladmin/indexview.html

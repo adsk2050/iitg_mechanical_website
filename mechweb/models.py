@@ -205,7 +205,7 @@ class FacultyHomePage(Page):
 	def serve(self, request):
 		# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
 		# Used the same method in student and alumni home pages
-		faculty_list = self.get_children().live().order_by('facultypage__designation', 'facultypage__name')
+		faculty_list = self.get_children().live().order_by('facultypage__name')
 
 		all_research_interests = faculty_interests()
 
@@ -385,6 +385,11 @@ class StudentHomePage(Page):
 
 	def serve(self, request):
 		student_list = self.get_children().live().order_by('studentpage__name')
+		# btech_student_list = student_list.filter(programme='0')
+		# mtech_student_list = student_list.filter(programme='1')
+		# phd_student_list = student_list.filter(programme='2')
+		# postdoc_student_list = student_list.filter(programme='3')
+		# https://docs.wagtail.io/en/v2.5.1/reference/contrib/modeladmin/indexview.html
 
 		all_research_interests = student_interests()
 		# Filter by tag
@@ -398,6 +403,10 @@ class StudentHomePage(Page):
 		return render(request, self.template, {
 			'page': self,
 			'student_list': student_list,
+			# 'btech_student_list': btech_student_list, 
+			# 'mtech_student_list': mtech_student_list, 
+			# 'phd_student_list': phd_student_list, 
+			# 'postdoc_student_list': postdoc_student_list, 
 			'all_research_interests': all_research_interests,
 			'tag':tag,
 			'page_no':page_no,
