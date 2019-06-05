@@ -6,18 +6,20 @@
 
 {% block content %}
     <h1><a href="{% pageurl page %}">{{ page.specific.event_name }}</a></h1>
-
+    <div>{% image page.specific.poster fill-320x240 %}</div>
+    <hr>
 <!-- Carousal -->
     {% for item in page.gallery_images.all %}
-        <div style="float: left; margin: 10px">
+        <div>
             {% image item.image fill-320x240 %}
-            <p>{{ item.caption }}</p>
+            <div>{{ item.caption }}</div>
         </div>
     {% endfor %}
 <!-- Intro -->
-    <div class="intro">{{ page.intro|richtext }}</div>
+    <div>{{ page.intro|richtext }}</div>
+    <hr>
 <!-- Event Details -->
-        <div style="float: left; margin: 10px">
+        <div >
 		    <h2>Event type: {{ page.get_event_type_display }}</h2>
 		    <h4>Starts on : {{ page.start_date }} and  Ends on : {{page.end_date }}</h4>   
 		    <h3>Venue: {{ page.get_venue_display }} </h3>
@@ -25,7 +27,7 @@
         <!-- Related Links -->
         <ul>
             {% for item in page.links.all %}
-            <div style="float: left; margin: 10px">
+            <div>
                 <li><a href="{{item.link}}">{{item.link}}</a></li>  
             </div>
         {% endfor %}

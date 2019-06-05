@@ -1,5 +1,7 @@
 TEXT_PANEL_CONTENT_TYPES=(
-	('0', 'Mini article'),
+	('0', 'News'),
+	('1', 'Notifications'),
+	('2', 'Others'),
 )
 
 LOCATIONS=(
@@ -24,10 +26,10 @@ STUDENT_PROGRAMME = (
 
 STAFF_DESIGNATION = (
 	('0', 'Administrative Staff'),
-	('1', 'Project Staff'),
-	('2', 'Lab Staff'),
-	('3', 'Technicial staff'),
-	('4', 'Others'),
+	# ('1', 'Project Staff'),
+	('1', 'Lab Staff'),
+	('2', 'Technicial staff'),
+	('3', 'Others'),
 )
 
 PROJECT_TYPE=(

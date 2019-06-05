@@ -36,9 +36,20 @@ class MechHomePage(Page):
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
-		InlinePanel('text_panels', label="Mini Articles"),
+		# InlinePanel('text_panels', label="Mini Articles"),
 		InlinePanel('gallery_images', label="Gallery Images"),
 	]
+
+	notification_tab_panels = [
+		InlinePanel('text_panels', label="Mini Articles"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(notification_tab_panels, heading="News & Notifications"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
 
 	parent_page_types=[]
 	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage']
@@ -55,6 +66,13 @@ class MechHomePage(Page):
 class HomeTextPanel(Orderable):
 	page = ParentalKey(MechHomePage, on_delete=models.CASCADE, related_name='text_panels')
 	title = models.CharField(blank=True, max_length=50)
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	# You are trying to change the nullable field 'photo' on hometextpanel to non-nullable without a default; we can't do that (the database needs something to populate existing rows).
+	# Please select a fix:
+	# 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+	# 2) Ignore for now, and let me handle existing rows with NULL myself (e.g. because you added a RunPython or RunSQL operation to handle NULL values in a previous data migration)
+	# 3) Quit, and let me add a default in models.py
+	# Select an option: 2
 	description = models.CharField(blank=True, max_length=500)
 	date = models.DateTimeField()
 	#change the below content_type code to manage css accordingly
@@ -68,14 +86,15 @@ class HomeTextPanel(Orderable):
 		FieldPanel('description'),
 		FieldPanel('date'),
 		FieldPanel('content_type'),
+		ImageChooserPanel('photo'),
 	]
 
 class MechHomePageGalleryImage(Orderable):
 	page = ParentalKey(MechHomePage, on_delete=models.CASCADE, related_name='gallery_images')
-	image = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('image'),
+		ImageChooserPanel('photo'),
 		FieldPanel('caption'),
 	]
 
@@ -98,6 +117,7 @@ class EventHomePage(Page):
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['EventPage']
+	max_count = 1
 
 	def get_context(self, request):
 		# Update context to include only published posts, ordered by reverse-chron
@@ -361,6 +381,7 @@ class StudentHomePage(Page):
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['StudentPage']
+	max_count = 1
 
 	def serve(self, request):
 		student_list = self.get_children().live().order_by('studentpage__name')
@@ -498,6 +519,7 @@ class AlumniHomePage(StudentHomePage):
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['AlumnusPage']
+	max_count = 1
 
 	def serve(self, request):
 		alumni_list = self.get_children().live().order_by('alumnuspage__programme', 'alumnuspage__enrolment_year')
@@ -618,6 +640,7 @@ class StaffHomePage(Page):
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['StaffPage']
+	max_count = 1
 
 	# and this too
 	def get_template(self,request):
@@ -666,6 +689,7 @@ class ResearchHomePage(Page):
 
 	parent_page_types=['MechHomePage']
 	subpage_types=['ResearchLabPage', 'PublicationHomePage', 'ProjectHomePage']
+	max_count = 1
 
 #------------------------------------------
 class ResearchLabPage(Page):
@@ -724,6 +748,8 @@ class LabEquipment(Orderable):
 	date_of_procurement = models.DateField(blank=True)
 	link = models.URLField(max_length=250, blank=True)
 	photo_1 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	funding_agency = models.CharField(max_length=50, blank=True)
+	funding_agency_link = models.URLField(max_length=250, blank=True)
 	panels = [
 		FieldPanel('name'),
 		PageChooserPanel('operator'),
@@ -733,6 +759,11 @@ class LabEquipment(Orderable):
 		FieldPanel('cost'),
 		FieldPanel('date_of_procurement'),
 		ImageChooserPanel('photo_1'), 
+		MultiFieldPanel([
+			FieldPanel('funding_agency'),
+			FieldPanel('funding_agency_link'),
+
+		], heading="Funding Agency"),
 	]
 
 class ResearchLabPageLink(Orderable):
@@ -756,6 +787,7 @@ class PublicationHomePage(Page):
 	# Add featured publications
 	parent_page_types=['ResearchHomePage']
 	subpage_types=['PublicationPage']
+	max_count = 1
 
 class PublicationPage(Page):
 	#page = ParentalKey(PublicationHomePage, on_delete=models.PROTECT, related_name='publication')
@@ -820,6 +852,7 @@ class PublicationPageLink(Orderable):
 class ProjectHomePage(Page):
 	parent_page_types=['ResearchHomePage']
 	subpage_types=['ProjectPage']
+	max_count = 1
 
 class ProjectPage(Page):
 	principal_investigator = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
@@ -885,6 +918,7 @@ class ProjectPageGalleryImage(Orderable):
 class CourseStructure(Page):
 	parent_page_types=['MechHomePage']
 	subpage_types=['CoursePage']
+	max_count = 1
 
 class CoursePage(Page):
 	name = models.CharField(max_length=50)
