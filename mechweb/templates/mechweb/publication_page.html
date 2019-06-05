@@ -7,44 +7,60 @@
 {% block content %}
     {{ page.title }}
     <h1>{{page.specific.name }}</h1>
-
-	<h3>Abstract</h3>
+    <h3>[{{page.specific.get_pub_type_display }}]</h3>
+    
+    <hr>
+	<h2>Abstract</h2>
 	<div>{{ page.specific.abstract|richtext }}</div>
     <hr>
-
+    {% if  page.specific.document %}
 	<div>{{ page.specific.document|truncatechars:25 }} : <a href="{{ page.specific.document.url }}">Download</a></div>
-	
-	
-	
+    {% endif %}
+    {% if  page.specific.download_link %}
+    <div>External Download link: {{ page.specific.download_link }}</div>
+    {% endif %}
 
+    {% if page.faculty.all|length != 0 %}
+    	<h2>Faculty</h2>
+        <ul>
+        {% for faculty in page.faculty.all %}
+            <li>
+                <a href="{{ faculty.url }}">{{ faculty.faculty }}</a>
+            </li>
+            <li>{{ faculty.research_statement|richtext }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 
-	<h2>Faculty</h2>
-    <ul>
-    {% for faculty in page.faculty.all %}
-        <li>
-            <a href="{{ faculty.url }}">{{ faculty.faculty }}</a>
-        </li>
-        <li>{{ faculty.research_statement|richtext }}</li>
-    {% endfor %}
-    </ul>
+    {% if page.students.all|length != 0 %}
+        <h2>Students</h2>
+        list students only if they are there
+        <ul>
+        {% for student in page.students.all %}
+            <li>
+                <a href="{{ student.url }}">{{ student.student }}</a>
+            </li>
+            <li>{{ student.research_statement|richtext }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 
-    <h2>Students</h2>
-    list students only if they are there
-    <ul>
-    {% for student in page.students.all %}
-        <li>
-            <a href="{{ student.url }}">{{ student.student }}</a>
-        </li>
-        <li>{{ student.research_statement|richtext }}</li>
-    {% endfor %}
-    </ul>
+    {% if page.links.all|length != 0 %}
+        <h2>Links</h2>
+        <ul>
+        {% for ref_link in page.links.all %}
+            <li>
+                <a href="{{ ref_link.link }}">{{ ref_link.link }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 
-    <h2>Links</h2>
-    <ul>
-    {% for ref_link in page.links.all %}
-        <li>
-            <a href="{{ ref_link.link }}">{{ ref_link.link }}</a>
-        </li>
-    {% endfor %}
-    </ul>
+    {% if page.images.all|length != 0 %}
+        <h2>Photos</h2>
+        {% for photo in page.images.all %}
+            <div>{% image photo.photo fill-50x50 %}</div>
+            <div>{{ photo.caption }}</div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

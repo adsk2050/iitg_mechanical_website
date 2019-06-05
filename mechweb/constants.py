@@ -37,6 +37,15 @@ PROJECT_TYPE=(
 	('0','Consultancy')
 )
 
+PUBLICATION_TYPES = (
+	('0', 'Poster'),
+	('1', 'Conference Publication'),
+	('2', 'Journal Publication'),
+	('3', 'Patent'),
+	('4', 'Books'),
+	('5', 'Book Chapters'),
+)
+
 ############################# Faculty
 FACULTY_ROLES=(
 	('2', 'Not Applicable'),

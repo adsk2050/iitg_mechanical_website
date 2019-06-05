@@ -21,7 +21,7 @@ from taggit.models import TaggedItemBase, Tag
 
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
 
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPE
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPE, PUBLICATION_TYPES
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
 
@@ -799,6 +799,8 @@ class PublicationPage(Page):
 	)
 	name = models.CharField(max_length=100, blank=True)
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
+	download_link = models.URLField(blank=True, max_length=100)
 	# photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	# student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
 	# faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_pub')
@@ -806,7 +808,9 @@ class PublicationPage(Page):
 	content_panels =  Page.content_panels + [
 		DocumentChooserPanel('document'),
 		FieldPanel('name'),
+		FieldPanel('pub_type'),
 		FieldPanel('abstract'),
+		FieldPanel('download_link'),
 		InlinePanel('images', label="Images"),
 		# ImageChooserPanel('photo'),
 		# PageChooserPanel('student'),
@@ -836,11 +840,14 @@ class PublicationPageFaculty(Orderable):
 
 class PublicationPageGalleryImage(Orderable):
 	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='images')
-	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	caption = models.CharField(blank=True, max_length=250)
 	panels = [
 		ImageChooserPanel('photo'),
+		FieldPanel('caption'),
 	]
 
+#Is this going to be useful?
 class PublicationPageLink(Orderable):
 	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='links')
 	link = models.URLField(max_length=250)
@@ -923,6 +930,7 @@ class CourseStructure(Page):
 class CoursePage(Page):
 	name = models.CharField(max_length=50)
 	code = models.CharField(max_length=10)
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	lectures = models.IntegerField()
 	tutorials = models.IntegerField()
 	practicals = models.IntegerField()
@@ -953,6 +961,7 @@ class CoursePage(Page):
 			FieldPanel('course_page_link'),
 		], heading="Course Details"),
 		FieldPanel('description'),
+		ImageChooserPanel('photo'),
 		InlinePanel('course_instructor', label="Course Instructor"),
 
 	]
