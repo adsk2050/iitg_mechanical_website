@@ -32,7 +32,7 @@ STAFF_DESIGNATION = (
 	('3', 'Others'),
 )
 
-PROJECT_TYPE=(
+PROJECT_TYPES=(
 	('1','Academic'),
 	('0','Consultancy')
 )
@@ -46,6 +46,10 @@ PUBLICATION_TYPES = (
 	('5', 'Book Chapters'),
 )
 
+LAB_TYPES = (
+	('0', 'UG Lab'),
+	('1', 'PG Lab'),
+)
 ############################# Faculty
 FACULTY_ROLES=(
 	('2', 'Not Applicable'),

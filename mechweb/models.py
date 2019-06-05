@@ -21,7 +21,7 @@ from taggit.models import TaggedItemBase, Tag
 
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
 
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPE, PUBLICATION_TYPES
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
 
@@ -694,7 +694,10 @@ class ResearchHomePage(Page):
 #------------------------------------------
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
+	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
+	# When already defined in faculty model who is lab incharge... then do we need it here?
 	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
+
 	intro = models.CharField(max_length=250)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	contact_number = models.CharField(max_length=20, blank=True)
@@ -705,11 +708,13 @@ class ResearchLabPage(Page):
 
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
+		FieldPanel('lab_type'),
 		PageChooserPanel('faculty_incharge'),
 		FieldPanel('contact_number'),
 		FieldPanel('address'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
+		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
 		InlinePanel('links', label="Related Links"),
 		MultiFieldPanel([
@@ -773,9 +778,18 @@ class ResearchLabPageLink(Orderable):
 		FieldPanel('link'),
 	]
 
+class ResearchLabFaculty(Orderable):
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='faculty')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_lab')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		PageChooserPanel('faculty'),
+		FieldPanel('research_statement'),
+	]
+
 class ResearchLabStudents(Orderable):
 	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='students')
-	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student')
+	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_lab')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
 		PageChooserPanel('student'),
@@ -870,7 +884,7 @@ class ProjectPage(Page):
 	budget = models.FloatField(blank=True)
 	funding_agency = models.CharField(max_length=100)
 	funding_agency_link = models.URLField(blank=True, max_length=100)
-	project_type = models.CharField(max_length=20, default='1', choices=PROJECT_TYPE)
+	project_type = models.CharField(max_length=20, default='1', choices=PROJECT_TYPES)
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		PageChooserPanel('principal_investigator'),
