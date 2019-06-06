@@ -65,5 +65,5 @@ eg list of all  ResearchLabFaculty objects for a given FacultyPage object
 f = FacultyPage.objects.all()[1] ---- gives FacultyPage object
 g = f.faculty_lab.all()[0] ---- gives ResearchLabFacultyPage object
 lab = g.page ----- gives ResearchLabPage object
-
-
+_____________________________________________________________________
+ParentalKey reverse lookup no need --- directly get parent by accessing link

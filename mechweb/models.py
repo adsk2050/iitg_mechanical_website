@@ -326,7 +326,10 @@ class FacultyPage(Page):
 
 	def get_context(self, request):
 		lab_relation_list = self.faculty_lab.all()
-		lab_list = self.faculty_incharge.all()
+		lab_incharge = self.faculty_incharge.all()
+		lab_list = []
+		for lab in lab_incharge:
+			lab_list.append(lab)
 		for lab_relation in lab_relation_list:
 			lab = lab_relation.page
 			lab_list.append(lab)
@@ -338,7 +341,10 @@ class FacultyPage(Page):
 			pub_list.append(pub)
 
 		project_relation_list = self.faculty_co_investigator.all()
-		project_list =  self.principal_investigator.all()
+		project_pi =  self.principal_investigator.all()
+		project_list = []
+		for project in project_pi:
+			project_list.append(lab)
 		for project_relation in project_relation_list:
 			project = project_relation.page
 			project_list.append(project)
@@ -357,6 +363,7 @@ class FacultyPage(Page):
 		# context['lab_list'] = self.faculty_labs()
 		context['lab_list'] = lab_list
 		context['pub_list'] = pub_list
+		context['project_list'] = project_list
 		return context
 
 
