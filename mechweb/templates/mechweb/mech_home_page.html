@@ -34,10 +34,16 @@
 
         <!-- The dots/circles -->
         <div style="text-align:center">
-         <span class="dot" onclick="currentSlide(1)"></span>
-         <span class="dot" onclick="currentSlide(2)"></span>
-         <span class="dot" onclick="currentSlide(3)"></span>
-    </div>
+        {% with no_images=page.gallery_images.all|length %}
+            {% with ''|center:no_images as range %}
+                {% for _ in range %}
+                 <span class="dot" onclick="currentSlide( {# i #} )">
+                     <!-- https://django.cowhite.com/blog/numeric-for-loop-in-django-templates/ -->
+                 </span>
+                {% endfor %}
+            {% endwith %}
+        {% endwith %}
+        </div>
 
     <!-- News and notifications -->
     <div class="container definite">

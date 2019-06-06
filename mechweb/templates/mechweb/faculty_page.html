@@ -114,31 +114,31 @@
 	<div>
 		<h3>Administrative responsibilities</h3>
 		<ul>
-			{% if page.specific.get_additional_roles_display != "Not_Applicable" %}
+			{% if page.specific.get_additional_roles_display != "Not Applicable" %}
 				<li>Additional Role: {{ page.specific.get_additional_roles_display }}</li>
 			{% endif %}
 
-			{% if page.specific.get_laboratory_in_charge_display != "Not_Applicable" %}
+			{% if page.specific.get_laboratory_in_charge_display != "Not Applicable" %}
 				<li>Laboratory in charge: {{ page.specific.get_laboratory_in_charge_display }}</li>
 			{% endif %}	
 
-			{% if page.specific.get_faculty_in_charge_display != "Not_Applicable" %}
+			{% if page.specific.get_faculty_in_charge_display != "Not Applicable" %}
 				<li>Faculty in charge: {{ page.specific.get_faculty_in_charge_display }}</li>
 			{% endif %}	
 
-			{% if page.specific.get_dupc_display != "Not_Applicable" %}
+			{% if page.specific.get_dupc_display != "Not Applicable" %}
 				<li>DUPC: {{ page.specific.get_dupc_display }}</li>
 			{% endif %}
 
-			{% if page.specific.get_dppc_display != "Not_Applicable" %}
+			{% if page.specific.get_dppc_display != "Not Applicable" %}
 				<li>DPPC: {{ page.specific.get_dppc_display }}</li>
 			{% endif %}
 
-			{% if page.specific.get_disciplinary_committee_display != "Not_Applicable" %}
+			{% if page.specific.get_disciplinary_committee_display != "Not Applicable" %}
 				<li>Disciplinary committee: {{ page.specific.get_disciplinary_committee_display }}</li>
 			{% endif %}
 
-			{% if page.specific.get_disposal_committee_display != "Not_Applicable" %}
+			{% if page.specific.get_disposal_committee_display != "Not Applicable" %}
 				<li>Disposal committee: {{ page.specific.get_disposal_committee_display }}</li>
 			{% endif %}
 		</ul>
@@ -169,12 +169,41 @@
 			</div>
 			<br>
 		{% endfor %}
-
 	</div>
 
-	<!-- Publications --> <!-- Do It soon -->
-	<div>
-		<h3> Publications</h3>
-	</div>
+  <!-- Labs -->
+  <div>
+    {% for lab in lab_list %}
+      <div>
+        <h3><a href="{{ lab.url }}">{{ lab.specific.name }}</a></h3>
+        <div>{{ lab.specific.get_lab_type_display }}</div>
+        <div>{{ lab.specific.faculty_incharge }}</div>
+      </div>
+      <br>
+    {% endfor %}
+  </div>
+
+  <!-- Publications -->
+  <div>
+    {% for pub in pub_list %}
+      <h3> Publications</h3>
+      <div>
+        <h3><a href="{{ pub.url }}">{{ pub.specific.name }}</a></h3>
+        <div>[{{ pub.specific.get_pub_type_display }}]</div>
+        {% if pub.specific.faculty.all|length != 0 %}
+          {% for faculty in pub.specific.faculty.all %}
+            <div><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>, </div>
+          {% endfor %}
+        {% endif %}
+
+        {% if pub.specific.students.all|length != 0 %}
+            {% for student in pub.specific.students.all %}
+              <div><a href="{{ student.student.url }}">{{ student.student }}</a>, </div>
+            {% endfor %}
+        {% endif %}
+      </div>
+      <br>
+    {% endfor %}
+  </div>
     
 {% endblock content %}

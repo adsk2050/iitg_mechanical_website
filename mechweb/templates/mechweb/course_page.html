@@ -10,7 +10,9 @@
     <h2>Course Instructor{% if page.specific.course_instructor.all|length > 1 %}s{% endif %}  [Current]</h2>
     <ul>
         {% for faculty in page.specific.course_instructor.all %}
-        	<li><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a></li>
+        	<li><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+        	<div>{{ faculty.introduction|richtext }}</div></li>
+        	<hr>
     	{% endfor %}
     </ul>
 

@@ -22,6 +22,7 @@ from taggit.models import TaggedItemBase, Tag
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
 
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES
+# , NAV_ORDER
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
 
@@ -100,6 +101,7 @@ class MechHomePageGalleryImage(Orderable):
 
 ######################################################
 class EventHomePage(Page):
+	# order = NAV_ORDER[0]
 	featured_event = models.ForeignKey(
 		'EventPage',
 		null=True,
@@ -189,6 +191,7 @@ class EventPageLink(Orderable):
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
 class FacultyHomePage(Page):
+	# order = NAV_ORDER[1]
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
 	content_panels = Page.content_panels + [
@@ -313,20 +316,42 @@ class FacultyPage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
+	# def faculty_labs(self):
+	# 	lab_relation_list = self.faculty_lab.all()
+	# 	lab_list = []
+	# 	for lab_relation in lab_relation_list:
+	# 		lab = lab.page
+	# 		lab_list.append(lab)
+	# 	return lab_list
 
-	# def get_context(self, request):
-	# 	context = super().get_context(request)
-	# 	admin = {
-	# 		'additional_roles':self.additional_roles, 
-	# 		'disposal_committee':self.disposal_committee, 
-	# 		'laboratory_in_charge':self.laboratory_in_charge, 
-	# 		'faculty_in_charge':self.faculty_in_charge, 
-	# 		'disciplinary_committee':self.disciplinary_committee, 
-	# 		'dupc':self.dupc, 
-	# 		'dppc':self.dppc, 
-	# 	}
-	# 	context['admin'] = admin
-	# 	return context
+	def get_context(self, request):
+		lab_relation_list = self.faculty_lab.all()
+		lab_list = []
+		for lab_relation in lab_relation_list:
+			lab = lab_relation.page
+			lab_list.append(lab)
+
+		pub_relation_list = self.faculty_pub.all()
+		pub_list = []
+		for pub_relation in pub_relation_list:
+			pub = pub_relation.page
+			pub_list.append(pub)
+		# return lab_list
+		context = super().get_context(request)
+		# admin = {
+		# 	'additional_roles':self.additional_roles, 
+		# 	'disposal_committee':self.disposal_committee, 
+		# 	'laboratory_in_charge':self.laboratory_in_charge, 
+		# 	'faculty_in_charge':self.faculty_in_charge, 
+		# 	'disciplinary_committee':self.disciplinary_committee, 
+		# 	'dupc':self.dupc, 
+		# 	'dppc':self.dppc, 
+		# }
+		# context['admin'] = admin
+		# context['lab_list'] = self.faculty_labs()
+		context['lab_list'] = lab_list
+		context['pub_list'] = pub_list
+		return context
 
 
 	parent_page_types=['FacultyHomePage']
@@ -373,6 +398,7 @@ def faculty_interests():
 
 ######################################################
 class StudentHomePage(Page):
+	# order = NAV_ORDER[2]
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
 	content_panels = Page.content_panels + [
@@ -522,6 +548,7 @@ def student_interests():
 
 ######################################################
 class AlumniHomePage(StudentHomePage):
+	# order = NAV_ORDER[3]
 	content_panels = StudentHomePage.content_panels + [
 		InlinePanel('distinguished_alumni', label="Distinguished Alumni"),
 	]
@@ -638,6 +665,7 @@ def alumni_interests():
 
 ######################################################
 class StaffHomePage(Page):
+	# order = NAV_ORDER[4]
 	use_other_template = models.IntegerField(default = 3)#Find a way to remove this shit without deleting the original entry
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
@@ -690,6 +718,7 @@ class StaffPage(Page):
 
 ######################################################
 class ResearchHomePage(Page):
+	# order = NAV_ORDER[5]
 	intro = RichTextField(blank=True)
 
 	content_panels = Page.content_panels + [
@@ -972,6 +1001,7 @@ class ProjectPageGalleryImage(Orderable):
 
 ######################################################
 class CourseStructure(Page):
+	# order = NAV_ORDER[6]
 	parent_page_types=['MechHomePage']
 	subpage_types=['CoursePage']
 	max_count = 1

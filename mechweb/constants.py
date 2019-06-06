@@ -50,6 +50,25 @@ LAB_TYPES = (
 	('0', 'UG Lab'),
 	('1', 'PG Lab'),
 )
+
+
+# EventHomePage NAV_ORDER[0]
+# FacultyHomePage NAV_ORDER[1]
+# StudentHomePage NAV_ORDER[2]
+# AlumniHomePage NAV_ORDER[3]
+# StaffHomePageNAV_ORDER[4]
+# ResearchHomePage NAV_ORDER[5]
+# CourseStructure NAV_ORDER[6]
+
+# NAV_ORDER = []
+# # NAV_ORDER = (
+# # 	('0', 'Poster'),
+# # 	('1', 'Conference Publication'),
+# # 	('2', 'Journal Publication'),
+# # 	('3', 'Patent'),
+# # 	('4', 'Books'),
+# # 	('5', 'Book Chapters'),
+# # )
 ############################# Faculty
 FACULTY_ROLES=(
 	('2', 'Not Applicable'),
