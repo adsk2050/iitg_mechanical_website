@@ -206,13 +206,10 @@ class FacultyHomePage(Page):
 	# def list_common_interests(self):
 	
 	def serve(self, request):
-		# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
-		# Used the same method in student and alumni home pages
 		faculty_list = self.get_children().live().order_by('facultypage__name')
 
 		all_research_interests = faculty_interests()
 
-		# Filter by tag
 		tag = request.GET.get('tag')
 		if tag:
 			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
@@ -263,13 +260,6 @@ class FacultyPage(Page):
 	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
 
 	#################################################################
-
-
-	#students
-	#labs
-	#projects
-
-
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('joining_date'),
@@ -289,7 +279,6 @@ class FacultyPage(Page):
 		], heading="Residence Address"),
 		FieldPanel('intro'),
 		FieldPanel('body'),
-		# InlinePanel('publications', label="Publications"),
 		FieldPanel('research_interests'),
 		InlinePanel('gallery_images', label="Gallery images"),
 	]
@@ -316,6 +305,7 @@ class FacultyPage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
+	# Not working 
 	# def faculty_labs(self):
 	# 	lab_relation_list = self.faculty_lab.all()
 	# 	lab_list = []
@@ -348,19 +338,8 @@ class FacultyPage(Page):
 		for project_relation in project_relation_list:
 			project = project_relation.page
 			project_list.append(project)
-		# return lab_list
+
 		context = super().get_context(request)
-		# admin = {
-		# 	'additional_roles':self.additional_roles, 
-		# 	'disposal_committee':self.disposal_committee, 
-		# 	'laboratory_in_charge':self.laboratory_in_charge, 
-		# 	'faculty_in_charge':self.faculty_in_charge, 
-		# 	'disciplinary_committee':self.disciplinary_committee, 
-		# 	'dupc':self.dupc, 
-		# 	'dppc':self.dppc, 
-		# }
-		# context['admin'] = admin
-		# context['lab_list'] = self.faculty_labs()
 		context['lab_list'] = lab_list
 		context['pub_list'] = pub_list
 		context['project_list'] = project_list

@@ -67,3 +67,17 @@ g = f.faculty_lab.all()[0] ---- gives ResearchLabFacultyPage object
 lab = g.page ----- gives ResearchLabPage object
 _____________________________________________________________________
 ParentalKey reverse lookup no need --- directly get parent by accessing link
+_____________________________________________________________________
+
+passing class name as argument to function?
+
+https://stackoverflow.com/questions/28885018/passing-class-name-as-argument-to-function
+_____________________________________________________________________
+UnboundLocalError: local variable 'getBottles' referenced before assignment
+
+https://stackoverflow.com/questions/52999994/unboundlocalerror-local-variable-getbottles-referenced-before-assignment
+_____________________________________________________________________
+Django querying models
+
+# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
+# Used the same method in student and alumni home pages

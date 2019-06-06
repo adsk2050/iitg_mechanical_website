@@ -39,7 +39,7 @@ gallery_images
     {% for faculty in page.faculty.all %}
         <li>
             <h4><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a></h4>
-        	<div>{{ faculty.project_statement|richtext }}</div>
+        	<div>{{ faculty.faculty.project_statement|richtext }}</div>
         </li>
     {% endfor %}
     </ul>
@@ -49,7 +49,7 @@ gallery_images
     {% for student in page.students.all %}
     	<li>
             <h4><a href="{{ student.student.url }}">{{ student.student }}</a></h4>
-        	<div>{{ student.project_statement|richtext }}</div>
+        	<div>{{ student.student.project_statement|richtext }}</div>
         </li>
     {% endfor %}
     </ul>
