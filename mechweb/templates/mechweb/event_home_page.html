@@ -39,7 +39,7 @@
                        </div>
                        <div class="text">
                            <h2 class="blog-list-title">{{ event.specific.event_name }}</h2>
-                           <p>{{ event.specific.event_type|truncatewords:15 }}</p>
+                           <p>{{ event.specific.get_event_type_display}}</p>
                        </div>
                        <div class="small footer">
                    			The {{ page.featured_event.specific.get_event_type_display }} will be from {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.get_venue_display }}
