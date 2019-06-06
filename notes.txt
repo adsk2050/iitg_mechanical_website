@@ -61,3 +61,9 @@ https://docs.djangoproject.com/en/2.2/topics/db/queries/#following-relationships
 https://stackoverflow.com/questions/15306897/django-reverse-lookup-of-foreign-keys
 
 eg list of all  ResearchLabFaculty objects for a given FacultyPage object
+
+f = FacultyPage.objects.all()[1] ---- gives FacultyPage object
+g = f.faculty_lab.all()[0] ---- gives ResearchLabFacultyPage object
+lab = g.page ----- gives ResearchLabPage object
+
+

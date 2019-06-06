@@ -144,35 +144,33 @@
 		</ul>
 	</div>
 	<hr>
-	<!-- Gallery Pics -->
-	<div>
-		{% for pic in page.gallery_images.all %}
-			<div style="float: left; margin: 10px">
-				<h3>{{ pic.caption }}</h3>
-				<div>{% image pic.image fill-500x500 %}</div>
-			</div>
-		{% endfor %}
-	</div>
-	<br>
 
 	<!-- Announcements -->
 	<div>
-		{% for announcement in page.faculty_announcement.all %}
-			<div>
-				<h3>{{ announcement.title }}</h3>
-				<div>{{ announcement.date }}</div>
-				<div>{{ announcement.message|richtext }}</div>
-				<a href="{{ announcement.link }}">Link</a>
-				<div>
-					<div>{{ announcement.document|truncatechars:25 }}</div>
-					<a href="{{ announcement.document.url }}">Download pdf</a>
-			</div>
-			<br>
-		{% endfor %}
+    {% with announcements=page.faculty_announcement.all %}
+      {% if announcements %}
+        <h3>Announcements</h3>
+    		{% for announcement in announcements %}
+    			<div>
+    				<h3>{{ announcement.title }}</h3>
+    				<div>{{ announcement.date }}</div>
+    				<div>{{ announcement.message|richtext }}</div>
+    				<a href="{{ announcement.link }}">Link</a>
+    				<div>
+    					<div>{{ announcement.document|truncatechars:25 }}</div>
+    					<a href="{{ announcement.document.url }}">Download pdf</a>
+    			</div>
+    			<br>
+        {% endfor %}
+      {% endif %}
+		{% endwith %}
 	</div>
-
+  <hr>
+  
   <!-- Labs -->
   <div>
+    {% if lab_list %}
+    <h3>Labs</h3>
     {% for lab in lab_list %}
       <div>
         <h3><a href="{{ lab.url }}">{{ lab.specific.name }}</a></h3>
@@ -181,12 +179,15 @@
       </div>
       <br>
     {% endfor %}
+    {% endif %}
   </div>
+  <hr>
 
   <!-- Publications -->
   <div>
+    {% if lab_list %}
+    <h3> Publications</h3>
     {% for pub in pub_list %}
-      <h3> Publications</h3>
       <div>
         <h3><a href="{{ pub.url }}">{{ pub.specific.name }}</a></h3>
         <div>[{{ pub.specific.get_pub_type_display }}]</div>
@@ -203,6 +204,34 @@
         {% endif %}
       </div>
       <br>
+    {% endfor %}
+    {% endif %}
+  </div>
+  <hr>
+
+  <!-- Projects -->
+  <div>
+    {% if project_list %}
+      <h3> Projects</h3>
+      {% for project in project_list %}
+        <div>
+          <h3><a href="{{ project.url }}">{{ project.specific.name }}</a></h3>
+          <div>[{{ project.specific.get_project_type_display }}]</div>
+          <div>From: {{ project.specific.start_date }} to {{ project.specific.end_date }}</div>
+        </div>
+        <br>
+      {% endfor %}
+    {% endif %}
+  </div>
+  <hr>
+
+  <!-- Gallery Pics -->
+  <div>
+    {% for pic in page.gallery_images.all %}
+      <div style="float: left; margin: 10px">
+        <h3>{{ pic.caption }}</h3>
+        <div>{% image pic.image fill-500x500 %}</div>
+      </div>
     {% endfor %}
   </div>
     

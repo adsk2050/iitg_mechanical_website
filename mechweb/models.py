@@ -101,7 +101,7 @@ class MechHomePageGalleryImage(Orderable):
 
 ######################################################
 class EventHomePage(Page):
-	# order = NAV_ORDER[0]
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
 	featured_event = models.ForeignKey(
 		'EventPage',
 		null=True,
@@ -191,7 +191,7 @@ class EventPageLink(Orderable):
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
 class FacultyHomePage(Page):
-	# order = NAV_ORDER[1]
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[1])
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
 	content_panels = Page.content_panels + [
@@ -326,7 +326,7 @@ class FacultyPage(Page):
 
 	def get_context(self, request):
 		lab_relation_list = self.faculty_lab.all()
-		lab_list = []
+		lab_list = self.faculty_incharge.all()
 		for lab_relation in lab_relation_list:
 			lab = lab_relation.page
 			lab_list.append(lab)
@@ -336,6 +336,12 @@ class FacultyPage(Page):
 		for pub_relation in pub_relation_list:
 			pub = pub_relation.page
 			pub_list.append(pub)
+
+		project_relation_list = self.faculty_co_investigator.all()
+		project_list =  self.principal_investigator.all()
+		for project_relation in project_relation_list:
+			project = project_relation.page
+			project_list.append(project)
 		# return lab_list
 		context = super().get_context(request)
 		# admin = {
@@ -398,7 +404,7 @@ def faculty_interests():
 
 ######################################################
 class StudentHomePage(Page):
-	# order = NAV_ORDER[2]
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[2])
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
 	content_panels = Page.content_panels + [
@@ -489,10 +495,26 @@ class StudentPage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-
-
 	parent_page_types=['StudentHomePage']
 	subpage_types=[]
+
+	def get_context(self, request):
+		lab_relation_list = self.student_lab.all()
+		lab_list = []
+		for lab_relation in lab_relation_list:
+			lab = lab_relation.page
+			lab_list.append(lab)
+
+		pub_relation_list = self.student_pub.all()
+		pub_list = []
+		for pub_relation in pub_relation_list:
+			pub = pub_relation.page
+			pub_list.append(pub)
+		# return lab_list
+		context = super().get_context(request)
+		context['lab_list'] = lab_list
+		context['pub_list'] = pub_list
+		return context
 
 class StudentProject(Orderable):
 	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='projects')
@@ -548,7 +570,7 @@ def student_interests():
 
 ######################################################
 class AlumniHomePage(StudentHomePage):
-	# order = NAV_ORDER[3]
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[3])
 	content_panels = StudentHomePage.content_panels + [
 		InlinePanel('distinguished_alumni', label="Distinguished Alumni"),
 	]
@@ -665,7 +687,7 @@ def alumni_interests():
 
 ######################################################
 class StaffHomePage(Page):
-	# order = NAV_ORDER[4]
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[4])
 	use_other_template = models.IntegerField(default = 3)#Find a way to remove this shit without deleting the original entry
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
@@ -718,7 +740,7 @@ class StaffPage(Page):
 
 ######################################################
 class ResearchHomePage(Page):
-	# order = NAV_ORDER[5]
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[5])
 	intro = RichTextField(blank=True)
 
 	content_panels = Page.content_panels + [
@@ -1001,7 +1023,7 @@ class ProjectPageGalleryImage(Orderable):
 
 ######################################################
 class CourseStructure(Page):
-	# order = NAV_ORDER[6]
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
 	parent_page_types=['MechHomePage']
 	subpage_types=['CoursePage']
 	max_count = 1
