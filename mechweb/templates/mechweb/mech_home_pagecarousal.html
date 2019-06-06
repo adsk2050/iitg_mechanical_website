@@ -1,0 +1,138 @@
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block extra_css %}
+<link href= "/static/css/base.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+<!-- {% block body_class %}template-mech-homepage{% endblock %} -->
+
+{% block content %}
+
+<nav class="navbar my-nav navbar-default">
+
+  <div class="container-fluid">
+
+    <div class="col-md-4">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#defaultNavbar1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="http://127.0.0.1:8000">Department of Mechanical Engineering</a>
+      </div>
+    </div>
+    <!-- Brand and toggle get grouped for better mobile display -->
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="col-md-8">
+      <div class="collapse navbar-collapse" id="defaultNavbar1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="http://127.0.0.1:8000">Home<span class="sr-only"></span></a></li>
+          {% for child in navlist %}
+              <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+          {% endfor %}
+          <!-- <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li> -->
+        </ul>
+        <!-- <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form> -->
+        <!-- <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Link</a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </li>
+        </ul> -->
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+<div id="carousel1" class="my-carousel carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carousel1" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel1" data-slide-to="1"></li>
+    <li data-target="#carousel1" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner" role="listbox">
+    <div class="item active"><img src="{% static "images/img1.jpg" %}" alt="First slide image" class="center-block">
+      <div class="carousel-caption">
+        <h3>First slide Heading</h3>
+        <p>First slide Caption</p>
+      </div>
+    </div>
+    <div class="item"><img src="{% static "images/img2.jpg" %}" alt="Second slide image" class="center-block">
+      <div class="carousel-caption">
+        <h3>Second slide Heading</h3>
+        <p>Second slide Caption</p>
+      </div>
+    </div>
+    <div class="item"><img src="{% static "images/img3.jpg" %}" alt="Third slide image" class="center-block">
+      <div class="carousel-caption">
+        <h3>Third slide Heading</h3>
+        <p>Third slide Caption</p>
+      </div>
+    </div>
+  </div>
+  <a class="left carousel-control" href="#carousel1" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="right carousel-control" href="#carousel1" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="row">
+          <div class="col-md-4">
+            <div class="thumbnail"><img src="images/Eiffel-Tower-l.jpg" alt="Thumbnail Image 1">
+              <div class="caption">
+                <h3>Travel package 1</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid officia facere, tenetur similique, sapiente optio magni, expedita laborum mollitia saepe perspiciatis! Sint qui hic repudiandae, nobis quod ipsum deserunt sed.</p>
+                <p><a href="#" class="btn btn-primary" role="button">Bye now!</a></p>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+          <div class="thumbnail"><img src="images/Holivudas-3.jpg" alt="Thumbnail Image 1">
+              <div class="caption">
+                <h3>Travel package 2</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt voluptate numquam impedit esse recusandae iure rem expedita totam asperiores reiciendis repellendus adipisci obcaecati sint, sed sunt natus, excepturi eum illo.</p>
+                <p><a href="#" class="btn btn-primary" role="button">Bye now!</a></p>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+          <div class="thumbnail"><img src="images/River-Boat-AMA-Danube-View-A-Excellent.jpg" alt="Thumbnail Image 1">
+              <div class="caption">
+                <h3>Travel package 3</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut quis quibusdam totam, facere voluptatibus. Commodi sit, exercitationem expedita aliquam incidunt. Cupiditate laborum expedita accusamus neque velit amet repudiandae nemo fugiat?</p>
+                <p><a href="#" class="btn btn-primary" role="button">Bye now!</a></p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-1.11.3.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.js"></script>
+{% endblock %}
