@@ -81,3 +81,38 @@ Django querying models
 
 # Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
 # Used the same method in student and alumni home pages
+_____________________________________________________________________
+For faster page loading
+
+http://docs.wagtail.io/en/v2.5.1/advanced_topics/performance.html
+
+The overhead from reading and compiling templates can add up. In some cases a significant performance improvement can be gained by using Django's cached template loader:
+
+https://docs.djangoproject.com/en/2.2/ref/templates/api/#django.template.loaders.cached.Loader
+_____________________________________________________________________
+Wagtail searching 
+
+http://docs.wagtail.io/en/v2.5.1/topics/search/index.html
+
+search_fields = Page.search_fields + [ 
+		# Inherit search_fields from Page
+        index.SearchField('description'),
+        index.FilterField('date'),
+        
+
+        index.SearchField('title'),
+        index.FilterField('published_date'),
+
+        index.RelatedFields('author', [
+            index.SearchField('name'),
+            index.FilterField('date_of_birth'),
+        ]),
+    ]
+
+_____________________________________________________________________
+Last edits page type dikhana hai
+<div class="human-readable-date" title="{{ revision.created_at|date:"d M Y H:i" }}">{% blocktrans with time_period=revision.created_at|timesince %}{{ time_period }} ago{% endblocktrans %}</div>
+_____________________________________________________________________
+How to nest tuples for choices
+
+https://stackoverflow.com/questions/28949232/how-deep-can-be-nesting-tuple-for-choices-in-django

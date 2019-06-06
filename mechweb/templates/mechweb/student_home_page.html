@@ -10,8 +10,15 @@
 	<h1>Students</h1>
     {% if tag %}
     	<h2>Results for {{ tag }}</h2>
+        
     {% else %}
     	{% if student_list.number == 1 %}
+            <ul>
+                <li><a href="{{ page.url }}?prog=0">Bachelors</li>
+                <li><a href="{{ page.url }}?prog=1">Masters</li>
+                <li><a href="{{ page.url }}?prog=2">Research Shcolars</li>
+                <li><a href="{{ page.url }}?prog=3">Postdocs</li>
+            </ul>
 		    <!-- Intro -->
 		    <h2>Intro:</h2>
 		    <div class="intro">{{ page.intro|richtext }}</div>
@@ -34,8 +41,8 @@
     <div class="pagination">
         <span class="step-links">
             {% if student_list.has_previous %}
-                <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}">&laquo; first</a>
-                <a href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}">previous</a>
+                <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">&laquo; first</a>
+                <a href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">previous</a>
             {% endif %}
 
             <span class="current">
@@ -43,8 +50,8 @@
             </span>
 
             {% if student_list.has_next %}
-                <a href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}">next</a>
-                <a href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}">last &raquo;</a>
+                <a href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">next</a>
+                <a href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">last &raquo;</a>
             {% endif %}
         </span>
     </div>

@@ -24,6 +24,15 @@ STUDENT_PROGRAMME = (
 	('3', 'PostDoc'),
 )
 
+MASTERS_SPECIALIZATION = (
+	('0', 'Not Applicable'),
+	('1', 'Aerodynamics & Propulsion'),
+	('2', 'Computer Aided Manufacturing'),
+	('3', 'Computational Mechanics'),
+	('4', 'Fluids and Thermal'),
+	('5', 'Machine Design'),
+)
+
 STAFF_DESIGNATION = (
 	('0', 'Administrative Staff'),
 	# ('1', 'Project Staff'),
@@ -51,6 +60,20 @@ LAB_TYPES = (
 	('1', 'PG Lab'),
 )
 
+COURSE_TYPES = (
+	('Departmental', (
+			('0', 'Core course'),
+			('1', 'Department Elective'),
+			('2', 'Department Open Elective'),
+		),
+	),
+	('Non-Departmental', (
+			('3', 'Common course'),
+			('4', 'HSS Elective'),
+			('4', 'Open Elective'),
+		),
+	),
+)
 
 # # EventHomePage NAV_ORDER[0] 5
 # # FacultyHomePage NAV_ORDER[1] 2

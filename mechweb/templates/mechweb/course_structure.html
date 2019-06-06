@@ -7,21 +7,54 @@
 {% block content %}
     {{ page.title }}
     <h1>Course Structure</h1>
+    <ul>
+        <li><a href="{{ page.url }}?prog=0">B.Tech</li>
+        <li><a href="{{ page.url }}?prog=1">M. Tech</li>
+        <li><a href="{{ page.url }}?prog=2">PhD</li>
+    </ul>
 
-    <!-- List of events here -->
-    {% for course in page.get_children.specific %}
-    <div>
-        <h2><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
-        <ul>
-            <li>Course code : {{ course.specific.code }}</li>
-            <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
-            <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
-            <li>Semester : {{ course.specific.semester }}</li>
-            <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
-        </ul>  
-    </div>
-        
-    {% endfor %}
+    {% if prog == '0' or prog == '1' %}
+        {% for prog_sem in structure %}
+            {% if prog_sem|length != 0 %}
+            <!-- <h2>Semester {{ prog_sem.number }}</h2> Not working -->
+            <ul>
+                <li>
+                {% for course in prog_sem %}
+                    <div>
+                        <h3><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
+                        <ul>
+                            <li>Course code : {{ course.specific.code }}</li>
+                            <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
+                            <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
+                            <li>Semester : {{ course.specific.semester }}</li>
+                            <li>Course Type : {{ course.specific.get_course_type_display }}</li>
+                            <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
+                        </ul>  
+                    </div>
+                {% endfor %}
+                </li>
+            </ul>   
+            {% endif %}
+        {% endfor %}
+    {% elif prog == '2' %}
+        <h2>PhD Course Structure</h2>
+    {% else %}
+        <!-- List of all courses here -->
+        {% for course in course_list %}
+        <div>
+            <h2><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
+            <ul>
+                <li>Course code : {{ course.specific.code }}</li>
+                <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
+                <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
+                <li>Semester : {{ course.specific.semester }}</li>
+                <li>Course Type : {{ course.specific.get_course_type_display }}</li>
+                <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
+            </ul>  
+        </div>
+            
+        {% endfor %}
+    {% endif %}
 
 
 

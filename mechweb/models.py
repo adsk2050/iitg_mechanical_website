@@ -12,16 +12,16 @@ from wagtail.admin.edit_handlers import FieldPanel, InlinePanel,  PageChooserPan
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
 from modelcluster.fields import ParentalKey
-from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
 from wagtail.images.edit_handlers import ImageChooserPanel
+
+######################################################
 # for tagging
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
-
+######################################################
+# Importing constants and settings
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
-
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES
 # , NAV_ORDER
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
@@ -63,6 +63,9 @@ class MechHomePage(Page):
 		navlist = self.get_children().live().order_by('-first_published_at')
 		context['navlist'] = navlist
 		return context
+
+	class Meta:
+		verbose_name = "Home"
 
 class HomeTextPanel(Orderable):
 	page = ParentalKey(MechHomePage, on_delete=models.CASCADE, related_name='text_panels')
@@ -131,6 +134,9 @@ class EventHomePage(Page):
 		context['event_list'] = event_list
 		return context
 
+	class Meta:
+		verbose_name = "Event Home"
+
 class EventPage(Page):
 	# page = ParentalKey(EventHomePage, on_delete=models.PROTECT, related_name='event_page')
 
@@ -166,6 +172,9 @@ class EventPage(Page):
 
 	parent_page_types=['EventHomePage']
 	subpage_types=[]
+	class Meta:
+		verbose_name = "Event"
+		verbose_name_plural = "Events"
 
 class EventPageGalleryImage(Orderable):
 	page = ParentalKey(EventPage, on_delete=models.CASCADE, related_name='gallery_images')
@@ -225,6 +234,9 @@ class FacultyHomePage(Page):
 			'tag':tag,
 			'page_no':page_no,
 		})
+
+		class Meta:
+			verbose_name = "Faculty Home"
 
 class FacultyResearchInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
@@ -349,6 +361,10 @@ class FacultyPage(Page):
 	parent_page_types=['FacultyHomePage']
 	subpage_types=[]
 
+	class Meta:
+		verbose_name = "Faculty"
+		verbose_name_plural = "Faculty"
+
 class FacultyAnnouncement(Orderable):
 	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='faculty_announcement')
 	link = models.URLField(max_length=250)
@@ -402,22 +418,23 @@ class StudentHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		student_list = self.get_children().live().order_by('studentpage__name')
-		# btech_student_list = student_list.filter(programme='0')
-		# mtech_student_list = student_list.filter(programme='1')
-		# phd_student_list = student_list.filter(programme='2')
-		# postdoc_student_list = student_list.filter(programme='3')
-		# https://docs.wagtail.io/en/v2.5.1/reference/contrib/modeladmin/indexview.html
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__name')
 
-		all_research_interests = student_interests()
+		# Filter by department
+		prog = request.GET.get('prog')
+		if prog in ['0','1', '2', '3']:
+			student_list = student_list.filter(studentpage__programme=prog)
+
 		# Filter by tag
 		tag = request.GET.get('tag')
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
+
 		paginator = Paginator(student_list, 10) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
 		student_list = paginator.get_page(page_no)
 
+		all_research_interests = student_interests()
 		return render(request, self.template, {
 			'page': self,
 			'student_list': student_list,
@@ -428,7 +445,11 @@ class StudentHomePage(Page):
 			'all_research_interests': all_research_interests,
 			'tag':tag,
 			'page_no':page_no,
+			'prog':prog,
 		})
+
+	class Meta:
+		verbose_name = "Student Home"
 
 class StudentResearchInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
@@ -444,6 +465,7 @@ class StudentPage(Page):
 	email_id = models.EmailField()
 	enrolment_year = models.DateField()
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0')
+	specialization = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', help_text="Not Applicable - for B.Tech, PhD and PostDocs")
 	roll_no = models.IntegerField(default=160103001)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250)
@@ -451,6 +473,7 @@ class StudentPage(Page):
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 	website = models.URLField(max_length=250, blank=True)
 	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
+
 
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
@@ -462,6 +485,7 @@ class StudentPage(Page):
 		FieldPanel('hostel_address_line_1'),
 		FieldPanel('intro'),
 		FieldPanel('programme'),
+		FieldPanel('specialization'),
 		FieldPanel('roll_no'),
 		FieldPanel('body'),
 		PageChooserPanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
@@ -501,6 +525,10 @@ class StudentPage(Page):
 		context['lab_list'] = lab_list
 		context['pub_list'] = pub_list
 		return context
+
+	class Meta:
+		verbose_name = "Student"
+		verbose_name_plural = "Students"
 
 class StudentProject(Orderable):
 	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='projects')
@@ -586,6 +614,9 @@ class AlumniHomePage(StudentHomePage):
 			'page_no':page_no,
 		})
 
+	class Meta:
+		verbose_name = "Alumni Home"
+
 class AlumniInterestTag(TaggedItemBase):
 	content_object = ParentalKey(
 		'AlumnusPage',
@@ -636,6 +667,10 @@ class AlumnusPage(Page):
 
 	parent_page_types=['AlumniHomePage']
 	subpage_types=[]
+
+	class Meta:
+		verbose_name = "Alumnus"
+		verbose_name_plural = "Alumni"
 
 class AlumnusPageJobDetail(Orderable):
 	page = ParentalKey(AlumnusPage, on_delete=models.CASCADE, related_name='job_details')
@@ -698,6 +733,9 @@ class StaffHomePage(Page):
 		context['staff_list'] = staff_list
 		return context
 
+	class Meta:
+		verbose_name = "Staff Home"
+
 class StaffPage(Page):
 	name = models.CharField(max_length=100)
 	contact_number = models.CharField(max_length=20, blank=True)
@@ -724,6 +762,9 @@ class StaffPage(Page):
 	parent_page_types=['StaffHomePage']
 	subpage_types=[]
 
+	class Meta:
+		verbose_name = "Staff"
+		verbose_name_plural = "Staff"
 ######################################################
 class ResearchHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[5])
@@ -736,6 +777,9 @@ class ResearchHomePage(Page):
 	parent_page_types=['MechHomePage']
 	subpage_types=['ResearchLabPage', 'PublicationHomePage', 'ProjectHomePage']
 	max_count = 1
+
+	class Meta:
+		verbose_name = "Research Home"
 
 #------------------------------------------
 class ResearchLabPage(Page):
@@ -787,6 +831,10 @@ class ResearchLabPage(Page):
 
 	parent_page_types=['ResearchHomePage']
 	subpage_types=[]
+
+	class Meta:
+		verbose_name = "Lab"
+		verbose_name_plural = "Labs"
 
 class LabEquipment(Orderable):
 	name = models.CharField(max_length=25, blank=True)
@@ -853,6 +901,9 @@ class PublicationHomePage(Page):
 	subpage_types=['PublicationPage']
 	max_count = 1
 
+	class Meta:
+		verbose_name = "Publication Home"
+
 class PublicationPage(Page):
 	#page = ParentalKey(PublicationHomePage, on_delete=models.PROTECT, related_name='publication')
 	document = models.ForeignKey(
@@ -896,6 +947,10 @@ class PublicationPage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
+	class Meta:
+		verbose_name = "Publication"
+		verbose_name_plural = "Publications"
+
 class PublicationPageStudent(Orderable):
 	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='students')
 	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
@@ -937,6 +992,9 @@ class ProjectHomePage(Page):
 	subpage_types=['ProjectPage']
 	max_count = 1
 
+	class Meta:
+		verbose_name = "Project Home"
+
 class ProjectPage(Page):
 	principal_investigator = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -972,6 +1030,10 @@ class ProjectPage(Page):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
+
+	class Meta:
+		verbose_name = "Project"
+		verbose_name_plural = "Projects"
 
 class ProjectPageFaculty(Orderable):
 	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty')
@@ -1014,6 +1076,45 @@ class CourseStructure(Page):
 	subpage_types=['CoursePage']
 	max_count = 1
 
+	def serve(self, request):
+		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester')
+
+		structure = []
+		sem1 = course_list.filter(coursepage__semester=1)
+		structure.append(sem1)
+		sem2 = course_list.filter(coursepage__semester=2)
+		structure.append(sem2)
+		sem3 = course_list.filter(coursepage__semester=3)
+		structure.append(sem3)
+		sem4 = course_list.filter(coursepage__semester=4)
+		structure.append(sem4)
+		sem5 = course_list.filter(coursepage__semester=5)
+		structure.append(sem5)
+		sem6 = course_list.filter(coursepage__semester=6)
+		structure.append(sem6)
+		sem7 = course_list.filter(coursepage__semester=7)
+		structure.append(sem7)
+		sem8 = course_list.filter(coursepage__semester=8)
+		structure.append(sem8)
+
+		# structure = sem1 + sem2 + sem3 + sem4 + sem5 + sem6 + sem7 + sem8
+
+		# Filter by department
+		prog = request.GET.get('prog')
+		if prog in ['0','1', '2', '3']:
+			course_list = course_list.filter(coursepage__eligible_programmes=prog)
+
+		return render(request, self.template, {
+			'page': self,
+			'course_list': course_list,
+			'prog':prog,
+			'structure':structure,
+		})
+
+	class Meta:
+		verbose_name = "Course Structure"
+		verbose_name_plural = "CourseStructure"
+
 class CoursePage(Page):
 	name = models.CharField(max_length=50)
 	code = models.CharField(max_length=10)
@@ -1023,7 +1124,8 @@ class CoursePage(Page):
 	practicals = models.IntegerField()
 	credits = models.IntegerField()
 	semester = models.IntegerField()
-	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', verbose_name="Minimum qualification")
+	course_type = models.CharField(max_length=100, choices=COURSE_TYPES, default='0')
+	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', help_text="Minimum qualification needed to take course")
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	course_page_link = models.URLField()
 	document = models.ForeignKey(
@@ -1044,6 +1146,7 @@ class CoursePage(Page):
 			FieldPanel('credits'),
 			DocumentChooserPanel('document'),
 			FieldPanel('semester'),
+			FieldPanel('course_type'),
 			FieldPanel('eligible_programmes'),
 			FieldPanel('course_page_link'),
 		], heading="Course Details"),
@@ -1064,9 +1167,14 @@ class CoursePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
+	class Meta:
+		verbose_name = "Course"
+		verbose_name_plural = "Courses"
+
 class CoursePageFaculty(Orderable):
 	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_instructor')
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='course_instructor')
+	session = models.DateField()
 	introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
 		PageChooserPanel('faculty'),
@@ -1088,3 +1196,5 @@ class CourseAnnouncementPage(Orderable):
 	]
 
 ######################################################
+# Implement awards page and homepage
+# Faculty	Award	Organization/Society	Year
