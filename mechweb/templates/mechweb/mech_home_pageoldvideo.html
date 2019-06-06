@@ -1,0 +1,199 @@
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block extra_css %}
+<link href= "/static/css/base.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+<!-- {% block body_class %}template-mech-homepage{% endblock %} -->
+
+{% block content %}
+
+    <!-- <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
+
+        <img height="450px" width="100%" src="{% static "images/main.PNG" %}">
+    </div>
+ -->
+
+ <header>
+  <div class="overlay"></div>
+  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+  </video>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+        <a class="blog-header-logo text-dark"  href="#">
+          <img height="85px" width="85px"
+                src="{% static "images/logo.png" %}" class = "center"></a>
+      </div>
+
+      <div class="col-md-3 logotitle">
+        <h2>Department of Mechanical Engineering</h2>
+      </div>
+
+      <div class="col">
+        <div style=" padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
+            <nav>
+                <div id="wrapper">
+                    <ul>
+                        <li class="different active"><a href="http://127.0.0.1:8000">Home</a></li>
+                      {% for child in navlist %}
+                          <li class="different"><a href="{{ child.url }}">{{ child.title }}</a></li>
+                      {% endfor %}
+                    </ul>
+                </div>
+            </nav>
+          </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+<!--
+  <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+      </div>
+      <div class="col-4">
+          <a class="blog-header-logo text-dark"  href="#">
+            <img height="85px" width="85px"
+                  src="{% static "images/logo.png" %}" class = "center"></a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+          <a class="text-muted" href="#"></a>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-1"></div>
+      <div style="color: white;" align="middle" class="col-10 text-center">
+          <h2>Department of Mechanical Engineering</h2>
+      </div>
+      <div class="col"></div>
+  </div>
+
+  <div style="background-color: inherit; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
+      <nav>
+          <div id="wrapper">
+              <ul>
+                  <li class="different active"><a href="http://127.0.0.1:8000">Home</a></li>
+                {% for child in navlist %}
+                    <li class="different"><a href="{{ child.url }}">{{ child.title }}</a></li>
+                {% endfor %}
+              </ul>
+          </div>
+      </nav>
+    </div> -->
+
+
+  <div class="container h-100">
+    <div class="d-flex h-100 text-center align-items-center">
+      <div class="w-100 text-white">
+        <h1 class="display-3">Video Header</h1>
+        <p class="lead mb-0">With HTML5 Video and Bootstrap 4</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+    <!-- Slideshow container -->
+<div class="slideshow-container">
+
+ <!-- Full-width images with number and caption text -->
+ <div class="mySlides fade">
+   <div class="numbertext">1 / 3</div>
+   <img src="{% static "images/img1.jpg" %}" style="width:100%">
+   <div class="text">Caption Text</div>
+ </div>
+
+ <div class="mySlides fade">
+   <div class="numbertext">2 / 3</div>
+   <img class="img" src="{% static "images/img2.jpg" %}" style="width:100%">
+   <div class="text">Caption Two</div>
+ </div>
+
+ <div class="mySlides fade">
+   <div class="numbertext">3 / 3</div>
+   <img src="{% static "images/img3.jpg" %}" style="width:100%">
+   <div class="text">Caption Three</div>
+ </div>
+
+ <!-- Next and previous buttons -->
+ <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+ <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+<br>
+
+<!-- The dots/circles -->
+<div style="text-align:center">
+ <span class="dot" onclick="currentSlide(1)"></span>
+ <span class="dot" onclick="currentSlide(2)"></span>
+ <span class="dot" onclick="currentSlide(3)"></span>
+</div>
+
+
+
+    <div style="background-color: white" class="timeline row py-1 mb-2">
+        <div style="border-left: 1px white;" class="dif col-2"><strong>16 January</strong><br>
+            <span>In eos viderer omittantur. Mel an nisl mollis, habemus torque</span></div>
+        <div class="dif col-2"><strong>31 January</strong><br>
+            <span>In eos viderer omittantur.</span></div>
+        <!-- <div class="dif col-2"><strong>3 March</strong><br>
+            <span>In eos viderer omittantur. Mel an nisl mollis, habemus torque</span></div>
+        <div class="dif col-2"><strong>19 September</strong><br>
+            <span>In eos viderer omittantur. Mel an nisl mollis, habemus torque</span></div>
+        <div class="dif col-2"><strong>18 November</strong><br>
+            <span>In eos viderer omittantur.</span></div> -->
+    </div>
+
+    <div class="container definite">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="{% static "images/prize.png" %}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Morbi enim nunc</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Sed egestas egestas fringilla phasellus
+                            faucibus scelerisque eleifend donec pretium.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Ac felis donec et odio pellentesqu</h5>
+                            <p style="padding-bottom: 25px;" class="card-text">Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed
+                                egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+            </div>
+
+        </div>
+
+        <br>
+
+
+        <div class="row">
+            <div class="text-center"><button type="button" class="btn btn-outline-warning" align="middle"><strong>Donate To
+                        Us</strong></button></div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+{% endblock %}
