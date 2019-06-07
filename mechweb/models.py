@@ -1,9 +1,17 @@
+from datetime import datetime
 
 from django.db import models
 from django import forms
 from django.shortcuts import render
 from django.utils import timezone
 from django.core.paginator import Paginator
+
+
+from django.utils.text import slugify
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
 
 
 from wagtail.core.models import Page, Orderable
@@ -21,7 +29,7 @@ from taggit.models import TaggedItemBase, Tag
 ######################################################
 # Importing constants and settings
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, USER_TYPES
 # , NAV_ORDER
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
@@ -199,6 +207,9 @@ class EventPageLink(Orderable):
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
+# class User(AbstractUser):
+# 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
+
 class FacultyHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[1])
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -215,7 +226,7 @@ class FacultyHomePage(Page):
 	# def list_common_interests(self):
 	
 	def serve(self, request):
-		faculty_list = self.get_children().live().order_by('facultypage__name')
+		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__last_name')
 
 		all_research_interests = faculty_interests()
 
@@ -247,20 +258,22 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	name = models.CharField(max_length=100)
+	user = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
+	first_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100)
 	office_contact_number = models.CharField(max_length=20, blank=True)
 	home_contact_number = models.CharField(max_length=20, blank=True)
 	office_address_line_1 = models.CharField(max_length=25, blank=True)
 	home_address_line_1 = models.CharField(max_length=25, blank=True)
 	email_id = models.EmailField()
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	intro = models.CharField(max_length=250)
+	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
-	joining_date = models.DateField()
+	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
-	website = models.URLField(max_length=250, null=True)
+	website = models.URLField(max_length=250)
 	#################################################################
 
 	additional_roles = models.CharField(max_length=2, choices=FACULTY_ROLES, default='2')
@@ -273,7 +286,9 @@ class FacultyPage(Page):
 
 	#################################################################
 	content_panels = Page.content_panels + [
-		FieldPanel('name'),
+		FieldPanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('last_name'),
 		FieldPanel('joining_date'),
 		FieldPanel('leaving_date'),
 		FieldPanel('designation'),
@@ -418,7 +433,7 @@ class StudentHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__name')
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__last_name')
 
 		# Filter by department
 		prog = request.GET.get('prog')
@@ -459,16 +474,19 @@ class StudentResearchInterestTag(TaggedItemBase):
 	)
 
 class StudentPage(Page):
-	name = models.CharField(max_length=100)
-	contact_number = models.CharField(max_length=20, blank=True)
-	hostel_address_line_1 = models.CharField(max_length=25, blank=True)
+	# user = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
+	first_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField()
+	roll_no = models.IntegerField()
 	enrolment_year = models.DateField()
-	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0')
+	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
+
+	contact_number = models.CharField(max_length=20, blank=True)
+	address = models.CharField(max_length=25, blank=True)
 	specialization = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', help_text="Not Applicable - for B.Tech, PhD and PostDocs")
-	roll_no = models.IntegerField(default=160103001)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	intro = models.CharField(max_length=250)
+	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 	website = models.URLField(max_length=250, blank=True)
@@ -476,13 +494,15 @@ class StudentPage(Page):
 
 
 	content_panels = Page.content_panels + [
-		FieldPanel('name'),
+		# FieldPanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('last_name'),
 		FieldPanel('enrolment_year'),
 		ImageChooserPanel('photo'), 
 		FieldPanel('email_id'), 
 		FieldPanel('website'), 
 		FieldPanel('contact_number'),
-		FieldPanel('hostel_address_line_1'),
+		FieldPanel('address'),
 		FieldPanel('intro'),
 		FieldPanel('programme'),
 		FieldPanel('specialization'),
@@ -765,6 +785,82 @@ class StaffPage(Page):
 	class Meta:
 		verbose_name = "Staff"
 		verbose_name_plural = "Staff"
+
+######################################################
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		home = FacultyHomePage.objects.all()[0]  # Now be careful here as if there will be more than one facultyHomePage then there will be a problem
+
+		base_slug = instance.username
+		if not instance.email:
+			mail_id=instance.username + "@iitg.ac.in"
+		else:
+			mail_id=instance.email
+		website='http://www.iitg.ac.in'
+		new_faculty = FacultyPage(
+			title= instance.first_name +" "+ instance.last_name,
+			slug=FacultyPage()._get_autogenerated_slug(base_slug),
+			user=instance,
+			first_name=instance.first_name,
+			last_name=instance.last_name,
+			email_id=mail_id,
+			website=website,
+		)
+		home.add_child(instance=new_faculty)
+		home.save()
+# def create_user_profile(sender, instance, created, **kwargs):
+# 	if created:
+# 		if instance.user_type == '0':
+# 			home = FacultyHomePage.objects.all()[0]  # Now be careful here as if there will be more than one facultyHomePage then there will be a problem
+
+# 			base_slug = instance.username
+# 			if not instance.email:
+# 				mail_id=instance.username + "@iitg.ac.in"
+# 			else:
+# 				mail_id=instance.email
+# 			website='http://www.iitg.ac.in'
+# 			new_faculty = FacultyPage(
+# 				title= instance.first_name +" "+ instance.last_name,
+# 				slug=FacultyPage()._get_autogenerated_slug(base_slug),
+# 				user=instance,
+# 				first_name=instance.first_name,
+# 				last_name=instance.last_name,
+# 				email_id=mail_id,
+# 				website=website,
+# 			)
+# 			home.add_child(instance=new_faculty)
+# 			home.save()
+# 		elif instance.user_type == '1':
+# 			home = StudentHomePage.objects.all()[0]
+# 			base_slug = instance.username
+# 			enrolment_year = datetime.strptime('Aug 1 20'+base_slug[0:2]+' 12:00PM', '%b %d %Y %I:%M%p')
+# 			PROG = {'01':'0', '41':'1', '61':'2'}
+# 			try:
+# 				programme = PROG[base_slug[2:4]]
+# 			except KeyError:
+# 				programme = '3'
+
+# 			if not instance.email:
+# 				mail_id=instance.username + "@iitg.ac.in"
+# 			else:
+# 				mail_id=instance.email
+# 			new_faculty = StudentPage(
+# 				title= instance.first_name +" "+ instance.last_name,
+# 				slug=StudentPage()._get_autogenerated_slug(base_slug),
+# 				user=instance,
+# 				first_name=instance.first_name,
+# 				last_name=instance.last_name,
+# 				email_id=mail_id,
+# 				roll_no=base_slug, #see some lines above
+# 				enrolment_year=enrolment_year,
+# 				programme=programme,
+# 			)
+# 			home.add_child(instance=new_student)
+# 			home.save()
+# 		else:
+# 			pass
+
 ######################################################
 class ResearchHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[5])
@@ -1079,6 +1175,13 @@ class CourseStructure(Page):
 	def serve(self, request):
 		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester')
 
+		# structure = sem1 + sem2 + sem3 + sem4 + sem5 + sem6 + sem7 + sem8
+
+		# Filter by department
+		prog = request.GET.get('prog')
+		if prog in ['0','1', '2', '3']:
+			course_list = course_list.filter(coursepage__eligible_programmes=prog)
+
 		structure = []
 		sem1 = course_list.filter(coursepage__semester=1)
 		structure.append(sem1)
@@ -1096,13 +1199,6 @@ class CourseStructure(Page):
 		structure.append(sem7)
 		sem8 = course_list.filter(coursepage__semester=8)
 		structure.append(sem8)
-
-		# structure = sem1 + sem2 + sem3 + sem4 + sem5 + sem6 + sem7 + sem8
-
-		# Filter by department
-		prog = request.GET.get('prog')
-		if prog in ['0','1', '2', '3']:
-			course_list = course_list.filter(coursepage__eligible_programmes=prog)
 
 		return render(request, self.template, {
 			'page': self,

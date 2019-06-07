@@ -6,7 +6,7 @@
 
 {% block content %}
     {{ page.title }}
-    <h1><a href="{{ page.specific.url }}">{{ page.specific.name }}</a></h1>
+    <h1><a href="{{ page.specific.url }}">{{ page.specific.first_name }} {{ page.specific.last_name }}</a></h1>
     <div>{% image page.specific.photo fill-50x50 %}</div>
     <!-- Intro -->
     <h2>Intro:</h2>

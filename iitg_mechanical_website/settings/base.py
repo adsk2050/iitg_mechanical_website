@@ -184,3 +184,4 @@ CUSTOM_RICHTEXT = (
     RICHTEXT_MISC
 )
 
+# AUTH_USER_MODEL = 'mechweb.User'

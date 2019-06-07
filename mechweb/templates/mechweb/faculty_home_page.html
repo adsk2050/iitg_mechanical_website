@@ -37,7 +37,7 @@
                   <h3>Head of Department</h3>
               {% endif %}
                 <a href="{% pageurl faculty %}">
-                    <h2>{{ faculty.specific.name }}</h2>
+                    <h2>{{ faculty.specific.first_name }} {{ faculty.specific.last_name }}</h2>
                 </a>
                 <ul class="bread-meta">
                     <li><span>Designation</span> {{ faculty.specific.get_designation_display }}</li>

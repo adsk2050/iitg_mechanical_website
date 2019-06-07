@@ -116,3 +116,16 @@ _____________________________________________________________________
 How to nest tuples for choices
 
 https://stackoverflow.com/questions/28949232/how-deep-can-be-nesting-tuple-for-choices-in-django
+_____________________________________________________________________
+Convert string to datetime
+
+https://stackoverflow.com/questions/466345/converting-string-into-datetime
+
+_____________________________________________________________________
+How to create custom models in wagtail in shell 
+
+https://stackoverflow.com/questions/55409667/creating-page-object-programmatically-got-error-validationerror-path-and-depth-f
+_____________________________________________________________________
+IITG Roll number decoding
+
+http://intranet.iitg.ernet.in/acad/pdf/help.pdf

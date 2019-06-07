@@ -1,7 +1,14 @@
 TEXT_PANEL_CONTENT_TYPES=(
 	('0', 'News'),
-	('1', 'Notifications'),
+	('1', 'Announcements'),
 	('2', 'Others'),
+)
+
+USER_TYPES = (
+	('0', 'Faculty'),
+	('1', 'Student'),
+	('2', 'Alumni'),
+	('3', 'Staff'),
 )
 
 LOCATIONS=(
@@ -21,7 +28,7 @@ STUDENT_PROGRAMME = (
 	('0', 'Bachelor'),
 	('1', 'Masters'),
 	('2', 'Research Scholar'),
-	('3', 'PostDoc'),
+	('3', 'Other, e.g. PostDoc or N.A.'),
 )
 
 MASTERS_SPECIALIZATION = (
