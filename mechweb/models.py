@@ -60,7 +60,6 @@ class MechHomePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	parent_page_types=[]
 	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage']
 
 	max_count = 1
@@ -1043,6 +1042,9 @@ class PublicationPage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
+	parent_page_types=['PublicationHomePage']
+	subpage_types=[ ]	
+
 	class Meta:
 		verbose_name = "Publication"
 		verbose_name_plural = "Publications"
@@ -1126,6 +1128,10 @@ class ProjectPage(Page):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
+
+	parent_page_types=['ProjectHomePage']
+	subpage_types=[ ]
+
 
 	class Meta:
 		verbose_name = "Project"
@@ -1262,6 +1268,9 @@ class CoursePage(Page):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
+
+	parent_page_types=['CourseStructure']
+	subpage_types=[ ]
 
 	class Meta:
 		verbose_name = "Course"
