@@ -18,7 +18,7 @@
 	    <ul>
 	    {% for alumnus in page.distinguished_alumni.all %}
 		    <li>
-		        <h2><a href="{{ alumnus.distinguished_alumnus.url }}">{{ alumnus.distinguished_alumnus.name }}</a></h2>
+		        <h2><a href="{{ alumnus.distinguished_alumnus.url }}">{{ distinguished_alumnus.first_name }} {{ distinguished_alumnus.last_name }}</a></h2>
 		        <div>{% image alumnus.distinguished_alumnus.photo fill-50x50 %}</div>
 		        <div>Proramme : {{ alumnus.distinguished_alumnus.get_programme_display }}</div>
 		        <div>Enrolment year : {{ alumnus.distinguished_alumnus.enrolment_year }}</div>
@@ -36,7 +36,7 @@
 
 	    {% else %}
 		    <li>
-		        <h2><a href="{{ alumnus.specific.url }}">{{ alumnus.specific.name }}</a></h2>
+		        <h2><a href="{{ alumnus.specific.url }}">{{ alumnus.specific.first_name }} {{ alumnus.specific.last_name }}</a></h2>
 		        <div>{% image alumnus.specific.photo fill-50x50 %}</div>
 		        <div>Proramme : {{ alumnus.specific.get_programme_display }}</div>
 		        <div>Enrolment year : {{ alumnus.specific.enrolment_year }}</div>

@@ -36,7 +36,7 @@
                                 </ul>
                             </td>
 
-                            <td valign="top">{{ page.label }}</td>
+                            <td valign="top">{{ page.content_type }}</td>
 
                             <td valign="top"><div class="human-readable-date" title="{{ revision.created_at|date:"d M Y H:i" }}">{% blocktrans with time_period=revision.created_at|timesince %}{{ time_period }} ago{% endblocktrans %}</div></td>
                             <td valign="top">

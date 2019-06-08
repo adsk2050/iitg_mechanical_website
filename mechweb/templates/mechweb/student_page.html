@@ -17,7 +17,7 @@
     <h3>Details:</h3>
     <ul>
         <li>Contact number : {{ page.specific.contact_number }}</li>
-        <li>Address : {{ page.specific.hostel_address_line_1 }}</li>
+        <li>Address : {{ page.specific.hostel_address }}</li>
         <li>Email ID : {{ page.specific.email_id }}</li>
         <li>Enrolment Year: {{ page.specific.enrolment_year }}</li>
         <li>Programme : {{ page.specific.get_programme_display }}</li>
@@ -118,7 +118,7 @@
 
     <!-- Images -->
     <div>
-    {% with images=page.specific.gallery_images.all  %}
+    {% with images=page.specific.stud_gallery_images.all  %}
         {% if images %}
             <h3>Images</h3>
             <ul>
@@ -133,7 +133,7 @@
     <hr>
 
     <div>
-    {% with links=page.specific.links.all  %}
+    {% with links=page.specific.stud_links.all  %}
         {% if links %}       
             <h3>Links</h3>
             <ul>
