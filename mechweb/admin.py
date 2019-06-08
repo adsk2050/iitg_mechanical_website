@@ -1,5 +1,16 @@
 from django.contrib import admin
-# from django.contrib.auth.admin import UserAdmin
-# from .models import User
+from django.contrib.auth.admin import UserAdmin
+ # as BaseUserAdmin
+from .models import CustomUser
 
-# admin.site.register(User, UserAdmin)
+# If you use this then comment the code in forms 
+# -------------------------------------------------
+# class CustomUserInline(admin.StackedInline):
+# 	model = CustomUser
+# 	can_delete = False
+
+# class UserAdmin(BaseUserAdmin):
+# 	inlines = [CustomUserInline]
+# -------------------------------------------------
+
+admin.site.register(CustomUser, UserAdmin)
