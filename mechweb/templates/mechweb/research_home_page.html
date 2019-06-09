@@ -5,7 +5,6 @@
 {% block body_class %}template-research-homepage{% endblock %}
 
 {% block content %}
-    <!-- Navbar -->
     <ul>
 	    {% for child in page.get_children %}
 	    	<li><a href="{{ child.url }}">{{ child.title }}</a></li>
@@ -16,4 +15,77 @@
     <!-- Intro -->
     <div class="intro">{{ page.intro|richtext }}</div>
     <hr>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="section-header">
+            <h2>Laboratories</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- <div class="testimonial-slider"> -->
+            <div class="single-service col">
+              <div class="service-bg service-bg-1">
+                <h2>Thermal And Fluids Engineering</h2>
+              </div>
+
+              <div class="service-text">
+                <ul>
+            	    {% for lab in lab_list %}
+                  hi
+                      <li><a href="{{ lab.url }}?area=0">Thermodynamics</li>
+
+            	    {% endfor %}
+            	   </ul>
+<!--
+                <a href="#" class="btn-area">Read more.. <i class="
+                  fa fa-long-arrow-right"></i>
+                </a> -->
+              </div>
+            </div>
+
+            <div class="single-service col">
+              <div class="service-bg service-bg-1">
+                <h2>Manufacturing Engineering</h2>
+              </div>
+
+              <div class="service-text">
+                <ul>
+                  {% for child in page.get_children %}
+                  {% if child.research_area == 'c' %}
+                    <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                 </ul>
+                <!-- <a href="#" class="btn-area">Read more.. <i class="
+                  fa fa-long-arrow-right"></i>
+                </a> -->
+              </div>
+            </div>
+
+            <div class="single-service col">
+              <div class="service-bg service-bg-1">
+                <h2>Machine Design Engineering </h2>
+              </div>
+
+              <div class="service-text">
+                <ul>
+
+                  {% for child in page.get_children %}
+                  {% if child.research_area == 'b' %}
+                    <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                 </ul>
+                <!-- <a href="#" class="btn-area">Read more.. <i class="
+                  fa fa-long-arrow-right"></i>
+                </a> -->
+              </div>
+            </div>
+
+
+      </div>
+    </div>
 {% endblock %}

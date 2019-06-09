@@ -176,3 +176,9 @@ DISPOSAL_COMMITTEE = (
 	('2', 'External Member'),
 	('3', 'Non Member Secretary'),
 )
+
+RESEARCH_AREAS = (
+	('a', 'Thermal and Fluid Engineering'),
+	('b', 'Machine Design Engineering'),
+	('c', 'Manufacturing Engineering'),
+)

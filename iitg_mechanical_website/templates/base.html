@@ -11,7 +11,12 @@
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href= "/static/css/base.css" rel="stylesheet" type="text/css">
-    <!-- <link href= "/static/css/staff.css" rel="stylesheet" type="text/css"> -->
+    <link href= "/static/css/fontawesome.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/owl.theme.default.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.css" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.2/owl.carousel.css" rel="stylesheet" />
 
 
     {% block extra_css %}
@@ -38,49 +43,54 @@
 
 </head>
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}{% endblock %} ">
 
-      <header style="background-color: #3A5157;" class="blog-header py-3">
-          <div class="row flex-nowrap justify-content-between align-items-center">
-              <div class="col-4 pt-1">
+      <!-- <header style="background-color: #3A5157;" class="blog-header py-3 row"> -->
+        <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2 row">
+          <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color:#62A8E0 ">
+            <div class="container" >
+            <a class="navbar-brand" href="http://127.0.0.1:8000">
+              <img height="85px" width="85px"
+                  src="{% static "images/logo.png" %}" class = "center"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="col-md-4">
+              <div class="row">
+                <h4>Department of</h4><br>
               </div>
-              <div class="col-4">
-                  <a class="blog-header-logo text-dark"  href="#">
-                    <img height="85px" width="85px"
-                          src="{% static "images/logo.png" %}" class = "center"></a>
+              <div class="row">
+                <h3>Mechanical Engineering</h3>
               </div>
-              <div class="col-4 d-flex justify-content-end align-items-center">
-                  <a class="text-muted" href="#"></a>
-              </div>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                  <a class="nav-link" href="http://127.0.0.1:8000">Home <span class="sr-only"></span></a>
+                </li>
+                {% for child in navlist %}
+                    <li class="nav-item"><a class="nav-link" href="{{ child.url }}">{{ child.title }}</a></li>
+                {% endfor %}
+
+              </ul>
+
+            </div>
           </div>
-          <div class="row">
-              <div class="col-1"></div>
-              <div style="color: white;" align="middle" class="col-10 text-center">
-                  <h2>Department of Mechanical Engineering</h2>
-              </div>
-              <div class="col"></div>
-          </div>
-      </header>
-
-
-      <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2">
-          <nav>
-              <div id="wrapper">
-                  <ul>
-                      <li class="different active"><a href="http://127.0.0.1:8000">Home</a></li>
-                    {% for child in navlist %}
-                        <li class="different"><a href="{{ child.url }}">{{ child.title }}</a></li>
-                    {% endfor %}
-                  </ul>
-              </div>
           </nav>
         </div>
+      <!-- </header> -->
+
+
+
 
         {% wagtailuserbar %}
 
 
+        <div class="container">
+          {% block content %}{% endblock %}
 
-        {% block content %}{% endblock %}
+        </div>
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/iitg_mechanical_website.js' %}"></script>
@@ -89,51 +99,173 @@
             {# Override this in templates to add extra javascript #}
         {% endblock %}
 
-        <footer class="blog-footer">
-            <div class="rowfooter">
-                <div class="col-md-2 col-sm-0"></div>
-                <div class="colfooter">
-                    <div class="foot-head">News and Events</div><br>
-                    <p>
-                        <a href="#">Faculty Recruitment</a><br>
-                        <a href="#">PG Admission</a><br>
-                        <a href="#">Summer Internship</a><br>
-                        <a href="#">Upcoming Events</a><br>
-                        <a href="#">Past Events</a><br>
-                    </p>
-                </div>
+        <!-- Footer -->
+        <hr>
+      <footer class="page-footer font-small stylish-color-dark pt-4 "  style="background-color: #62A8E0;">
 
-                <div class="colfooter">
-                    <div class="foot-head">Departmental Links</div><br>
-                    <p>
-                        <a href="#">Departmental Committees</a><br>
-                        <a href="#">Time Table and Instructors</a><br>
-                        <a href="#">Online Hall Booking</a><br>
-                        <a href="#">Faculty Advisor</a><br>
-                        <a href="#">Forms, Minutes & Downloads </a><br>
-                        <a href="#">TA Allotment and Related Forms </a><br>
-                        <a href="#">Related Links</a><br>
-                    </p>
-                </div>
-                <div class="colfooter">
-                    <div class="foot-head">Quick Links</div><br>
-                    <p>
-                        <a href="#">IITG Webmail</a><br>
-                        <a href="#">IITG Home</a><br>
-                        <a href="#">Phone Directory</a><br>
-                        <a href="#">RuTAG-NE</a><br>
-                        <a href="#">NPTEL</a><br>
-                        <a href="#">IITG MESA</a><br>
-                        <a href="#">Automobile Club</a><br>
-                    </p>
-                </div>
+        <!-- Footer Links -->
+        <div class="container text-center text-md-left">
+
+          <!-- Grid row -->
+          <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-4 mx-auto">
+
+              <!-- Content -->
+              <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Department of Mechanical Engineering</h6>
+              <p>Indian Institute of Technology Guwahati,
+      North Guwahati, Guwahati, Assam 781039</p>
+              <p>Developed by Dhiraj Mittal and Sundar Kumar</p>
+
             </div>
-        </footer>
+            <!-- Grid column -->
+
+            <hr class="clearfix w-100 d-md-none">
+
+            <!-- Grid column -->
+            <div class="col-md-2 mx-auto">
+
+              <!-- Links -->
+              <h6 class="font-weight-bold text-uppercase mt-3 mb-4">IMPORTANT LINKS</h6>
+
+              <ul class="list-unstyled" style="list-style: disc;">
+                <li>
+                  <a href="#!">Link 1</a>
+                </li>
+                <li>
+                  <a href="#!">Link 2</a>
+                </li>
+                <li>
+                  <a href="#!">Link 3</a>
+                </li>
+                <li>
+                  <a href="#!">Link 4</a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- Grid column -->
+
+            <hr class="clearfix w-100 d-md-none">
+
+            <!-- Grid column -->
+            <div class="col-md-2 mx-auto">
+
+              <!-- Links -->
+              <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Quick links</h6>
+
+              <ul class="list-unstyled" style="list-style: disc;">
+                <li>
+                  <a href="#!">Link 1</a>
+                </li>
+                <li>
+                  <a href="#!">Link 2</a>
+                </li>
+                <li>
+                  <a href="#!">Link 3</a>
+                </li>
+                <li>
+                  <a href="#!">Link 4</a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- Grid column -->
+
+            <hr class="clearfix w-100 d-md-none">
+
+            <!-- Grid column -->
+            <div class="col-md-2 mx-auto">
+
+              <!-- Links -->
+              <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Downloads</h6>
+
+              <ul class="list-unstyled" style="list-style: disc;">
+                <li>
+                  <a href="#!">Link 1</a>
+                </li>
+                <li>
+                  <a href="#!">Link 2</a>
+                </li>
+                <li>
+                  <a href="#!">Link 3</a>
+                </li>
+                <li>
+                  <a href="#!">Link 4</a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+        </div>
+        <!-- Footer Links -->
+
+
+        <!-- Call to action -->
+        <!-- <ul class="list-unstyled list-inline text-center py-2">
+          <li class="list-inline-item">
+            <h5 class="mb-1">Register for free</h5>
+          </li>
+          <li class="list-inline-item">
+            <a href="#!" class="btn btn-danger btn-rounded">Sign up!</a>
+          </li>
+        </ul> -->
+        <!-- Call to action -->
+
+        <hr>
+
+        <!-- Social buttons -->
+        <ul class="list-unstyled list-inline text-center">
+          <li class="list-inline-item">
+            <a class="btn-floating btn-fb mx-1">
+              <i class="fab fa-facebook"> </i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="btn-floating btn-tw mx-1">
+              <i class="fab fa-twitter"> </i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="btn-floating btn-gplus mx-1">
+              <i class="fab fa-google-plus-g"> </i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="btn-floating btn-li mx-1">
+              <i class="fab fa-linkedin-in"> </i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="btn-floating btn-dribbble mx-1">
+              <i class="fab fa-dribbble"> </i>
+            </a>
+          </li>
+        </ul>
+        <!-- Social buttons -->
+
+        <!-- Copyright -->
+        <div class="copyright text-center py-3">© 2019 Department of ME, IITG:
+          <a href="https://iitg.ac.in"> IIT Guwahati</a>
+        </div>
+        <!-- Copyright -->
+
+      </footer>
+      <!-- Footer -->
 
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+        window.onscroll = function() {scrollFunction()};
+
+        </script>
 
     </body>
 </html>

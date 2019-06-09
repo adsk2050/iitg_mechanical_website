@@ -21,7 +21,7 @@ from taggit.models import TaggedItemBase, Tag
 ######################################################
 # Importing constants and settings
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, RESEARCH_AREAS
 # , NAV_ORDER
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
@@ -33,12 +33,18 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 ######################################################
 class MechHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	HOD_image = models.ForeignKey('wagtailimages.Image',null=True ,blank= True, on_delete=models.CASCADE, related_name='+')
+	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+
 	# intro = RichTextField(blank=True)
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		# InlinePanel('text_panels', label="Mini Articles"),
 		InlinePanel('gallery_images', label="Gallery Images"),
+		FieldPanel('HOD_message'),
+		ImageChooserPanel('HOD_image'),
 	]
 
 	notification_tab_panels = [
@@ -213,7 +219,7 @@ class FacultyHomePage(Page):
 
 	# This function is not working here
 	# def list_common_interests(self):
-	
+
 	def serve(self, request):
 		faculty_list = self.get_children().live().order_by('facultypage__name')
 
@@ -222,7 +228,7 @@ class FacultyHomePage(Page):
 		tag = request.GET.get('tag')
 		if tag:
 			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
-				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code 
+				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
 		paginator = Paginator(faculty_list, 1) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
 		faculty_list = paginator.get_page(page_no)
@@ -317,7 +323,7 @@ class FacultyPage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	# Not working 
+	# Not working
 	# def faculty_labs(self):
 	# 	lab_relation_list = self.faculty_lab.all()
 	# 	lab_list = []
@@ -380,7 +386,7 @@ class FacultyAnnouncement(Orderable):
 	panels = [
 		FieldPanel('title'),
 		FieldPanel('message'),
-		FieldPanel('date'),		
+		FieldPanel('date'),
 		DocumentChooserPanel('document'),
 		FieldPanel('link'),
 	]
@@ -438,10 +444,10 @@ class StudentHomePage(Page):
 		return render(request, self.template, {
 			'page': self,
 			'student_list': student_list,
-			# 'btech_student_list': btech_student_list, 
-			# 'mtech_student_list': mtech_student_list, 
-			# 'phd_student_list': phd_student_list, 
-			# 'postdoc_student_list': postdoc_student_list, 
+			# 'btech_student_list': btech_student_list,
+			# 'mtech_student_list': mtech_student_list,
+			# 'phd_student_list': phd_student_list,
+			# 'postdoc_student_list': postdoc_student_list,
 			'all_research_interests': all_research_interests,
 			'tag':tag,
 			'page_no':page_no,
@@ -478,9 +484,9 @@ class StudentPage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('enrolment_year'),
-		ImageChooserPanel('photo'), 
-		FieldPanel('email_id'), 
-		FieldPanel('website'), 
+		ImageChooserPanel('photo'),
+		FieldPanel('email_id'),
+		FieldPanel('website'),
 		FieldPanel('contact_number'),
 		FieldPanel('hostel_address_line_1'),
 		FieldPanel('intro'),
@@ -785,6 +791,7 @@ class ResearchHomePage(Page):
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
+	research_area = models.CharField(max_length=2, choices=RESEARCH_AREAS, default='a')
 	# When already defined in faculty model who is lab incharge... then do we need it here?
 	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
 
@@ -804,6 +811,7 @@ class ResearchLabPage(Page):
 		FieldPanel('address'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
+		FieldPanel('research_area'),
 		InlinePanel('links', label="Related Links"),
 		MultiFieldPanel([
 			ImageChooserPanel('photo_1'),
@@ -861,7 +869,7 @@ class LabEquipment(Orderable):
 		FieldPanel('link'),
 		FieldPanel('cost'),
 		FieldPanel('date_of_procurement'),
-		ImageChooserPanel('photo_1'), 
+		ImageChooserPanel('photo_1'),
 		MultiFieldPanel([
 			FieldPanel('funding_agency'),
 			FieldPanel('funding_agency_link'),

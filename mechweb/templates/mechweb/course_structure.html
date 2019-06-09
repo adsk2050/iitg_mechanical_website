@@ -5,58 +5,77 @@
 {% block body_class %}template-course-structure{% endblock %}
 
 {% block content %}
-    {{ page.title }}
-    <h1>Course Structure</h1>
-    <ul>
-        <li><a href="{{ page.url }}?prog=0">B.Tech</li>
-        <li><a href="{{ page.url }}?prog=1">M. Tech</li>
-        <li><a href="{{ page.url }}?prog=2">PhD</li>
-    </ul>
 
-    {% if prog == '0' or prog == '1' %}
-        {% for prog_sem in structure %}
-            {% if prog_sem|length != 0 %}
-            <h2>Semester {{ forloop.counter }}</h2>
-            <ul>
-                <li>
-                {% for course in prog_sem %}
-                    <div>
-                        <h3><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
-                        <ul>
-                            <li>Course code : {{ course.specific.code }}</li>
-                            <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
-                            <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
-                            <li>Semester : {{ course.specific.semester }}</li>
-                            <li>Course Type : {{ course.specific.get_course_type_display }}</li>
-                            <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
-                        </ul>  
-                    </div>
-                {% endfor %}
-                </li>
-            </ul>   
-            {% endif %}
-        {% endfor %}
-    {% elif prog == '2' %}
-        <h2>PhD Course Structure</h2>
-    {% else %}
-        <!-- List of all courses here -->
-        {% for course in course_list %}
-        <div>
-            <h2><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
-            <ul>
-                <li>Course code : {{ course.specific.code }}</li>
-                <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
-                <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
-                <li>Semester : {{ course.specific.semester }}</li>
-                <li>Course Type : {{ course.specific.get_course_type_display }}</li>
-                <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
-            </ul>  
+
+  <h1>{{ page.title }}</h1>
+
+  <div class="container demoPadder" >
+	      <div class="col-md-12">
+          <div class="btn-toolbar demoPadder" role="toolbar">
+            <div class="btn-group">
+                <li class="col"><a href="{{ page.url }}?prog=0"><button type="button" class="btn btn-default" aria-label="Btech">Btech</button></li>
+                <li class="col"><a href="{{ page.url }}?prog=1"><button type="button" class="btn btn-default" aria-label="Mtech">Mtech</button></li>
+                <li class="col"><a href="{{ page.url }}?prog=2"><button type="button" class="btn btn-default" aria-label="Phd">Phd</button></li>
+            </div>
+          </div>
         </div>
-            
+    </div><hr>
+    <div class="layoutcard">
+      {% if prog == '0' or prog == '1' %}
+      {% for prog_sem in structure %}
+          {% if prog_sem|length != 0 %}
+          <h2>Semester {{ forloop.counter }}</h2>
+            <ul class="cards">
+                {% for course in prog_sem %}
+                <li class="cards_item">
+
+                <div class="card">
+                  <!-- <div class="card_image"><img src="https://picsum.photos/500/300/?image=10"></div> -->
+                    <div class="card_content">
+                      <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2><hr>
+                      <ul>
+                        <li>Course code : {{ course.specific.code }}</li>
+                        <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
+                        <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
+                        <li>Semester : {{ course.specific.semester }}</li>
+                        <li>Course Type : {{ course.specific.get_course_type_display }}</li>
+                        <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                {% endfor %}
+            </ul>
+
+          {% endif %}
         {% endfor %}
-    {% endif %}
+        {% elif prog == '2' %}
+          <h2>PhD Course Structure</h2>
+        {% else %}
+          <!-- List of all courses here -->
+            <ul class="cards">
+                {% for course in course_list %}
+                <li class="cards_item">
+                <div class="card h-100">
+                  <div class="card_content">
+                    <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
+                    <ul>
+                      <li>Course code : {{ course.specific.code }}</li>
+                      <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
+                      <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
+                      <li>Semester : {{ course.specific.semester }}</li>
+                      <li>Course Type : {{ course.specific.get_course_type_display }}</li>
+                      <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
 
+                {% endfor %}
+            </ul>
 
+        {% endif %}
+    </div>
 
-
-{% endblock %}
+        {% endblock %}
