@@ -7,7 +7,7 @@ TEXT_PANEL_CONTENT_TYPES=(
 USER_TYPES = (
 	('0', 'Faculty'),
 	('1', 'Student'),
-	('2', 'Alumni'),
+	('2', 'Alumnus'),
 	('3', 'Staff'),
 )
 

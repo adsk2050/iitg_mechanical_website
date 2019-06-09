@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'search',
     'mechweb',
 
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.styleguide',

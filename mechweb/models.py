@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 
 from django.utils.text import slugify
 # from django.contrib.auth.models import User
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
@@ -79,7 +79,8 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 
 class CustomUser(AbstractUser):
 	# pass
-	is_admin = models.BooleanField(default=False)
+	# is_admin = models.BooleanField(default=False)
+	is_staff = models.BooleanField(default=True)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
 	# USERNAME_FIELD = 'username' # Its anyway the default, but you can change this 
 
@@ -95,7 +96,7 @@ class MechHomePage(Page):
 	]
 
 	notification_tab_panels = [
-		InlinePanel('text_panels', label="Mini Articles"),
+		InlinePanel('text_panels', label="Mini Articles", min_num=1),
 	]
 
 	edit_handler = TabbedInterface([
@@ -215,8 +216,8 @@ class EventPage(Page):
 		# InlinePanel('poster', label="Poster"),
 		DocumentChooserPanel('document'),
 		FieldPanel('event_type'),
-		InlinePanel('gallery_images', label="Gallery Images"),
-		InlinePanel('links', label="Related Links"),
+		InlinePanel('gallery_images', label="Gallery Images", max_num=2),
+		InlinePanel('links', label="Related Links", max_num=10),
 	]
 
 	# promote_panels=[]
@@ -300,7 +301,7 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	user = models.OneToOneField(CustomUser, null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(CustomUser, related_name='faculty', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	office_contact_number = models.CharField(max_length=20, blank=True)
@@ -353,7 +354,7 @@ class FacultyPage(Page):
 		FieldPanel('intro'),
 		FieldPanel('body'),
 		FieldPanel('research_interests'),
-		InlinePanel('gallery_images', label="Gallery images"),
+		InlinePanel('gallery_images', label="Gallery images", max_num=10),
 		FieldPanel('leaving_date'),
 	]
 	# Creating custom tabs
@@ -368,7 +369,7 @@ class FacultyPage(Page):
 	]
 
 	announcement_tab_panels = [
-		InlinePanel('faculty_announcement', label="Announcement"),
+		InlinePanel('faculty_announcement', label="Announcement", max_num=10),
 	]
 
 	edit_handler = TabbedInterface([
@@ -476,7 +477,7 @@ class AbstractStudentHomePage(Page):
 		abstract = True
 
 class AbstractStudentPage(Page):
-	user = models.OneToOneField(CustomUser, null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(CustomUser, related_name='student', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField(unique=True)
@@ -571,8 +572,8 @@ class StudentPage(AbstractStudentPage):
 	content_panels = AbstractStudentPage.content_panels + [
 		PageChooserPanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
 		FieldPanel('research_interests'),
-		InlinePanel('stud_gallery_images', label="Gallery images"),
-		InlinePanel('stud_links', label="Related Links"),
+		InlinePanel('stud_gallery_images', label="Gallery images", max_num=2),
+		InlinePanel('stud_links', label="Related Links", max_num=10),
 	]
 
 	project_tab_panels = [
@@ -718,7 +719,7 @@ class StaffSkillag(TaggedItemBase):
 	)
 
 class StaffPage(Page):
-	user = models.OneToOneField(CustomUser, null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(CustomUser, related_name='staff', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField()
@@ -772,7 +773,7 @@ def staff_skills():
 ######################################################
 class AlumniHomePage(AbstractStudentHomePage):
 	content_panels = AbstractStudentHomePage.content_panels + [
-		InlinePanel('distinguished_alumni', label="Distinguished Alumni"),
+		InlinePanel('distinguished_alumni', label="Distinguished Alumni", max_num=10),
 	]
 
 	parent_page_types=['MechHomePage']
@@ -810,6 +811,7 @@ class AlumniInterestTag(TaggedItemBase):
 	)
 
 class AlumnusPage(AbstractStudentPage):
+	user = models.OneToOneField(CustomUser, related_name='alumnus', null=True, on_delete=models.SET_NULL)
 	contact_number_2 = models.CharField(max_length=20, blank=True)
 	email_id_2 = models.EmailField(blank=True)
 	address_line_1 = models.CharField(max_length=100, blank=True)
@@ -843,13 +845,13 @@ class AlumnusPage(AbstractStudentPage):
 		FieldPanel('intro'),
 		FieldPanel('body'),
 		FieldPanel('email_id_2'),
-		InlinePanel('alum_gallery_images', label="Gallery images"),
-		InlinePanel('alum_links', label="Related Links"),
+		InlinePanel('alum_gallery_images', label="Gallery images", max_num=5),
+		InlinePanel('alum_links', label="Related Links", max_num=10),
 		FieldPanel('interests'),
 	]
 
 	job_tab_panels = [
-		InlinePanel('job_details', label="Job Details"),
+		InlinePanel('job_details', label="Job Details", max_num=3),
 	]
 
 	edit_handler = TabbedInterface([
@@ -903,7 +905,6 @@ class DistinguishedAlumni(Orderable):
 		PageChooserPanel('distinguished_alumnus'),
 		FieldPanel('about'),
 	]
-
 
 def alumni_interests():
 	live_tags = AlumniInterestTag.objects.all()
@@ -1015,6 +1016,10 @@ def create_user_profile(sender, instance, created, **kwargs):
 		else:
 			pass
 
+@receiver(pre_delete, sender=CustomUser)
+def delete_user_profile(sender, instance, using, **kwargs):
+	""" What happens when a user is deleted"""
+	pass
 ######################################################
 class ResearchHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[5])
@@ -1054,7 +1059,7 @@ class ResearchLabPage(Page):
 		FieldPanel('address'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
-		InlinePanel('links', label="Related Links"),
+		InlinePanel('links', label="Related Links", max_num=10),
 		MultiFieldPanel([
 			ImageChooserPanel('photo_1'),
 			ImageChooserPanel('photo_2'),
@@ -1063,7 +1068,7 @@ class ResearchLabPage(Page):
 	]
 
 	lab_equipment_panels = [
-		InlinePanel('equipment', label="Lab Equipments"),
+		InlinePanel('equipment', label="Lab Equipments", min_num=1),
 	]
 
 	people_panels = [
@@ -1176,13 +1181,13 @@ class PublicationPage(Page):
 		FieldPanel('pub_type'),
 		FieldPanel('abstract'),
 		FieldPanel('download_link'),
-		InlinePanel('images', label="Images"),
+		InlinePanel('images', label="Images", max_num=2),
 		# ImageChooserPanel('photo'),
 		# PageChooserPanel('student'),
 		# PageChooserPanel('faculty'),
 		# InlinePanel('faculty', label="Faculty"),
 		# InlinePanel('students', label="Students"),
-		InlinePanel('links', label="Links"),
+		InlinePanel('links', label="Links", max_num=10),
 	]
 
 	people_panels = [
@@ -1268,8 +1273,8 @@ class ProjectPage(Page):
 		FieldPanel('end_date'),
 		FieldPanel('funding_agency'),
 		FieldPanel('funding_agency_link'),
-		InlinePanel('links', label="Links"),
-		InlinePanel('gallery_images', label="Gallery images"),
+		InlinePanel('links', label="Links", max_num=10),
+		InlinePanel('gallery_images', label="Gallery images", max_num=3),
 	]
 
 	people_panels = [
@@ -1409,7 +1414,7 @@ class CoursePage(Page):
 		], heading="Course Details"),
 		FieldPanel('description'),
 		ImageChooserPanel('photo'),
-		InlinePanel('course_instructor', label="Course Instructor"),
+		InlinePanel('course_instructor', label="Course Instructor", min_num=1),
 
 	]
 
