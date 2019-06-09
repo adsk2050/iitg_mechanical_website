@@ -29,10 +29,10 @@ from taggit.models import TaggedItemBase, Tag
 ######################################################
 # Importing constants and settings
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, USER_TYPES
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES
 # , NAV_ORDER
 
-from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES
+from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
 
 ######################################################
 
@@ -79,8 +79,8 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 
 class CustomUser(AbstractUser):
 	# pass
-	# is_admin = models.BooleanField(default=False)
-	is_staff = models.BooleanField(default=True)
+	is_admin = models.BooleanField(default=False)
+	# is_staff = models.BooleanField(default=True)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
 	# USERNAME_FIELD = 'username' # Its anyway the default, but you can change this 
 
@@ -106,7 +106,7 @@ class MechHomePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage']
 
 	max_count = 1
 
@@ -311,7 +311,7 @@ class FacultyPage(Page):
 	email_id = models.EmailField(unique=True)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250, blank=True)
-	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
@@ -368,6 +368,10 @@ class FacultyPage(Page):
 		FieldPanel('disposal_committee'),
 	]
 
+	achievement_tab_panels= [
+		InlinePanel('fac_award', label="Awards"),
+	]
+
 	announcement_tab_panels = [
 		InlinePanel('faculty_announcement', label="Announcement", max_num=10),
 	]
@@ -376,6 +380,7 @@ class FacultyPage(Page):
 		ObjectList(content_panels, heading="Content"),
 		ObjectList(custom_tab_panels, heading="Administration"),
 		ObjectList(announcement_tab_panels, heading="Announcement"),
+		ObjectList(achievement_tab_panels, heading="Achievements"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
@@ -408,10 +413,17 @@ class FacultyPage(Page):
 			project = project_relation.page
 			project_list.append(project)
 
+		course_relation_list = self.course_instructor.all()
+		course_list = []
+		for course_relation in course_relation_list:
+			course = course_relation.page
+			course_list.append(course)
+
 		context = super().get_context(request)
 		context['lab_list'] = lab_list
 		context['pub_list'] = pub_list
 		context['project_list'] = project_list
+		context['course_list'] = course_list
 		return context
 
 
@@ -449,6 +461,28 @@ class FacultyPageGalleryImage(Orderable):
 	panels = [
 		ImageChooserPanel('image'),
 		FieldPanel('caption'),
+	]
+
+class FacultyAward(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='fac_award')
+	award_title = models.CharField(max_length=100)
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
+	award_time = models.DateField()
+	conferrer = models.CharField(max_length=100)
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	link = models.URLField(max_length=250, blank=True)
+
+	panels = [
+		FieldPanel('award_title'),
+		FieldPanel('award_description'),
+		FieldPanel('award_type'),		
+		ImageChooserPanel('image'),
+		FieldPanel('award_time'),
+		FieldPanel('conferrer'),
+		FieldPanel('conferrer_description'),
+		FieldPanel('link'),
 	]
 
 def faculty_interests():
@@ -1033,6 +1067,24 @@ class ResearchHomePage(Page):
 	subpage_types=['ResearchLabPage', 'PublicationHomePage', 'ProjectHomePage']
 	max_count = 1
 
+	def serve(self, request):
+		lab_list = self.get_children().live().order_by('researchlabpage__lab_type', 'researchlabpage__lab_research_area', 'researchlabpage__name')
+
+		# Filter by research area
+		area = request.GET.get('area')
+		if area in ['0','1', '2', '3']:
+			lab_list = lab_list.filter(researchlabpage__lab_research_area=area)
+		ugpg = request.GET.get('ugpg')
+		if ugpg in ['0','1']:
+			lab_list = lab_list.filter(researchlabpage__lab_type=ugpg)
+
+		return render(request, self.template, {
+			'page': self,
+			'lab_list': lab_list,
+			'ugpg':ugpg,
+			'area':area,
+		})
+
 	class Meta:
 		verbose_name = "Research Home"
 
@@ -1040,9 +1092,9 @@ class ResearchHomePage(Page):
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
+	lab_research_area = models.CharField(max_length=2, choices=LAB_RESEARCH_AREAS, default='0')
 	# When already defined in faculty model who is lab incharge... then do we need it here?
 	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
-
 	intro = models.CharField(max_length=250)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	contact_number = models.CharField(max_length=20, blank=True)
@@ -1054,6 +1106,7 @@ class ResearchLabPage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('lab_type'),
+		FieldPanel('lab_research_area'),
 		PageChooserPanel('faculty_incharge'),
 		FieldPanel('contact_number'),
 		FieldPanel('address'),
@@ -1461,5 +1514,31 @@ class CourseAnnouncementPage(Orderable):
 	]
 
 ######################################################
-# Implement awards page and homepage
-# Faculty	Award	Organization/Society	Year
+class AwardHomePage(Page):
+	parent_page_types=['MechHomePage']
+	subpage_types=[]
+	max_count = 1
+
+	def serve(self, request):
+		award_list = FacultyAward.objects.all()
+
+		# Filter by research area
+		award_type = request.GET.get('award_type')
+		if award_type in ['0','1', '2']:
+			award_list = award_list.filter(award_type=award_type)
+
+		return render(request, self.template, {
+			'page': self,
+			'award_list': award_list,
+			'award_type':award_type,
+		})
+	
+	class Meta:
+		verbose_name = "Awards Home"
+
+	
+
+
+
+
+

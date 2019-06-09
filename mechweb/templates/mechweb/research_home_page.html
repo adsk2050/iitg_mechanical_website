@@ -16,4 +16,27 @@
     <!-- Intro -->
     <div class="intro">{{ page.intro|richtext }}</div>
     <hr>
+    ugpg
+    area
+    <h2>Research Areas</h2>
+    <ul>
+        <li><a href="{{ page.url }}?area=0">Other</li>
+        <li><a href="{{ page.url }}?area=1">Machine Design Engineering</li>
+        <li><a href="{{ page.url }}?area=2">Manufacturing Engineering</li>
+        <li><a href="{{ page.url }}?area=3">Thermal and Fluid Engineering</li>
+    </ul>
+
+    <h2>Lab Types</h2>
+    <ul>
+        <li><a href="{{ page.url }}?ugpg=0">UG Lab</li>
+        <li><a href="{{ page.url }}?ugpg=1">PG Lab</li>
+    </ul>
+
+    {% for lab in lab_list %}
+        <li>
+            <a href="{{ lab.url }}">{{ lab.name }}</a>
+        </li>
+    {% endfor %}
+
+
 {% endblock %}

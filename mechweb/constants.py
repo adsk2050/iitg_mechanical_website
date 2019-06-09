@@ -67,6 +67,13 @@ LAB_TYPES = (
 	('1', 'PG Lab'),
 )
 
+LAB_RESEARCH_AREAS = (
+	('0', 'Other'),
+	('1', 'Machine Design Engineering'),
+	('2', 'Manufacturing Engineering'),
+	('3', 'Thermal and Fluid Engineering'),
+)
+
 COURSE_TYPES = (
 	('Departmental', (
 			('0', 'Core course'),
@@ -113,6 +120,12 @@ FACULTY_DESIGNATION = (
 	('3', 'Associate Professor'),
 	('4', 'Visiting Professor'),
 	('5', 'Professor On lien'),
+)
+
+FACULTY_AWARD_TYPES = (
+	('0', 'Faculty Awarded'),
+	('1', 'Best Paper'),
+	('2', 'Other'),
 )
 
 DPPC = (
