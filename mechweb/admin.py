@@ -13,3 +13,19 @@ from .models import CustomUser
 # -------------------------------------------------
 
 admin.site.register(CustomUser, UserAdmin)
+
+# app/admin.py
+
+# from import_export import resources
+# from .models import CustomUser
+
+# class CustomUserResource(resources.ModelResource):
+
+#     class Meta:
+#         model = CustomUser
+#         skip_unchanged = True
+#         report_skipped = False
+#         import_id_fields = ('isbn',) #The default field for object identification is id, you can optionally set which fields are used as the id when importing:
+#         fields = ('id', 'name', 'price',)
+#         export_order = ('id', 'price', 'author', 'name')
+#         exclude = ('imported', )

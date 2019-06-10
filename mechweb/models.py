@@ -12,11 +12,13 @@ from django.utils.text import slugify
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+######################################################
 
+from wagtailautocomplete.edit_handlers import AutocompletePanel
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel,  PageChooserPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
 from modelcluster.fields import ParentalKey
 ######################################################
@@ -177,7 +179,7 @@ class EventHomePage(Page):
 
 	content_panels = Page.content_panels + [
 			FieldPanel('intro'),
-			PageChooserPanel('featured_event'),
+			AutocompletePanel('featured_event'),
 			#InlinePanel('event_page', label="New Event"),
 		]
 
@@ -626,7 +628,7 @@ class StudentPage(AbstractStudentPage):
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 
 	content_panels = AbstractStudentPage.content_panels + [
-		PageChooserPanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
+		AutocompletePanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
 		FieldPanel('research_interests'),
 		InlinePanel('stud_gallery_images', label="Gallery images", max_num=2),
 		InlinePanel('stud_links', label="Related Links", max_num=10),
@@ -678,8 +680,8 @@ class StudentProject(Orderable):
 	link = models.URLField(max_length=250, blank=True)
 	panels = [
 		FieldPanel('title'),
-		PageChooserPanel('guide'),
-		PageChooserPanel('co_guide'),
+		AutocompletePanel('guide'),
+		AutocompletePanel('co_guide'),
 		DocumentChooserPanel('document'),
 		FieldPanel('abstract'),
 		FieldPanel('link'),
@@ -965,7 +967,7 @@ class DistinguishedAlumni(Orderable):
 	distinguished_alumnus = models.ForeignKey('AlumnusPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='distinguished_alumnus')
 	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('distinguished_alumnus'),
+		AutocompletePanel('distinguished_alumnus'),
 		FieldPanel('about'),
 	]
 
@@ -1122,7 +1124,7 @@ class FeaturedResearch(Orderable):
 	page = ParentalKey(ResearchHomePage, on_delete=models.CASCADE, related_name='featured_research')
 	featured_research = models.ForeignKey('PublicationPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_research')
 	panels = [
-		PageChooserPanel('featured_research'),
+		AutocompletePanel('featured_research'),
 	]
 #------------------------------------------
 class ResearchLabPage(Page):
@@ -1162,7 +1164,7 @@ class ResearchLabPage(Page):
 	]
 
 	people_panels = [
-		PageChooserPanel('faculty_incharge'),
+		AutocompletePanel('faculty_incharge'),
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
 	]
@@ -1201,7 +1203,7 @@ class LabEquipment(Orderable):
 	funding_agency_link = models.URLField(max_length=250, blank=True)
 	panels = [
 		FieldPanel('name'),
-		PageChooserPanel('operator'),
+		AutocompletePanel('operator'),
 		DocumentChooserPanel('document'),
 		FieldPanel('specifications'),
 		FieldPanel('link'),
@@ -1227,7 +1229,7 @@ class ResearchLabFaculty(Orderable):
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_lab')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('faculty'),
+		AutocompletePanel('faculty'),
 		FieldPanel('research_statement'),
 	]
 
@@ -1236,7 +1238,7 @@ class ResearchLabStudents(Orderable):
 	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_lab')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('student'),
+		AutocompletePanel('student'),
 		FieldPanel('research_statement'),
 	]
 
@@ -1297,7 +1299,7 @@ class PublicationPageStudent(Orderable):
 	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('student'),
+		AutocompletePanel('student'),
 		FieldPanel('research_statement'),
 	]
 
@@ -1306,7 +1308,7 @@ class PublicationPageFaculty(Orderable):
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_pub')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('faculty'),
+		AutocompletePanel('faculty'),
 		FieldPanel('research_statement'),
 	]
 
@@ -1370,7 +1372,7 @@ class ProjectPage(Page):
 	]
 
 	people_panels = [
-		PageChooserPanel('principal_investigator'),
+		AutocompletePanel('principal_investigator'),
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
 	]
@@ -1394,7 +1396,7 @@ class ProjectPageFaculty(Orderable):
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('faculty'),
+		AutocompletePanel('faculty'),
 		FieldPanel('project_statement'),
 	]
 
@@ -1403,7 +1405,7 @@ class ProjectPageStudent(Orderable):
 	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('student'),
+		AutocompletePanel('student'),
 		FieldPanel('project_statement'),
 	]
 
@@ -1544,7 +1546,7 @@ class CoursePageFaculty(Orderable):
 	session = models.DateField(verbose_name="Instruction start date", default=timezone.now)
 	introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		PageChooserPanel('faculty'),
+		AutocompletePanel('faculty'),
 		FieldPanel('introduction'),
 		FieldPanel('session'),
 	]
@@ -1567,7 +1569,7 @@ class FeaturedCourse(Orderable):
 	page = ParentalKey(CourseStructure, on_delete=models.CASCADE, related_name='featured_courses')
 	featured_course = models.ForeignKey('CoursePage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_course')
 	panels = [
-		PageChooserPanel('featured_course'),
+		AutocompletePanel('featured_course'),
 	]
 ######################################################
 class AwardHomePage(Page):

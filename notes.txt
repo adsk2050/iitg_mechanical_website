@@ -175,3 +175,9 @@ eg. @transaction.atomic_requests
 iske neeche ka code saara compile hone ke baad ek saath database me entry hota hai
 
 https://docs.djangoproject.com/en/2.2/topics/db/transactions/
+
+_____________________________________________________________________
+
+replaced pagechooser with autocomplete
+
+https://wagtail-autocomplete.readthedocs.io/en/latest/index.html

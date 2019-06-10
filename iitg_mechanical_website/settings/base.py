@@ -26,6 +26,8 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'search',
     'mechweb',
+    'wagtailautocomplete',
+    'import_export',
 
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
