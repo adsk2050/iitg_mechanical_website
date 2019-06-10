@@ -136,9 +136,11 @@
   }
 }
 
-@media screen and (min-width: 768px) {
+//bring carousel down as padding is added
+
+/* @media screen and (min-width: 768px) {
     body { padding-top: 100px; }
-}
+} */res
 
 @media screen and (max-width: 580px) {
   .navbar {
@@ -268,7 +270,7 @@ html, body {
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-  text-align: justify;
+  text-align: left;
 
 }
 
@@ -291,14 +293,16 @@ html, body {
   margin-bottom: 20px;
 }
 
+
 .split {
   position: absolute;
-  width: 50%;
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
 .split.left {
+  width: 25%;
   left:0;
   background: #fff;
   background-size: cover;
@@ -306,6 +310,7 @@ html, body {
 }
 
 .split.left:before {
+
   position:absolute;
   content: "";
   width: 100%;
@@ -314,6 +319,7 @@ html, body {
 }
 
 .split.right {
+  width: 75%;
   right:0;
   background: #fff;
   background-size: cover;
@@ -425,7 +431,7 @@ html, body {
   overflow: hidden;
 }
 
-.bread-list-item h2 {
+.bread-list-item h2{
   font-weight: 300;
 }
 
@@ -462,11 +468,42 @@ html, body {
   list-style: none;
 }
 
-.bread-list-item li span {
+.bread-list-item li span ,{
   color: #777;
   display: inline-block;
   font-weight: 600;
-  width: 70px;
+  width: 250px;
+}
+
+/* Bread detail page */
+.bread-detail .introduction {
+  color: #777;
+  font-size: 1.4em;
+  margin-top: 40px;
+}
+
+.bread-detail figure {
+  margin: 35px auto 20px auto;
+  overflow: hidden;
+}
+
+.bread-detail figure img {
+  width: auto;
+}
+
+.bread-detail ul.bread-meta {
+  list-style: none;
+  padding-left: 0;
+}
+
+.bread-detail ul.bread-meta li ul {
+  padding-left: 0;
+}
+
+.bread-detail ul.bread-meta li ul li {
+  border-bottom: 1px solid #ccc;
+  list-style: none;
+  max-width: 450px;
 }
 ------------------------------------------
 
@@ -582,6 +619,22 @@ html, body {
   margin: 0px;
 }
 
+.styletags {
+  color: #fff;
+  font-weight: 300px;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: rgb(70, 160, 234);
+  border-width: 1px;
+  background-color: rgb(70, 160, 234);
+}
+
+.styletags a{
+  color: #fff;
+  text-decoration: none;
+}
+
+
 .layout .card_text {
   color: #ffffff;
   font-size: 0.875rem;
@@ -602,6 +655,7 @@ html, body {
 }
 
 .demoPadder .btn{
+
   border-color: rgb(25, 25, 25);
 }
 
@@ -612,6 +666,32 @@ html, body {
     }
 
 ------------------------------------------
+
+/*  pagination css*/
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color .3s;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+------------------------------------------
+
+
+
 
 
 <!-- News and notifications -->

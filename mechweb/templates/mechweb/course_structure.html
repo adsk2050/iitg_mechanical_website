@@ -4,22 +4,54 @@
 
 {% block body_class %}template-course-structure{% endblock %}
 
+{% block body_style %}padding-top:110px; {% endblock %}
+
+
 {% block content %}
 
 
-  <h1>{{ page.title }}</h1>
 
-  <div class="container demoPadder" >
-	      <div class="col-md-12">
-          <div class="btn-toolbar demoPadder" role="toolbar">
-            <div class="btn-group">
-                <li class="col"><a href="{{ page.url }}?prog=0"><button type="button" class="btn btn-default" aria-label="Btech">Btech</button></li>
-                <li class="col"><a href="{{ page.url }}?prog=1"><button type="button" class="btn btn-default" aria-label="Mtech">Mtech</button></li>
-                <li class="col"><a href="{{ page.url }}?prog=2"><button type="button" class="btn btn-default" aria-label="Phd">Phd</button></li>
-            </div>
+  <h1 class="text-center">{{ page.title }}</h1>
+
+  <!-- <div class="container-fluid  text-center" >
+    <div class="row padding">
+        <div class="btn-toolbar demoPadder" role="toolbar">
+          <div class="btn-group">
+              <li class="col-4"><a href="{{ page.url }}?prog=0"><button type="button" class="btn btn-default btn-block" aria-label="Btech">Btech</button></li>
+              <li class="col-4"><a href="{{ page.url }}?prog=1"><button type="button" class="btn btn-default btn-block" aria-label="Mtech">Mtech</button></li>
+              <li class="col-4"><a href="{{ page.url }}?prog=2"><button type="button" class="btn btn-default btn-block" aria-label="Phd">Phd</button></li>
           </div>
         </div>
-    </div><hr>
+      </div>
+    </div> -->
+
+
+    <hr>
+
+                <div class="row ">
+                  <div class="col-xs-4 col-sm-2 col-md-4">
+                    <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block ">
+                      <i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">Btech</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-4 col-sm-2 col-md-4">
+                    <a href="{{ page.url }}?prog=1" class="btn btn-lg btn-block">
+                      <i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">Mtech</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-4 col-sm-2 col-md-4">
+                    <a href="{{ page.url }}?prog=2" class="btn btn-lg btn-block">
+                      <i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">Phd</span>
+                    </a>
+                  </div>
+                </div>
+      <hr>
+
+
+
     <div class="layoutcard">
       {% if prog == '0' or prog == '1' %}
       {% for prog_sem in structure %}
@@ -55,18 +87,18 @@
         {% else %}
           <!-- List of all courses here -->
             <ul class="cards">
-                {% for course in course_list %}
+                {% for course in featured_courses %}
                 <li class="cards_item">
                 <div class="card h-100">
                   <div class="card_content">
-                    <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
+                    <h2 class="card_title"><a href="{{ course.featured_course.url }}">{{ course.featured_course.name }}</a></h2>
                     <ul>
-                      <li>Course code : {{ course.specific.code }}</li>
-                      <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
-                      <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
-                      <li>Semester : {{ course.specific.semester }}</li>
-                      <li>Course Type : {{ course.specific.get_course_type_display }}</li>
-                      <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
+                      <li>Course code : {{ course.featured_course.code }}</li>
+                      <li>L:T:P:C::{{ course.featured_course.lectures }}:{{ course.featured_course.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
+                      <li>Syllabus : <a href="{{ course.featured_course.document.url }}">Download</a></li>
+                      <li>Semester : {{ course.featured_course.semester }}</li>
+                      <li>Course Type : {{ course.featured_course.get_course_type_display }}</li>
+                      <li>Eligible Programmes : {{ course.featured_course.get_eligible_programmes_display }}</li>
                     </ul>
                   </div>
                 </div>

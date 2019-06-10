@@ -43,7 +43,7 @@
 
 </head>
 
-    <body class="{% block body_class %}{% endblock %} ">
+    <body class="{% block body_class %}{% endblock %}" style="{% block body_style %}{% endblock %}">
 
       <!-- <header style="background-color: #3A5157;" class="blog-header py-3 row"> -->
         <div style="background-color: #19273B; padding: 0%; margin: 0%" class="nav-scroller py-1 mb-2 row">
@@ -87,7 +87,7 @@
         {% wagtailuserbar %}
 
 
-        <div class="container">
+        <div class="container-fluid">
           {% block content %}{% endblock %}
 
         </div>
