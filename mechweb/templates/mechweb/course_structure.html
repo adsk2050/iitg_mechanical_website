@@ -43,7 +43,7 @@
         {% for course in featured_courses %}
         <div>
             <h2>Featured Courses</h2>
-            <h3><a href="{{ course.url }}">{{ course.featured_course.name }}</a></h3>
+            <h3><a href="{{ course.featured_course.url }}">{{ course.featured_course.name }}</a></h3>
             <ul>
                 <li>Course code : {{ course.featured_course.code }}</li>
                 <li>L:T:P:C::{{ course.featured_course.lectures }}:{{ course.featured_course.tutorials }}:{{ course.featured_course.practicals }}:{{ course.featured_course.credits }}</li>
