@@ -16,10 +16,16 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel,  PageChooserPanel, MultiFieldPanel
-from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel,  PageChooserPanel, MultiFieldPanel
 from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
 from modelcluster.fields import ParentalKey
+######################################################
+
+
+from wagtail.documents.edit_handlers import DocumentChooserPanel
+
+######################################################
+from wagtail.images.models import Image, AbstractImage, AbstractRendition
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 ######################################################
@@ -88,10 +94,9 @@ class CustomUser(AbstractUser):
 class MechHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	# intro = RichTextField(blank=True)
-
+	# user = models.OneToOneField(CustomUser, related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
-		# InlinePanel('text_panels', label="Mini Articles"),
 		InlinePanel('gallery_images', label="Gallery Images"),
 	]
 
@@ -151,13 +156,16 @@ class MechHomePageGalleryImage(Orderable):
 	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('photo'),
-		FieldPanel('caption'),
+		FieldRowPanel([
+			ImageChooserPanel('photo'),
+			FieldPanel('caption'),
+		]),
 	]
 
 ######################################################
 class EventHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
+	# user = models.OneToOneField(CustomUser, related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
 	featured_event = models.ForeignKey(
 		'EventPage',
 		null=True,
@@ -191,11 +199,10 @@ class EventHomePage(Page):
 		verbose_name = "Event Home"
 
 class EventPage(Page):
-	# page = ParentalKey(EventHomePage, on_delete=models.PROTECT, related_name='event_page')
-
+	# user = models.ForeignKey('CustomUser', related_name='event_manager', null=True, on_delete=models.SET_NULL)
 	event_name = models.CharField(blank=True, max_length=50)
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	start_date = models.DateTimeField()
+	start_date = models.DateTimeField(default=timezone.now)
 	end_date = models.DateTimeField()
 	venue = models.CharField(blank=True, max_length=50, choices=LOCATIONS, default='0')
 	poster = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
@@ -207,15 +214,20 @@ class EventPage(Page):
 	)
 	event_type = models.CharField(max_length=50, choices=EVENTS, default='0')
 	content_panels = Page.content_panels + [
-		FieldPanel('event_name'),
-		FieldPanel('description'),
-		FieldPanel('start_date'),
-		FieldPanel('end_date'),
-		FieldPanel('venue'),
-		ImageChooserPanel('poster'),
-		# InlinePanel('poster', label="Poster"),
-		DocumentChooserPanel('document'),
 		FieldPanel('event_type'),
+		FieldPanel('event_name'),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('start_date'),
+				FieldPanel('end_date'),
+			]),
+		],  heading="Timings"),
+		FieldPanel('venue'),
+		FieldPanel('description'),
+		FieldRowPanel([
+			ImageChooserPanel('poster'),
+			DocumentChooserPanel('document'),
+		]),
 		InlinePanel('gallery_images', label="Gallery Images", max_num=2),
 		InlinePanel('links', label="Related Links", max_num=10),
 	]
@@ -238,8 +250,10 @@ class EventPageGalleryImage(Orderable):
 	)
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('image'),
-		FieldPanel('caption'),
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
 	]
 
 class EventPageLink(Orderable):
@@ -459,8 +473,10 @@ class FacultyPageGalleryImage(Orderable):
 	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('image'),
-		FieldPanel('caption'),
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
 	]
 
 class FacultyAward(Orderable):
@@ -468,7 +484,7 @@ class FacultyAward(Orderable):
 	award_title = models.CharField(max_length=100)
 	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
-	award_time = models.DateField()
+	award_time = models.DateField(default=timezone.now)
 	conferrer = models.CharField(max_length=100)
 	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
@@ -516,7 +532,7 @@ class AbstractStudentPage(Page):
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(unique=True)
-	enrolment_year = models.DateField()
+	enrolment_year = models.DateField(default=timezone.now)
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
 
 	contact_number = models.CharField(max_length=20, blank=True)
@@ -529,6 +545,12 @@ class AbstractStudentPage(Page):
 
 	def get_roll_value(self):
 		return self.roll_no
+
+	# def get_enrolment_year(self):
+	# 	roll_no_str = str(self.roll_no)
+	# 	enrl_yr = datetime.strptime('Aug 1 20'+roll_no[0:2]+' 12:00PM', '%b %d %Y %I:%M%p')
+	# 	return enrl_yr
+
 
 	content_panels = Page.content_panels + [
 		######################################################
@@ -681,8 +703,10 @@ class StudentPageGalleryImage(Orderable):
 	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('image'),
-		FieldPanel('caption'),
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
 	]
 
 def student_interests():
@@ -700,8 +724,7 @@ class StaffHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[4])
 	# use_other_template = models.IntegerField(default = 3)#Find a way to remove this shit without deleting the original entry - had to delete original entry - but not because i specifically wanted to remove it, but because i had to implement user model
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-
-
+	
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
 		# FieldPanel('use_other_template')
@@ -759,7 +782,7 @@ class StaffPage(Page):
 	email_id = models.EmailField()
 
 	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='1')
-	joining_year = models.DateField()
+	joining_year = models.DateField(default=timezone.now)
 	contact_number = models.CharField(max_length=20, blank=True)
 	address = models.CharField(max_length=100, blank=True)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
@@ -866,8 +889,12 @@ class AlumnusPage(AbstractStudentPage):
 		######################################################
 		FieldPanel('specialization'),
 		FieldPanel('website'), 
-		FieldPanel('contact_number'),
-		FieldPanel('contact_number_2'),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('contact_number'),
+				FieldPanel('contact_number_2'),
+			]),
+		],  heading="Contact Numbers"),
 		MultiFieldPanel([
 			FieldPanel('address_line_1'),
 			FieldPanel('address_line_2'),
@@ -927,8 +954,10 @@ class AlumnusPageGalleryImage(Orderable):
 	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('image'),
-		FieldPanel('caption'),
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
 	]
 
 class DistinguishedAlumni(Orderable):
@@ -1061,6 +1090,7 @@ class ResearchHomePage(Page):
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
+		InlinePanel('featured_research', label="Featured Research", max_num=10),
 	]
 
 	parent_page_types=['MechHomePage']
@@ -1088,6 +1118,12 @@ class ResearchHomePage(Page):
 	class Meta:
 		verbose_name = "Research Home"
 
+class FeaturedResearch(Orderable):
+	page = ParentalKey(ResearchHomePage, on_delete=models.CASCADE, related_name='featured_research')
+	featured_research = models.ForeignKey('PublicationPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_research')
+	panels = [
+		PageChooserPanel('featured_research'),
+	]
 #------------------------------------------
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
@@ -1107,17 +1143,18 @@ class ResearchLabPage(Page):
 		FieldPanel('name'),
 		FieldPanel('lab_type'),
 		FieldPanel('lab_research_area'),
-		PageChooserPanel('faculty_incharge'),
 		FieldPanel('contact_number'),
 		FieldPanel('address'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
-		InlinePanel('links', label="Related Links", max_num=10),
 		MultiFieldPanel([
-			ImageChooserPanel('photo_1'),
-			ImageChooserPanel('photo_2'),
-			ImageChooserPanel('photo_3'),
-		], heading ="Featured Photos")
+			FieldRowPanel([
+				ImageChooserPanel('photo_1'),
+				ImageChooserPanel('photo_2'),
+				ImageChooserPanel('photo_3'),
+			]),
+		],  heading="Featured Photos"),
+		InlinePanel('links', label="Related Links", max_num=10),
 	]
 
 	lab_equipment_panels = [
@@ -1125,6 +1162,7 @@ class ResearchLabPage(Page):
 	]
 
 	people_panels = [
+		PageChooserPanel('faculty_incharge'),
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
 	]
@@ -1224,9 +1262,6 @@ class PublicationPage(Page):
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
 	download_link = models.URLField(blank=True, max_length=100)
-	# photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	# student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
-	# faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_pub')
 
 	content_panels =  Page.content_panels + [
 		DocumentChooserPanel('document'),
@@ -1235,11 +1270,6 @@ class PublicationPage(Page):
 		FieldPanel('abstract'),
 		FieldPanel('download_link'),
 		InlinePanel('images', label="Images", max_num=2),
-		# ImageChooserPanel('photo'),
-		# PageChooserPanel('student'),
-		# PageChooserPanel('faculty'),
-		# InlinePanel('faculty', label="Faculty"),
-		# InlinePanel('students', label="Students"),
 		InlinePanel('links', label="Links", max_num=10),
 	]
 
@@ -1285,8 +1315,10 @@ class PublicationPageGalleryImage(Orderable):
 	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('photo'),
-		FieldPanel('caption'),
+		FieldRowPanel([
+			ImageChooserPanel('photo'),
+			FieldPanel('caption'),
+		]),
 	]
 
 #Is this going to be useful?
@@ -1307,30 +1339,38 @@ class ProjectHomePage(Page):
 		verbose_name = "Project Home"
 
 class ProjectPage(Page):
-	principal_investigator = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
+	principal_investigator = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	name = models.CharField(max_length=100)
-	start_date = models.DateField(blank=True)
+	start_date = models.DateField(default=timezone.now)
 	end_date = models.DateField(blank=True)
 	budget = models.FloatField(blank=True)
 	funding_agency = models.CharField(max_length=100)
 	funding_agency_link = models.URLField(blank=True, max_length=100)
 	project_type = models.CharField(max_length=20, default='1', choices=PROJECT_TYPES)
 	content_panels = Page.content_panels + [
-		FieldPanel('name'),
-		PageChooserPanel('principal_investigator'),
-		FieldPanel('description'),
 		FieldPanel('project_type'),
-		FieldPanel('budget'),
-		FieldPanel('start_date'),
-		FieldPanel('end_date'),
-		FieldPanel('funding_agency'),
-		FieldPanel('funding_agency_link'),
+		FieldPanel('name'),
+		FieldPanel('description'),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('start_date'),
+				FieldPanel('end_date'),
+			]),
+		],  heading="Duration"),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('funding_agency'),
+				FieldPanel('funding_agency_link'),
+				FieldPanel('budget'),
+			]),
+		],  heading="Funding details"),
 		InlinePanel('links', label="Links", max_num=10),
 		InlinePanel('gallery_images', label="Gallery images", max_num=3),
 	]
 
 	people_panels = [
+		PageChooserPanel('principal_investigator'),
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
 	]
@@ -1344,7 +1384,6 @@ class ProjectPage(Page):
 
 	parent_page_types=['ProjectHomePage']
 	subpage_types=[ ]
-
 
 	class Meta:
 		verbose_name = "Project"
@@ -1380,13 +1419,21 @@ class ProjectPageGalleryImage(Orderable):
 	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
 	caption = models.CharField(blank=True, max_length=250)
 	panels = [
-		ImageChooserPanel('image'),
-		FieldPanel('caption'),
-	]
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
+	]	
 
 #####################################################
 class CourseStructure(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
+
+	intro = RichTextField(blank=True)
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+		InlinePanel('featured_courses', label="Featured Courses", max_num=10),
+	]
 	parent_page_types=['MechHomePage']
 	subpage_types=['CoursePage']
 	max_count = 1
@@ -1434,10 +1481,10 @@ class CoursePage(Page):
 	name = models.CharField(max_length=50)
 	code = models.CharField(max_length=10)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	lectures = models.IntegerField()
-	tutorials = models.IntegerField()
-	practicals = models.IntegerField()
-	credits = models.IntegerField()
+	lectures = models.IntegerField(verbose_name="L")
+	tutorials = models.IntegerField(verbose_name="T")
+	practicals = models.IntegerField(verbose_name="P")
+	credits = models.IntegerField(verbose_name="C")
 	semester = models.IntegerField()
 	course_type = models.CharField(max_length=100, choices=COURSE_TYPES, default='0')
 	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', help_text="Minimum qualification needed to take course")
@@ -1455,14 +1502,16 @@ class CoursePage(Page):
 		FieldPanel('name'),
 		MultiFieldPanel([
 			FieldPanel('code'),
-			FieldPanel('lectures'),
-			FieldPanel('tutorials'),
-			FieldPanel('practicals'),
-			FieldPanel('credits'),
-			DocumentChooserPanel('document'),
 			FieldPanel('semester'),
 			FieldPanel('course_type'),
 			FieldPanel('eligible_programmes'),
+			FieldRowPanel([
+				FieldPanel('lectures'),
+				FieldPanel('tutorials'),
+				FieldPanel('practicals'),
+				FieldPanel('credits'),
+			]),
+			DocumentChooserPanel('document'),
 			FieldPanel('course_page_link'),
 		], heading="Course Details"),
 		FieldPanel('description'),
@@ -1492,11 +1541,12 @@ class CoursePage(Page):
 class CoursePageFaculty(Orderable):
 	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_instructor')
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='course_instructor')
-	session = models.DateField()
+	session = models.DateField(verbose_name="Instruction start date", default=timezone.now)
 	introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
 		PageChooserPanel('faculty'),
 		FieldPanel('introduction'),
+		FieldPanel('session'),
 	]
 
 class CourseAnnouncementPage(Orderable):
@@ -1513,6 +1563,12 @@ class CourseAnnouncementPage(Orderable):
 		DocumentChooserPanel('document'),
 	]
 
+class FeaturedCourse(Orderable):
+	page = ParentalKey(CourseStructure, on_delete=models.CASCADE, related_name='featured_courses')
+	featured_course = models.ForeignKey('CoursePage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_course')
+	panels = [
+		PageChooserPanel('featured_course'),
+	]
 ######################################################
 class AwardHomePage(Page):
 	parent_page_types=['MechHomePage']
