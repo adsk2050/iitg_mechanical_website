@@ -192,3 +192,6 @@ AUTH_USER_MODEL = 'mechweb.CustomUser'
 WAGTAIL_USER_EDIT_FORM = 'mechweb.forms.CustomUserEditForm'
 WAGTAIL_USER_CREATION_FORM = 'mechweb.forms.CustomUserCreationForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['user_type']
+
+# WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'
+# WAGTAILDOCS_DOCUMENT_MODEL = 'mechweb.CustomDocument'
