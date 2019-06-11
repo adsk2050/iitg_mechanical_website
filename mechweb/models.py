@@ -1076,7 +1076,6 @@ class ResearchLabHomePage(Page):
 	class Meta:
 		verbose_name = "Lab Home"
 
-
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
@@ -1236,7 +1235,7 @@ class PublicationPage(Page):
 	people_panels = [
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
-		InlinePanel('other_uthors', label="Other Authors"),
+		InlinePanel('other_authors', label="Other Authors"),
 	]
 
 	edit_handler = TabbedInterface([
@@ -1272,7 +1271,7 @@ class PublicationPageFaculty(Orderable):
 	]
 
 class PublicationPageOtherAuthor(Orderable):
-	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='faculty')
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='other_authors')
 	name = models.CharField(max_length=100)
 	organization = models.CharField(max_length=100, blank=True)
 	panels = [

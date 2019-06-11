@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-research-lab-homepage{% endblock %}
+
+{% block body_style %}padding-top: 110px; {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="text-center">{{ page.title }}</h1>
+    <!-- Intro -->
+    <div class="intro">{{ page.intro|richtext }}</div>
+
+    <hr>
+
+                <div class="row ">
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block ">
+                      <i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">UG Lab</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <a href="{{ page.url }}?prog=1" class="btn btn-lg btn-block">
+                      <i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">PG Lab</span>
+                    </a>
+                  </div>
+                </div>
+      <hr>
+
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="section-header">
+              <h2>Laboratories of Different Research Areas</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="testimonial-slider"> -->
+              <div class="single-service col">
+                <div class="service-bg service-bg-1">
+                  <h2><a href="{{ page.url }}?area=3">Thermal And Fluids Engineering</h2>
+                </div>
+
+                <div class="service-text">
+                  <ul>
+                    {% for child in page.get_children %}
+                    {% if child.specific.research_area == 'a' %}
+                    <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                   </ul>
+  <!--
+                  <a href="#" class="btn-area">Read more.. <i class="
+                    fa fa-long-arrow-right"></i>
+                  </a> -->
+                </div>
+              </div>
+
+              <div class="single-service col">
+                <div class="service-bg service-bg-1">
+                  <h2><a href="{{ page.url }}?area=2">Manufacturing Engineering</h2>
+                </div>
+
+                <div class="service-text">
+                  <ul>
+                    {% for child in page.get_children %}
+                    {% if child.specific.research_area == 'c' %}
+                      <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                   </ul>
+                  <!-- <a href="#" class="btn-area">Read more.. <i class="
+                    fa fa-long-arrow-right"></i>
+                  </a> -->
+                </div>
+              </div>
+
+              <div class="single-service col">
+                <div class="service-bg service-bg-1">
+                  <h2><a href="{{ page.url }}?area=1">Machine Design Engineering </h2>
+                </div>
+
+                <div class="service-text">
+                  <ul>
+
+                    {% for child in page.get_children %}
+                    {% if child.specific.research_area == 'b' %}
+                    <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                   </ul>
+                  <!-- <a href="#" class="btn-area">Read more.. <i class="
+                    fa fa-long-arrow-right"></i>
+                  </a> -->
+                </div>
+              </div>
+
+
+        </div>
+      </div>
+
+
+
+      {% if lab_list %}
+      <h2 class="text-center">Lab Types</h2>
+
+          <ul>
+              {% for lab in lab_list %}
+                  <li>
+                      <a href="{{ lab.url }}">{{ lab.name }}</a>
+                  </li>
+              {% endfor %}
+          </ul>
+      {% endif %}
+
+
+{% endblock %}
