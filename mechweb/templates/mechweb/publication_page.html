@@ -4,11 +4,14 @@
 
 {% block body_class %}template-publication-page{% endblock %}
 
+{% block body_style %}padding-top: 110px; {% endblock %}
+
+
 {% block content %}
     {{ page.title }}
     <h1>{{page.specific.name }}</h1>
     <h3>[{{page.specific.get_pub_type_display }}]</h3>
-    
+
     <hr>
 	<h2>Abstract</h2>
 	<div>{{ page.specific.abstract|richtext }}</div>

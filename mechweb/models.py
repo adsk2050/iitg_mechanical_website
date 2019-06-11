@@ -781,13 +781,28 @@ class ResearchHomePage(Page):
 	]
 
 	parent_page_types=['MechHomePage']
-	subpage_types=['ResearchLabPage', 'PublicationHomePage', 'ProjectHomePage']
+	subpage_types=['LabHomePage', 'PublicationHomePage', 'ProjectHomePage']
 	max_count = 1
 
 	class Meta:
 		verbose_name = "Research Home"
 
 #------------------------------------------
+class LabHomePage(Page):
+	intro = RichTextField(blank=True)
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+	]
+
+	parent_page_types=['ResearchHomePage']
+	subpage_types=['ResearchLabPage']
+	max_count = 1
+
+	class Meta:
+		verbose_name = "Lab Home"
+
+
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
@@ -837,7 +852,7 @@ class ResearchLabPage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	parent_page_types=['ResearchHomePage']
+	parent_page_types=['LabHomePage']
 	subpage_types=[]
 
 	class Meta:
@@ -924,6 +939,11 @@ class PublicationPage(Page):
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
 	download_link = models.URLField(blank=True, max_length=100)
+	pages = models.CharField(max_length=10, null=True, blank=True)
+	vol_issue = models.CharField(max_length=20,null=True, blank=True)
+	pub_year = models.IntegerField(null=True, blank=True)
+	Authors = models.CharField(max_length=100, blank=True)
+	pub_journal = models.CharField(max_length=100, blank=True)
 	# photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	# student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
 	# faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_pub')
@@ -932,6 +952,11 @@ class PublicationPage(Page):
 		DocumentChooserPanel('document'),
 		FieldPanel('name'),
 		FieldPanel('pub_type'),
+		FieldPanel('pages'),
+		FieldPanel('vol_issue'),
+		FieldPanel('pub_year'),
+		FieldPanel('Authors'),
+		FieldPanel('pub_journal'),
 		FieldPanel('abstract'),
 		FieldPanel('download_link'),
 		InlinePanel('images', label="Images"),
@@ -1110,7 +1135,8 @@ class CourseStructure(Page):
 		# Filter by department
 		prog = request.GET.get('prog')
 		if prog in ['0','1', '2', '3']:
-			course_list = course_list.filter(coursepage__eligible_programmes=prog)
+		# if prog in [0, 1, 2, 3]:
+			course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__semester').filter(coursepage__eligible_programmes=prog)
 
 		return render(request, self.template, {
 			'page': self,
@@ -1118,6 +1144,8 @@ class CourseStructure(Page):
 			'prog':prog,
 			'structure':structure,
 		})
+
+
 
 	class Meta:
 		verbose_name = "Course Structure"
