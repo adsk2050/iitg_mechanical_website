@@ -1,3 +1,77 @@
+
+class Site(models.Model):
+    hostname = models.CharField(verbose_name=_('hostname'), max_length=255, db_index=True)
+    port = models.IntegerField(
+        verbose_name=_('port'),
+        default=80,
+        help_text=_(
+            "Set this to something other than 80 if you need a specific port number to appear in URLs"
+            " (e.g. development on port 8000). Does not affect request handling (so port forwarding still works)."
+        )
+    )
+    site_name = models.CharField(
+        verbose_name=_('site name'),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Human-readable name for the site.")
+    )
+    root_page = models.ForeignKey('Page', verbose_name=_('root page'), related_name='sites_rooted_here', on_delete=models.CASCADE)
+    is_default_site = models.BooleanField(
+        verbose_name=_('is default site'),
+        default=False,
+        help_text=_(
+            "If true, this site will handle requests for all other hostnames that do not have a site entry of their own"
+        )
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% if tag %}&tag={{ tag }}{% endif %}
 
     <!-- Intro -->

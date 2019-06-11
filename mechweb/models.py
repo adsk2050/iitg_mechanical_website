@@ -123,7 +123,6 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 
 class CustomUser(AbstractUser):
 	# pass
-	is_staff = models.BooleanField(default=True)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
 	# USERNAME_FIELD = 'username' # Its anyway the default, but you can change this 
 
@@ -142,7 +141,7 @@ class MechHomePage(Page):
 	]
 
 	notification_tab_panels = [
-		InlinePanel('text_panels', label="Mini Articles", min_num=1),
+		InlinePanel('text_panels', label="Mini Articles"),
 	]
 
 	edit_handler = TabbedInterface([
@@ -1024,7 +1023,7 @@ def alumni_interests():
 ######################################################
 class ResearchHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[5])
-	intro = RichTextField(blank=True)
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
@@ -1367,7 +1366,7 @@ class ProjectPageGalleryImage(Orderable):
 class CourseStructure(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
 
-	intro = RichTextField(blank=True)
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
 		InlinePanel('featured_courses', label="Featured Courses", max_num=10),
@@ -1379,9 +1378,8 @@ class CourseStructure(Page):
 	def serve(self, request):
 		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester')
 
-		# structure = sem1 + sem2 + sem3 + sem4 + sem5 + sem6 + sem7 + sem8
 
-		# Filter by department
+		# Filter by programme
 		prog = request.GET.get('prog')
 		if prog in ['0','1', '2', '3']:
 			course_list = course_list.filter(coursepage__eligible_programmes=prog)
@@ -1509,6 +1507,10 @@ class FeaturedCourse(Orderable):
 	]
 ######################################################
 class AwardHomePage(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+	]
 	parent_page_types=['MechHomePage']
 	subpage_types=[]
 	max_count = 1
