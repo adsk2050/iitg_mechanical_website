@@ -54,7 +54,7 @@
 
     <div class="layoutcard">
       {% if prog == '0' or prog == '1' %}
-      {% for prog_sem in structure %}
+        {% for prog_sem in structure %}
           {% if prog_sem|length != 0 %}
           <h2>Semester {{ forloop.counter }}</h2>
             <ul class="cards">
@@ -82,7 +82,7 @@
 
           {% endif %}
         {% endfor %}
-        {% elif prog == '2' %}
+      {% elif prog == '2' %}
           <h2>PhD Course Structure</h2>
         {% else %}
           <!-- List of all courses here -->
@@ -106,8 +106,7 @@
 
                 {% endfor %}
             </ul>
-
-        {% endif %}
+      {% endif %}
     </div>
 
         {% endblock %}

@@ -34,7 +34,7 @@
         <ul>
         {% for faculty in page.faculty.all %}
             <li>
-                <a href="{{ student.url }}">{{ faculty.faculty }}</a>
+                <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
             </li>
             <li>{{ faculty.research_statement|richtext }}</li>
         {% endfor %}
@@ -47,7 +47,7 @@
         <ul>
         {% for student in page.students.all %}
             <li>
-                <a href="{{ student.url }}">{{ student.student }}</a>
+                <a href="{{ student.student.url }}">{{ student.student }}</a>
             </li>
             <li>{{ student.research_statement|richtext }}</li>
         {% endfor %}
