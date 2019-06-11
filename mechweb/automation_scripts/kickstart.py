@@ -19,7 +19,7 @@
 
 
 from wagtail.core.models import Page, Site
-from mechweb.models  import MechHomePage, EventHomePage, FacultyHomePage, StudentHomePage, StaffHomePage, AlumniHomePage, ResearchHomePage, PublicationHomePage, ProjectHomePage, AwardHomePage, CourseStructure
+from mechweb.models  import MechHomePage, EventHomePage, FacultyHomePage, StudentHomePage, StaffHomePage, AlumniHomePage, ResearchHomePage, ResearchLabHomePage, PublicationHomePage, ProjectHomePage, AwardHomePage, CourseStructure
 
 # root = Page.objects.all()[0] # Need to verify if Root is always first object or not... dumb of course it will
 pages = Page.objects.all()[1:]
@@ -56,63 +56,72 @@ faculty_home_page = FacultyHomePage(
 	seo_title="Faculty | Mechanical Engineering  · IITG",
 )
 home.add_child(instance=faculty_home_page)
-# home.save()
+home.save()
 student_home_page = StudentHomePage(
 	title='Students',
 	slug='students',
 	seo_title="Students | Mechanical Engineering · IITG",
 )
 home.add_child(instance=student_home_page)
-# home.save()
+home.save()
 staff_home_page = StaffHomePage(
 	title='Staff',
 	slug='staff',
 	seo_title="Staff | Mechanical Engineering · IITG",
 )
 home.add_child(instance=staff_home_page)
-# home.save()
+home.save()
 alumni_home_page = AlumniHomePage(
 	title='Alumni',
 	slug='alumni',
 	seo_title="Alumni | Mechanical Engineering · IITG",
 )
 home.add_child(instance=alumni_home_page)
-# home.save()
+home.save()
 academics_home_page = CourseStructure(
 	title='Academics',
 	slug='academics',
 	seo_title="Academics | Mechanical Engineering · IITG",
 )
 home.add_child(instance=academics_home_page)
-# home.save()
+home.save()
 research_home_page = ResearchHomePage(
 	title='Research',
 	slug='research',
 	seo_title="Research | Mechanical Engineering · IITG",
 )
 home.add_child(instance=research_home_page)
-# home.save()
+home.save()
 publication_home_page = PublicationHomePage(
 	title='Publications',
 	slug='publications',
 	seo_title="Publications | Mechanical Engineering · IITG",
 )
 home.add_child(instance=publication_home_page)
-# home.save()
+home.save()
+
+research_lab_home_page = ResearchLabHomePage(
+	title='Facilities(Labs)',
+	slug='facilities',
+	seo_title="Facilities(Labs) | Mechanical Engineering · IITG",
+)
+home.add_child(instance=research_lab_home_page)
+home.save()
+
 project_home_page = ProjectHomePage(
 	title='Projects',
 	slug='projects',
 	seo_title="Projects | Mechanical Engineering · IITG",
 )
 home.add_child(instance=project_home_page)
-# home.save()
+home.save()
 award_home_page = AwardHomePage(
 	title='Awards',
 	slug='awards',
 	seo_title="Awards | Mechanical Engineering · IITG",
 )
 home.add_child(instance=award_home_page)
-# home.save()
+home.save()
 event_home_page = EventHomePage(
 	title='Events',
 	slug='events',

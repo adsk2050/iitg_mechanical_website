@@ -1457,12 +1457,13 @@ class CoursePage(Page):
 	course_type = models.CharField(max_length=100, choices=COURSE_TYPES, default='0')
 	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', help_text="Minimum qualification needed to take course")
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	course_page_link = models.URLField()
+	course_page_link = models.URLField(blank=True)
 	document = models.ForeignKey(
 		'wagtaildocs.Document',
 		null=True, blank=True,
 		on_delete=models.SET_NULL,
-		related_name='+'
+		related_name='+',
+		verbose_name='Syllabus',
 	)	#if can add function to add multiple students at once, then and only then add this.
 	# list_of_students =
 
@@ -1484,7 +1485,7 @@ class CoursePage(Page):
 		], heading="Course Details"),
 		FieldPanel('description'),
 		ImageChooserPanel('photo'),
-		InlinePanel('course_instructor', label="Course Instructor", min_num=1),
+		InlinePanel('course_instructor', label="Course Instructor"),
 
 	]
 

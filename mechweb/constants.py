@@ -28,7 +28,7 @@ STUDENT_PROGRAMME = (
 	('0', 'Bachelor'),
 	('1', 'Masters'),
 	('2', 'Research Scholar'),
-	('3', 'Other, e.g. PostDoc or N.A.'),
+	('3', 'Other'),
 )
 
 MASTERS_SPECIALIZATION = (
@@ -45,7 +45,9 @@ STAFF_DESIGNATION = (
 	# ('1', 'Project Staff'),
 	('1', 'Lab Staff'),
 	('2', 'Technicial staff'),
-	('3', 'Others'),
+	('3', 'PostDoc'),
+	('4', 'Others'),
+
 )
 
 PROJECT_TYPES=(
@@ -84,7 +86,7 @@ COURSE_TYPES = (
 	('Non-Departmental', (
 			('3', 'Common course'),
 			('4', 'HSS Elective'),
-			('4', 'Open Elective'),
+			('5', 'Open Elective'),
 		),
 	),
 )
