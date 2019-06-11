@@ -1,4 +1,5 @@
 Django==2.2.1
 wagtail==2.5.1
 django-debug-toolbar==1.11
-
+wagtail-autocomplete==0.3.1
+Wand==0.5.4

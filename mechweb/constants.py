@@ -1,7 +1,14 @@
 TEXT_PANEL_CONTENT_TYPES=(
 	('0', 'News'),
-	('1', 'Notifications'),
+	('1', 'Announcements'),
 	('2', 'Others'),
+)
+
+USER_TYPES = (
+	('0', 'Faculty'),
+	('1', 'Student'),
+	('2', 'Alumnus'),
+	('3', 'Staff'),
 )
 
 LOCATIONS=(
@@ -21,7 +28,7 @@ STUDENT_PROGRAMME = (
 	('0', 'Bachelor'),
 	('1', 'Masters'),
 	('2', 'Research Scholar'),
-	('3', 'PostDoc'),
+	('3', 'Other, e.g. PostDoc or N.A.'),
 )
 
 MASTERS_SPECIALIZATION = (
@@ -58,6 +65,13 @@ PUBLICATION_TYPES = (
 LAB_TYPES = (
 	('0', 'UG Lab'),
 	('1', 'PG Lab'),
+)
+
+LAB_RESEARCH_AREAS = (
+	('0', 'Other'),
+	('1', 'Machine Design Engineering'),
+	('2', 'Manufacturing Engineering'),
+	('3', 'Thermal and Fluid Engineering'),
 )
 
 COURSE_TYPES = (
@@ -106,6 +120,12 @@ FACULTY_DESIGNATION = (
 	('3', 'Associate Professor'),
 	('4', 'Visiting Professor'),
 	('5', 'Professor On lien'),
+)
+
+FACULTY_AWARD_TYPES = (
+	('0', 'Faculty Awarded'),
+	('1', 'Best Paper'),
+	('2', 'Other'),
 )
 
 DPPC = (

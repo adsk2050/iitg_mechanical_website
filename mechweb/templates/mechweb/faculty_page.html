@@ -13,10 +13,8 @@
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="row">
-                        <h1>{{ page.specific.name }}</h1>
+                        <h1>{{ page.specific.first_name }} {{ page.specific.last_name }}</h1>
                         <h3>{{ page.specific.get_designation_display }}</h3>
-
-
                         <!-- <figure class="hidden-md-up">
                             {% image page.specific.photo fill-100x100 %}
                         </figure> -->
@@ -109,7 +107,19 @@
         </div>
     </div>
 
-	<hr>    
+	<hr>  
+  <!-- Awards -->
+  <h3>Awards and Achievements</h3>
+  <div>
+    {% for award in page.fac_award.all %}
+      <div>
+        <h3>{{ pic.caption }}</h3>
+        <div>{% image pic.image fill-500x500 %}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr>  
 	<!-- Administrative responsibilities -->
 	<div>
 		<h3>Administrative responsibilities</h3>
@@ -225,14 +235,36 @@
   </div>
   <hr>
 
+  <!-- Courses -->
+  <div>
+    {% if course_list %}
+      <h3> Courses taught</h3>
+      {% for course in course_list %}
+        <div>
+          <h3><a href="{{ course.url }}">[ {{ course.specific.code }} ]{{ course.specific.name }}</a></h3>
+          <div>{{ course.specific.get_course_type_display }} for {{ course.specific.eligible_programmes }} in {{ course.specific.semester }} semester</div>
+          {% for instructor in  course.specific.course_instructor.all %}
+            {% if instructor.faculty == page %}
+              <div>{{ forloopcounter }}. {{ instructor.session }}</div>
+            {% endif %}
+          {% endfor  %}
+        </div>
+        <br>
+      {% endfor %}
+    {% endif %}
+  </div>
+  <hr>
+
   <!-- Gallery Pics -->
   <div>
     {% for pic in page.gallery_images.all %}
-      <div style="float: left; margin: 10px">
+      <div >
         <h3>{{ pic.caption }}</h3>
         <div>{% image pic.image fill-500x500 %}</div>
       </div>
     {% endfor %}
   </div>
+
+
     
 {% endblock content %}

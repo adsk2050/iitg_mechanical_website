@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-award-homepage{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+    <!-- Intro -->
+    <!-- <div class="intro">{{ page.intro|richtext }}</div> -->
+    <hr>
+    
+
+    <h2>Award types</h2>
+    <ul>
+        <li><a href="{{ page.url }}?award_type=0">Faculty Awards</a></li>
+        <li><a href="{{ page.url }}?award_type=1">Best Paper awards</a></li>
+    </ul>
+    {% if award_list %}
+        {% if award_list %}
+            <h2>{{ get_award_type_display }}</h2>
+        {% else %}
+            <h2>All Awards</h2>
+        {% endif %}
+        {% for award in award_list %}
+            <li>
+                <div><a href="{{ award.link }}"></a>{{ award.award_title }}</div>
+                <div>{{ award.page }}</div>
+                <div>{{ award.award_description|richtext }}</div>
+                <div>{{ award.get_award_type_display }}</div>
+                <div>{{ award.award_time }}</div>
+                <div>{{ award.conferrer }}</div>
+                <div>{{ award.conferrer_description|richtext }}</div>
+                <div>{% image award.image original %}</div>
+            </li>
+        {% endfor %}
+    {% else %}
+        No awards, please check later
+    {% endif %}
+
+
+{% endblock %}

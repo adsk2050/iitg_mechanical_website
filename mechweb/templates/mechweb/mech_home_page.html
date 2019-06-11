@@ -56,6 +56,7 @@
   </div>
   </nav>
 
+----------------- dhiraj-------------------------
   <div class="bd-example">
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -96,11 +97,37 @@
       </a>
     </div>
   </div>
-<!-- navbar carousel code ends -->
 
+
+------------------------Anmol--------------------------
+<div class="bd-example">
+  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+    {% for photo in page.gallery_images.all %}
+      <li data-target="#carouselExampleCaptions" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.counter0 == 0 %}active{% endif %}"></li>
+    {% endfor %}
+    </ol>
+    <div class="carousel-inner">
+    {% for photo in page.gallery_images.all %}
+      {% image photo.photo original as tmp_photo %}
+      <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+        <img src="{{ tmp_photo.url }}" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">{{ photo.caption }}</div>
+      </div>
+    {% endfor %}
+    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
 
 <!-- News and notifications -->
-  <!-- <div class="container definite">
+  <div class="container definite">
   <div class="row mb-2">
       {% for notification in page.text_panels.all %}
       <div class="col-md-6 {{ notification.get_content_type_display }}">
@@ -116,101 +143,7 @@
           </div>
       </div>
       {% endfor %}
-  </div> -->
-<!-- split screen for about and news/events -->
-<div class="splitcontainer">
-  <div class="container">
-        <div class="split left">
-          <div class="row padding">
-            <h4>About</h4><br>
-          </div>
-          <div class="row padding">
-            <p class="aboutintro" >{{ page.intro|richtext }}</p>
-          </div>
-          <a href="#" class="button">Read More</a>
-        </div>
-
-
-        <div class="split right">
-          <a href="#" class="button">Read More</a>
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-
-            <!-- buttons -->
-            <div class="row tabsrow" style="position: static;">
-              <div class="col-md-2">
-              </div>
-              <div class="col-md-8">
-                <ul class="nav nav-justified tabs" id="whatIsCarouselButtons">
-                  <li class="active" data-target="#carouselExampleIndicators" data-slide-to="0">
-                    <a class="btn btn-primary" data-toggle="tab" href="#">News</a>
-                  </li>
-                  <li  data-target="#carouselExampleIndicators" data-slide-to="1">
-                    <a class="btn btn-primary" data-toggle="tab" href="#">Research</a>
-                  </li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="2">
-                    <a class="btn btn-primary" data-toggle="tab" href="#">Events</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-    <!-- buttons end -->
-            <div class="row eventscarousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active scrollbarcss " >
-                  <ol>
-                    <div class="container definite">
-                    <div class="row mb-2">
-                      {% for notification in page.text_panels.all %}
-                      <div class="card flex-row flex-wrap">
-                         <div class="card-header border-0">
-                             {% image notification.photo fill-50x50 %}
-                         </div>
-                          <div class="card-block px-2">
-                            <h4 class="card-title">{{ notification.title }}</h4>
-                            <strong>Date:{{ notification.date }}</strong><br>
-                            <p class="card-text">
-                                 {{ notification.description }}
-                            </p>
-                         </div>
-                         <div class="w-100"></div><hr>
-                     </div>
-                     {% endfor %}
-                    </div>
-                  </div>
-                </ol>
-              </div>
-
-
-
-
-
-
-                <div class="carousel-item">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                  <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                  <img src="..." class="d-block w-100" alt="...">
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-
+  </div>
 
 <!-- split screen code ends -->
 
@@ -324,11 +257,7 @@
   </div>
  </div>
 
-
-
-
-
-  <!-- Footer -->
+<!-- Footer -->
   <hr>
 <footer class="page-footer font-small stylish-color-dark pt-4 "  style="background-color: #62A8E0;">
 
@@ -486,6 +415,8 @@ North Guwahati, Guwahati, Assam 781039</p>
 
 </footer>
 <!-- Footer -->
+
+
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
