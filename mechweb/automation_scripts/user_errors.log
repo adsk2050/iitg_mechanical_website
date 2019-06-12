@@ -1,0 +1,2 @@
+Failed to add 160103001 due to  UNIQUE constraint failed: mechweb_customuser.username
+Failed to add x160103080 due to  'str' object does not support item assignment
