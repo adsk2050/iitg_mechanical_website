@@ -34,7 +34,7 @@ STUDENT_PROGRAMME = (
 MASTERS_SPECIALIZATION = (
 	('0', 'Not Applicable'),
 	('1', 'Aerodynamics & Propulsion'),
-	('2', 'Computer Aided Manufacturing'),
+	('2', 'Manufacturing Science and Engineering'),
 	('3', 'Computational Mechanics'),
 	('4', 'Fluids and Thermal'),
 	('5', 'Machine Design'),
@@ -91,6 +91,23 @@ COURSE_TYPES = (
 	),
 )
 
+MESA = (
+	('6', 'Not Applicable'),
+	('0', 'President'),
+	('1', 'Vice President'),
+	('2', 'Head'),
+	('3', 'Branch Representative'),
+	('4', 'Member'),
+	('5', 'Faculty Advisor'),
+)
+
+SAE = (
+	('3', 'Not Applicable'),
+	('0', 'Chairman'),
+	('1', 'Other'),
+	('2', 'Faculty Advisor'),
+)
+
 # # EventHomePage NAV_ORDER[0] 5
 # # FacultyHomePage NAV_ORDER[1] 2
 # # StudentHomePage NAV_ORDER[2] 3
@@ -109,7 +126,7 @@ COURSE_TYPES = (
 # # # 	('5', 'Book Chapters'),
 # # # )
 ############################# Faculty
-FACULTY_ROLES=(
+FACULTY_ROLES = (
 	('2', 'Not Applicable'),
 	('1', 'HoD'),
 	('0', 'Director')

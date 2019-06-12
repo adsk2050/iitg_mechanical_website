@@ -37,12 +37,18 @@ def create_user_profile(sender, instance, created, **kwargs):
 		elif instance.user_type == '1':
 			home = StudentHomePage.objects.all()[0]
 			base_slug = instance.username
-			enrolment_year = datetime.strptime('Aug 1 20'+base_slug[0:2]+' 12:00PM', '%b %d %Y %I:%M%p')
+			reverse_roll = base_slug[::-1] 
+			enrolment_year = datetime.strptime('Aug 1 20'+reverse_roll[8:6:-1]+' 12:00PM', '%b %d %Y %I:%M%p')
 			PROG = {'01':'0', '41':'1', '61':'2'}
 			try:
-				programme = PROG[base_slug[2:4]]
+				programme = PROG[reverse_roll[6:4:-1]]
 			except KeyError:
 				programme = '3'
+
+			is_exchange=False
+			if base_slug[0] == ('x' or 'X'):
+				base_slug[0] = 'x'
+				is_exchange=True
 
 			if not instance.email:
 				mail_id=instance.username + "@iitg.ac.in"
@@ -58,18 +64,25 @@ def create_user_profile(sender, instance, created, **kwargs):
 				roll_no=base_slug, #see some lines above
 				enrolment_year=enrolment_year,
 				programme=programme,
+				is_exchange=is_exchange,
 			)
 			home.add_child(instance=new_student)
 			home.save()
 		elif instance.user_type == '2':
 			home = AlumniHomePage.objects.all()[0]
 			base_slug = instance.username
-			enrolment_year = datetime.strptime('Aug 1 20'+base_slug[0:2]+' 12:00PM', '%b %d %Y %I:%M%p')
+			reverse_roll = base_slug[::-1] 
+			enrolment_year = datetime.strptime('Aug 1 20'+reverse_roll[8:6:-1]+' 12:00PM', '%b %d %Y %I:%M%p')
 			PROG = {'01':'0', '41':'1', '61':'2'}
 			try:
-				programme = PROG[base_slug[2:4]]
+				programme = PROG[reverse_roll[6:4:-1]]
 			except KeyError:
 				programme = '3'
+
+			is_exchange=False
+			if base_slug[0] == ('x' or 'X'):
+				base_slug[0] = 'x'
+				is_exchange=True
 
 			if not instance.email:
 				mail_id=instance.username + "@iitg.ac.in"
@@ -85,6 +98,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 				roll_no=base_slug, #see some lines above
 				enrolment_year=enrolment_year,
 				programme=programme,
+				is_exchange=is_exchange,
 			)
 			home.add_child(instance=new_alum)
 			home.save()

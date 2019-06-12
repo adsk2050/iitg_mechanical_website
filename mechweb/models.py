@@ -35,7 +35,7 @@ from taggit.models import TaggedItemBase, Tag
 # Importing constants and settings
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES, MESA, SAE
 # , NAV_ORDER
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
@@ -380,7 +380,8 @@ class FacultyPage(Page):
 	disciplinary_committee = models.CharField(max_length=2, choices=DISCIPLINARY_COMMITTEE, default='4')
 	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
 	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
-
+	mesa = models.CharField(max_length=2, choices=MESA, default='5')
+	sae = models.CharField(max_length=2, choices=SAE, default='3')
 	#################################################################
 	content_panels = Page.content_panels + [
 		######################################################
@@ -420,6 +421,8 @@ class FacultyPage(Page):
 		FieldPanel('dppc'),
 		FieldPanel('disciplinary_committee'),
 		FieldPanel('disposal_committee'),
+		FieldPanel('mesa'),
+		FieldPanel('sae'),
 	]
 
 	achievement_tab_panels= [
@@ -567,14 +570,13 @@ class AbstractStudentHomePage(Page):
 		abstract = True
 
 class AbstractStudentPage(Page):
-	user = models.OneToOneField(CustomUser, related_name='student', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(unique=True)
 	enrolment_year = models.DateField(default=timezone.now)
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
-
+	is_exchange = models.BooleanField(default=False, verbose_name="International Student")
 	contact_number = models.CharField(max_length=20, blank=True)
 	hostel_address = models.CharField(max_length=25, blank=True)
 	specialization = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', help_text="Not Applicable - for B.Tech, PhD and PostDocs")
@@ -582,6 +584,15 @@ class AbstractStudentPage(Page):
 	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	website = models.URLField(max_length=250, blank=True)
+	#################################################################
+
+	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
+	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
+	mesa = models.CharField(max_length=2, choices=MESA, default='5')
+	sae = models.CharField(max_length=2, choices=SAE, default='3')
+
+	#################################################################
+
 
 	def get_roll_value(self):
 		return self.roll_no
@@ -591,27 +602,6 @@ class AbstractStudentPage(Page):
 	# 	enrl_yr = datetime.strptime('Aug 1 20'+roll_no[0:2]+' 12:00PM', '%b %d %Y %I:%M%p')
 	# 	return enrl_yr
 
-
-	content_panels = Page.content_panels + [
-		######################################################
-		# The user should not be able to change these things from here
-		FieldPanel('user'),
-		FieldPanel('first_name'),
-		FieldPanel('last_name'),
-		FieldPanel('email_id'), 
-		FieldPanel('roll_no'),
-		FieldPanel('enrolment_year'),
-		FieldPanel('programme'),
-		######################################################
-		FieldPanel('specialization'),
-		FieldPanel('website'), 
-		FieldPanel('contact_number'),
-		FieldPanel('hostel_address'),
-
-		ImageChooserPanel('photo'), 
-		FieldPanel('intro'),
-		FieldPanel('body'),
-	]
 
 	parent_page_types=['StudentHomePage']
 	subpage_types=[]
@@ -637,7 +627,7 @@ class StudentHomePage(AbstractStudentHomePage):
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
 
-		paginator = Paginator(student_list, 10) # Show 10 faculty per page
+		paginator = Paginator(student_list, 10) # Show 10 students per page
 		page_no = request.GET.get('page_no')
 		student_list = paginator.get_page(page_no)
 
@@ -662,14 +652,42 @@ class StudentResearchInterestTag(TaggedItemBase):
 	)
 
 class StudentPage(AbstractStudentPage):
+	user = models.OneToOneField(CustomUser, related_name='student', null=True, on_delete=models.SET_NULL)
 	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 
-	content_panels = AbstractStudentPage.content_panels + [
+	content_panels = Page.content_panels + [
+		######################################################
+		# The user should not be able to change these things from here
+		FieldPanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('last_name'),
+		FieldPanel('email_id'), 
+		FieldPanel('roll_no'),
+		FieldPanel('enrolment_year'),
+		FieldPanel('programme'),
+		######################################################
+		FieldPanel('specialization'),
+		FieldPanel('is_exchange'),
+		FieldPanel('website'), 
+		FieldPanel('contact_number'),
+		FieldPanel('hostel_address'),
+
+		ImageChooserPanel('photo'), 
+		FieldPanel('intro'),
+		FieldPanel('body'),
+
 		AutocompletePanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
 		FieldPanel('research_interests'),
 		InlinePanel('stud_gallery_images', label="Gallery images", max_num=2),
 		InlinePanel('stud_links', label="Related Links", max_num=10),
+	]
+
+	custom_tab_panels = [
+		FieldPanel('dupc'),
+		FieldPanel('dppc'),
+		FieldPanel('mesa'),
+		FieldPanel('sae'),
 	]
 
 	project_tab_panels = [
@@ -679,6 +697,7 @@ class StudentPage(AbstractStudentPage):
 	edit_handler = TabbedInterface([
 		ObjectList(content_panels, heading="Content"),
 		ObjectList(project_tab_panels, heading="Projects"),
+		ObjectList(custom_tab_panels, heading="Administration"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
@@ -928,6 +947,7 @@ class AlumnusPage(AbstractStudentPage):
 		FieldPanel('email_id'), 
 		######################################################
 		FieldPanel('specialization'),
+		FieldPanel('is_exchange'),
 		FieldPanel('website'), 
 		MultiFieldPanel([
 			FieldRowPanel([
@@ -1213,19 +1233,27 @@ class PublicationPage(Page):
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
 	download_link = models.URLField(blank=True, max_length=100)
-	pages = models.CharField(max_length=10, null=True, blank=True)
-	vol_issue = models.CharField(max_length=20,null=True, blank=True)
+	pub_issue = models.CharField(max_length=20,null=True, blank=True)
 	pub_year = models.DateField(default=timezone.now)
 	pub_journal = models.CharField(max_length=100, blank=True)
+	pub_vol = models.CharField(max_length=100, blank=True)
+	page_start = models.CharField(max_length=100, blank=True)
+	page_end = models.CharField(max_length=100, blank=True)
+	citations = models.CharField(max_length=100, blank=True)
+
+
 
 	content_panels =  Page.content_panels + [
 		DocumentChooserPanel('document'),
 		FieldPanel('name'),
 		FieldPanel('pub_type'),
-		FieldPanel('pages'),
-		FieldPanel('vol_issue'),
 		FieldPanel('pub_year'),
 		FieldPanel('pub_journal'),
+		FieldPanel('pub_vol'),
+		FieldPanel('pub_issue'),
+		FieldPanel('page_start'),
+		FieldPanel('page_end'),
+		FieldPanel('citations'),
 		FieldPanel('abstract'),
 		FieldPanel('download_link'),
 		InlinePanel('images', label="Images", max_num=2),
@@ -1408,7 +1436,7 @@ class CourseStructure(Page):
 	max_count = 1
 
 	def serve(self, request):
-		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester')
+		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester', 'coursepage__eligible_specializations')
 
 
 		# Filter by programme
@@ -1456,6 +1484,7 @@ class CoursePage(Page):
 	semester = models.IntegerField()
 	course_type = models.CharField(max_length=100, choices=COURSE_TYPES, default='0')
 	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', help_text="Minimum qualification needed to take course")
+	eligible_specializations = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', )
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	course_page_link = models.URLField(blank=True)
 	document = models.ForeignKey(
@@ -1474,6 +1503,7 @@ class CoursePage(Page):
 			FieldPanel('semester'),
 			FieldPanel('course_type'),
 			FieldPanel('eligible_programmes'),
+			FieldPanel('eligible_specializations'),
 			FieldRowPanel([
 				FieldPanel('lectures'),
 				FieldPanel('tutorials'),

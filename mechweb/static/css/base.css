@@ -204,8 +204,9 @@ body, html{
   }
 
   .bread-list-item h2 {
+    color: #000000;
     font-weight: 300;
-padding-left: 190px}
+    padding-left: 190px}
 
   @media (min-width: 992px) {
     .bread-list-item {
