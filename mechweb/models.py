@@ -42,72 +42,27 @@ from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROG
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
 
 
+
 # when makemigrations are happening this does not show as change in the db
 class CustomUserManager(BaseUserManager):
-	pass
-# 	def _create_user(self, username, email, password, **extra_fields):
-#         """
-#         Create and save a user with the given username, email, and password.
-#         """
-#         if not username:
-#             raise ValueError('The given username must be set')
-#         email = self.normalize_email(email)
-#         username = self.model.normalize_username(username)
-#         user = self.model(username=username, email=email, **extra_fields)
-#         user.set_password(password)
-#         user.save(using=self._db)
-#         return user
+	
 
-#     def create_user(self, username, email=None, password=None, **extra_fields):
-#         extra_fields.setdefault('is_staff', False)
-#         extra_fields.setdefault('is_superuser', False)
-#         return self._create_user(username, email, password, **extra_fields)
+	
+	def has_perm(self, perm, obj=None):
+		""" Does this user have a specific permission"""
+		#Simplest possible answer - always true
+		return True
 
-#     def create_superuser(self, username, email, password, **extra_fields):
-#         extra_fields.setdefault('is_staff', True)
-#         extra_fields.setdefault('is_superuser', True)
+	def has_module_perm(self, app_label):
+		"""Does the user have the permissions to view the app "app_label"? """
+		# simplest answer - yes always
+		return True
 
-#         if extra_fields.get('is_staff') is not True:
-#             raise ValueError('Superuser must have is_staff=True.')
-#         if extra_fields.get('is_superuser') is not True:
-#             raise ValueError('Superuser must have is_superuser=True.')
-
-#         return self._create_user(username, email, password, **extra_fields)
-# 	def create_user(self, username, user_type, password):
-# 		if not user_type:
-# 			raise ValueError('Must provide user_type')
-# 		user = self.model(
-# 			user_type=user_type,
-# 		)
-# 		if password
-# 		user.set_password(password)
-# 		user.save(using=self._db)
-# 		return user
-
-# 	def create_superuser(self, user_type, password):
-# 		user = self.model(
-# 			user_type=user_type
-# 		)
-# 		user.set_password(password)
-# 		user.is_admin=True
-# 		user.save(using=self._db)
-# 		return user
-
-# 	def has_perm(self, perm, obj=None):
-# 		""" Does this user have a specific permission"""
-# 		#Simplest possible answer - always true
-# 		return True
-
-# 	def has_module_perm(self, app_label):
-# 		"""Does the user have the permissions to view the app "app_label"? """
-# 		# simplest answer - yes always
-# 		return True
-
-# 	@property
-# 	def is_staff(self):
-# 			"""Is the user a member of staff?"""
-# 			#simplest answer - All admins are staff
-# 			return self._is_admin
+	@property
+	def is_staff(self):
+			"""Is the user a member of staff?"""
+			#simplest answer - All admins are staff
+			return self.is_staff
 
 class CustomUser(AbstractUser):
 	# pass
@@ -414,7 +369,7 @@ class FacultyPage(Page):
 	]
 
 	achievement_tab_panels= [
-		InlinePanel('fac_award', label="Awards"),
+		# InlinePanel('fac_award', label="Awards"),
 	]
 
 	announcement_tab_panels = [
@@ -508,28 +463,6 @@ class FacultyPageGalleryImage(Orderable):
 			ImageChooserPanel('image'),
 			FieldPanel('caption'),
 		]),
-	]
-
-class FacultyAward(Orderable):
-	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='fac_award')
-	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
-	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
-	award_time = models.DateField(default=timezone.now)
-	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
-	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	link = models.URLField(max_length=250, blank=True)
-
-	panels = [
-		FieldPanel('award_title'),
-		FieldPanel('award_description'),
-		FieldPanel('award_type'),		
-		ImageChooserPanel('image'),
-		FieldPanel('award_time'),
-		FieldPanel('conferrer'),
-		FieldPanel('conferrer_description'),
-		FieldPanel('link'),
 	]
 
 def faculty_interests():
@@ -1563,7 +1496,7 @@ class AwardHomePage(Page):
 		FieldPanel('intro'),
 	]
 	parent_page_types=['MechHomePage']
-	subpage_types=[]
+	# subpage_types=['FacultyAward']
 	max_count = 1
 
 	def serve(self, request):
@@ -1583,7 +1516,33 @@ class AwardHomePage(Page):
 	class Meta:
 		verbose_name = "Awards Home"
 
-	
+
+def get_award_home_page(request, panels):
+	AWARD_HOME_PAGE = AwardHomePage.objects.all()[0]
+	return AWARD_HOME_PAGE
+
+# class FacultyAward(Orderable):
+# 	page = ParentalKey(FacultyPage, null=True, on_delete=models.SET_NULL, related_name='fac_award')
+# 	award_home =  models.ForeignKey( 'AwardHomePage', null=True, on_delete=models.SET_NULL, default=get_award_home_page,related_name='awards' )
+# 	award_title = models.CharField(max_length=100)
+# 	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+# 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
+# 	award_time = models.DateField(default=timezone.now)
+# 	conferrer = models.CharField(max_length=100)
+# 	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+# 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+# 	link = models.URLField(max_length=250, blank=True)
+
+# 	panels = Page.content_panels + [
+# 		FieldPanel('award_title'),
+# 		FieldPanel('award_description'),
+# 		FieldPanel('award_type'),		
+# 		ImageChooserPanel('image'),
+# 		FieldPanel('award_time'),
+# 		FieldPanel('conferrer'),
+# 		FieldPanel('conferrer_description'),
+# 		FieldPanel('link'),
+# 	]
 
 
 

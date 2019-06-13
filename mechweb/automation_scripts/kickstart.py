@@ -97,24 +97,24 @@ publication_home_page = PublicationHomePage(
 	slug='publications',
 	seo_title="Publications | Mechanical Engineering · IITG",
 )
-home.add_child(instance=publication_home_page)
-home.save()
+research_home_page.add_child(instance=publication_home_page)
+research_home_page.save()
 
 research_lab_home_page = ResearchLabHomePage(
 	title='Facilities(Labs)',
 	slug='facilities',
 	seo_title="Facilities(Labs) | Mechanical Engineering · IITG",
 )
-home.add_child(instance=research_lab_home_page)
-home.save()
+research_home_page.add_child(instance=research_lab_home_page)
+research_home_page.save()
 
 project_home_page = ProjectHomePage(
 	title='Projects',
 	slug='projects',
 	seo_title="Projects | Mechanical Engineering · IITG",
 )
-home.add_child(instance=project_home_page)
-home.save()
+research_home_page.add_child(instance=project_home_page)
+research_home_page.save()
 award_home_page = AwardHomePage(
 	title='Awards',
 	slug='awards',
