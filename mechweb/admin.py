@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin# as BaseUserAdmin
 from .models import CustomUser
+from import_export import resources
+
 
 # If you use this then comment the code in forms 
 # -------------------------------------------------
@@ -15,9 +17,6 @@ from .models import CustomUser
 admin.site.register(CustomUser, UserAdmin)
 
 # app/admin.py
-
-# from import_export import resources
-# from .models import CustomUser
 
 # class CustomUserResource(resources.ModelResource):
 

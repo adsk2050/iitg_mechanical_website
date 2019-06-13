@@ -8,7 +8,8 @@ from django.core.paginator import Paginator
 
 
 
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.base_user import BaseUserManager
 ######################################################
 
 from wagtailautocomplete.edit_handlers import AutocompletePanel
@@ -40,51 +41,38 @@ from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROG
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
 
-######################################################
-######################################################
-# http://docs.wagtail.io/en/v2.5.1/advanced_topics/images/custom_image_model.html
 
-# class CustomImage(AbstractImage):
-#     # Add any extra fields to image here
-
-#     # eg. To add a caption field:
-#     # caption = models.CharField(max_length=255, blank=True)
-
-#     admin_form_fields = Image.admin_form_fields + (
-#         # Then add the field names here to make them appear in the form:
-#         # 'caption',
-#     )
-
-# class CustomRendition(AbstractRendition):
-#     image = models.ForeignKey(CustomImage, on_delete=models.CASCADE, related_name='renditions')
-
-#     class Meta:
-#         unique_together = (
-#             ('image', 'filter_spec', 'focal_point_key'),
-#         )
-
-######################################################
-######################################################
-# http://docs.wagtail.io/en/v2.5.1/advanced_topics/documents/custom_document_model.html
-
-# class CustomDocument(AbstractDocument):
-#     # Custom field example:
-#     source = models.CharField(
-#         max_length=255,
-#         # This must be set to allow Wagtail to create a document instance
-#         # on upload.
-#         blank=True,
-#         null=True
-#     )
-
-#     admin_form_fields = Document.admin_form_fields + (
-#         # Add all custom fields names to make them appear in the form:
-#         'source',
-#     )
-######################################################
-######################################################
 # when makemigrations are happening this does not show as change in the db
-# class CustomUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
+	pass
+# 	def _create_user(self, username, email, password, **extra_fields):
+#         """
+#         Create and save a user with the given username, email, and password.
+#         """
+#         if not username:
+#             raise ValueError('The given username must be set')
+#         email = self.normalize_email(email)
+#         username = self.model.normalize_username(username)
+#         user = self.model(username=username, email=email, **extra_fields)
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
+
+#     def create_user(self, username, email=None, password=None, **extra_fields):
+#         extra_fields.setdefault('is_staff', False)
+#         extra_fields.setdefault('is_superuser', False)
+#         return self._create_user(username, email, password, **extra_fields)
+
+#     def create_superuser(self, username, email, password, **extra_fields):
+#         extra_fields.setdefault('is_staff', True)
+#         extra_fields.setdefault('is_superuser', True)
+
+#         if extra_fields.get('is_staff') is not True:
+#             raise ValueError('Superuser must have is_staff=True.')
+#         if extra_fields.get('is_superuser') is not True:
+#             raise ValueError('Superuser must have is_superuser=True.')
+
+#         return self._create_user(username, email, password, **extra_fields)
 # 	def create_user(self, username, user_type, password):
 # 		if not user_type:
 # 			raise ValueError('Must provide user_type')
@@ -133,7 +121,7 @@ class MechHomePage(Page):
 
 
 	# intro = RichTextField(blank=True)
-	# user = models.OneToOneField(CustomUser, related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		InlinePanel('gallery_images', label="Gallery Images"),
@@ -205,7 +193,7 @@ class MechHomePageGalleryImage(Orderable):
 ######################################################
 class EventHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
-	# user = models.OneToOneField(CustomUser, related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
 	featured_event = models.ForeignKey(
 		'EventPage',
 		null=True,
@@ -355,7 +343,7 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	user = models.OneToOneField(CustomUser, related_name='faculty', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='faculty', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	office_contact_number = models.CharField(max_length=20, blank=True)
@@ -652,7 +640,7 @@ class StudentResearchInterestTag(TaggedItemBase):
 	)
 
 class StudentPage(AbstractStudentPage):
-	user = models.OneToOneField(CustomUser, related_name='student', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='student', null=True, on_delete=models.SET_NULL)
 	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 
@@ -835,7 +823,7 @@ class StaffSkillag(TaggedItemBase):
 	)
 
 class StaffPage(Page):
-	user = models.OneToOneField(CustomUser, related_name='staff', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='staff', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField()
@@ -927,7 +915,7 @@ class AlumniInterestTag(TaggedItemBase):
 	)
 
 class AlumnusPage(AbstractStudentPage):
-	user = models.OneToOneField(CustomUser, related_name='alumnus', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='alumnus', null=True, on_delete=models.SET_NULL)
 	contact_number_2 = models.CharField(max_length=20, blank=True)
 	email_id_2 = models.EmailField(blank=True)
 	address_line_1 = models.CharField(max_length=100, blank=True)

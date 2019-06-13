@@ -1,3 +1,47 @@
+######################################################
+######################################################
+# http://docs.wagtail.io/en/v2.5.1/advanced_topics/images/custom_image_model.html
+
+# class CustomImage(AbstractImage):
+#     # Add any extra fields to image here
+
+#     # eg. To add a caption field:
+#     # caption = models.CharField(max_length=255, blank=True)
+
+#     admin_form_fields = Image.admin_form_fields + (
+#         # Then add the field names here to make them appear in the form:
+#         # 'caption',
+#     )
+
+# class CustomRendition(AbstractRendition):
+#     image = models.ForeignKey(CustomImage, on_delete=models.CASCADE, related_name='renditions')
+
+#     class Meta:
+#         unique_together = (
+#             ('image', 'filter_spec', 'focal_point_key'),
+#         )
+
+######################################################
+######################################################
+# http://docs.wagtail.io/en/v2.5.1/advanced_topics/documents/custom_document_model.html
+
+# class CustomDocument(AbstractDocument):
+#     # Custom field example:
+#     source = models.CharField(
+#         max_length=255,
+#         # This must be set to allow Wagtail to create a document instance
+#         # on upload.
+#         blank=True,
+#         null=True
+#     )
+
+#     admin_form_fields = Document.admin_form_fields + (
+#         # Add all custom fields names to make them appear in the form:
+#         'source',
+#     )
+######################################################
+######################################################
+
 
 class Site(models.Model):
     hostname = models.CharField(verbose_name=_('hostname'), max_length=255, db_index=True)
