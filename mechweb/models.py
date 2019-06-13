@@ -34,7 +34,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
 ######################################################
 # Importing constants and settings
-from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
+from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT, AUTH_USER_MODEL
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES, MESA, SAE
 # , NAV_ORDER
@@ -121,7 +121,7 @@ class MechHomePage(Page):
 
 
 	# intro = RichTextField(blank=True)
-	# user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(AUTH_USER_MODEL, related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		InlinePanel('gallery_images', label="Gallery Images"),
@@ -193,7 +193,7 @@ class MechHomePageGalleryImage(Orderable):
 ######################################################
 class EventHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
-	# user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(AUTH_USER_MODEL, related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
 	featured_event = models.ForeignKey(
 		'EventPage',
 		null=True,
@@ -343,7 +343,7 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='faculty', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL, related_name='faculty', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	office_contact_number = models.CharField(max_length=20, blank=True)
@@ -640,7 +640,7 @@ class StudentResearchInterestTag(TaggedItemBase):
 	)
 
 class StudentPage(AbstractStudentPage):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='student', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL, related_name='student', null=True, on_delete=models.SET_NULL)
 	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 
@@ -823,7 +823,7 @@ class StaffSkillag(TaggedItemBase):
 	)
 
 class StaffPage(Page):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='staff', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL, related_name='staff', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField()
@@ -915,7 +915,7 @@ class AlumniInterestTag(TaggedItemBase):
 	)
 
 class AlumnusPage(AbstractStudentPage):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='alumnus', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL, related_name='alumnus', null=True, on_delete=models.SET_NULL)
 	contact_number_2 = models.CharField(max_length=20, blank=True)
 	email_id_2 = models.EmailField(blank=True)
 	address_line_1 = models.CharField(max_length=100, blank=True)
