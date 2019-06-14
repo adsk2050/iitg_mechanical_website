@@ -2,12 +2,14 @@ from datetime import datetime
 
 from django.utils.safestring import mark_safe
 
-from wagtail.core import hooks
-from .models import CustomUser, FacultyHomePage, FacultyPage, StudentHomePage, StudentPage, AlumniHomePage, AlumnusPage, StaffHomePage, StaffPage
 
 from django.utils.text import slugify
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+
+from wagtail.core import hooks
+
+from .models import CustomUser, FacultyHomePage, FacultyPage, StudentHomePage, StudentPage, AlumniHomePage, AlumnusPage, StaffHomePage, StaffPage
 
 ######################################################
 
@@ -16,7 +18,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 	if created:
 		if instance.user_type == '0':
 			home = FacultyHomePage.objects.all()[0]  # Now be careful here as if there will be more than one facultyHomePage then there will be a problem
-
 			base_slug = instance.username
 			if not instance.email:
 				mail_id=instance.username + "@iitg.ac.in"
@@ -31,6 +32,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 				last_name=instance.last_name,
 				email_id=mail_id,
 				website=website,
+				owner=instance,
 			)
 			home.add_child(instance=new_faculty)
 			home.save()
@@ -65,6 +67,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 				enrolment_year=enrolment_year,
 				programme=programme,
 				is_exchange=is_exchange,
+				owner=instance,
 			)
 			home.add_child(instance=new_student)
 			home.save()
@@ -85,7 +88,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 				is_exchange=True
 
 			if not instance.email:
-				mail_id=instance.username + "@iitg.ac.in"
+				mail_id=instance.username + "@alumni.iitg.ac.in"
 			else:
 				mail_id=instance.email
 			new_alum = AlumnusPage(
@@ -99,6 +102,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 				enrolment_year=enrolment_year,
 				programme=programme,
 				is_exchange=is_exchange,
+				owner=instance,
 			)
 			home.add_child(instance=new_alum)
 			home.save()
@@ -116,6 +120,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 				first_name=instance.first_name,
 				last_name=instance.last_name,
 				email_id=mail_id,
+				owner=instance,
 			)
 			home.add_child(instance=new_staff)
 			home.save()

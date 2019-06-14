@@ -7,7 +7,7 @@ TEXT_PANEL_CONTENT_TYPES=(
 USER_TYPES = (
 	('0', 'Faculty'),
 	('1', 'Student'),
-	('2', 'Alumnus'),
+	('2', 'Alumni'),
 	('3', 'Staff'),
 )
 
@@ -41,12 +41,17 @@ MASTERS_SPECIALIZATION = (
 )
 
 STAFF_DESIGNATION = (
-	('0', 'Administrative Staff'),
-	# ('1', 'Project Staff'),
-	('1', 'Lab Staff'),
-	('2', 'Technicial staff'),
-	('3', 'PostDoc'),
-	('4', 'Others'),
+	('0', 'Jr. Assistant'),
+	('1', 'Jr. Superintendent'),
+	('2', 'Jr. Technical Superintendent'),
+	('3', 'Jr. Technician'),
+	('4', 'Technical Officer Gr I'),
+	('5', 'Technical Officer Gr II'),
+	('6', 'Technical Superintendent'),
+	('7', 'Junior Technical Officer'),
+	('8', 'Asst. Workshop Superintendent'),
+	('9', 'PostDoc'),
+	('10', 'Others'),
 
 )
 

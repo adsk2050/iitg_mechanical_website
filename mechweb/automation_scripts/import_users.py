@@ -1,10 +1,12 @@
 import csv
 from mechweb import wagtail_hooks
 from mechweb.models import CustomUser
+from django.contrib.auth.models import Group, Permission
+
 USER_TYPES = (
 	('0', 'Faculty'),
 	('1', 'Student'),
-	('2', 'Alumnus'),
+	('2', 'Alumni'),
 	('3', 'Staff'),
 )
 
@@ -26,6 +28,9 @@ with open('mechweb/automation_scripts/users.tsv', mode='r') as tsv_file:
     			email = row["email"], 
     			password = row["password"], 
             )
+            user_group = Group.objects.get_or_create(name=USER_TYPES[int(row["user_type"])][1])
+            user.groups.add(user_group)
+            user.set_password(user.password)
             user.save()
         except Exception as e:
             logf.write("Failed to add {0} due to  {1}\n".format(str(row["username"]), str(e)))

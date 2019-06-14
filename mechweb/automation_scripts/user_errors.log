@@ -1,2 +1,15 @@
 Failed to add 160103001 due to  UNIQUE constraint failed: mechweb_customuser.username
 Failed to add x160103080 due to  'str' object does not support item assignment
+Failed to add raju.talukdar due to  {'slug': ["Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or hyphens."]}
+Failed to add sanjib.s due to  {'slug': ["Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or hyphens."]}
+Failed to add j.kakati due to  {'slug': ["Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or hyphens."]}
+Failed to add bijoy.k due to  {'slug': ["Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or hyphens."]}
+Failed to add banikya.chandan due to  {'slug': ["Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or hyphens."]}
+Failed to add m.baishya due to  {'slug': ["Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or hyphens."]}
+Failed to add nsahoo due to  name 'Group' is not defined
+Failed to add nsahoo due to  name 'instance' is not defined
+Failed to add nsahoo due to  int() argument must be a string, a bytes-like object or a number, not 'Group'
+Failed to add nsahoo due to  int() argument must be a string, a bytes-like object or a number, not 'Group'
+Failed to add nsahoo due to  UNIQUE constraint failed: mechweb_customuser.username
+Failed to add nsahoo due to  UNIQUE constraint failed: mechweb_customuser.username
+Failed to add nsahoo due to  int() argument must be a string, a bytes-like object or a number, not 'Group'

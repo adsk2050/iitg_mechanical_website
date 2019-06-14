@@ -368,10 +368,6 @@ class FacultyPage(Page):
 		FieldPanel('sae'),
 	]
 
-	achievement_tab_panels= [
-		# InlinePanel('fac_award', label="Awards"),
-	]
-
 	announcement_tab_panels = [
 		InlinePanel('faculty_announcement', label="Announcement", max_num=10),
 	]
@@ -380,7 +376,6 @@ class FacultyPage(Page):
 		ObjectList(content_panels, heading="Content"),
 		ObjectList(custom_tab_panels, heading="Administration"),
 		ObjectList(announcement_tab_panels, heading="Announcement"),
-		ObjectList(achievement_tab_panels, heading="Achievements"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
@@ -761,7 +756,7 @@ class StaffPage(Page):
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField()
 
-	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='1')
+	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='10')
 	joining_year = models.DateField(default=timezone.now)
 	contact_number = models.CharField(max_length=20, blank=True)
 	address = models.CharField(max_length=100, blank=True)
@@ -1494,9 +1489,10 @@ class AwardHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
+		InlinePanel('awards', label="Awards"),
 	]
 	parent_page_types=['MechHomePage']
-	# subpage_types=['FacultyAward']
+	subpage_types=[]
 	max_count = 1
 
 	def serve(self, request):
@@ -1516,33 +1512,35 @@ class AwardHomePage(Page):
 	class Meta:
 		verbose_name = "Awards Home"
 
+class Award(Orderable):
+	page = ParentalKey(AwardHomePage, null=True, on_delete=models.SET_NULL, related_name='awards')
+	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
+	other_recipients = models.CharField(max_length=100, blank=True)
+	award_title = models.CharField(max_length=100)
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
+	award_time = models.DateField(default=timezone.now)
+	conferrer = models.CharField(max_length=100)
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	link = models.URLField(max_length=250, blank=True)
 
-def get_award_home_page(request, panels):
-	AWARD_HOME_PAGE = AwardHomePage.objects.all()[0]
-	return AWARD_HOME_PAGE
+	panels = [
+		FieldPanel('award_title'),
+		FieldPanel('award_description'),
+		FieldPanel('award_type'),	
+		AutocompletePanel('faculty'),	
+		FieldPanel('other_recipients'),	
+		ImageChooserPanel('image'),
+		FieldPanel('award_time'),
+		FieldPanel('conferrer'),
+		FieldPanel('conferrer_description'),
+		FieldPanel('link'),
+	]
 
-# class FacultyAward(Orderable):
-# 	page = ParentalKey(FacultyPage, null=True, on_delete=models.SET_NULL, related_name='fac_award')
-# 	award_home =  models.ForeignKey( 'AwardHomePage', null=True, on_delete=models.SET_NULL, default=get_award_home_page,related_name='awards' )
-# 	award_title = models.CharField(max_length=100)
-# 	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
-# 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
-# 	award_time = models.DateField(default=timezone.now)
-# 	conferrer = models.CharField(max_length=100)
-# 	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
-# 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-# 	link = models.URLField(max_length=250, blank=True)
+	class Meta:
+		ordering = ['-award_time']
 
-# 	panels = Page.content_panels + [
-# 		FieldPanel('award_title'),
-# 		FieldPanel('award_description'),
-# 		FieldPanel('award_type'),		
-# 		ImageChooserPanel('image'),
-# 		FieldPanel('award_time'),
-# 		FieldPanel('conferrer'),
-# 		FieldPanel('conferrer_description'),
-# 		FieldPanel('link'),
-# 	]
 
 
 

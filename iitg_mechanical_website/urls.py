@@ -13,6 +13,7 @@ from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_url
 
 
 urlpatterns = [
+    url('', include('social_django.urls', namespace='social')),
     url(r'^admin/autocomplete/', include(autocomplete_admin_urls)),
 
     url(r'^django-admin/', admin.site.urls),

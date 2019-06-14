@@ -7,7 +7,7 @@
 
 
 {% block content %}
-    <h1>{{ page.name }}</h1>
+    <h1>{{ page.first_name }} {{ page.last_name }}</h1>
     <div>{{ page.intro|richtext }}</div>
     <hr>
     <div>{% image page.photo fill-160x100 %}</div>
