@@ -54,7 +54,7 @@ with open('mechweb/automation_scripts/courses.tsv', mode='r') as tsv_file:
 				course_type = row["course_type"],
 				eligible_programmes = row["eligible_programmes"],
 				course_page_link = row["course_page_link"],
-				# description = row["description"],
+				description = row["description"],
 			)
 			course_structure.add_child(instance=course)
 			course_structure.save()

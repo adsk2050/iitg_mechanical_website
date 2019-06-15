@@ -5,12 +5,14 @@ from django import forms
 from django.shortcuts import render
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.utils.translation import gettext_lazy as _
 
 
 
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 ######################################################
+from wagtail.search import index
 
 from wagtailautocomplete.edit_handlers import AutocompletePanel
 
@@ -41,13 +43,13 @@ from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROG
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
 
+from social_django.strategy import DjangoStrategy
 
+######################################################
+######################################################
 
 # when makemigrations are happening this does not show as change in the db
 class CustomUserManager(BaseUserManager):
-	
-
-	
 	def has_perm(self, perm, obj=None):
 		""" Does this user have a specific permission"""
 		#Simplest possible answer - always true
@@ -65,10 +67,23 @@ class CustomUserManager(BaseUserManager):
 			return self.is_staff
 
 class CustomUser(AbstractUser):
-	# pass
+	first_name = models.CharField(_('first name'), max_length=30)
+	last_name = models.CharField(_('last name'), max_length=150)
+	is_staff = models.BooleanField(
+		_('staff status'),
+		default=True,
+		help_text=_('Designates whether the user can log into this admin site.'),
+	)
+	email = models.EmailField(
+		_('email address'), 
+		unique=True,
+		error_messages={
+            'unique': _("A user with that email already exists."),
+        },
+	)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
-	# USERNAME_FIELD = 'username' # Its anyway the default, but you can change this 
-
+	USERNAME_FIELD = 'email' # Its default is username
+	REQUIRED_FIELDS = ['first_name', 'last_name']
 ######################################################
 class MechHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -76,7 +91,7 @@ class MechHomePage(Page):
 
 
 	# intro = RichTextField(blank=True)
-	# user = models.OneToOneField(AUTH_USER_MODEL, related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		InlinePanel('gallery_images', label="Gallery Images"),
@@ -148,7 +163,7 @@ class MechHomePageGalleryImage(Orderable):
 ######################################################
 class EventHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
-	# user = models.OneToOneField(AUTH_USER_MODEL, related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
 	featured_event = models.ForeignKey(
 		'EventPage',
 		null=True,
@@ -298,7 +313,7 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	user = models.OneToOneField(AUTH_USER_MODEL, related_name='faculty', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	office_contact_number = models.CharField(max_length=20, blank=True)
@@ -329,7 +344,7 @@ class FacultyPage(Page):
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		FieldPanel('user'),
+		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'), 
@@ -568,14 +583,14 @@ class StudentResearchInterestTag(TaggedItemBase):
 	)
 
 class StudentPage(AbstractStudentPage):
-	user = models.OneToOneField(AUTH_USER_MODEL, related_name='student', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='student', null=True, on_delete=models.SET_NULL)
 	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		FieldPanel('user'),
+		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'), 
@@ -617,6 +632,11 @@ class StudentPage(AbstractStudentPage):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
+
+	search_fields = Page.search_fields + [
+		index.SearchField('first_name'),
+		index.FilterField('enrolment_year'),
+	]
 
 	def get_context(self, request):
 		lab_relation_list = self.student_lab.all()
@@ -751,7 +771,7 @@ class StaffSkillag(TaggedItemBase):
 	)
 
 class StaffPage(Page):
-	user = models.OneToOneField(AUTH_USER_MODEL, related_name='staff', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='staff', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField()
@@ -770,7 +790,7 @@ class StaffPage(Page):
 	content_panels = Page.content_panels + [
 	######################################################
 		# The user should not be able to change these things from here
-		FieldPanel('user'),
+		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
@@ -843,7 +863,7 @@ class AlumniInterestTag(TaggedItemBase):
 	)
 
 class AlumnusPage(AbstractStudentPage):
-	user = models.OneToOneField(AUTH_USER_MODEL, related_name='alumnus', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='alumnus', null=True, on_delete=models.SET_NULL)
 	contact_number_2 = models.CharField(max_length=20, blank=True)
 	email_id_2 = models.EmailField(blank=True)
 	address_line_1 = models.CharField(max_length=100, blank=True)
@@ -854,7 +874,7 @@ class AlumnusPage(AbstractStudentPage):
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		FieldPanel('user'),
+		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
 		FieldPanel('programme'),
