@@ -5,11 +5,14 @@ from django import forms
 from django.shortcuts import render
 from django.utils import timezone
 from django.core.paginator import Paginator
-
 from django.utils.translation import gettext_lazy as _
+
+
+
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 ######################################################
+from wagtail.search import index
 
 from wagtailautocomplete.edit_handlers import AutocompletePanel
 
@@ -33,56 +36,18 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
 ######################################################
 # Importing constants and settings
-from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT
+from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT, AUTH_USER_MODEL
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES, MESA, SAE
 # , NAV_ORDER
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
 
-######################################################
-######################################################
-# http://docs.wagtail.io/en/v2.5.1/advanced_topics/images/custom_image_model.html
-
-# class CustomImage(AbstractImage):
-#     # Add any extra fields to image here
-
-#     # eg. To add a caption field:
-#     # caption = models.CharField(max_length=255, blank=True)
-
-#     admin_form_fields = Image.admin_form_fields + (
-#         # Then add the field names here to make them appear in the form:
-#         # 'caption',
-#     )
-
-# class CustomRendition(AbstractRendition):
-#     image = models.ForeignKey(CustomImage, on_delete=models.CASCADE, related_name='renditions')
-
-#     class Meta:
-#         unique_together = (
-#             ('image', 'filter_spec', 'focal_point_key'),
-#         )
+from social_django.strategy import DjangoStrategy
 
 ######################################################
 ######################################################
-# http://docs.wagtail.io/en/v2.5.1/advanced_topics/documents/custom_document_model.html
 
-# class CustomDocument(AbstractDocument):
-#     # Custom field example:
-#     source = models.CharField(
-#         max_length=255,
-#         # This must be set to allow Wagtail to create a document instance
-#         # on upload.
-#         blank=True,
-#         null=True
-#     )
-
-#     admin_form_fields = Document.admin_form_fields + (
-#         # Add all custom fields names to make them appear in the form:
-#         'source',
-#     )
-######################################################
-######################################################
 # when makemigrations are happening this does not show as change in the db
 class CustomUserManager(BaseUserManager):
 	def has_perm(self, perm, obj=None):
@@ -110,7 +75,7 @@ class CustomUser(AbstractUser):
 		help_text=_('Designates whether the user can log into this admin site.'),
 	)
 	email = models.EmailField(
-		_('email address'),
+		_('email address'), 
 		unique=True,
 		error_messages={
             'unique': _("A user with that email already exists."),
@@ -126,7 +91,7 @@ class MechHomePage(Page):
 
 
 	# intro = RichTextField(blank=True)
-	# user = models.OneToOneField(CustomUser, related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		InlinePanel('gallery_images', label="Gallery Images"),
@@ -198,7 +163,7 @@ class MechHomePageGalleryImage(Orderable):
 ######################################################
 class EventHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
-	# user = models.OneToOneField(CustomUser, related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
+	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
 	featured_event = models.ForeignKey(
 		'EventPage',
 		null=True,
@@ -348,7 +313,7 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	user = models.OneToOneField(CustomUser, related_name='faculty', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	office_contact_number = models.CharField(max_length=20, blank=True)
@@ -373,12 +338,13 @@ class FacultyPage(Page):
 	disciplinary_committee = models.CharField(max_length=2, choices=DISCIPLINARY_COMMITTEE, default='4')
 	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
 	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
-
+	mesa = models.CharField(max_length=2, choices=MESA, default='5')
+	sae = models.CharField(max_length=2, choices=SAE, default='3')
 	#################################################################
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		FieldPanel('user'),
+		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
@@ -413,10 +379,8 @@ class FacultyPage(Page):
 		FieldPanel('dppc'),
 		FieldPanel('disciplinary_committee'),
 		FieldPanel('disposal_committee'),
-	]
-
-	achievement_tab_panels= [
-		InlinePanel('fac_award', label="Awards"),
+		FieldPanel('mesa'),
+		FieldPanel('sae'),
 	]
 
 	announcement_tab_panels = [
@@ -427,7 +391,6 @@ class FacultyPage(Page):
 		ObjectList(content_panels, heading="Content"),
 		ObjectList(custom_tab_panels, heading="Administration"),
 		ObjectList(announcement_tab_panels, heading="Announcement"),
-		ObjectList(achievement_tab_panels, heading="Achievements"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
@@ -512,27 +475,6 @@ class FacultyPageGalleryImage(Orderable):
 		]),
 	]
 
-class FacultyAward(Orderable):
-	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='fac_award')
-	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
-	award_time = models.DateField(default=timezone.now)
-	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	link = models.URLField(max_length=250, blank=True)
-
-	panels = [
-		FieldPanel('award_title'),
-		FieldPanel('award_description'),
-		FieldPanel('award_type'),
-		ImageChooserPanel('image'),
-		FieldPanel('award_time'),
-		FieldPanel('conferrer'),
-		FieldPanel('conferrer_description'),
-		FieldPanel('link'),
-	]
 
 def faculty_interests():
 	live_tags = FacultyResearchInterestTag.objects.all()
@@ -560,14 +502,13 @@ class AbstractStudentHomePage(Page):
 		abstract = True
 
 class AbstractStudentPage(Page):
-	user = models.OneToOneField(CustomUser, related_name='student', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(unique=True)
 	enrolment_year = models.DateField(default=timezone.now)
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
-
+	is_exchange = models.BooleanField(default=False, verbose_name="International Student")
 	contact_number = models.CharField(max_length=20, blank=True)
 	hostel_address = models.CharField(max_length=25, blank=True)
 	specialization = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', help_text="Not Applicable - for B.Tech, PhD and PostDocs")
@@ -575,6 +516,15 @@ class AbstractStudentPage(Page):
 	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	website = models.URLField(max_length=250, blank=True)
+	#################################################################
+
+	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
+	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
+	mesa = models.CharField(max_length=2, choices=MESA, default='5')
+	sae = models.CharField(max_length=2, choices=SAE, default='3')
+
+	#################################################################
+
 
 	def get_roll_value(self):
 		return self.roll_no
@@ -585,26 +535,6 @@ class AbstractStudentPage(Page):
 	# 	return enrl_yr
 
 
-	content_panels = Page.content_panels + [
-		######################################################
-		# The user should not be able to change these things from here
-		FieldPanel('user'),
-		FieldPanel('first_name'),
-		FieldPanel('last_name'),
-		FieldPanel('email_id'),
-		FieldPanel('roll_no'),
-		FieldPanel('enrolment_year'),
-		FieldPanel('programme'),
-		######################################################
-		FieldPanel('specialization'),
-		FieldPanel('website'),
-		FieldPanel('contact_number'),
-		FieldPanel('hostel_address'),
-
-		ImageChooserPanel('photo'),
-		FieldPanel('intro'),
-		FieldPanel('body'),
-	]
 
 	parent_page_types=['StudentHomePage']
 	subpage_types=[]
@@ -630,7 +560,7 @@ class StudentHomePage(AbstractStudentHomePage):
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
 
-		paginator = Paginator(student_list, 10) # Show 10 faculty per page
+		paginator = Paginator(student_list, 10) # Show 10 students per page
 		page_no = request.GET.get('page_no')
 		student_list = paginator.get_page(page_no)
 
@@ -655,14 +585,42 @@ class StudentResearchInterestTag(TaggedItemBase):
 	)
 
 class StudentPage(AbstractStudentPage):
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='student', null=True, on_delete=models.SET_NULL)
 	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
 	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
 
-	content_panels = AbstractStudentPage.content_panels + [
+	content_panels = Page.content_panels + [
+		######################################################
+		# The user should not be able to change these things from here
+		AutocompletePanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('last_name'),
+		FieldPanel('email_id'), 
+		FieldPanel('roll_no'),
+		FieldPanel('enrolment_year'),
+		FieldPanel('programme'),
+		######################################################
+		FieldPanel('specialization'),
+		FieldPanel('is_exchange'),
+		FieldPanel('website'), 
+		FieldPanel('contact_number'),
+		FieldPanel('hostel_address'),
+
+		ImageChooserPanel('photo'), 
+		FieldPanel('intro'),
+		FieldPanel('body'),
+
 		AutocompletePanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
 		FieldPanel('research_interests'),
 		InlinePanel('stud_gallery_images', label="Gallery images", max_num=2),
 		InlinePanel('stud_links', label="Related Links", max_num=10),
+	]
+
+	custom_tab_panels = [
+		FieldPanel('dupc'),
+		FieldPanel('dppc'),
+		FieldPanel('mesa'),
+		FieldPanel('sae'),
 	]
 
 	project_tab_panels = [
@@ -672,9 +630,15 @@ class StudentPage(AbstractStudentPage):
 	edit_handler = TabbedInterface([
 		ObjectList(content_panels, heading="Content"),
 		ObjectList(project_tab_panels, heading="Projects"),
+		ObjectList(custom_tab_panels, heading="Administration"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
+
+	search_fields = Page.search_fields + [
+		index.SearchField('first_name'),
+		index.FilterField('enrolment_year'),
+	]
 
 	def get_context(self, request):
 		lab_relation_list = self.student_lab.all()
@@ -809,12 +773,12 @@ class StaffSkillag(TaggedItemBase):
 	)
 
 class StaffPage(Page):
-	user = models.OneToOneField(CustomUser, related_name='staff', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='staff', null=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField()
 
-	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='1')
+	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='10')
 	joining_year = models.DateField(default=timezone.now)
 	contact_number = models.CharField(max_length=20, blank=True)
 	address = models.CharField(max_length=100, blank=True)
@@ -828,7 +792,7 @@ class StaffPage(Page):
 	content_panels = Page.content_panels + [
 	######################################################
 		# The user should not be able to change these things from here
-		FieldPanel('user'),
+		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
@@ -901,7 +865,7 @@ class AlumniInterestTag(TaggedItemBase):
 	)
 
 class AlumnusPage(AbstractStudentPage):
-	user = models.OneToOneField(CustomUser, related_name='alumnus', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='alumnus', null=True, on_delete=models.SET_NULL)
 	contact_number_2 = models.CharField(max_length=20, blank=True)
 	email_id_2 = models.EmailField(blank=True)
 	address_line_1 = models.CharField(max_length=100, blank=True)
@@ -912,7 +876,7 @@ class AlumnusPage(AbstractStudentPage):
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		FieldPanel('user'),
+		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
 		FieldPanel('programme'),
@@ -921,7 +885,8 @@ class AlumnusPage(AbstractStudentPage):
 		FieldPanel('email_id'),
 		######################################################
 		FieldPanel('specialization'),
-		FieldPanel('website'),
+		FieldPanel('is_exchange'),
+		FieldPanel('website'), 
 		MultiFieldPanel([
 			FieldRowPanel([
 				FieldPanel('contact_number'),
@@ -1069,11 +1034,10 @@ class ResearchLabHomePage(Page):
 	class Meta:
 		verbose_name = "Lab Home"
 
-
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
-	lab_research_area = models.CharField(max_length=2, choices=LAB_RESEARCH_AREAS, default='a')
+	lab_research_area = models.CharField(max_length=2, choices=LAB_RESEARCH_AREAS, default='0')
 	# When already defined in faculty model who is lab incharge... then do we need it here?
 	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
 	intro = models.CharField(max_length=250)
@@ -1147,6 +1111,7 @@ class LabEquipment(Orderable):
 	funding_agency_link = models.URLField(max_length=250, blank=True)
 	panels = [
 		FieldPanel('name'),
+		FieldPanel('company'),
 		AutocompletePanel('operator'),
 		DocumentChooserPanel('document'),
 		FieldPanel('specifications'),
@@ -1208,19 +1173,27 @@ class PublicationPage(Page):
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
 	download_link = models.URLField(blank=True, max_length=100)
-	pages = models.CharField(max_length=10, null=True, blank=True)
-	vol_issue = models.CharField(max_length=20,null=True, blank=True)
+	pub_issue = models.CharField(max_length=20,null=True, blank=True)
 	pub_year = models.DateField(default=timezone.now)
 	pub_journal = models.CharField(max_length=100, blank=True)
+	pub_vol = models.CharField(max_length=100, blank=True)
+	page_start = models.CharField(max_length=100, blank=True)
+	page_end = models.CharField(max_length=100, blank=True)
+	citations = models.CharField(max_length=100, blank=True)
+
+
 
 	content_panels =  Page.content_panels + [
 		DocumentChooserPanel('document'),
 		FieldPanel('name'),
 		FieldPanel('pub_type'),
-		FieldPanel('pages'),
-		FieldPanel('vol_issue'),
 		FieldPanel('pub_year'),
 		FieldPanel('pub_journal'),
+		FieldPanel('pub_vol'),
+		FieldPanel('pub_issue'),
+		FieldPanel('page_start'),
+		FieldPanel('page_end'),
+		FieldPanel('citations'),
 		FieldPanel('abstract'),
 		FieldPanel('download_link'),
 		InlinePanel('images', label="Images", max_num=2),
@@ -1403,7 +1376,7 @@ class CourseStructure(Page):
 	max_count = 1
 
 	def serve(self, request):
-		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester')
+		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester', 'coursepage__eligible_specializations')
 
 
 		# Filter by programme
@@ -1451,13 +1424,15 @@ class CoursePage(Page):
 	semester = models.IntegerField()
 	course_type = models.CharField(max_length=100, choices=COURSE_TYPES, default='0')
 	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', help_text="Minimum qualification needed to take course")
+	eligible_specializations = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', )
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	course_page_link = models.URLField()
+	course_page_link = models.URLField(blank=True)
 	document = models.ForeignKey(
 		'wagtaildocs.Document',
 		null=True, blank=True,
 		on_delete=models.SET_NULL,
-		related_name='+'
+		related_name='+',
+		verbose_name='Syllabus',
 	)	#if can add function to add multiple students at once, then and only then add this.
 	# list_of_students =
 
@@ -1468,6 +1443,7 @@ class CoursePage(Page):
 			FieldPanel('semester'),
 			FieldPanel('course_type'),
 			FieldPanel('eligible_programmes'),
+			FieldPanel('eligible_specializations'),
 			FieldRowPanel([
 				FieldPanel('lectures'),
 				FieldPanel('tutorials'),
@@ -1479,7 +1455,7 @@ class CoursePage(Page):
 		], heading="Course Details"),
 		FieldPanel('description'),
 		ImageChooserPanel('photo'),
-		InlinePanel('course_instructor', label="Course Instructor", min_num=1),
+		InlinePanel('course_instructor', label="Course Instructor"),
 
 	]
 
@@ -1537,6 +1513,7 @@ class AwardHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
+		InlinePanel('awards', label="Awards"),
 	]
 	parent_page_types=['MechHomePage']
 	subpage_types=[]
@@ -1555,6 +1532,62 @@ class AwardHomePage(Page):
 			'award_list': award_list,
 			'award_type':award_type,
 		})
-
 	class Meta:
 		verbose_name = "Awards Home"
+
+class Award(Orderable):
+	page = ParentalKey(AwardHomePage, null=True, on_delete=models.SET_NULL, related_name='awards')
+	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
+	other_recipients = models.CharField(max_length=100, blank=True)
+	award_title = models.CharField(max_length=100)
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
+	award_time = models.DateField(default=timezone.now)
+	conferrer = models.CharField(max_length=100)
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	link = models.URLField(max_length=250, blank=True)
+
+	panels = [
+		FieldPanel('award_title'),
+		FieldPanel('award_description'),
+		FieldPanel('award_type'),	
+		AutocompletePanel('faculty'),	
+		FieldPanel('other_recipients'),	
+		ImageChooserPanel('image'),
+		FieldPanel('award_time'),
+		FieldPanel('conferrer'),
+		FieldPanel('conferrer_description'),
+		FieldPanel('link'),
+	]
+
+	class Meta:
+		ordering = ['-award_time']
+class Award(Orderable):
+	page = ParentalKey(AwardHomePage, null=True, on_delete=models.SET_NULL, related_name='awards')
+	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
+	other_recipients = models.CharField(max_length=100, blank=True)
+	award_title = models.CharField(max_length=100)
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
+	award_time = models.DateField(default=timezone.now)
+	conferrer = models.CharField(max_length=100)
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	link = models.URLField(max_length=250, blank=True)
+
+	panels = [
+		FieldPanel('award_title'),
+		FieldPanel('award_description'),
+		FieldPanel('award_type'),	
+		AutocompletePanel('faculty'),	
+		FieldPanel('other_recipients'),	
+		ImageChooserPanel('image'),
+		FieldPanel('award_time'),
+		FieldPanel('conferrer'),
+		FieldPanel('conferrer_description'),
+		FieldPanel('link'),
+	]
+
+	class Meta:
+		ordering = ['-award_time']

@@ -526,7 +526,8 @@ header{
   overflow: hidden;
 }
 
-.bread-list-item h2{
+.bread-list-item h2 .lolo{
+  color: rgba(0,0,0,0.0);
   font-weight: 300;
 }
 

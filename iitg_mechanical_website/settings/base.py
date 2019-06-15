@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +71,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'iitg_mechanical_website.urls'
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.azuread_tenant.AzureADTenantOAuth2',
+)
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -83,6 +91,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mechweb.context_processors.navbar',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -191,7 +201,27 @@ AUTH_USER_MODEL = 'mechweb.CustomUser'
 
 WAGTAIL_USER_EDIT_FORM = 'mechweb.forms.CustomUserEditForm'
 WAGTAIL_USER_CREATION_FORM = 'mechweb.forms.CustomUserCreationForm'
-WAGTAIL_USER_CUSTOM_FIELDS = ['user_type']
+WAGTAIL_USER_CUSTOM_FIELDS = ['user_type', 'is_staff']
 
 # WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'
 # WAGTAILDOCS_DOCUMENT_MODEL = 'mechweb.CustomDocument'
+
+# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email', 'user_type']
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = '324f5b70-da2a-4342-a8fb-ed16f5c72f2c'
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = 'm7=3bPSgnX@[XXx/XstUKeE0mzdwAGk7'
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
+SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'social_core.pipeline.social_auth.associate_by_email',
+
+)

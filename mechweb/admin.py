@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin# as BaseUserAdmin
 from .models import CustomUser
+from import_export import resources
+from .constants import USER_TYPES
 
 # If you use this then comment the code in forms 
 # -------------------------------------------------
@@ -16,16 +18,22 @@ admin.site.register(CustomUser, UserAdmin)
 
 # app/admin.py
 
-# from import_export import resources
-# from .models import CustomUser
+class CustomUserResource(resources.ModelResource):
 
-# class CustomUserResource(resources.ModelResource):
+    class Meta:
+        model = CustomUser
+        """
+		By default all records will be imported, even if no changes are detected. This can be changed setting the skip_unchanged option. Also, the report_skipped option controls whether skipped records appear in the import Result object, and if using the admin whether skipped records will show in the import preview page:
+        """
+        skip_unchanged = True
+        report_skipped = False
+        import_id_fields = ('username',)
+        fields = ('username', 'first_name', 'last_name', 'email', 'user_type')
+        export_order = ('username', 'first_name', 'last_name', 'email', 'user_type')
 
-#     class Meta:
-#         model = CustomUser
-#         skip_unchanged = True
-#         report_skipped = False
-#         import_id_fields = ('isbn',) #The default field for object identification is id, you can optionally set which fields are used as the id when importing:
-#         fields = ('id', 'name', 'price',)
-#         export_order = ('id', 'price', 'author', 'name')
-#         exclude = ('imported', )
+    def dehydrate_user_type(self, user):
+    	return USER_TYPES[int(user.user_type)][1]
+
+# from mechweb.admin import CustomUserResource
+# dataset = CustomUserResource().export()
+# print(dataset.csv)

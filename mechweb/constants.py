@@ -7,7 +7,7 @@ TEXT_PANEL_CONTENT_TYPES=(
 USER_TYPES = (
 	('0', 'Faculty'),
 	('1', 'Student'),
-	('2', 'Alumnus'),
+	('2', 'Alumni'),
 	('3', 'Staff'),
 )
 
@@ -28,24 +28,31 @@ STUDENT_PROGRAMME = (
 	('0', 'Bachelor'),
 	('1', 'Masters'),
 	('2', 'Research Scholar'),
-	('3', 'Other, e.g. PostDoc or N.A.'),
+	('3', 'Other'),
 )
 
 MASTERS_SPECIALIZATION = (
 	('0', 'Not Applicable'),
 	('1', 'Aerodynamics & Propulsion'),
-	('2', 'Computer Aided Manufacturing'),
+	('2', 'Manufacturing Science and Engineering'),
 	('3', 'Computational Mechanics'),
 	('4', 'Fluids and Thermal'),
 	('5', 'Machine Design'),
 )
 
 STAFF_DESIGNATION = (
-	('0', 'Administrative Staff'),
-	# ('1', 'Project Staff'),
-	('1', 'Lab Staff'),
-	('2', 'Technicial staff'),
-	('3', 'Others'),
+	('0', 'Jr. Assistant'),
+	('1', 'Jr. Superintendent'),
+	('2', 'Jr. Technical Superintendent'),
+	('3', 'Jr. Technician'),
+	('4', 'Technical Officer Gr I'),
+	('5', 'Technical Officer Gr II'),
+	('6', 'Technical Superintendent'),
+	('7', 'Junior Technical Officer'),
+	('8', 'Asst. Workshop Superintendent'),
+	('9', 'PostDoc'),
+	('10', 'Others'),
+
 )
 
 PROJECT_TYPES=(
@@ -84,9 +91,26 @@ COURSE_TYPES = (
 	('Non-Departmental', (
 			('3', 'Common course'),
 			('4', 'HSS Elective'),
-			('4', 'Open Elective'),
+			('5', 'Open Elective'),
 		),
 	),
+)
+
+MESA = (
+	('6', 'Not Applicable'),
+	('0', 'President'),
+	('1', 'Vice President'),
+	('2', 'Head'),
+	('3', 'Branch Representative'),
+	('4', 'Member'),
+	('5', 'Faculty Advisor'),
+)
+
+SAE = (
+	('3', 'Not Applicable'),
+	('0', 'Chairman'),
+	('1', 'Other'),
+	('2', 'Faculty Advisor'),
 )
 
 # # EventHomePage NAV_ORDER[0] 5
@@ -107,7 +131,7 @@ COURSE_TYPES = (
 # # # 	('5', 'Book Chapters'),
 # # # )
 ############################# Faculty
-FACULTY_ROLES=(
+FACULTY_ROLES = (
 	('2', 'Not Applicable'),
 	('1', 'HoD'),
 	('0', 'Director')

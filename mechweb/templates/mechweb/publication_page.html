@@ -17,11 +17,18 @@
 	<div>{{ page.specific.abstract|richtext }}</div>
     <hr>
     {% if  page.specific.document %}
-	<div>{{ page.specific.document|truncatechars:25 }} : <a href="{{ page.specific.document.url }}">Download</a></div>
+	   <div>{{ page.specific.document|truncatechars:25 }} : <a href="{{ page.specific.document.url }}">Download</a></div>
     {% endif %}
     {% if  page.specific.download_link %}
-    <div>External Download link: {{ page.specific.download_link }}</div>
+        <div>External Download link: {{ page.specific.download_link }}</div>
     {% endif %}
+
+<div> Journalournal: {{ page.specific.pub_journal }}</div>
+<div> Volume: {{ page.specific.pub_vol }}</div>
+<div> Issue: {{ page.specific.pub_issue }}</div>
+<div> Start: {{ page.specific.page_start }}</div>
+<div> End: {{ page.specific.page_end }}</div>
+<div> Citations: {{ page.specific.citations }}</div>
 
     {% if page.faculty.all|length != 0 %}
     	<h2>Faculty</h2>
