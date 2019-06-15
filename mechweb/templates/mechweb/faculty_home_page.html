@@ -5,82 +5,81 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-faculty-homepage mt-5{% endblock %}
-{% block body_style %}padding-top: 60px; {% endblock %}
 
 
 {% block content %}
   <div class="container-fluid text-center">
-    {{ page.title }}
-    <h1>Faculty</h1>
+
+    <h1>{{ page.title }}</h1>
         {% if tag %}
             <h2>Results for {{ tag }}</h2>
         {% else %}
             {% if faculty_list.number == 1 %}
                 <!-- <h2>Intro:</h2> -->
                 <div class="intro">{{ page.intro|richtext }}</div>
-
             {% endif %}
         {% endif %}
   </div>
 
 
-
     <!-- Faculty List -->
-    {% for faculty in faculty_list %}
-    <div class="row">
-      <div class="col-2 ">
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-8 bread-list-item">
-          <div class="row">
-              <div class="col-xs-6 col-sm-4 image">
-    <div class="col-xs-12 col-md-6 bread-list-item">
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 image">
-              <a href="{% pageurl faculty %}">
-                {% image faculty.specific.photo fill-180x180-c100 %}
-                </a>
-            </div>
-            <div class="col-xs-6 col-sm-7">
-              {% if faculty.specific.get_additional_roles_display == "HoD" %}
-                  <h3>Head of Department</h3>
-              {% endif %}
-                <a href="{% pageurl faculty %}">
-                    <h2>{{ faculty.specific.first_name }} {{ faculty.specific.last_name }}</h2>
-                </a>
-                <ul class="bread-meta">
-                    <li><span>Designation</span> {{ faculty.specific.get_designation_display }}</li>
-                {% if faculty.specific.joining_date %}
-                    <li><span>Joining Date</span> {{ faculty.specific.joining_date }}</li>
-                {% endif %}
+    <div class="bread-list">
+      {% for faculty in faculty_list %}
+      <div class="row">
+        <div class="col-2 ">
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 bread-list-item">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 image">
                   <a href="{% pageurl faculty %}">
-                      <h2>{{ faculty.specific.name }}</h2>
-                  </a>
-                  <ul class="bread-meta">
-                      <li><strong>{{ faculty.specific.get_designation_display }}</strong></li><hr>
-                  {% if faculty.specific.office_address_line_1 %}
-                      <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
+                    {% image faculty.specific.photo fill-180x250-c100 %}
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-7">
+                  {% if faculty.specific.get_additional_roles_display == "HoD" %}
+                      <h3>Head of Department</h3>
                   {% endif %}
-                  {% if faculty.specific.office_contact_number %}
-                      <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
-                  {% endif %}
-                  {% if faculty.specific.email_id %}
-                      <li><span>Email</span> {{ faculty.specific.email_id }}</li>
-                  {% endif %}
-                  {% if faculty.specific.website %}
-                      <li><span>Webpage</span> <a href="{{ faculty.specific.website}}">{{ faculty.specific.name }}</a></li>
-                  {% endif %}
-                  {% if faculty.specific.joining_date %}
-                      <li><span>Joined the institute</span> {{ faculty.specific.joining_date}}</li>
-                  {% endif %}
+                    <a href="{% pageurl faculty %}">
+                        <h2>{{ faculty.specific.first_name }} {{ faculty.specific.last_name }}</h2>
+                    </a>
+                    <ul class="bread-meta">
+                        <li><strong>{{ faculty.specific.get_designation_display }}</strong></li><hr>
+                    {% if faculty.specific.office_address_line_1 %}
+                        <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
+                    {% endif %}
+                    {% if faculty.specific.office_contact_number %}
+                        <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
+                    {% endif %}
+                    {% if faculty.specific.email_id %}
+                        <li><span>Email</span> {{ faculty.specific.email_id }}</li>
+                    {% endif %}
+                    {% if faculty.specific.website %}
+                        <li><span>Webpage</span> <a href="{{ faculty.specific.website}}">{{ faculty.specific.name }}</a></li>
+                    {% endif %}
+                    {% if faculty.specific.joining_date %}
+                        <li><span>Joined the institute</span> {{ faculty.specific.joining_date}}</li>
+                    {% endif %}
 
 
-                  </ul>
-              </div>
-          </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
       </div>
+
+      {% endfor %}
     </div>
 
-    {% endfor %}
+
+
+
+
+    <h2>Department research focus</h2>
+    <div class="styletags">
+        {% for research_interest in all_research_interests %}
+            <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> |
+        {% endfor %}
+    </div>
 
 
     <div class="pagination">
@@ -101,13 +100,7 @@
         </span>
     </div>
 
-    <h2>Department research focus:</h2>
-    <div class="styletags">
-        {% for research_interest in all_research_interests %}
-            <a href="{{ page.specific.url }}?tag={{ research_interest }}">{{ research_interest }}</a> |
-        {% endfor %}
-    </div>
-
+    
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
 {% endblock %}

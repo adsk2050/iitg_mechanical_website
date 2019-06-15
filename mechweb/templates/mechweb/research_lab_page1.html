@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-research-homepage{% endblock %}
+
+{% block body_style %}padding-top: 110px; {% endblock %}
+
+
+{% block content %}
+
+    {# page.title #}
+    <!-- Intro -->
+    <h1>{{ page.specific.name }}</h1>
+    <div>Lab Type : {{ page.specific.get_lab_type_display }}</div>
+    {% if page.specific.lab_type == '0' %}
+        <h2>
+            Faculty in charge: <a href="{{ page.specific.faculty_incharge.url }}">{{ page.specific.faculty_incharge }}</a>
+        </h2>
+    {% endif %}
+
+    <hr>
+    <h2>About us</h2>
+    <div> {{ page.specific.intro | richtext }} </div>
+    <div> {{ page.specific.body | richtext }} </div>
+    <div>Contact Number: {{ page.specific.contact_number }}</div>
+    <div>Address: {{ page.specific.address }}</div>
+
+    <!-- Carousal -->
+    {% image page.specific.photo_1 fill-320x240 %}
+    {% image page.specific.photo_2 fill-320x240 %}
+    {% image page.specific.photo_3 fill-320x240 %}
+
+    <hr>
+    {% if page.faculty.all|length != 0 %}
+        <h2>Faculty</h2>
+        <ul>
+        {% for faculty in page.faculty.all %}
+            <li>
+                <a href="{{ faculty.url }}">{{ faculty }}</a>
+            </li>
+            <li>{{ faculty.research_statement|richtext }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <hr>
+    {% if page.students.all|length != 0 %}
+        <h2>Students</h2>
+        <ul>
+        {% for student in page.students.all %}
+            <li>
+                <a href="{{ student.student.url }}">{{ student.student }}</a>
+            </li>
+            <li>{{ student.research_statement|richtext }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <hr>
+    {% if page.equipment.all|length != 0 %}
+        <h2>Lab Equipments</h2>
+        <ul>
+        {% for eqpt in page.equipment.all %}
+            <li>
+                <h3><a href="{{ eqpt.link }}">{{ eqpt.name }}</a></h3>
+                <div>Funding Agency : <a href="{{ eqpt.funding_agency_link }}"></a>{{ eqpt.funding_agency }}</div>
+                <div>Operator : <a href="{{ eqpt.operator.url }}">{{ eqpt.operator }}</a></div>
+                <div>Manual : {{ eqpt.document|truncatechars:25 }} : <a href="{{ eqpt.document.url }}">Download</a></div>
+                <div>Specifications: {{ eqpt.specifications|richtext }}</div>
+                <div>Cost: {{ eqpt.cost }}</div>
+                <div>Date of procurement: {{ eqpt.date_of_procurement }}</div>
+
+                <div>{% image eqpt.photo_1 fill-320x240 %}</div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <hr>
+
+    {% if page.links.all|length != 0 %}
+        <h2>Links to refer</h2>
+        <ul>
+        {% for refer_link in page.links.all %}
+            <li>
+                <a href="{{ refer_link.link }}">{{ refer_link.link }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-student-page{% endblock %}
+
+{% block content %}
+    {{ page.title }}
+    <h1><a href="{{ page.specific.url }}">{{ page.specific.first_name }} {{ page.specific.last_name }}</a></h1>
+    <div>{% image page.specific.photo fill-50x50 %}</div>
+    <!-- Intro -->
+    <h2>Intro:</h2>
+    <div>{{ page.specific.intro }}</div>
+    <hr>
+    <div>{{ page.specific.body|richtext }}</div>
+    <hr>
+    <h3>Details:</h3>
+    <ul>
+        <li>Contact number : {{ page.specific.contact_number }}</li>
+        <li>Address : {{ page.specific.hostel_address }}</li>
+        <li>Email ID : {{ page.specific.email_id }}</li>
+        <li>Enrolment Year: {{ page.specific.enrolment_year }}</li>
+        <li>Programme : {{ page.specific.get_programme_display }}</li>
+        {% if page.specific.specialization != '0' %}
+                <li>Specialization : {{ page.specific.get_specialization_display }}</li>
+            {% endif %}
+        <li>Roll Number : {{ page.specific.roll_no }}</li>
+        <li><a href="{{ page.specific.website }}">Personal website</a></li>
+    </ul>
+    <hr>
+    <h3>Faculty Advisor : <a href="{{ page.specific.faculty_advisor.url }}">{{ page.specific.faculty_advisor }}</a></h3>
+
+    <div>
+    {% with research_interests=page.specific.research_interests.all  %}
+        {% if research_interests %}
+            <h3>Research Interests:</h3>
+                {% for tag in research_interests %}
+                    <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+                {% endfor %}
+            <hr>
+        {% endif %}
+    {% endwith %}
+    </div>
+
+    <!--  show projects as popups which come up and display when clicked -->
+    <!-- Projects -->
+    <div>
+    {% with projects=page.specific.projects.all  %}
+        {% if projects %}
+            <h2>Projects:</h2>
+            <ul>
+                {% for project in projects %}
+                    <li>
+                        <h4>{{ project.title }}</h4>
+
+                        <div>{% image project.photo_1 fill-100x100 %}</div>
+                        <div>{% image project.photo_2 fill-100x100 %}</div>
+                        <div>{% image project.photo_3 fill-100x100 %}</div>
+
+                        <div>Guide : {{ project.guide}}</div>
+                        {% if project.co_guide %}
+                            <div>Co-guide : {{ project.co_guide}}</div>
+                        {% endif %}
+                        <div>{{ project.document|truncatechars:10 }} <a href="{{ project.document.url }}">Download</a></div>
+                        <h5>Abstract: </h5>
+                        <div>{{ project.abstract|richtext }}</div>
+                        <div><a href="{{ project.link}}">Link</a></div>
+                    </li>
+                    <hr>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    </div>
+
+    <!-- Labs -->
+    <div>
+    {% if lab_list %}
+        <h3>Labs</h3>
+        {% for lab in lab_list %}
+          <div>
+            <h3><a href="{{ lab.url }}">{{ lab.specific.name }}</a></h3>
+            <div>{{ lab.specific.get_lab_type_display }}</div>
+            <div>{{ lab.specific.faculty_incharge }}</div>
+          </div>
+          <br>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <hr>
+
+    <!-- Publications -->
+    <div>
+    {% if pub_list %}
+        <h3> Publications</h3>
+        {% for pub in pub_list %}
+          <div>
+            <h3><a href="{{ pub.url }}">{{ pub.specific.name }}</a></h3>
+            <div>[{{ pub.specific.get_pub_type_display }}]</div>
+            {% if pub.specific.faculty.all|length != 0 %}
+              {% for faculty in pub.specific.faculty.all %}
+                <div><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>, </div>
+              {% endfor %}
+            {% endif %}
+
+            {% if pub.specific.students.all|length != 0 %}
+                {% for student in pub.specific.students.all %}
+                  <div><a href="{{ student.student.url }}">{{ student.student }}</a>, </div>
+                {% endfor %}
+            {% endif %}
+          </div>
+          <br>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <hr>
+
+
+    <!-- Images -->
+    <div>
+    {% with images=page.specific.stud_gallery_images.all  %}
+        {% if images %}
+            <h3>Images</h3>
+            <ul>
+                {% for pic in images %}
+                    <li>{% image pic.image fill-100x100 %}</li>
+                {% endfor %}
+            </ul>
+            <br>
+        {% endif %}
+    {% endwith %}
+    </div>
+    <hr>
+
+    <div>
+    {% with links=page.specific.stud_links.all  %}
+        {% if links %}
+            <h3>Links</h3>
+            <ul>
+                {% for link in links %}
+                    <li><a href="{{ link }}">{{ link|truncatechars:10 }}</a></li>
+                {% endfor %}
+            </ul>
+            <br>
+        {% endif %}
+    {% endwith %}
+    </div>
+    <hr>
+
+{% endblock %}

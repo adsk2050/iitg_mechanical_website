@@ -1,166 +1,5 @@
 
 
-body,html {
-  /* color: #272727; */
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-
-  font-family: 'Bitter', serif;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0;
-  /* padding: 1rem; */
-  background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 50%,rgba(233,228,221,1) 100%);
-
-}
-
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  list-style:none;
-}
-
-h1 {
-  font-weight: 300;
-  font-family: 'Bitter', serif;
-  position: relative;
-  color: #881125;
-
-}
-
-h2 ,h3{
-  font-weight: 900;
-  font-family: 'Bitter', sans-serif;
-  color: #881125;
-}
-
-h4 {
-  font-weight: 600;
-  font-family: 'Bitter', sans-serif;
-  color: #881125;
-  font-size: 22px;
-}
-
-p {
-  margin: 0 0 30px;
-  color: #4F5345;
-}
-
-/* a, a:focus, a:visited {
-  color: #d4566b;
-  text-decoration: none;
-} */
-
-
-
-a.btn {
-  background-color: #738A8D;
-  color: white;
-  /* background-color: linear-gradient(190deg, rgba(0,4,8,1) 0%,#4F5345 100%); */
-  display: inline-block;
-  font-family: 'Bitter', sans-serif;
-  font-size: 16px;
-  font-weight: 300;
-  letter-spacing: 0.15em;
-  padding: 15px 20px;
-  text-transform: uppercase;
-}
-
-/* a.btn:hover {
-  background-color: #eb7400;
-  color: #881125;
-} */
-
-nav{
-  width: 100%;
-  height: auto;
-  top: 0;
-  left:0;
-  font-family: 'Bitter', serif;
-}
-
-
-.navbar-light .navbar-brand{
-  color: #fff;
-  font-size: 25px;
-  text-transform: uppercase;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
-	color: #fff;
-}
-
-.navbar-light .navbar-nav .nav-link{
-  color: #fff;
-  font-family: 'Bitter', serif;
-  line-height: 0.15;
-  font-size: 20px;
-}
-
-.fixed-top.scrolled {
-  /* background-color: #62A8E0 !important; */
-  color: #fff !important;
-  background: #881125 !important;
-
-  transition: background-color 200ms linear;
-}
-
-.nav-link.colourchange{
-  color: #fff !important;
-  /* font-weight: bold; */
-}
-
-.mechbrand{
-  color: #0E0A11;
-  line-height:1.45;
-  font-family: 'Bitter', serif;
-}
-
-.mechbrand.mechbrandscroll{
-  color: #fff;
-  font-family: 'Bitter', serif;
-  line-height:1.45;
-
-}
-
-.padding{
-  padding-bottom: 2rem;
-}
-
-.baseheading{
-  color: #fff;
-  font-family: 'Bitter', serif;
-  font-size: 1.5rem;
-}
-
-.baseheading h4{
-  font-family: 'Bitter', serif;
-  line-height: 1.05;
-  color: #fff;
-
-}
-
-.baseheading h3{
-  font-family: 'Bitter', serif;
-  line-height: 1.05;
-  color: #fff;
-}
-
-.basenavheads a{
-  font-family: 'Bitter', serif;
-  line-height: 1.45;
-}
-
-.carousel-inner img{
-  width: 100%;
-  height: 100%;
-}
-
 .carousel-item{
   height: 100vh;
   min-height: 300px;
@@ -174,7 +13,7 @@ nav{
   bottom: 270px;
 
 }
-s
+
 .carousel-caption h5{
   font-size: 45px;
   text-transform: uppercase;
@@ -190,12 +29,26 @@ s
 
 }
 
-.heading{
-  font-size: 10px;
-  display: block;
+.navbar-light .navbar-brand{
+  color: #fff;
+  font-size: 25px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+	color: #fff;
+}
 
+.navbar-light .navbar-nav .nav-link{
+  color: #fff;
+}
+
+.fixed-top.scrolled {
+  background-color: #62A8E0 !important;
+  transition: background-color 200ms linear;
+}
 
 /* custom css for research box */
 
@@ -232,8 +85,8 @@ s
 
 .service-bg h2{
   color: #fff;
-  background: linear-gradient(190deg, rgba(0,4,8,1) 0%,#881125 100%);
-  border: 1px solid #881125;
+  background: #4CA3C2;
+  border: 1px solid #4CA3C2;
   font-size: 17px;
   text-align: center;
   font-weight: 700;
@@ -251,7 +104,7 @@ s
 .single-service:hover .service-bg h2{
   background: #fff;
   transition: 0.9s;
-  color: #881125;
+  color: #4CA3C2;
 }
 
 .service-text{
@@ -290,12 +143,10 @@ s
 } */res
 
 @media screen and (max-width: 580px) {
-
   .navbar {
     padding: 20px 10px !important; /* Use !important to make sure that JavaScript doesn't override the padding on small screens */
   }
   .navbar a {
-
     float: none;
     display: block;
     text-align: left;
@@ -318,129 +169,216 @@ s
   --speed: 1000ms;
 } */
 
+.nav li.active{
+  background:cyan;
+  }
+
+  .nav{
+      margin-top:5em;
+    }
 
 header{
   position: relative;
   top: 0;
 }
 
+/*
+html, body {
+  margin:0;
+  position: relative;
 
-/* Style the tab */
-.newsbox .tab {
-  float: left;
-  /* border: 1px solid #ccc; */
-  background-color: #f1f1f1;
-  width: 30%;
-  height: 400px;
-}
-
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  display: block;
-  background: linear-gradient(190deg, rgba(0,4,8,1) 0%,#4F5345 100%);
-
-  /* background-color: inherit; */
-  color: #fff;
-  padding: 22px 16px;
+  font-family: 'Alegreya', serif;
   width: 100%;
-  height: 108px;
-  border: none;
-  outline: none;
+  height: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+} */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.eventscarousel .carousel-item{
+  top: 5%;
+  word-wrap: break-word;
   text-align: left;
-  cursor: pointer;
-  transition: 0.3s;
-  border-radius: 10px;
+  height: 100vh;
+  min-height: 300px;
+  background: no-repeat center center scroll;
+  -webkit-background-size:cover;
+  -ms-overflow-style: none;  // IE 10+
+  scrollbar-width: none;
 }
 
-/* Change background color of buttons on hover */
-.newsbox .tab button:hover {
-  background-color: #ddd;
+.eventscarousel .carousel-item::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
 }
 
-/* Create an active/current "tab button" class */
-.newsbox .tab button.active {
-  background-color: #ccc;
+.tabsrow .tabs{
+  margin-top: 55px;
 }
 
-/* Style the tab content */
-.tabcontent{
-  float: left;
-  padding: 0px 12px;
-  border: 1px solid #ccc;
-  width: 70%;
-  border-left: none;
-  height: 435px;;
-  display: none;
+.eventscarousel .carousel-inner{
+
+  margin-top: 50px;
+}
+
+.split h4 {
+  font-size: 2.5rem;
+  color: #373434;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.button {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  height: 2.5rem;
+  padding-top: 1.3rem;
+  width: 15rem;
+  text-align: center;
+  color: #fff;
+  border: #fff solid 0.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  transform: translateX(-50%);
+}
+
+.tabs li{
+  top: 5%;
+  margin: 10px;
+  align-items: center;
+  left: 50%;
+  color: #373434;
+}
+
+.aboutintro{
+  margin-top: 20%;
+  padding: 10px;
+  font-size: 2rem;
+  word-wrap: break-word;
+  display: block;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  text-align: left;
+
+}
+
+.split.left .button:hover {
+  background-color: var(--left-button-hover-color);
+  border-color: var(--left-button-hover-color);
+}
+
+.split.right .button:hover {
+  background-color: var(--right-button-hover-color);
+  border-color: var(--right-button-hover-color);
+}
+
+.splitcontainer .container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--container-bg-color);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+.split {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.split.left {
+  width: 25%;
+  left:0;
+  background: #fff;
+  background-size: cover;
+  padding: 10px;
+}
+
+.split.left:before {
+
+  position:absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: var(--left-bg-color);
+}
+
+.split.right {
+  width: 75%;
+  right:0;
+  background: #fff;
+  background-size: cover;
+  padding: 10px;
   overflow-y: scroll;
 }
 
- #News {
-  display: block;
-}
-
-
-/* About me styling */
 
 
 
-.newscontainer .promo-row {
-  padding: 40px 0 40px 0;
+.eventscarousel .scrollbarcss{
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+
 }
-.newscontainer .promo {
-  background: linear-gradient(190deg, rgba(0,4,8,1) 0%,#4F5345 100%);
-  border-radius: 0px 0px 10px 10px;
-  color: #fff;
-  height: 432px;;
-  margin-bottom: 20px;
-  margin-left: 30px;
-  margin-right: 30px;
-  /* margin-top: -40px; */
-  padding: 40px 60px;
-  text-align: center;
-}
-.newscontainer .promo h1,
-.newscontainer .promo h2,
-.newscontainer .promo h3,
-.newscontainer .promo h4 {
-  color: #eb7400;
-  font-weight: 200;
-}
-.newscontainer .promo p,
-.newscontainer .promo li {
-  color: #ccc;
-  line-height: 1.6em;
-}
-.newscontainer .promo a {
-  color: #fff;
-}
-@media (max-width: 970px) {
-  .newscontainer .promo {
-    padding: 30px 40px;
-  }
-  .newscontainer .promo figure img {
-    max-width: 120px;
-    height: auto;
-  }
-  .newscontainer .promo p {
-    color: #fff;
-    font-size: 1em;
-  }
-}
-@media (max-width: 766px) {
-  .newscontainer .promo {
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-}
-.newscontainer .promo figure img {
-  max-width: 100px;
-  max-height: 100px;
-  border-radius: 100%;
-  margin: auto;
-  width: auto;
+
+.eventscarousel .scrollbarcss::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
 }
 
 
+.split.right:before {
+  position:absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: var(--right-bg-color);
+}
+
+.split.left, .split.right, .split.right:before, .split.left:before {
+  transition: var(--speed) all ease-in-out;
+}
+
+.hover-left .left {
+  width: var(--hover-width);
+}
+
+.hover-left .right {
+  width: var(--other-width);
+}
+
+.hover-left .right:before {
+  z-index: 2;
+}
+
+
+.hover-right .right {
+  width: var(--hover-width);
+}
+
+.hover-right .left {
+  width: var(--other-width);
+}
+
+.hover-right .left:before {
+  z-index: 2;
+}
 
 @media(max-width: 800px) {
   h1 {
@@ -461,61 +399,28 @@ header{
 /* split screen and news code ends */
 
 .messagebox{
-  background: linear-gradient(190deg, rgba(0,4,8,1) 0%,#4F5345 100%);
-
-  /* background-color: #373434; */
-  padding-top: 2rem;
+  background-color: #373434;
+  margin: 30px;
+  padding: 20px;
   color: #fff;
 
 }
-.hodmsg{
-  padding: 50px;
-  text-align: left;
-}
-
-.donatecard .cardbox .card-body{
-  padding: 0.5rem;
-}
-
-.donatecard button{
-  background-color: #881125;
-  border-color: #881125;
-}
-
-.donatecard  button:hover{
-  background-color: #fff;
-  color: #881125;
-  border-color: #881125;
-
-
-}
-
-.donatecard{
-  display: flex;
-  justify-content: space-around;
-  padding: 50px;
-}
 
 .picbox{
-  padding: 50px;
+  display: table-cell;
+  height: auto;
+  text-align: center;
+  width: auto;
+  vertical-align: middle;
 }
-
-.picbox img{
-  border-radius: 5px;
-}
-
-.donatecard .cardbox{
-  right:
-
-}
-
 
 .cardbox{
   color: rgb(22, 18, 18);
   text-align: center;
+  display: block;
   margin-left: auto;
   margin-right: auto;
-  display: block;
+  width: 40%;
 }
 
 /* staff list css */
@@ -547,7 +452,7 @@ header{
 }
 
 .bread-list-item .image:hover img {
-  opacity: 0.8;
+  opacity: 0.3;
 }
 
 .bread-list-item img {
@@ -563,7 +468,7 @@ header{
   list-style: none;
 }
 
-.bread-list-item li span {
+.bread-list-item li span ,{
   color: #777;
   display: inline-block;
   font-weight: 600;
@@ -612,6 +517,19 @@ header{
 *::after {
   box-sizing: border-box;
 }
+
+/* html {
+  background-color: #ecf9ff;
+} */
+
+/* body {
+  color: #272727;
+  font-family: 'Quicksand', serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  padding: 1rem;
+} */
 
 .layoutcard{
   max-width: 1200px;
@@ -704,12 +622,11 @@ header{
 .styletags {
   color: #fff;
   font-weight: 300px;
-  padding: 2px;
   border-radius: 2px;
   border-style: solid;
-  border-color: #4F5345;
+  border-color: rgb(70, 160, 234);
   border-width: 1px;
-  background-color: #4F5345;
+  background-color: rgb(70, 160, 234);
 }
 
 .styletags a{
@@ -903,47 +820,6 @@ h2{
     }
 }
 
-
-/* lab page css */
-
-.labpage .carousel-inner {
-    height: 50vh;
-    min-height: 350px;
-    background: no-repeat center center scroll;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
-.labbox{
-  border-radius: 2px;
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-  .lab_faculty , .lab_sci_off , .lab_tech_staff , .lab_address{
-    border: 2px solid #ccc;
-    border-radius: 3px;
-    padding: 5px;
-    margin: 2px;
-    background-color: linear-gradient(190deg, rgba(0,4,8,1) 0%,#4F5345 100%);
-    font-family: 'Bitter', serif;
-    height: auto;
-    width: 300px;
-  }
-
-  .eqptlist span{
-    color: #881125;
-    font-weight: 200;
-  }
-
-  .eqptlist li{
-    color: #4F5345;
-    font-weight: normal;
-  }
-}
-/*  lab page css end */
 ----------------------------------------
 <!-- News and notifications -->
   <div class="container definite">

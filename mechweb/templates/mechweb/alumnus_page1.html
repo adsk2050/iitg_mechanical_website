@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-student-page{% endblock %}
+
+{% block content %}
+    {{ page.title }}
+    <h1><a href="{{ page.specific.url }}">{{ page.specific.first_name }} {{ page.specific.last_name }}</a></h1>
+	<div>{% image page.specific.photo fill-100x100 %}</div>
+
+	<div>{{ page.specific.enrolment_year }} batch</div>
+	<div>Programme : {{ page.specific.get_programme_display }}</div>
+	<h2>Intro : </h2>
+	<div>{{ page.specific.intro }}</div>
+	<h2>Description : </h2>
+	<div>{{ page.specific.description|richtext }}</div>
+
+	<hr>
+
+	<div>Email ID: {{ page.specific.email_id }}, {{ page.specific.email_id_2}}</div>
+	<div>
+		Contact Number : {{ page.specific.contact_number}},
+		{% if page.specific.contact_number_2 %}
+			{{ page.specific.contact_number_2}}
+		{% endif %}
+	</div>
+	<div>
+		Address : {{ page.specific.address_line_1}},
+		{% if page.specific.address_line_2 %}
+			{{ page.specific.address_line_2}},
+		{% endif %}
+		{% if page.specific.address_line_3 %}
+			{{ page.specific.address_line_3}}
+		{% endif %}
+	</div>
+	<div>Roll Number : {{ page.specific.roll_no }}</div>
+
+	    <!-- Job details -->
+    <div>
+	{% with jobs=page.specific.job_details.all  %}
+	    {% if jobs %}
+	        <h3> Job details</h3>
+	        {% for job in jobs %}
+	          <div>
+	            <h3>{{ job.title }} at <a href="{{ job.link }}">{{ job.company }}</a></h3>
+              	<div><p>{{ job.work_details }} </p></div>
+	          </div>
+	          <br>
+	        {% endfor %}
+	    {% endif %}
+    {% endwith %}
+    </div>
+    <hr>
+
+
+    <!-- Images -->
+    <div>
+    {% with images=page.specific.gallery_images.all  %}
+        {% if images %}
+            <h3>Images</h3>
+            <ul>
+                {% for pic in images %}
+                    <li>{% image pic.image fill-100x100 %}</li>
+                {% endfor %}
+            </ul>
+            <br>
+        {% endif %}
+    {% endwith %}
+    </div>
+    <hr>
+
+	<!-- Links -->
+    <div>
+    {% with links=page.specific.links.all  %}
+        {% if links %}
+            <h3>Links</h3>
+            <ul>
+                {% for link in links %}
+                    <li><a href="{{ link }}">{{ link|truncatechars:10 }}</a></li>
+                {% endfor %}
+            </ul>
+            <br>
+        {% endif %}
+    {% endwith %}
+    </div>
+    <hr>
+
+ 	<div>Interests :
+		{% for tag in page.specific.interests.all %}
+		<a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+		{% endfor %}
+	</div>
+
+{% endblock %}

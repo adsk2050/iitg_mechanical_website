@@ -7,264 +7,247 @@
 {% block body_class %}template-faculty-page{% endblock %}
 
 {% block content %}
+>
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
 
-    <div class="container bread-detail">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="row">
-                        <h1>{{ page.specific.first_name }} {{ page.specific.last_name }}</h1>
-                        <h3>{{ page.specific.get_designation_display }}</h3>
-                        <!-- <figure class="hidden-md-up">
-                            {% image page.specific.photo fill-100x100 %}
-                        </figure> -->
-                        <div class="container">
-                          {% if page.intro %}
-                              <p class="introduction">
-                                  {{ page.intro }}
-                              </p>
-                          {% endif %}
-                        </div>
-                        <div>{{ page.specific.body|richtext }}</div>
-                    </div>
-                </div>
+  <!-- The Grid -->
+  <div class="w3-row-padding">
 
-                <div class="col-md-5 col-md-offset-1 ">
-                    <div class="row">
-                      <h5>hi there</h5>
-                        <figure class="hidden-md-down facultypic">
-                            {% image page.specific.photo width-300 %}
-                        </figure>
-                        <ul class="bread-meta">
-                          {% if page.specific.office_address_line_1 %}
-                              <li>
-                                  <h4>Office Address</h4>
-                                  <p>{{ page.specific.office_address_line_1 }}</p>
-                              </li>
-                          {% endif %}
+    <!-- Left Column -->
+    <div class="w3-third">
 
-                          {% if page.specific.office_contact_number %}
-                              <li>
-                                  <h4>Office contact number</h4>
-                                  <p>{{ page.specific.office_contact_number }}</p>
-                              </li>
-                          {% endif %}
-
-                          {% if page.specific.home_address_line_1 %}
-                              <li>
-                                  <h4>Home address</h4>
-                                  <p>{{ page.specific.home_address_line_1 }}</p>
-                              </li>
-                          {% endif %}
-
-                          {% if page.specific.home_contact_number %}
-                              <li>
-                                  <h4>Home contact Number</h4>
-                                  <p>{{ page.specific.home_contact_number }}</p>
-                              </li>
-                          {% endif %}
-
-                          {% if page.specific.email_id %}
-                              <li>
-                                  <h4>Mail ID</h4>
-                                  <p>{{ page.specific.email_id }}</p>
-                              </li>
-                          {% endif %}
-
-                          {% if page.specific.office_contact_number %}
-                              <li>
-                                  <h4>Personal Website</h4>
-                                  <p><a href="{{ page.specific.website }}">{{ page.specific.website }}</a></p>
-                              </li>
-                          {% endif %}
-
-                          {% if page.specific.joining_date %}
-                              <li>
-                                  <h4>Joining Date</h4>
-                                  <p>{{ page.specific.joining_date }}</p>
-                              </li>
-                          {% endif %}
-
-
-                            {% with interests=page.specific.research_interests.all %}
-                                {% if interests %}
-                                    <li>
-                                        <h4>Research Interests</h4>
-                                        <ul>
-                                            {% for tag in interests %}
-                                                <!-- <li> -->
-                                                    <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
-                                                <!-- </li> -->
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-                                {% endif %}
-                            {% endwith %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      <div class="w3-white w3-text-grey w3-card-4">
+        <div class="w3-display-container">
+          {% image page.specific.photo width-300 style="width:100%"%}
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+            <h1>{{ page.specific.first_name }} {{ page.specific.last_name }}</h1>
+          </div>
         </div>
+        <div class="w3-container">
+          <h4>{{ page.specific.get_designation_display }}</h4><hr>
+          {% if page.specific.office_address_line_1 %}
+              <li>
+                  <h4>Office Address</h4>
+                  <p>{{ page.specific.office_address_line_1 }}</p>
+              </li>
+          {% endif %}
+          {% if page.specific.office_contact_number %}
+              <li>
+                  <h4>Office contact number</h4>
+                  <p>{{ page.specific.office_contact_number }}</p>
+              </li>
+          {% endif %}
+
+          {% if page.specific.home_address_line_1 %}
+              <li>
+                  <h4>Home address</h4>
+                  <p>{{ page.specific.home_address_line_1 }}</p>
+             </li>
+         {% endif %}
+         {% if page.specific.home_contact_number %}
+             <li>
+                 <h4>Home contact Number</h4>
+                 <p>{{ page.specific.home_contact_number }}</p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.email_id %}
+             <li>
+                 <h4>Mail ID</h4>
+                 <p>{{ page.specific.email_id }}</p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.office_contact_number %}
+             <li>
+                 <h4>Personal Website</h4>
+                 <p><a href="{{ page.specific.website }}">{{ page.specific.website }}</a></p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.joining_date %}
+             <li>
+                 <h4>Joining Date</h4>
+                 <p>{{ page.specific.joining_date }}</p>
+             </li>
+         {% endif %}
+
+          <hr>
+
+          <div class="w3-container">
+            <h3 class="w3-large w3-text-theme text-center"><b><i class="fa fa-notification fa-fw w3-margin-right w3-text-teal"></i>Announcements</b></h3>
+
+            {% with announcements=page.faculty_announcement.all %}
+              {% if announcements %}
+
+                      {% for announcement in announcements %}
+                      <div class="w3-container">
+                        <h5>{{ announcement.title }}</h5>
+                        <p>{{ announcement.date }}</p>
+                        <p>{{ announcement.message|richtext }}</p>
+                        <a href="{{ announcement.link }}">Link</a>
+                        <div>
+                          <div>{{ announcement.document|truncatechars:25 }}</div>
+                          <a href="{{ announcement.document.url }}">Download pdf</a>
+                        </div>
+                      </div>
+                      {% endfor %}
+
+                {% else %}<p>No new Announcments</p>
+              {% endif %}
+            {% endwith %}
+          </div>
+
+
+
+
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
     </div>
 
-	<hr>  
-  <!-- Awards -->
-  <h3>Awards and Achievements</h3>
-  <div>
-    {% for award in page.fac_award.all %}
-      <div>
-        <h3>{{ pic.caption }}</h3>
-        <div>{% image pic.image fill-500x500 %}</div>
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+      <div class="w3-container w3-card w3-white  w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Administrative responsibilities</h2>
+        <div class="w3-container">
+          <ul>
+          {% if page.specific.get_additional_roles_display != "Not Applicable" %}
+          <li><h5 class="w3-opacity">Additional Role: {{ page.specific.get_additional_roles_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_laboratory_in_charge_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Laboratory in charge: {{ page.specific.get_laboratory_in_charge_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_faculty_in_charge_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Faculty in charge: {{ page.specific.get_faculty_in_charge_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_dupc_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">DUPC: {{ page.specific.get_dupc_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_dppc_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">DPPC: {{ page.specific.get_dppc_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_disciplinary_committee_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Disciplinary committee: {{ page.specific.get_disciplinary_committee_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_disposal_committee_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Disposal committee: {{ page.specific.get_disposal_committee_display }}</h5></li>
+          {% endif %}
+
+
+          </ul>
+        </div>
+
       </div>
-    {% endfor %}
-  </div>
 
-  <hr>  
-	<!-- Administrative responsibilities -->
-	<div>
-		<h3>Administrative responsibilities</h3>
-		<ul>
-			{% if page.specific.get_additional_roles_display != "Not Applicable" %}
-				<li>Additional Role: {{ page.specific.get_additional_roles_display }}</li>
-			{% endif %}
-
-			{% if page.specific.get_laboratory_in_charge_display != "Not Applicable" %}
-				<li>Laboratory in charge: {{ page.specific.get_laboratory_in_charge_display }}</li>
-			{% endif %}	
-
-			{% if page.specific.get_faculty_in_charge_display != "Not Applicable" %}
-				<li>Faculty in charge: {{ page.specific.get_faculty_in_charge_display }}</li>
-			{% endif %}	
-
-			{% if page.specific.get_dupc_display != "Not Applicable" %}
-				<li>DUPC: {{ page.specific.get_dupc_display }}</li>
-			{% endif %}
-
-			{% if page.specific.get_dppc_display != "Not Applicable" %}
-				<li>DPPC: {{ page.specific.get_dppc_display }}</li>
-			{% endif %}
-
-			{% if page.specific.get_disciplinary_committee_display != "Not Applicable" %}
-				<li>Disciplinary committee: {{ page.specific.get_disciplinary_committee_display }}</li>
-			{% endif %}
-
-			{% if page.specific.get_disposal_committee_display != "Not Applicable" %}
-				<li>Disposal committee: {{ page.specific.get_disposal_committee_display }}</li>
-			{% endif %}
-		</ul>
-	</div>
-	<hr>
-
-	<!-- Announcements -->
-	<div>
-    {% with announcements=page.faculty_announcement.all %}
-      {% if announcements %}
-        <h3>Announcements</h3>
-    		{% for announcement in announcements %}
-    			<div>
-    				<h3>{{ announcement.title }}</h3>
-    				<div>{{ announcement.date }}</div>
-    				<div>{{ announcement.message|richtext }}</div>
-    				<a href="{{ announcement.link }}">Link</a>
-    				<div>
-    					<div>{{ announcement.document|truncatechars:25 }}</div>
-    					<a href="{{ announcement.document.url }}">Download pdf</a>
-    			</div>
-    			<br>
-        {% endfor %}
-      {% endif %}
-		{% endwith %}
-	</div>
-  <hr>
-  
-  <!-- Labs -->
-  <div>
-    {% if lab_list %}
-    <h3>Labs</h3>
-    {% for lab in lab_list %}
-      <div>
-        <h3><a href="{{ lab.url }}">{{ lab.specific.name }}</a></h3>
-        <div>{{ lab.specific.get_lab_type_display }}</div>
-        <div>{{ lab.specific.faculty_incharge }}</div>
-      </div>
-      <br>
-    {% endfor %}
-    {% endif %}
-  </div>
-  <hr>
-
-  <!-- Publications -->
-  <div>
-    {% if lab_list %}
-    <h3> Publications</h3>
-    {% for pub in pub_list %}
-      <div>
-        <h3><a href="{{ pub.url }}">{{ pub.specific.name }}</a></h3>
-        <div>[{{ pub.specific.get_pub_type_display }}]</div>
-        {% if pub.specific.faculty.all|length != 0 %}
-          {% for faculty in pub.specific.faculty.all %}
-            <div><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>, </div>
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Awards and Achievements</h2>
+        <div class="w3-container">
+          {% for award in page.fac_award.all %}
+          <h5 class="w3-opacity"><b>{{ pic.caption }}</b></h5>
+          {% image pic.image fill-500x500 %}
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Jan 2015</h6>
+          <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+          <hr>
           {% endfor %}
-        {% endif %}
-
-        {% if pub.specific.students.all|length != 0 %}
-            {% for student in pub.specific.students.all %}
-              <div><a href="{{ student.student.url }}">{{ student.student }}</a>, </div>
-            {% endfor %}
-        {% endif %}
-      </div>
-      <br>
-    {% endfor %}
-    {% endif %}
-  </div>
-  <hr>
-
-  <!-- Projects -->
-  <div>
-    {% if project_list %}
-      <h3> Projects</h3>
-      {% for project in project_list %}
-        <div>
-          <h3><a href="{{ project.url }}">{{ project.specific.name }}</a></h3>
-          <div>[{{ project.specific.get_project_type_display }}]</div>
-          <div>From: {{ project.specific.start_date }} to {{ project.specific.end_date }}</div>
         </div>
-        <br>
-      {% endfor %}
-    {% endif %}
-  </div>
-  <hr>
 
-  <!-- Courses -->
-  <div>
-    {% if course_list %}
-      <h3> Courses taught</h3>
-      {% for course in course_list %}
-        <div>
-          <h3><a href="{{ course.url }}">[ {{ course.specific.code }} ]{{ course.specific.name }}</a></h3>
-          <div>{{ course.specific.get_course_type_display }} for {{ course.specific.eligible_programmes }} in {{ course.specific.semester }} semester</div>
-          {% for instructor in  course.specific.course_instructor.all %}
-            {% if instructor.faculty == page %}
-              <div>{{ forloopcounter }}. {{ instructor.session }}</div>
-            {% endif %}
-          {% endfor  %}
-        </div>
-        <br>
-      {% endfor %}
-    {% endif %}
-  </div>
-  <hr>
-
-  <!-- Gallery Pics -->
-  <div>
-    {% for pic in page.gallery_images.all %}
-      <div >
-        <h3>{{ pic.caption }}</h3>
-        <div>{% image pic.image fill-500x500 %}</div>
       </div>
-    {% endfor %}
+
+
+
+      {% if lab_list %}
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Labs</h2>
+        {% for lab in lab_list %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ lab.url }}">{{ lab.specific.name }}</a></b></h5>
+          <p>{{ lab.specific.get_lab_type_display }}</p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+
+
+
+      {% if pub_list %}
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Publications</h2>
+        {% for pub in pub_list %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ pub.url }}">{{ pub.specific.name }}</a></b></h5>
+          <p>{{ pub.specific.get_pub_type_display }}</p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+
+
+      {% if project_list %}
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Projects</h2>
+        {% for project in project_list %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ project.url }}">{{ project.specific.name }}</a></b></h5>
+          <p>{{ project.specific.get_project_type_display }}</p>
+          <p>>From: {{ project.specific.start_date }} to {{ project.specific.end_date }}</p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+
+      {% if course_list %}
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Courses taught</h2>
+        {% for project in project_list %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ course.url }}">[ {{ course.specific.code }} ]{{ course.specific.name }}</a></b></h5>
+          <p>{{ project.specific.get_project_type_display }}</p>
+          <p>>{{ course.specific.get_course_type_display }} for {{ course.specific.eligible_programmes }} in {{ course.specific.semester }} semester</p>
+          <p></p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div>
+        {% for pic in page.gallery_images.all %}
+          <div >
+            <h3>{{ pic.caption }}</h3>
+            <div>{% image pic.image fill-500x500 %}</div>
+          </div>
+        {% endfor %}
+      </div>
+
+
+
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
   </div>
 
+  <!-- End Page Container -->
+</div>
 
-    
-{% endblock content %}
+
+
+
+{% endblock %}

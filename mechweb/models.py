@@ -6,9 +6,9 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.core.paginator import Paginator
 
-
-
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.base_user import BaseUserManager
 ######################################################
 
 from wagtailautocomplete.edit_handlers import AutocompletePanel
@@ -84,48 +84,41 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 ######################################################
 ######################################################
 # when makemigrations are happening this does not show as change in the db
-# class CustomUserManager(BaseUserManager):
-# 	def create_user(self, username, user_type, password):
-# 		if not user_type:
-# 			raise ValueError('Must provide user_type')
-# 		user = self.model(
-# 			user_type=user_type,
-# 		)
-# 		if password
-# 		user.set_password(password)
-# 		user.save(using=self._db)
-# 		return user
+class CustomUserManager(BaseUserManager):
+	def has_perm(self, perm, obj=None):
+		""" Does this user have a specific permission"""
+		#Simplest possible answer - always true
+		return True
 
-# 	def create_superuser(self, user_type, password):
-# 		user = self.model(
-# 			user_type=user_type
-# 		)
-# 		user.set_password(password)
-# 		user.is_admin=True
-# 		user.save(using=self._db)
-# 		return user
+	def has_module_perm(self, app_label):
+		"""Does the user have the permissions to view the app "app_label"? """
+		# simplest answer - yes always
+		return True
 
-# 	def has_perm(self, perm, obj=None):
-# 		""" Does this user have a specific permission"""
-# 		#Simplest possible answer - always true
-# 		return True
-
-# 	def has_module_perm(self, app_label):
-# 		"""Does the user have the permissions to view the app "app_label"? """
-# 		# simplest answer - yes always
-# 		return True
-
-# 	@property
-# 	def is_staff(self):
-# 			"""Is the user a member of staff?"""
-# 			#simplest answer - All admins are staff
-# 			return self._is_admin
+	@property
+	def is_staff(self):
+			"""Is the user a member of staff?"""
+			#simplest answer - All admins are staff
+			return self.is_staff
 
 class CustomUser(AbstractUser):
-	# pass
+	first_name = models.CharField(_('first name'), max_length=30)
+	last_name = models.CharField(_('last name'), max_length=150)
+	is_staff = models.BooleanField(
+		_('staff status'),
+		default=True,
+		help_text=_('Designates whether the user can log into this admin site.'),
+	)
+	email = models.EmailField(
+		_('email address'),
+		unique=True,
+		error_messages={
+            'unique': _("A user with that email already exists."),
+        },
+	)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
-	# USERNAME_FIELD = 'username' # Its anyway the default, but you can change this 
-
+	USERNAME_FIELD = 'email' # Its default is username
+	REQUIRED_FIELDS = ['first_name', 'last_name']
 ######################################################
 class MechHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -365,7 +358,7 @@ class FacultyPage(Page):
 	email_id = models.EmailField(unique=True)
 	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	intro = models.CharField(max_length=250, blank=True)
-	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
@@ -388,7 +381,7 @@ class FacultyPage(Page):
 		FieldPanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
-		FieldPanel('email_id'), 
+		FieldPanel('email_id'),
 		######################################################
 		FieldPanel('designation'),
 		FieldPanel('joining_date'),
@@ -522,18 +515,18 @@ class FacultyPageGalleryImage(Orderable):
 class FacultyAward(Orderable):
 	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='fac_award')
 	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
 	award_time = models.DateField(default=timezone.now)
 	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
 
 	panels = [
 		FieldPanel('award_title'),
 		FieldPanel('award_description'),
-		FieldPanel('award_type'),		
+		FieldPanel('award_type'),
 		ImageChooserPanel('image'),
 		FieldPanel('award_time'),
 		FieldPanel('conferrer'),
@@ -598,17 +591,17 @@ class AbstractStudentPage(Page):
 		FieldPanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
-		FieldPanel('email_id'), 
+		FieldPanel('email_id'),
 		FieldPanel('roll_no'),
 		FieldPanel('enrolment_year'),
 		FieldPanel('programme'),
 		######################################################
 		FieldPanel('specialization'),
-		FieldPanel('website'), 
+		FieldPanel('website'),
 		FieldPanel('contact_number'),
 		FieldPanel('hostel_address'),
 
-		ImageChooserPanel('photo'), 
+		ImageChooserPanel('photo'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
 	]
@@ -764,7 +757,7 @@ class StaffHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[4])
 	# use_other_template = models.IntegerField(default = 3)#Find a way to remove this shit without deleting the original entry - had to delete original entry - but not because i specifically wanted to remove it, but because i had to implement user model
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	
+
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
 		# FieldPanel('use_other_template')
@@ -925,10 +918,10 @@ class AlumnusPage(AbstractStudentPage):
 		FieldPanel('programme'),
 		FieldPanel('roll_no'),
 		FieldPanel('enrolment_year'),
-		FieldPanel('email_id'), 
+		FieldPanel('email_id'),
 		######################################################
 		FieldPanel('specialization'),
-		FieldPanel('website'), 
+		FieldPanel('website'),
 		MultiFieldPanel([
 			FieldRowPanel([
 				FieldPanel('contact_number'),
@@ -942,7 +935,7 @@ class AlumnusPage(AbstractStudentPage):
 		], heading="Current Address"),
 		FieldPanel('hostel_address'),
 
-		ImageChooserPanel('photo'), 
+		ImageChooserPanel('photo'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
 		FieldPanel('email_id_2'),
@@ -1080,7 +1073,7 @@ class ResearchLabHomePage(Page):
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
-	lab_research_area = models.CharField(max_length=2, choices=LAB_RESEARCH_AREAS, default='0')
+	lab_research_area = models.CharField(max_length=2, choices=LAB_RESEARCH_AREAS, default='a')
 	# When already defined in faculty model who is lab incharge... then do we need it here?
 	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
 	intro = models.CharField(max_length=250)
@@ -1135,6 +1128,7 @@ class ResearchLabPage(Page):
 		verbose_name_plural = "Labs"
 
 class LabEquipment(Orderable):
+	company = models.CharField(max_length=50, blank=True)
 	name = models.CharField(max_length=25, blank=True)
 	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='equipment')
 	operator = models.ForeignKey('StaffPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='operator')
@@ -1236,7 +1230,7 @@ class PublicationPage(Page):
 	people_panels = [
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
-		InlinePanel('other_uthors', label="Other Authors"),
+		InlinePanel('other_authors', label="Other Authors"),
 	]
 
 	edit_handler = TabbedInterface([
@@ -1247,7 +1241,7 @@ class PublicationPage(Page):
 	])
 
 	parent_page_types=['PublicationHomePage']
-	subpage_types=[ ]	
+	subpage_types=[ ]
 
 	class Meta:
 		verbose_name = "Publication"
@@ -1272,7 +1266,7 @@ class PublicationPageFaculty(Orderable):
 	]
 
 class PublicationPageOtherAuthor(Orderable):
-	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='faculty')
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='other_authors')
 	name = models.CharField(max_length=100)
 	organization = models.CharField(max_length=100, blank=True)
 	panels = [
@@ -1393,7 +1387,7 @@ class ProjectPageGalleryImage(Orderable):
 			ImageChooserPanel('image'),
 			FieldPanel('caption'),
 		]),
-	]	
+	]
 
 #####################################################
 class CourseStructure(Page):
@@ -1561,13 +1555,6 @@ class AwardHomePage(Page):
 			'award_list': award_list,
 			'award_type':award_type,
 		})
-	
+
 	class Meta:
 		verbose_name = "Awards Home"
-
-	
-
-
-
-
-

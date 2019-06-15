@@ -4,7 +4,6 @@
 
 {% block body_class %}template-research-homepage{% endblock %}
 
-{% block body_style %}padding-top: 110px; {% endblock %}
 
 
 {% block content %}
@@ -51,7 +50,7 @@
                 <div class="service-text">
                   <ul>
                     {% for child in page.get_children %}
-                    {% if child.specific.research_area == 'a' %}
+                    {% if child.specific.lab_research_area == '3' %}
                     <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
                     {% endif %}
                     {% endfor %}
@@ -71,7 +70,7 @@
                 <div class="service-text">
                   <ul>
                     {% for child in page.get_children %}
-                    {% if child.specific.research_area == 'c' %}
+                    {% if child.specific.lab_research_area == '2' %}
                       <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
                     {% endif %}
                     {% endfor %}
@@ -91,7 +90,7 @@
                   <ul>
 
                     {% for child in page.get_children %}
-                    {% if child.specific.research_area == 'b' %}
+                    {% if child.specific.lab_research_area == '1' %}
                     <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
                     {% endif %}
                     {% endfor %}
