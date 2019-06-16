@@ -28,8 +28,8 @@ class CustomUserResource(resources.ModelResource):
         skip_unchanged = True
         report_skipped = False
         import_id_fields = ('username',)
-        fields = ('username', 'first_name', 'last_name', 'email', 'user_type')
-        export_order = ('username', 'first_name', 'last_name', 'email', 'user_type')
+        fields = ('username', 'first_name', 'last_name', 'email', 'user_type', 'uid')
+        export_order = ('username', 'first_name', 'last_name', 'email', 'user_type', 'uid')
 
     def dehydrate_user_type(self, user):
     	return USER_TYPES[int(user.user_type)][1]

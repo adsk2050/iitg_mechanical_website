@@ -9,6 +9,7 @@ USER_TYPES = (
 	('1', 'Student'),
 	('2', 'Alumni'),
 	('3', 'Staff'),
+	('4', 'Others'), #only for dev
 )
 
 LOCATIONS=(

@@ -108,6 +108,24 @@ research_lab_home_page = ResearchLabHomePage(
 research_home_page.add_child(instance=research_lab_home_page)
 research_home_page.save()
 
+#####################################################################
+# research_lab_page = ResearchLabPage(
+# 	title='Facilities(Labs)',
+# 	slug='facilities',
+# 	seo_title="Facilities(Labs) | Mechanical Engineering · IITG",
+# 	name="",
+# 	lab_type="",
+# 	lab_research_area="",
+# 	intro="",
+# 	body="",
+# 	contact_number="",
+# 	address="",
+# )
+# research_lab_home_page.add_child(instance=research_lab_page)
+# research_lab_home_page.save()
+
+#####################################################################
+
 project_home_page = ProjectHomePage(
 	title='Projects',
 	slug='projects',

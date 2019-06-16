@@ -238,6 +238,8 @@
             <table class="fl-table">
                 <thead>
                 <tr>
+                    <th>Publication Type</th>
+                    <th>Publication Year</th>
                     <th>Authors</th>
                     <th>Title</th>
                     <th>Year</th>
@@ -248,9 +250,9 @@
                 </thead>
                 <tbody>
                   {% for publication in page.get_children.specific %}
-                  {% if publication.pub_type == <var id="varpubtypeid">pubtype</var> %}
-                  {% if publication.pub_year == <var id="varpubyearid">pubyear</var> %}
                 <tr>
+                    <td>{{ publication.pub_type }}</td>
+                    <td>{{ publication.pub_year }}</td>
                     <td>{{ publication.Authors }}</td>
                     <td>{{ publication.name }}</td>
                     <td>{{ publication.pub_year }}</td>
@@ -258,8 +260,6 @@
                     <td>{{ publication.vol_issue }}</td>
                     <td>{{ publication.pages }}</td>
                 </tr>
-                  {% endif %}
-                  {% endif %}
                   {% endfor %}
                 <tbody>
               </table>

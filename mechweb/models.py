@@ -43,28 +43,28 @@ from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROG
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
 
-from social_django.strategy import DjangoStrategy
+# from social_django.strategy import DjangoStrategy
 
 ######################################################
 ######################################################
 
 # when makemigrations are happening this does not show as change in the db
-class CustomUserManager(BaseUserManager):
-	def has_perm(self, perm, obj=None):
-		""" Does this user have a specific permission"""
-		#Simplest possible answer - always true
-		return True
+# class CustomUserManager(BaseUserManager):
+# 	def has_perm(self, perm, obj=None):
+# 		""" Does this user have a specific permission"""
+# 		#Simplest possible answer - always true
+# 		return True
 
-	def has_module_perm(self, app_label):
-		"""Does the user have the permissions to view the app "app_label"? """
-		# simplest answer - yes always
-		return True
+# 	def has_module_perm(self, app_label):
+# 		"""Does the user have the permissions to view the app "app_label"? """
+# 		# simplest answer - yes always
+# 		return True
 
-	@property
-	def is_staff(self):
-			"""Is the user a member of staff?"""
-			#simplest answer - All admins are staff
-			return self.is_staff
+# 	@property
+# 	def is_staff(self):
+# 			"""Is the user a member of staff?"""
+# 			#simplest answer - All admins are staff
+# 			return self.is_staff
 
 class CustomUser(AbstractUser):
 	first_name = models.CharField(_('first name'), max_length=30)
@@ -82,18 +82,20 @@ class CustomUser(AbstractUser):
         },
 	)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
+	uid = models.CharField(max_length=10, default='000000000', verbose_name='Roll Number/Employee Number', help_text='Only students required to provide their roll no. Others may leave "000000000" but not blank')
 	USERNAME_FIELD = 'email' # Its default is username
-	REQUIRED_FIELDS = ['first_name', 'last_name']
+	REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid']
 ######################################################
 class MechHomePage(Page):
-	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	intro = models.CharField(blank=True, max_length=500)
+	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-
 
 	# intro = RichTextField(blank=True)
 	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
+		FieldPanel('body', classname="full"),
 		InlinePanel('gallery_images', label="Gallery Images"),
 		FieldPanel('HOD_message'),
 	]
@@ -117,7 +119,13 @@ class MechHomePage(Page):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
 		navlist = self.get_children().live().order_by('-first_published_at')
+		try:
+			hod_image_url = FacultyPage.objects.get(additional_roles='1').photo.url
+		except:
+			hod_image_url = "{% static 'images/hod.jpg' %}"
+
 		context['navlist'] = navlist
+		context['hod_image_url'] = hod_image_url
 		return context
 
 	class Meta:
@@ -347,7 +355,8 @@ class FacultyPage(Page):
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
-	website = models.URLField(max_length=250)
+	website = models.URLField(max_length=250, blank=True)
+	abbreviation = models.CharField(max_length=10, blank=True)
 	#################################################################
 
 	additional_roles = models.CharField(max_length=2, choices=FACULTY_ROLES, default='2')
@@ -371,6 +380,7 @@ class FacultyPage(Page):
 		FieldPanel('designation'),
 		FieldPanel('joining_date'),
 		FieldPanel('website'),
+		FieldPanel('abbreviation'),
 
 		MultiFieldPanel([
 			FieldPanel('office_address_line_1'),
@@ -524,7 +534,7 @@ class AbstractStudentPage(Page):
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email_id = models.EmailField(unique=True)
-	roll_no = models.IntegerField(unique=True)
+	roll_no = models.IntegerField(blank=True)
 	enrolment_year = models.DateField(default=timezone.now)
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
 	is_exchange = models.BooleanField(default=False, verbose_name="International Student")
@@ -1086,7 +1096,7 @@ class ResearchLabPage(Page):
 	]
 
 	lab_equipment_panels = [
-		InlinePanel('equipment', label="Lab Equipments", min_num=1),
+		InlinePanel('equipment', label="Lab Equipments"),
 	]
 
 	people_panels = [
@@ -1400,7 +1410,7 @@ class CourseStructure(Page):
 
 		# Filter by programme
 		prog = request.GET.get('prog')
-		if prog in ['0','1', '2', '3']:
+		if prog in ['0','1', '2']:
 			course_list = course_list.filter(coursepage__eligible_programmes=prog)
 
 		structure = []
@@ -1559,48 +1569,20 @@ class Award(Orderable):
 	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
 	other_recipients = models.CharField(max_length=100, blank=True)
 	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
 	award_time = models.DateField(default=timezone.now)
 	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
 
 	panels = [
 		FieldPanel('award_title'),
 		FieldPanel('award_description'),
-		FieldPanel('award_type'),
-		AutocompletePanel('faculty'),
-		FieldPanel('other_recipients'),
-		ImageChooserPanel('image'),
-		FieldPanel('award_time'),
-		FieldPanel('conferrer'),
-		FieldPanel('conferrer_description'),
-		FieldPanel('link'),
-	]
-
-	class Meta:
-		ordering = ['-award_time']
-class Award(Orderable):
-	page = ParentalKey(AwardHomePage, null=True, on_delete=models.SET_NULL, related_name='awards')
-	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
-	other_recipients = models.CharField(max_length=100, blank=True)
-	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
-	award_time = models.DateField(default=timezone.now)
-	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-	link = models.URLField(max_length=250, blank=True)
-
-	panels = [
-		FieldPanel('award_title'),
-		FieldPanel('award_description'),
-		FieldPanel('award_type'),
-		AutocompletePanel('faculty'),
-		FieldPanel('other_recipients'),
+		FieldPanel('award_type'),	
+		AutocompletePanel('faculty'),	
+		FieldPanel('other_recipients'),	
 		ImageChooserPanel('image'),
 		FieldPanel('award_time'),
 		FieldPanel('conferrer'),
