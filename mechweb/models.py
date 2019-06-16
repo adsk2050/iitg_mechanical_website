@@ -75,7 +75,7 @@ class CustomUser(AbstractUser):
 		help_text=_('Designates whether the user can log into this admin site.'),
 	)
 	email = models.EmailField(
-		_('email address'), 
+		_('email address'),
 		unique=True,
 		error_messages={
             'unique': _("A user with that email already exists."),
@@ -109,7 +109,7 @@ class MechHomePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech']
 
 	max_count = 1
 
@@ -159,6 +159,25 @@ class MechHomePageGalleryImage(Orderable):
 			FieldPanel('caption'),
 		]),
 	]
+
+#############################################
+class Aboutiitgmech(Page):
+	vision = models.CharField(blank=True, max_length=500)
+	History = models.CharField(blank=True, max_length=500)
+	About = models.CharField(blank=True, max_length=500)
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+
+
+	content_panels = Page.content_panels + [
+		FieldPanel('vision', classname="full"),
+		FieldPanel('History', classname="full"),
+		FieldPanel('About', classname="full"),
+		ImageChooserPanel('photo'),
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=[]
+	max_count = 1
 
 ######################################################
 class EventHomePage(Page):
@@ -595,18 +614,18 @@ class StudentPage(AbstractStudentPage):
 		AutocompletePanel('user'),
 		FieldPanel('first_name'),
 		FieldPanel('last_name'),
-		FieldPanel('email_id'), 
+		FieldPanel('email_id'),
 		FieldPanel('roll_no'),
 		FieldPanel('enrolment_year'),
 		FieldPanel('programme'),
 		######################################################
 		FieldPanel('specialization'),
 		FieldPanel('is_exchange'),
-		FieldPanel('website'), 
+		FieldPanel('website'),
 		FieldPanel('contact_number'),
 		FieldPanel('hostel_address'),
 
-		ImageChooserPanel('photo'), 
+		ImageChooserPanel('photo'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
 
@@ -886,7 +905,7 @@ class AlumnusPage(AbstractStudentPage):
 		######################################################
 		FieldPanel('specialization'),
 		FieldPanel('is_exchange'),
-		FieldPanel('website'), 
+		FieldPanel('website'),
 		MultiFieldPanel([
 			FieldRowPanel([
 				FieldPanel('contact_number'),
@@ -1540,20 +1559,20 @@ class Award(Orderable):
 	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
 	other_recipients = models.CharField(max_length=100, blank=True)
 	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
 	award_time = models.DateField(default=timezone.now)
 	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
 
 	panels = [
 		FieldPanel('award_title'),
 		FieldPanel('award_description'),
-		FieldPanel('award_type'),	
-		AutocompletePanel('faculty'),	
-		FieldPanel('other_recipients'),	
+		FieldPanel('award_type'),
+		AutocompletePanel('faculty'),
+		FieldPanel('other_recipients'),
 		ImageChooserPanel('image'),
 		FieldPanel('award_time'),
 		FieldPanel('conferrer'),
@@ -1568,20 +1587,20 @@ class Award(Orderable):
 	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
 	other_recipients = models.CharField(max_length=100, blank=True)
 	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
 	award_time = models.DateField(default=timezone.now)
 	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
 
 	panels = [
 		FieldPanel('award_title'),
 		FieldPanel('award_description'),
-		FieldPanel('award_type'),	
-		AutocompletePanel('faculty'),	
-		FieldPanel('other_recipients'),	
+		FieldPanel('award_type'),
+		AutocompletePanel('faculty'),
+		FieldPanel('other_recipients'),
 		ImageChooserPanel('image'),
 		FieldPanel('award_time'),
 		FieldPanel('conferrer'),

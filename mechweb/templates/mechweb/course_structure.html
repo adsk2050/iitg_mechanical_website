@@ -26,28 +26,29 @@
     </div> -->
 
 
-<hr>
+<div class="container-fluid">
   <div class="row ">
-    <div class="col-xs-4 col-sm-2 col-md-4">
+    <div class="col-xs-4 col-sm-4 col-md-4 active">
       <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block ">
         <i class="fa fa-check-square-o visible-xs"></i>
         <span class="hidden-xs">Btech</span>
       </a>
     </div>
-    <div class="col-xs-4 col-sm-2 col-md-4">
-      <a href="{{ page.url }}?prog=1" class="btn btn-lg btn-block">
-        <i class="fa fa-check-square-o visible-xs"></i>
-        <span class="hidden-xs">Mtech</span>
-      </a>
+    <div class="col-xs-4 col-sm-4 col-md-4">
+        <a class="btn btn-lg btn-block" href="{{ page.url }}?prog=1">
+          <i class="fa fa-check-square-o visible-xs"></i>
+          <span class="hidden-xs">Mtech</span>
+        </a>
     </div>
-    <div class="col-xs-4 col-sm-2 col-md-4">
+    <div class="col-xs-4 col-sm-4 col-md-4">
       <a href="{{ page.url }}?prog=2" class="btn btn-lg btn-block">
         <i class="fa fa-check-square-o visible-xs"></i>
         <span class="hidden-xs">Phd</span>
       </a>
     </div>
   </div>
-<hr>
+</div>
+
 
 
 
@@ -55,43 +56,50 @@
       {% if prog == '0' or prog == '1' %}
       {% if prog == '1' %}
         <hr>
+        <div class="container-fluid">
           <div class="row ">
-            <div class="col-xs-4 col-sm-2 col-md-4">
-              <a href="#1" class="btn btn-lg btn-block ">
+            <div class="col-xs-4  col-md-1">
+
+            </div>
+            <div class="col-xs-4 col-sm-6 col-md-2">
+              <a href="#1" class="btn btn-lg btn-block cour">
                 <i class="fa fa-check-square-o visible-xs"></i>
                 <span class="hidden-xs">Aerodynamics & Propulsion</span>
               </a>
             </div>
-            <div class="col-xs-4 col-sm-2 col-md-4">
+            <div class="col-xs-4 col-sm-6 col-md-2">
               <a href="#2" class="btn btn-lg btn-block">
                 <i class="fa fa-check-square-o visible-xs"></i>
                 <span class="hidden-xs">Manufacturing Science and Engineering</span>
               </a>
             </div>
-            <div class="col-xs-4 col-sm-2 col-md-4">
+            <div class="col-xs-4 col-sm-4 col-md-2">
               <a href="#3" class="btn btn-lg btn-block">
                 <i class="fa fa-check-square-o visible-xs"></i>
                 <span class="hidden-xs">Computational Mechanics</span>
               </a>
             </div>
-            <div class="col-xs-4 col-sm-2 col-md-4">
+            <div class="col-xs-4 col-sm-4 col-md-2">
               <a href="#4" class="btn btn-lg btn-block">
                 <i class="fa fa-check-square-o visible-xs"></i>
                 <span class="hidden-xs">Fluids and Thermal</span>
               </a>
             </div>
-            <div class="col-xs-4 col-sm-2 col-md-4">
+            <div class="col-xs-4 col-sm-4 col-md-2">
               <a href="#5" class="btn btn-lg btn-block">
                 <i class="fa fa-check-square-o visible-xs"></i>
                 <span class="hidden-xs">Machine Design</span>
               </a>
             </div>
           </div>
+        </div>
+
         <hr>
       {% endif %}
+
         {% for prog_sem in structure %}
           {% if prog_sem|length != 0 %}
-          <h2>Semester {{ forloop.counter }}</h2>
+          <h2 class="text-center" style="font-weight:bolder;">Semester {{ forloop.counter }}</h2>
             <ul class="cards">
                 {% for course in prog_sem %}
                 <li class="cards_item">
@@ -101,7 +109,7 @@
                     <div class="card_content">
                       <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2><hr>
                       <ul>
-                        <li>Course code : {{ course.specific.code }}</li>
+                        <li><span>Course code</span> {{ course.specific.code }}</li>
                         <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
                         <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
                         <li>Semester : {{ course.specific.semester }}</li>
@@ -117,11 +125,11 @@
 
                 {% endfor %}
             </ul>
-
+            <hr>
           {% endif %}
         {% endfor %}
       {% elif prog == '2' %}
-          <h2>PhD Course Structure</h2>
+          <h2 class="text-center">PhD Course Structure</h2>
         {% else %}
           <!-- List of all courses here -->
             <ul class="cards">
@@ -146,5 +154,6 @@
             </ul>
       {% endif %}
     </div>
+
 
         {% endblock %}

@@ -32,7 +32,15 @@
             <div class="row">
                 <div class="col-xs-4 col-sm-4 image">
                   <a href="{% pageurl faculty %}">
-                    {% image faculty.specific.photo fill-180x250-c100 %}
+
+                    {% if faculty.specific.photo %}{}
+                    {% image faculty.specific.photo fill-180x250-c-100 %}
+                    <img src="{{ image.url }}" width="{{ image.width }}"
+                            height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                        {% else %}
+                        <img src="{% static "images/placeholder.jpg" %}" width="180"
+                                height="250" alt="{{ image.alt }}" class="" />
+                    {% endif %}
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-7">
@@ -100,7 +108,7 @@
         </span>
     </div>
 
-    
+
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
 {% endblock %}

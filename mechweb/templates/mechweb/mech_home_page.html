@@ -5,7 +5,7 @@
 {% block extra_css %}
 <link href= "/static/css/base.css" rel="stylesheet" type="text/css">
 <link href= "/static/css/fontawesome.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="/static/css/owl.theme.default.css" type="text/css">
 <link rel="stylesheet" href="/static/css/owl.carousel.css" type="text/css">
@@ -27,14 +27,13 @@
           <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-
       </div>
 
 
       <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs" style="font-family:'Bitter', serif;">
         <div class="row">
-          <h4 class="mechbrand" style="color: #0E0A11; font-family:'Bitter', serif; line-height:1.45;">Department of</h4><br>
-          <h3  style="color: #0E0A11; font-family:'Bitter', serif; line-height:1.45;">Mechanical Engineering</h3>
+          <h4 class="mechbrand">Department of</h4><br>
+          <h3 class="mechbrand" >Mechanical Engineering</h3>
         </div>
       </div>
 
@@ -44,7 +43,73 @@
             <a class="nav-link" style="color: #0E0A11; font-family:'Bitter', serif; line-height:1.45;" href="http://127.0.0.1:8000">Home <span class="sr-only"></span></a>
           </li>
           {% for child in navlist %}
-          <li class="nav-item" ><a class="nav-link" style="color: #0E0A11; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
+             {% with page_type=child.content_type.name %}
+              {% if page_type == 'Student Home' %}
+
+              <li class="nav-item">
+                <div class="dropdown show">
+                <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:  #0E0A11; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul>
+                          <li><a class="dropdown-item" href="{{ child.url }}?prog=0">B. Tech</a></li>
+                          <li><a class="dropdown-item" href="{{ child.url }}?prog=1">M. Tech</a></li>
+                          <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholar</a></li>
+                        </ul>
+                  </div>
+                </div>
+              </li>
+              {% endif %}
+
+              {% if page_type == 'Research Home' %}
+
+              <li class="nav-item">
+                <div class="dropdown show">
+                <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #0E0A11; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul>
+                          {% for children in child.get_children %}
+                            <li><a  class="dropdown-item" href="{{ children.url }}">{{ children.title }}</a></li>
+                          {% endfor %}
+                        </ul>
+                  </div>
+                </div>
+              </li>
+              {% endif %}
+
+              {% if page_type == 'Course Structure' %}
+
+              <li class="nav-item">
+                <div class="dropdown show">
+                <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #0E0A11; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <ul>
+                      <li><a class="dropdown-item"href="{{ child.url }}?prog=0">Bachelors</a></li>
+                      <li><a class="dropdown-item" href="{{ child.url }}?prog=1">Masters</a></li>
+                      <ul>
+                          <div class="dropdown-divider"></div>
+                          <h6 class="dropdown-header text-center">Mtech courses</h6>
+                        <li><a class="dropdown-item" href="{{ child.url }}?prog=1#1">Aerodynamics & Propulsion</a></li>
+                        <li><a class="dropdown-item" href="{{ child.url }}?prog=1#2">Manufacturing Science and Engineering</a></li>
+                        <li><a class="dropdown-item" href="{{ child.url }}?prog=1#3">Computational Mechanics</a></li>
+                        <li><a class="dropdown-item" href="{{ child.url }}?prog=1#4">Fluids and Thermal</a></li>
+                        <li><a class="dropdown-item" href="{{ child.url }}?prog=1#5">Machine Design</a></li>
+                      </ul>
+                      <div class="dropdown-divider"></div>
+                      <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Doctoral</a></li>
+                      <div class="dropdown-divider"></div>
+                      <li><a class="dropdown-item" href="{{ child.url }}?prog=3">All Courses</a></li>
+                    </ul>
+              {% endif %}
+
+              {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' %}
+
+              {% else %}
+              <li class="nav-item"> <a class="nav-link"  role="button" style="color: #0E0A11; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
+
+              {% endif %}
+
+
+          {% endwith %}
           {% endfor %}
 
         </ul>
@@ -52,6 +117,8 @@
       </div>
     </div>
   </nav>
+
+
 
 
   <div class="bd-example">
@@ -89,102 +156,59 @@
                 src="{% static "images/img2.jpg" %}"></figure>
             <div class="promo-text">
                 <h3>About ME,IITG</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p  class=""style="text-align:left;">{{ page.intro }}</p>
+                <!-- <p id="more" style="text-align:left;">{{ page.body|richtext }}</p> -->
+                <p class="read-more">
+                  {% for child in navlist %}
+                   {% with page_type=child.content_type.name %}
+                    {% if page_type == 'aboutiitgmech' %}
+                    <a class="button" href="{{ child.url }}">Read More</a>
+                    {% endif %}
+                   {% endwith %}
+                  {% endfor %} </p>
             </div>
-    </div>
-    <!-- <div class="col-sm-12 col-xs-12 col-md-4">
-      <h2>about</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <button type="button" name="button btn btn-primary btn-lg">Read More</button>
-    </div> -->
+    </div><hr>
+
+
 
     <div class="col-sm-12 col-xs-12 col-md-7 newsbox">
         <div class="tab">
          <button class="tablinks text-center" onclick="openCity(event, 'News')">News</button>
-         <button class="tablinks text-center" onclick="openCity(event, 'Research')">Research</button>
-         <button class="tablinks text-center" onclick="openCity(event, 'Notice')">Notice</button>
+         <button class="tablinks text-center" onclick="openCity(event, 'Announcements')">Announcements</button>
          <button class="tablinks text-center" onclick="openCity(event, 'Events')">Events</button>
+         <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button>
        </div>
 
-       <div id="News" class="tabcontent">
-         <div class="container definite">
-           <div class="row mb-2">
-             {% for notification in page.text_panels.all %}
-             <div class="col-md-6 {{ notification.get_content_type_display }}">
-                 <div class="card">
-                     <div class="card-img-top">{% image notification.photo fill-50x50 %}</div>
-                     <div class="card-body">
-                         <h5 class="card-title">{{ notification.title }}</h5>
-                         <strong>Date:{{ notification.date }}</strong><br>
-                         <p class="card-text">
-                             {{ notification.description }}
-                         </p>
-                     </div>
-                 </div>
-             </div>
-             {% endfor %}
-           </div>
-         </div>
-         <h3>London</h3>
-         {% for notification in page.text_panels.all %}
-         {{ notification.title }}
-         {{ notification.description }}
-         {% endfor %}
 
-         <p>London is the capital city of England.</p>
-       </div>
-
-       <div id="Research" class="tabcontent">
-         <h3>Paris</h3>
-         <p>Paris is the capital of France.</p>
-       </div>
-
-       <div id="Notice" class="tabcontent">
-         <h3>Tokyo</h3>
-         <p>Tokyo is the capital of Japan.</p>
-       </div>
-
-       <div id="Events" class="tabcontent">
-         <h3>Events</h3>
-         <p>sare idhr hi aajao.</p>
-       </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- split screen code ends -->
-
-
-
-
-
-
-
-
-<!-- News and notifications -->
-  <div class="container definite">
-    <div class="row mb-2">
-      {% for notification in page.text_panels.all %}
-      <div class="col-md-6 {{ notification.get_content_type_display }}">
-          <div class="card">
-              <div class="card-img-top">{% image notification.photo fill-50x50 %}</div>
-              <div class="card-body">
-                  <h5 class="card-title">{{ notification.title }}</h5>
-                  <strong>Date:{{ notification.date }}</strong><br>
-                  <p class="card-text">
-                      {{ notification.description }}
-                  </p>
+       {% for notification in page.text_panels.all %}
+       <div id="{{ notification.get_content_type_display }}" class="tabcontent">
+        <div class="container">
+          <div class="card" style="margin: 5px 0;">
+            <div class="row">
+              <div class="col-md-10" style="padding:2px 25px;">
+                <div class="card-block">
+                  <h4 class="card-title text-center">{{ notification.title }}</h4>
+                  <p class="card-text">Date:{{ notification.date }}<br>
+                  {{ notification.description }}</p>
+                  <!-- <a href="#" class="btn btn-primary">Read More</a> -->
+                </div>
               </div>
+              <div class="col-md-2">
+                <div class="card-img-bottom">
+                  {% image notification.photo fill-90x90 %}
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
       </div>
       {% endfor %}
     </div>
   </div>
+</div>
+
 
 <!-- split screen code ends -->
-
-
 
 
 
@@ -207,7 +231,7 @@
           </div>
 
           <div class="service-text">
-            <p>Traditional Thermal and Fluids Engineering aimed to enhance (or reduce) heat transfer, reduce pressure drop in fluid flow, and in general obtain enhanced efficiency from power producing devices (hydropower plants, gas and steam power plants, automobile engines) as well as refrigeration devices. A knowledge of thermodynamics an</p>
+            <p>Traditional Thermal and Fluids Engineering aimed to enhance (or reduce) heat transfer, reduce pressure drop in fluid flow, and in general obtain enhanced efficiency from power producing devices (hydropower plants, gas and steam power plants, automobile engines) as well as refrigeration devices. A knowledge of thermodynamics </p>
 
             <a href="#" class="btn-area">Read more.. <i class="
               fa fa-long-arrow-right"></i>
@@ -260,7 +284,7 @@
              src="{% static "images/img1.jpg" %}">
      </div>
      <div class="col-xs-12 col-sm-6 col-md-4 hodmsg">
-         <h3 class="text-center">FROM HOD's DESK</h3><br>
+         <h3 class="text-center" >FROM HOD's DESK</h3><br>
          <p>Students are sparks of divinity research is service to the divinity...! <br>
 
             Warm greetings from the Department of Mechanical, Indian Institute of Technology Guwahati.<br>
@@ -271,19 +295,26 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 donatecard">
          <div class="cardbox">
-             <div class="card" style="width: 300px; height: 300px;">
-           <!-- <img src="{% static "images/img1.jpg" %}" class="card-img-top" alt="..."> -->
-          <div class="card-body">
-            <h5 class="card-title"><strong>Let's Grow Together</strong></h5>
-            <p class="card-text" style="text-align: left;">The support of alumni remains instrumental to our continued success. Thank you for your ongoing partnership and commitment to IIT Guwahati.</p>
-            <a href="#" class="btn-area">Read more.. <i class="
-              fa fa-long-arrow-right"></i>
-            </a>
-          </div>
-          <div class="card-body">
-            <button type="button" class="btn btn-primary btn-lg" name="button"><a href="#" class="card-link" style="color: #fff;">Contribute</a></button>
+             <div class="card" style="width: 300px; height: 300px; background-color:#000000;">
 
-          </div>
+               <div class="card img-fluid" style="width:100%; height:300px;">
+                  <img class="card-img-top" src="{% static "images/img1.jpg" %}" alt="Card image" style="width:100%; height: 300px; opacity:0.5;">
+                  <div class="card-img-overlay">
+                    <div class="card-body">
+                      <h5 class="card-title" style="font-weight:bolder; color:#000000"><strong>Let's Grow Together</strong></h5>
+                      <p class="card-text" style="text-align: left; color:#000000;">The support of alumni remains instrumental to our continued success. Thank you for your ongoing partnership and commitment to IIT Guwahati.</p>
+                      <a href="#" class="btn-area">Read more.. <i class="
+                        fa fa-long-arrow-right"></i>
+                      </a>
+                    </div>
+                    <div class="card-body">
+                      <button type="button" class="btn btn-primary btn-lg" name="button"><a href="#" class="card-link" style="color: #fff;">Contribute</a></button>
+
+                    </div>
+                  </div>
+                </div>
+           <!-- <img src="{% static "images/img1.jpg" %}" class="card-img-top" alt="..."> -->
+
         </div>
        </div>
     </div>
@@ -294,7 +325,7 @@
 <footer class="page-footer font-small stylish-color-dark pt-4 "  style="background-color: #881125; font-family: 'Bitter', serif;">
 
   <!-- Footer Links -->
-  <div class="container text-center text-md-left">
+  <div class="container-fluid text-center text-md-left">
 
     <!-- Grid row -->
     <div class="row">
@@ -412,27 +443,27 @@ North Guwahati, Guwahati, Assam 781039</p>
   <!-- Social buttons -->
   <ul class="list-unstyled list-inline text-center">
     <li class="list-inline-item">
-      <a class="btn-floating btn-fb mx-1">
-        <i class="fab fa-facebook-square"></i>      </a>
+      <a class="btn-floating btn-fb mx-1" href="#!">
+        <i class="fa fa-facebook-square fa-2x"></i>      </a>
     </li>
     <li class="list-inline-item">
-      <a class="btn-floating btn-tw mx-1">
-        <i class="fab fa-twitter"> </i>
+      <a class="btn-floating btn-tw mx-1" href="#!">
+        <i class="fa fa-twitter fa-2x"> </i>
       </a>
     </li>
     <li class="list-inline-item">
-      <a class="btn-floating btn-gplus mx-1">
-        <i class="fab fa-google-plus-g"> </i>
+      <a class="btn-floating btn-gplus mx-1" href="#!">
+        <i class="fa fa-google-plus-g fa-2x"> </i>
       </a>
     </li>
     <li class="list-inline-item">
-      <a class="btn-floating btn-li mx-1">
-        <i class="fab fa-linkedin-in"> </i>
+      <a class="btn-floating btn-li mx-1" href="#!">
+        <i class="fa fa-linkedin-in fa-2x"> </i>
       </a>
     </li>
     <li class="list-inline-item">
-      <a class="btn-floating btn-dribbble mx-1">
-        <i class="fab fa-dribbble"> </i>
+      <a class="btn-floating btn-dribbble mx-1" href="#!">
+        <i class="fa fa-dribbble fa-2x"> </i>
       </a>
     </li>
   </ul>
@@ -457,49 +488,6 @@ North Guwahati, Guwahati, Assam 781039</p>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.2/owl.carousel.js"></script>
 
 <script>
-// $('.owl-carousel').owlCarousel({
-//     loop:true,
-//     margin:10,
-//     nav:true,
-//     autoplay: true,
-//     responsive:{
-//         0:{
-//             items:1
-//         },
-//         600:{
-//             items:3
-//         },
-//         1000:{
-//             items:5
-//         }
-//     }
-// })
-
-
-// split screen size chnging description
-
-
-//
-// const left = document.querySelector(".left");
-// const right = document.querySelector(".right");
-// const container = document.querySelector(".container");
-//
-// left.addEventListener("mouseenter", () => {
-//   container.classList.add("hover-left");
-// });
-//
-// left.addEventListener("mouseleave", () => {
-//   container.classList.remove("hover-left");
-// });
-//
-// right.addEventListener("mouseenter", () => {
-//   container.classList.add("hover-right");
-// });
-//
-// right.addEventListener("mouseleave", () => {
-//   container.classList.remove("hover-right");
-// });
-//
 
 
 
@@ -564,6 +552,9 @@ function openCity(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+
+
 </script>
 
 

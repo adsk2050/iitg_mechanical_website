@@ -52,15 +52,14 @@
       <!-- <header style="background-color: #3A5157;" class="blog-header py-3 row"> -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color:#881125 ">
           <div class="container-fluid" >
-            <div class="col-xs-12 col-sm-4 col-md-1" >
-
+            <div class=" navbar-header col-xs-12 col-sm-4 col-md-1" >
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
             <a class="navbar-brand" href="http://127.0.0.1:8000">
               <img height="85px" width="85px"
                   src="{% static "images/logo.png" %}"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          </div>
+            </div>
 
           <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs baseheading">
               <div class="row">
@@ -69,15 +68,81 @@
                 <div class="row">
                 <h3>Mechanical Engineering</h3>
                 </div>
-            </div>
+          </div>
 
             <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto mt-2 mt-lg-0 basenavheads">
+              <ul class="nav navbar-nav ml-auto basenavheads">
                 <li class="nav-item active">
-                  <a class="nav-link" href="http://127.0.0.1:8000">Home <span class="sr-only"></span></a>
+                  <a class="nav-link" style="color: #fff; font-family:'Bitter', serif; line-height:1.45;" href="http://127.0.0.1:8000">Home <span class="sr-only"></span></a>
                 </li>
                 {% for child in navlist %}
-                    <li class="nav-item"><a class="nav-link" href="{{ child.url }}">{{ child.title }}</a></li>
+                   {% with page_type=child.content_type.name %}
+                    {% if page_type == 'Student Home' %}
+
+                    <li class="nav-item">
+                      <div class="dropdown show">
+                      <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <ul>
+                                <li><a class="dropdown-item" href="{{ child.url }}?prog=0">B. Tech</a></li>
+                                <li><a class="dropdown-item" href="{{ child.url }}?prog=1">M. Tech</a></li>
+                                <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholar</a></li>
+                              </ul>
+                        </div>
+                      </div>
+                    </li>
+                    {% endif %}
+
+                    {% if page_type == 'Research Home' %}
+
+                    <li class="nav-item">
+                      <div class="dropdown show">
+                      <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <ul>
+                                {% for children in child.get_children %}
+                                  <li><a  class="dropdown-item" href="{{ children.url }}">{{ children.title }}</a></li>
+                                {% endfor %}
+                              </ul>
+                        </div>
+                      </div>
+                    </li>
+                    {% endif %}
+
+                    {% if page_type == 'Course Structure' %}
+
+                    <li class="nav-item">
+                      <div class="dropdown show">
+                      <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <ul>
+                            <li><a class="dropdown-item"href="{{ child.url }}?prog=0">Bachelors</a></li>
+                            <li><a class="dropdown-item" href="{{ child.url }}?prog=1">Masters</a></li>
+                            <ul>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header text-center">Mtech courses</h6>
+                              <li><a class="dropdown-item" href="{{ child.url }}?prog=1#1">Aerodynamics & Propulsion</a></li>
+                              <li><a class="dropdown-item" href="{{ child.url }}?prog=1#2">Manufacturing Science and Engineering</a></li>
+                              <li><a class="dropdown-item" href="{{ child.url }}?prog=1#3">Computational Mechanics</a></li>
+                              <li><a class="dropdown-item" href="{{ child.url }}?prog=1#4">Fluids and Thermal</a></li>
+                              <li><a class="dropdown-item" href="{{ child.url }}?prog=1#5">Machine Design</a></li>
+                            </ul>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Doctoral</a></li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item" href="{{ child.url }}?prog=3">All Courses</a></li>
+                          </ul>
+                    {% endif %}
+
+                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' %}
+
+                    {% else %}
+                    <li class="nav-item"> <a class="nav-link"  role="button" style="color: #fff; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
+
+                    {% endif %}
+
+
+                {% endwith %}
                 {% endfor %}
 
               </ul>
@@ -93,7 +158,7 @@
         {% wagtailuserbar %}
 
 
-        <div class="" style="padding-top: 110px;">
+        <div class="paddingadjustments" style="padding-top: 110px;">
           {% block content %}{% endblock %}
 
         </div>
@@ -110,7 +175,7 @@
       <footer class="page-footer font-small stylish-color-dark pt-4 footer"  style="background-color: #881125; font-family:'Bitter', serif;">
 
         <!-- Footer Links -->
-        <div class="container text-center text-md-left">
+        <div class="container-fluid text-center text-md-left">
 
           <!-- Grid row -->
           <div class="row">
@@ -189,7 +254,7 @@
 
               <ul class="list-unstyled" style="list-style: disc;">
                 <li>
-                  <a href="#!">Link 1</a>
+                  <a href="#">Link 1</a>
                 </li>
                 <li>
                   <a href="#!">Link 2</a>
@@ -227,28 +292,28 @@
         <!-- Social buttons -->
         <ul class="list-unstyled list-inline text-center">
           <li class="list-inline-item">
-            <a class="btn-floating btn-fb mx-1">
-              <i class="fab fa-facebook"> </i>
+            <a class="btn-floating btn-fb mx-1 " href="#!">
+              <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
             </a>
           </li>
           <li class="list-inline-item">
-            <a class="btn-floating btn-tw mx-1">
-              <i class="fab fa-twitter"> </i>
+            <a class="btn-floating btn-tw mx-1" href="#!">
+              <i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i>
             </a>
           </li>
           <li class="list-inline-item">
-            <a class="btn-floating btn-gplus mx-1">
-              <i class="fab fa-google-plus-g"> </i>
+            <a class="btn-floating btn-gplus mx-1" href="#!">
+              <i class="fa fa-google-plus-g fa-2x"> </i>
             </a>
           </li>
           <li class="list-inline-item">
-            <a class="btn-floating btn-li mx-1">
-              <i class="fab fa-linkedin-in"> </i>
+            <a class="btn-floating btn-li mx-1" href="#!">
+              <i class="fa fa-linkedin-in fa-2x"> </i>
             </a>
           </li>
           <li class="list-inline-item">
-            <a class="btn-floating btn-dribbble mx-1">
-              <i class="fab fa-dribbble"> </i>
+            <a class="btn-floating btn-dribbble mx-1" href="#!">
+              <i class="fa fa-dribbble fa-2x"> </i>
             </a>
           </li>
         </ul>

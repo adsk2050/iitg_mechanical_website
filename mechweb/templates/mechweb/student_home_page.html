@@ -30,19 +30,19 @@
           {% else %}
           {% if student_list.number == 1 %}
             <div class="row ">
-              <div class="col-xs-3 col-sm-2 col-md-3">
-                <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block ">
+              <div class="col-xs-12 col-sm-2 col-md-4">
+                <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block">
                   <i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Bachelors</span>
                 </a>
               </div>
-              <div class="col-xs-3 col-sm-2 col-md-3">
+              <div class="col-xs-12 col-sm-2 col-md-4">
                 <a href="{{ page.url }}?prog=1" class="btn btn-lg btn-block">
                   <i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Masters</span>
                 </a>
               </div>
-              <div class="col-xs-3 col-sm-2 col-md-3">
+              <div class="col-xs-12 col-sm-2 col-md-4">
                 <a href="{{ page.url }}?prog=2" class="btn btn-lg btn-block">
                   <i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Research Scholars</span>
@@ -53,15 +53,21 @@
           {% endif %}
   <hr>
 
-          <div class="row bread-list">
+          <div class="row padding bread-list">
             {% for student in student_list %}
 
               <div class="col-xs-11 col-md-5 bread-list-item">
-                  <div class="row padding">
+                  <div class="row">
                       <div class="col-xs-4 col-sm-5 image">
                         <a href="{{ student.specific.url }}">
-                          {% image student.specific.photo fill-180x250 %}                              <img src="{{ image.url }}" width="{{ image.width }}"
-                                  height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                          {% if student.specific.photo %}{{% image student.specific.photo fill-180x250 %}
+                          <img src="{{ image.url }}" width="{{ image.width }}"
+                                  height="{{ image.height }}" alt="{{ image.alt }}" class="" />}
+
+                              {% else %}
+                              <img src="{% static "images/placeholder.jpg" %}" width="180"
+                                      height="180" alt="{{ image.alt }}" class="" />
+                          {% endif %}
                           </a>
                       </div>
                       <div class="col-xs-8 col-sm-8">
@@ -92,10 +98,8 @@
               </div>
           {% endfor %}
           </div>
-      </div>
+        </div>
 
-
-</div>
 
   <div class="pagination">
       <span class="step-links">

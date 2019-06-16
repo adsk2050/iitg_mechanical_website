@@ -1,30 +1,41 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-event-page{% endblock %}
 
 {% block content %}
 
-
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
+<div class="w3-content w3-margin-top" style="max-width:1400px; padding-top:110px;">
 
   <!-- The Grid -->
   <div class="w3-row-padding">
 
     <!-- Left Column -->
     <div class="w3-third">
-      {{ page.title }}
+      <!-- {{ page.title }} -->
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
-          {% image page.specific.photo width-300 style="width:100%"%}
+          {% if student.specific.photo %}{
+            {% image page.specific.photo width-300 style="width:100%"%}
+            <img src="{{ image.url }}" width="{{ image.width }}"
+                    height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+          }
+
+          {% else %}
+              <img src="{% static "images/placeholder.jpg" %}" width="450"
+                      height="400" alt="{{ image.alt }}" class="" style="object-fit:cover;"/>
+          {% endif %}
           <div class="w3-display-bottomleft w3-container w3-text-black">
             <h1><a href="{{ page.specific.url }}">{{ page.specific.first_name }} {{ page.specific.last_name }}</a></h1>
           </div>
         </div>
         <div class="w3-container">
-          <h4><a href="{{ page.url }}">{{ page.specific.name }}</h4><hr>
+          <h4><a href="{{ page.url }}">{{ page.specific.name }} </a></h4><hr>
           {% if page.specific.enrolment_year %}
               <li>
                   <h4>Enrollment Year</h4>
@@ -103,7 +114,7 @@
     <!-- Right Column -->
     <div class="w3-twothird">
 
-
+      {% if page.specific.intro %}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>{{ page.specific.name }}</h2>
         <p>{{ page.specific.intro }}</p>
@@ -111,7 +122,7 @@
 
 
       </div>
-
+      {% endif %}
 
 
       {% with research_interests=page.specific.research_interests.all  %}
@@ -197,7 +208,7 @@
                               {% endfor %}
                             </ul>
                             <br>
-
+                      {% endif %}
                     </div>
                   </div>
 
@@ -245,6 +256,5 @@
 
   <!-- End Page Container -->
 </div>
-
 
 {% endblock %}

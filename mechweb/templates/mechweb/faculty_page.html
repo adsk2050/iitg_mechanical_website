@@ -7,9 +7,9 @@
 {% block body_class %}template-faculty-page{% endblock %}
 
 {% block content %}
->
+
 <!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
+<div class="w3-content w3-margin-top" style="max-width:1400px;  padding-top:110px;">
 
   <!-- The Grid -->
   <div class="w3-row-padding">
@@ -19,7 +19,14 @@
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
+          {% if student.specific.photo %}{}
           {% image page.specific.photo width-300 style="width:100%"%}
+          <img src="{{ image.url }}" width="{{ image.width }}"
+                  height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+              {% else %}
+              <img src="{% static "images/placeholder.jpg" %}" width="180"
+                      height="250" alt="{{ image.alt }}" class="" />
+          {% endif %}
           <div class="w3-display-bottomleft w3-container w3-text-black">
             <h1>{{ page.specific.first_name }} {{ page.specific.last_name }}</h1>
           </div>

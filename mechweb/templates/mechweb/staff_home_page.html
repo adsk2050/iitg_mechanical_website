@@ -21,6 +21,28 @@
           </div>
       </div>
 
+
+      <!-- <div class="row ">
+        <div class="col-xs-12 col-sm-2 col-md-4">
+          <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block">
+            <i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Bachelors</span>
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-2 col-md-4">
+          <a href="{{ page.url }}?prog=1" class="btn btn-lg btn-block">
+            <i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Masters</span>
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-2 col-md-4">
+          <a href="{{ page.url }}?prog=2" class="btn btn-lg btn-block">
+            <i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Research Scholars</span>
+          </a>
+        </div>
+      </div> -->
+
       <div class="container-fluid">
           <div class="row bread-list">
             {% for staff in staff_list %}
@@ -28,9 +50,17 @@
                   <div class="row padding">
                       <div class="col-xs-4 col-sm-4 image">
                         <a href="{% pageurl staff %}">
-                          {% image staff.specific.photo fill-180x180-c100 as image %}
-                              <img src="{{ image.url }}" width="{{ image.width }}"
+                          {% if staff.specific.photo %}{
+                            {% image staff.specific.photo fill-180x250 %}
+                          <img src="{{ image.url }}" width="{{ image.width }}"
                                   height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                                }
+
+                              {% else %}
+                              <img src="{% static "images/placeholder.jpg" %}" width="180"
+                                      height="180" alt="{{ image.alt }}" class="" />
+                          {% endif %}
+
                           </a>
                       </div>
                       <div class="col-xs-8 col-sm-8">
