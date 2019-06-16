@@ -2,6 +2,6 @@
 {% load staticfiles %}
 
 {% block branding_login %}<div><img src="{% static 'images/iitg_sml.gif' %}"/></div>Mechanical Department, IIT Guwahati<div></div>
-<a href="{% url "social:begin" "azuread-tenant-oauth2" %}">Login through outlook</a>
-{% endblock %}
 
+{% endblock %}
+<a href="{% url "social:begin" "azuread-tenant-oauth2" %}">Login through outlook</a>
