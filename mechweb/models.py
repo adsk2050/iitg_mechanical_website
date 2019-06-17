@@ -18,7 +18,7 @@ from wagtailautocomplete.edit_handlers import AutocompletePanel
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
 from modelcluster.fields import ParentalKey
 ######################################################
@@ -37,9 +37,9 @@ from taggit.models import TaggedItemBase, Tag
 ######################################################
 # Importing constants and settings
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT, AUTH_USER_MODEL
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES
-from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, LAB_RESEARCH_AREAS, COURSE_TYPES, USER_TYPES, MESA, SAE
-# , NAV_ORDER
+
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, USER_TYPES, MESA, SAE, INTEREST_CATEGORIES
+# NAV_ORDER
 
 from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
 
@@ -67,8 +67,9 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 # 			return self.is_staff
 
 class CustomUser(AbstractUser):
-	first_name = models.CharField(_('first name'), max_length=30)
-	last_name = models.CharField(_('last name'), max_length=150)
+	first_name = models.CharField(_('first name'), max_length=50)
+	middle_name = models.CharField(_('middle name'), max_length=50, blank=True)
+	last_name = models.CharField(_('last name'), max_length=50)
 	is_staff = models.BooleanField(
 		_('staff status'),
 		default=True,
@@ -111,7 +112,7 @@ class MechHomePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech', 'InterestCategories']
 
 	max_count = 1
 
@@ -171,15 +172,15 @@ class MechHomePageGalleryImage(Orderable):
 #############################################
 class Aboutiitgmech(Page):
 	vision = models.CharField(blank=True, max_length=500)
-	History = models.CharField(blank=True, max_length=500)
-	About = models.CharField(blank=True, max_length=500)
-	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	history = models.CharField(blank=True, max_length=500)
+	about = models.CharField(blank=True, max_length=500)
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 
 
 	content_panels = Page.content_panels + [
 		FieldPanel('vision', classname="full"),
-		FieldPanel('History', classname="full"),
-		FieldPanel('About', classname="full"),
+		FieldPanel('history', classname="full"),
+		FieldPanel('about', classname="full"),
 		ImageChooserPanel('photo'),
 	]
 
@@ -202,7 +203,7 @@ class EventHomePage(Page):
 
 	content_panels = Page.content_panels + [
 			FieldPanel('intro'),
-			AutocompletePanel('featured_event'),
+			AutocompletePanel('featured_event', target_model='mechweb.EventPage'),
 			#InlinePanel('event_page', label="New Event"),
 		]
 
@@ -291,6 +292,15 @@ class EventPageLink(Orderable):
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
+class InterestCategories(Page):
+	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0')
+	content_panels = Page.content_panels + [
+			FieldPanel('category'),
+		]
+	parent_page_types=['MechHomePage']
+	max_count = 4
+
+######################################################
 
 class FacultyHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[1])
@@ -308,7 +318,7 @@ class FacultyHomePage(Page):
 	# def list_common_interests(self):
 
 	def serve(self, request):
-		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__last_name')
+		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__middle_name', 'facultypage__last_name')
 
 		all_research_interests = faculty_interests()
 
@@ -341,8 +351,9 @@ class FacultyResearchInterestTag(TaggedItemBase):
 
 class FacultyPage(Page):
 	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, on_delete=models.SET_NULL)
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
 	office_contact_number = models.CharField(max_length=20, blank=True)
 	home_contact_number = models.CharField(max_length=20, blank=True)
 	office_address_line_1 = models.CharField(max_length=25, blank=True)
@@ -352,6 +363,7 @@ class FacultyPage(Page):
 	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
+	fac_research_categories = models.ManyToManyField('mechweb.InterestCategories', blank=True,)
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
@@ -372,8 +384,9 @@ class FacultyPage(Page):
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		AutocompletePanel('user'),
+		FieldPanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
 		######################################################
@@ -381,7 +394,6 @@ class FacultyPage(Page):
 		FieldPanel('joining_date'),
 		FieldPanel('website'),
 		FieldPanel('abbreviation'),
-
 		MultiFieldPanel([
 			FieldPanel('office_address_line_1'),
 			FieldPanel('office_contact_number'),
@@ -395,6 +407,7 @@ class FacultyPage(Page):
 		ImageChooserPanel('photo'),
 		FieldPanel('intro'),
 		FieldPanel('body'),
+		FieldPanel('fac_research_categories', widget=forms.CheckboxSelectMultiple),
 		FieldPanel('research_interests'),
 		InlinePanel('gallery_images', label="Gallery images", max_num=10),
 		FieldPanel('leaving_date'),
@@ -425,7 +438,9 @@ class FacultyPage(Page):
 	])
 
 	def __str__(self):
-		return self.first_name+" "+self.last_name
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
 
 	def get_context(self, request):
 		lab_relation_list = self.faculty_lab.all()
@@ -531,8 +546,9 @@ class AbstractStudentHomePage(Page):
 		abstract = True
 
 class AbstractStudentPage(Page):
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(blank=True)
 	enrolment_year = models.DateField(default=timezone.now)
@@ -553,7 +569,10 @@ class AbstractStudentPage(Page):
 	sae = models.CharField(max_length=2, choices=SAE, default='3')
 
 	#################################################################
-
+	def __str__(self):
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
 
 	def get_roll_value(self):
 		return self.roll_no
@@ -569,7 +588,7 @@ class AbstractStudentPage(Page):
 	subpage_types=[]
 
 	def __str__(self):
-		return self.first_name+" "+self.last_name
+		return self.first_name+""+self.middle_name+" "+self.last_name
 
 	class Meta:
 		abstract = True
@@ -577,7 +596,7 @@ class AbstractStudentPage(Page):
 ######################################################
 class StudentHomePage(AbstractStudentHomePage):
 	def serve(self, request):
-		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__last_name')
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
 
 		# Filter by programme
 		prog = request.GET.get('prog')
@@ -621,8 +640,9 @@ class StudentPage(AbstractStudentPage):
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		AutocompletePanel('user'),
+		FieldPanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
 		FieldPanel('roll_no'),
@@ -639,7 +659,7 @@ class StudentPage(AbstractStudentPage):
 		FieldPanel('intro'),
 		FieldPanel('body'),
 
-		AutocompletePanel('faculty_advisor'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
+		AutocompletePanel('faculty_advisor', target_model='mechweb.FacultyPage'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
 		FieldPanel('research_interests'),
 		InlinePanel('stud_gallery_images', label="Gallery images", max_num=2),
 		InlinePanel('stud_links', label="Related Links", max_num=10),
@@ -704,8 +724,8 @@ class StudentProject(Orderable):
 	link = models.URLField(max_length=250, blank=True)
 	panels = [
 		FieldPanel('title'),
-		AutocompletePanel('guide'),
-		AutocompletePanel('co_guide'),
+		AutocompletePanel('guide', target_model='mechweb.FacultyPage'),
+		AutocompletePanel('co_guide', target_model='mechweb.FacultyPage'),
 		DocumentChooserPanel('document'),
 		FieldPanel('abstract'),
 		FieldPanel('link'),
@@ -761,7 +781,7 @@ class StaffHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		staff_list = self.get_children().live().order_by('-first_published_at', 'staffpage__first_name', 'staffpage__last_name')
+		staff_list = self.get_children().live().order_by('-first_published_at', 'staffpage__first_name', 'staffpage__middle_name', 'staffpage__last_name')
 
 		# Filter by designation
 		desig = request.GET.get('desig')
@@ -773,7 +793,7 @@ class StaffHomePage(Page):
 		if tag:
 			staff_list = staff_list.filter(staffpage__skills__name=tag)
 
-		paginator = Paginator(staff_list, 10) # Show 10 faculty per page
+		paginator = Paginator(staff_list, 50) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
 		staff_list = paginator.get_page(page_no)
 
@@ -803,8 +823,9 @@ class StaffSkillag(TaggedItemBase):
 
 class StaffPage(Page):
 	user = models.OneToOneField(AUTH_USER_MODEL,related_name='staff', null=True, on_delete=models.SET_NULL)
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
 	email_id = models.EmailField()
 
 	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='10')
@@ -821,8 +842,9 @@ class StaffPage(Page):
 	content_panels = Page.content_panels + [
 	######################################################
 		# The user should not be able to change these things from here
-		AutocompletePanel('user'),
+		FieldPanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
 	######################################################
@@ -838,6 +860,11 @@ class StaffPage(Page):
 
 	parent_page_types=['StaffHomePage']
 	subpage_types=[]
+
+	def __str__(self):
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
 
 	class Meta:
 		verbose_name = "Staff"
@@ -905,8 +932,9 @@ class AlumnusPage(AbstractStudentPage):
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
-		AutocompletePanel('user'),
+		FieldPanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('programme'),
 		FieldPanel('roll_no'),
@@ -992,7 +1020,7 @@ class DistinguishedAlumni(Orderable):
 	distinguished_alumnus = models.ForeignKey('AlumnusPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='distinguished_alumnus')
 	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('distinguished_alumnus'),
+		AutocompletePanel('distinguished_alumnus', target_model='mechweb.AlumnusPage'),
 		FieldPanel('about'),
 	]
 
@@ -1028,7 +1056,7 @@ class FeaturedResearch(Orderable):
 	page = ParentalKey(ResearchHomePage, on_delete=models.CASCADE, related_name='featured_research')
 	featured_research = models.ForeignKey('PublicationPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_research')
 	panels = [
-		AutocompletePanel('featured_research'),
+		AutocompletePanel('featured_research', target_model='mechweb.PublicationPage'),
 	]
 #------------------------------------------
 class ResearchLabHomePage(Page):
@@ -1066,7 +1094,6 @@ class ResearchLabHomePage(Page):
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
-	lab_research_area = models.CharField(max_length=2, choices=LAB_RESEARCH_AREAS, default='0')
 	# When already defined in faculty model who is lab incharge... then do we need it here?
 	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
 	intro = models.CharField(max_length=250)
@@ -1080,7 +1107,6 @@ class ResearchLabPage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('name'),
 		FieldPanel('lab_type'),
-		FieldPanel('lab_research_area'),
 		FieldPanel('contact_number'),
 		FieldPanel('address'),
 		FieldPanel('intro'),
@@ -1100,8 +1126,9 @@ class ResearchLabPage(Page):
 	]
 
 	people_panels = [
-		AutocompletePanel('faculty_incharge'),
+		AutocompletePanel('faculty_incharge', target_model='mechweb.FacultyPage'),
 		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('postdocs', label="Postdocs"),
 		InlinePanel('students', label="Students"),
 	]
 
@@ -1141,7 +1168,7 @@ class LabEquipment(Orderable):
 	panels = [
 		FieldPanel('name'),
 		FieldPanel('company'),
-		AutocompletePanel('operator'),
+		AutocompletePanel('operator', target_model='mechweb.StaffPage'),
 		DocumentChooserPanel('document'),
 		FieldPanel('specifications'),
 		FieldPanel('link'),
@@ -1167,7 +1194,7 @@ class ResearchLabFaculty(Orderable):
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_lab')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('faculty'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('research_statement'),
 	]
 
@@ -1176,16 +1203,57 @@ class ResearchLabStudents(Orderable):
 	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_lab')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('student'),
+		AutocompletePanel('student', target_model='mechweb.StudentPage'),
 		FieldPanel('research_statement'),
 	]
 
+class ResearchLabPostdocs(Orderable):
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='postdocs')
+	postdoc = models.ForeignKey('StaffPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='postdoc_lab')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('postdoc', target_model='mechweb.StaffPage'),
+		FieldPanel('research_statement'),
+	]
 #------------------------------------------
 class PublicationHomePage(Page):
 	# Add featured publications
 	parent_page_types=['ResearchHomePage']
 	subpage_types=['PublicationPage']
 	max_count = 1
+
+	def serve(self, request):
+		pub_list = self.get_children().live().order_by('publicationpage__pub_year', 'publicationpage__pub_type', 'publicationpage__citations')
+
+		# # Filter by programme
+		# prog = request.GET.get('prog')
+		# if prog in ['0','1', '2']:
+		# 	course_list = course_list.filter(coursepage__eligible_programmes=prog)
+
+		# structure = []
+		# sem1 = course_list.filter(coursepage__semester=1)
+		# structure.append(sem1)
+		# sem2 = course_list.filter(coursepage__semester=2)
+		# structure.append(sem2)
+		# sem3 = course_list.filter(coursepage__semester=3)
+		# structure.append(sem3)
+		# sem4 = course_list.filter(coursepage__semester=4)
+		# structure.append(sem4)
+		# sem5 = course_list.filter(coursepage__semester=5)
+		# structure.append(sem5)
+		# sem6 = course_list.filter(coursepage__semester=6)
+		# structure.append(sem6)
+		# sem7 = course_list.filter(coursepage__semester=7)
+		# structure.append(sem7)
+		# sem8 = course_list.filter(coursepage__semester=8)
+		# structure.append(sem8)
+
+		return render(request, self.template, {
+			'page': self,
+			'pub_list': pub_list,
+			# 'prog':prog,
+			# 'structure':structure,
+		})
 
 	class Meta:
 		verbose_name = "Publication Home"
@@ -1198,18 +1266,21 @@ class PublicationPage(Page):
 		on_delete=models.SET_NULL,
 		related_name='+'
 	)
-	name = models.CharField(max_length=100, blank=True)
+	name = models.CharField(max_length=500, blank=True)
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
 	download_link = models.URLField(blank=True, max_length=100)
-	pub_issue = models.CharField(max_length=20,null=True, blank=True)
+	pub_issue = models.CharField(max_length=100,null=True, blank=True)
 	pub_year = models.DateField(default=timezone.now)
-	pub_journal = models.CharField(max_length=100, blank=True)
-	pub_vol = models.CharField(max_length=100, blank=True)
-	page_start = models.CharField(max_length=100, blank=True)
-	page_end = models.CharField(max_length=100, blank=True)
-	citations = models.CharField(max_length=100, blank=True)
-
+	pub_journal = models.CharField(max_length=200, blank=True)
+	pub_vol = models.CharField(max_length=200, blank=True)
+	page_start = models.CharField(max_length=10, blank=True)
+	page_end = models.CharField(max_length=10, blank=True)
+	citations = models.CharField(max_length=10, blank=True)
+	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
+	# pub_conference = 
+	# pub_patent_number = 
+	# pub_
 
 
 	content_panels =  Page.content_panels + [
@@ -1230,9 +1301,11 @@ class PublicationPage(Page):
 	]
 
 	people_panels = [
+
 		InlinePanel('faculty', label="Faculty"),
-		InlinePanel('students', label="Students"),
 		InlinePanel('other_authors', label="Other Authors"),
+		InlinePanel('students', label="Students"),
+		FieldPanel('alt_people_text'),
 	]
 
 	edit_handler = TabbedInterface([
@@ -1254,7 +1327,7 @@ class PublicationPageStudent(Orderable):
 	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('student'),
+		AutocompletePanel('student', target_model='mechweb.StudentPage'),
 		FieldPanel('research_statement'),
 	]
 
@@ -1263,7 +1336,7 @@ class PublicationPageFaculty(Orderable):
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_pub')
 	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('faculty'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('research_statement'),
 	]
 
@@ -1336,7 +1409,7 @@ class ProjectPage(Page):
 	]
 
 	people_panels = [
-		AutocompletePanel('principal_investigator'),
+		AutocompletePanel('principal_investigator', target_model='mechweb.FacultyPage'),
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
 	]
@@ -1360,7 +1433,7 @@ class ProjectPageFaculty(Orderable):
 	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('faculty'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('project_statement'),
 	]
 
@@ -1369,7 +1442,7 @@ class ProjectPageStudent(Orderable):
 	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('student'),
+		AutocompletePanel('student', target_model='mechweb.FacultyPage'),
 		FieldPanel('project_statement'),
 	]
 
@@ -1512,7 +1585,7 @@ class CoursePageFaculty(Orderable):
 	session = models.DateField(verbose_name="Instruction start date", default=timezone.now)
 	introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('faculty'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('introduction'),
 		FieldPanel('session'),
 	]
@@ -1535,7 +1608,7 @@ class FeaturedCourse(Orderable):
 	page = ParentalKey(CourseStructure, on_delete=models.CASCADE, related_name='featured_courses')
 	featured_course = models.ForeignKey('CoursePage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_course')
 	panels = [
-		AutocompletePanel('featured_course'),
+		AutocompletePanel('featured_course', target_model='mechweb.CoursePage'),
 	]
 ######################################################
 class AwardHomePage(Page):
@@ -1580,9 +1653,9 @@ class Award(Orderable):
 	panels = [
 		FieldPanel('award_title'),
 		FieldPanel('award_description'),
-		FieldPanel('award_type'),
-		AutocompletePanel('faculty'),
-		FieldPanel('other_recipients'),
+		FieldPanel('award_type'),	
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),	
+		FieldPanel('other_recipients'),	
 		ImageChooserPanel('image'),
 		FieldPanel('award_time'),
 		FieldPanel('conferrer'),

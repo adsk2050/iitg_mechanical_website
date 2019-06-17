@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin# as BaseUserAdmin
-from .models import CustomUser
+from .models import CustomUser, StudentPage, StudentHomePage
 from import_export import resources
 from .constants import USER_TYPES
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin, modeladmin_register)
 
 # If you use this then comment the code in forms 
 # -------------------------------------------------
@@ -13,8 +15,18 @@ from .constants import USER_TYPES
 # class UserAdmin(BaseUserAdmin):
 # 	inlines = [CustomUserInline]
 # -------------------------------------------------
-
 admin.site.register(CustomUser, UserAdmin)
+
+# class StudentPageInline(admin.StackedInline):
+#     model = StudentPage
+
+# class StudentPageAdmin(ModelAdmin):
+#     model = StudentPage
+#     inlines=[
+#         StudentPageInline,
+#     ]
+# modeladmin_register(StudentPageAdmin)
+
 
 # app/admin.py
 
@@ -28,7 +40,7 @@ class CustomUserResource(resources.ModelResource):
         skip_unchanged = True
         report_skipped = False
         import_id_fields = ('username',)
-        fields = ('username', 'first_name', 'last_name', 'email', 'user_type', 'uid')
+        fields = ('username', 'first_name', 'middle_name', 'last_name', 'email', 'user_type', 'uid')
         export_order = ('username', 'first_name', 'last_name', 'email', 'user_type', 'uid')
 
     def dehydrate_user_type(self, user):

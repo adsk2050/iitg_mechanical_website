@@ -18,7 +18,7 @@
 
     <h3>Posters Published:</h3><br>
     <ul>
-      {% for publication in page.get_children.specific %}
+      {% for publication in pub_list %}
         {% if publication.pub_type == '0' %}
         <li>
   	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
@@ -43,7 +43,7 @@
 
     <h3>Conference Publication:</h3><br>
     <ul>
-      {% for publication in page.get_children.specific %}
+      {% for publication in pub_list %}
         {% if publication.pub_type == '1' %}
         <li>
   	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
@@ -70,7 +70,7 @@
 
     <h3>Journal Publications:</h3><br>
     <ul>
-      {% for publication in page.get_children.specific %}
+      {% for publication in pub_list %}
         {% if publication.pub_type == '2' %}
         <li>
   	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
@@ -97,7 +97,7 @@
 
     <h3>Patents:</h3><br>
     <ul>
-      {% for publication in page.get_children.specific %}
+      {% for publication in pub_list %}
         {% if publication.pub_type == '3' %}
         <li>
   	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
@@ -125,7 +125,7 @@
 
     <h3>Book Chapters:</h3><br>
     <ul>
-      {% for publication in page.get_children.specific %}
+      {% for publication in pub_list %}
         {% if publication.pub_type == '5' %}
         <li>
   	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
@@ -153,7 +153,7 @@
 
     <h3>Books:</h3><br>
     <ul>
-      {% for publication in page.get_children.specific %}
+      {% for publication in pub_list %}
         {% if publication.pub_type == '4' %}
         <li>
   	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>

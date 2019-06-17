@@ -31,11 +31,11 @@
                       height="400" alt="{{ image.alt }}" class="" style="object-fit:cover;"/>
           {% endif %}
           <div class="w3-display-bottomleft w3-container w3-text-black">
-            <h1><a href="{{ page.specific.url }}">{{ page.specific.first_name }} {{ page.specific.last_name }}</a></h1>
+            <h1><a href="{{ page.specific.url }}">{{ page }}</a></h1>
           </div>
         </div>
         <div class="w3-container">
-          <h4><a href="{{ page.url }}">{{ page.specific.name }} </a></h4><hr>
+          <h4><a href="{{ page.url }}">{{ page }} </a></h4><hr>
           {% if page.specific.enrolment_year %}
               <li>
                   <h4>Enrollment Year</h4>
