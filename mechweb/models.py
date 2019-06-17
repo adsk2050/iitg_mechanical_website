@@ -173,7 +173,7 @@ class Aboutiitgmech(Page):
 	vision = models.CharField(blank=True, max_length=500)
 	History = models.CharField(blank=True, max_length=500)
 	About = models.CharField(blank=True, max_length=500)
-	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 
 
 	content_panels = Page.content_panels + [
@@ -316,7 +316,7 @@ class FacultyHomePage(Page):
 		if tag:
 			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
 				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
-		paginator = Paginator(faculty_list, 1) # Show 10 faculty per page
+		paginator = Paginator(faculty_list, 50) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
 		faculty_list = paginator.get_page(page_no)
 
@@ -1548,19 +1548,19 @@ class AwardHomePage(Page):
 	subpage_types=[]
 	max_count = 1
 
-	def serve(self, request):
-		award_list = FacultyAward.objects.all()
-
-		# Filter by research area
-		award_type = request.GET.get('award_type')
-		if award_type in ['0','1', '2']:
-			award_list = award_list.filter(award_type=award_type)
-
-		return render(request, self.template, {
-			'page': self,
-			'award_list': award_list,
-			'award_type':award_type,
-		})
+	# def serve(self, request):
+	# 	award_list = Award.objects.all()
+	#
+	# 	# Filter by research area
+	# 	award_type = request.GET.get('award_type')
+	# 	if award_type in ['0','1', '2']:
+	# 		award_list = award_list.filter(award_type=award_type)
+	#
+	# 	return render(request, self.template, {
+	# 		'page': self,
+	# 		'award_list': award_list,
+	# 		'award_type':award_type,
+	# 	})
 	class Meta:
 		verbose_name = "Awards Home"
 
@@ -1569,20 +1569,20 @@ class Award(Orderable):
 	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
 	other_recipients = models.CharField(max_length=100, blank=True)
 	award_title = models.CharField(max_length=100)
-	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
 	award_time = models.DateField(default=timezone.now)
 	conferrer = models.CharField(max_length=100)
-	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
 
 	panels = [
 		FieldPanel('award_title'),
 		FieldPanel('award_description'),
-		FieldPanel('award_type'),	
-		AutocompletePanel('faculty'),	
-		FieldPanel('other_recipients'),	
+		FieldPanel('award_type'),
+		AutocompletePanel('faculty'),
+		FieldPanel('other_recipients'),
 		ImageChooserPanel('image'),
 		FieldPanel('award_time'),
 		FieldPanel('conferrer'),

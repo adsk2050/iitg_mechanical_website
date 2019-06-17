@@ -456,7 +456,7 @@ header{
   background: linear-gradient(190deg, rgba(0,4,8,1) 0%,#4F5345 100%);
   border-radius: 0px 0px 10px 10px;
   color: #fff;
-  max-height: 432px;
+  height: 432px;
   margin-bottom: 20px;
   margin-left: 30px;
   margin-right: 30px;
@@ -916,53 +916,11 @@ h2{
     padding: 30px 0;
 } */
 
-/* Table Styles */
 
-.table-wrapper{
-    margin: 10px 70px 70px;
-    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
-}
-
-.fl-table {
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: normal;
-    border: none;
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 100%;
-    white-space: nowrap;
-    background-color: white;
-}
-
-.fl-table td, .fl-table th {
-    text-align: center;
-    padding: 8px;
-}
-
-.fl-table td {
-    border-right: 1px solid #f8f8f8;
-    font-size: 12px;
-}
-
-.fl-table thead th {
-    color: #ffffff;
-    background: #4FC3A1;
-}
-
-
-.fl-table thead th:nth-child(odd) {
-    color: #ffffff;
-    background: #324960;
-}
-
-.fl-table tr:nth-child(even) {
-    background: #F8F8F8;
-}
 
 /* Responsive */
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
     .fl-table {
         display: block;
         width: 100%;
@@ -1024,7 +982,7 @@ h2{
         display: block;
         text-align: center;
     }
-}
+} */
 
 
 /* lab page css */
@@ -1067,25 +1025,12 @@ h2{
   }
 }
 /*  lab page css end */
+
+/*  award css*/
+
+
 ----------------------------------------
-<!-- News and notifications -->
-  <div class="container definite">
-  <div class="row mb-2">
-      {% for notification in page.text_panels.all %}
-      <div class="col-md-6 {{ notification.get_content_type_display }}">
-          <div class="card">
-              <div class="card-img-top">{% image notification.photo fill-50x50 %}</div>
-              <div class="card-body">
-                  <h5 class="card-title">{{ notification.title }}</h5>
-                  <strong>Date:{{ notification.date }}</strong><br>
-                  <p class="card-text">
-                      {{ notification.description }}
-                  </p>
-              </div>
-          </div>
-      </div>
-      {% endfor %}
-  </div>
+
 
   <div class="container definite">
   <div class="row mb-2">

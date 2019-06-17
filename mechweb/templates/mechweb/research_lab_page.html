@@ -128,7 +128,7 @@
       <ul>
       {% for faculty in page.faculty.all %}
           <li>
-              <a href="{{ faculty.url }}">{{ faculty }}</a>
+              <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
           </li>
           <li>{{ faculty.research_statement|richtext }}</li>
       {% endfor %}

@@ -1,22 +1,25 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}template-award-homepage{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+{% endblock %}
+
+{% block extra_script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block body_class %}template-award-homepage {% endblock %}
 
 {% block content %}
-    <h1>{{ page.title }}</h1>
-    <!-- Intro -->
-    <div class="intro">{{ page.intro|richtext }}</div>
-    <hr>
-    
 
-    <h2>Award types</h2>
-    <ul>
-        <li><a href="{{ page.url }}?award_type=0">Faculty Awards</a></li>
-        <li><a href="{{ page.url }}?award_type=1">Best Paper awards</a></li>
-    </ul>
-    {% if award_list %}
+
+
+    <!-- {% if award_list %}
         {% if award_list %}
             <h2>{{ get_award_type_display }}</h2>
         {% else %}
@@ -36,7 +39,90 @@
         {% endfor %}
     {% else %}
         No awards, please check later
-    {% endif %}
+
+    {% endif %} -->
+
+
+    <div class="container-fluid">
+      <h1 class="text-center">{{ page.title }}</h1>
+      <!-- Intro -->
+      <div class="intro">{{ page.intro|richtext }}</div>
+      <hr>
+
+      <ul class="nav nav-tabs">
+                <li class="active">
+                  <a class="btn btn-lg btn-block" href="#faculty"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Faculty Honors and Awards</span></a>
+                </li>
+
+                <li>
+                  <a class="btn btn-lg btn-block" href="#paper" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Best Papers</span></a>
+                </li>
+          </ul>
+
+          <div class="tab-content">
+
+            <div id="faculty" class="tab-pane fade in active">
+              <table class="table table-hover">
+                  <thead>
+                    <tr>
+                        <th>Faculty</th>
+                        <th>Award</th>
+                        <th>Organization/Society</th>
+                        <th>Year</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for award in page.awards.all %}
+                    {% if award.award_type == '0' %}
+                  <tr>
+                      <td>{{ award.faculty }}</td>
+                      <td><a href="{{ award.link }}">{{ award.award_title }}</a></td>
+                      <td>{{ award.conferrer }}</td>
+                      <td>{{ award.award_time }}</td>
+
+                  </tr>
+                    {% endif %}
+                    {% endfor %}
+
+                  <tbody>
+                </table>
+
+            </div>
+
+            <div id="paper"class="tab-pane fade">
+
+              <table class="table table-hover">
+                  <thead>
+                    <tr>
+                        <th>Faculty</th>
+                        <th>Award</th>
+                        <th>Details</th>
+                        <th>Year</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for award in page.awards.all %}
+                    {% if award.award_type == '0' %}
+                  <tr>
+                      <td>{{ award.faculty }}</td>
+                      <td><a href="{{ award.link }}">{{ award.award_title }}</a></td>
+                      <td>{{ award.award_description|richtext }}</td>
+                      <td>{{ award.award_time }}</td>
+
+                  </tr>
+                    {% endif %}
+                    {% endfor %}
+
+                  <tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+      </div>
 
 
 {% endblock %}

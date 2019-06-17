@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-publication-homepage{% endblock %}
@@ -175,131 +177,157 @@
     </ul>
 
 
-  <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="tab" role="tabpanel">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#Section1" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-globe"></i> Section 1</a></li>
-                    <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-rocket"></i> Section 2</a></li>
-                    <li role="presentation"><a href="#Section3" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-briefcase"></i> Section 3</a></li>
+
+
+    <div class="container-fluid">
+      <h1 class="text-center">{{ page.title }}</h1>
+      <!-- Intro -->
+      <div class="intro">{{ page.intro|richtext }}</div>
+      <hr>
+
+      <ul class="nav nav-tabs">
+                <li class="active">
+                  <a class="btn btn-lg btn-block" href="#poster"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Published posters</span></a>
+                </li>
+
+                <li>
+                  <a class="btn btn-lg btn-block" href="#conference" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Conference Publications</span></a>
+                </li>
+
+                <li>
+                  <a class="btn btn-lg btn-block" href="#journal"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Journal Publications</span></a>
+                </li>
+
+                <li>
+                  <a class="btn btn-lg btn-block" href="#patent"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Patent</span></a>
+                </li>
+
+                <li>
+                  <a class="btn btn-lg btn-block" href="#books"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Books</span></a>
+                </li>
+
+                <li>
+                  <a class="btn btn-lg btn-block" href="#chaps"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Book Chapters</span></a>
+                </li>
+
+      </ul>
+
+      <hr>
+      <hr>
+      <hr>
+
+          <div class="tab-content">
+            <div id="poster" class="tab-pane fade in active">
+              <div class="container-fluid">
+                <ul class="nav nav-tabs">
+                          <li class="active">
+                            <a class="btn btn-lg btn-block" href="#eight"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                            <span class="hidden-xs">2018</span></a>
+                          </li>
+
+                          <li>
+                            <a class="btn btn-lg btn-block" href="#seven" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                            <span class="hidden-xs">2017</span></a>
+                          </li>
+
+                          <li>
+                            <a class="btn btn-lg btn-block" href="#six"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                            <span class="hidden-xs">2016</span></a>
+                          </li>
+
+                          <li>
+                            <a class="btn btn-lg btn-block" href="#five"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                            <span class="hidden-xs">2015</span></a>
+                          </li>
+
+                          <li>
+                            <a class="btn btn-lg btn-block" href="#four"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                            <span class="hidden-xs">2014</span></a>
+                          </li>
+
+                          <li>
+                            <a class="btn btn-lg btn-block" href="#three"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                            <span class="hidden-xs">2013 and older</span></a>
+                          </li>
+
                 </ul>
-                <!-- Tab panes -->
-                <div class="tab-content tabs">
-                    <div role="tabpanel" class="tab-pane fade in active" id="Section1">
-                        <h3>Section 1</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec urna aliquam, ornare eros vel, malesuada lorem. Nullam faucibus lorem at eros consectetur lobortis. Maecenas nec nibh congue, placerat sem id, rutrum velit. Phasellus porta enim at facilisis condimentum. Maecenas pharetra dolor vel elit tempor pellentesque sed sed eros. Aenean vitae mauris tincidunt, imperdiet orci semper, rhoncus ligula. Vivamus scelerisque.</p>
+
+                  <div class="tab-content">
+
+                    <div id="eight" class="tab-pane fade in active">
+                      <table class="table table-hover">
+                          <thead>
+                            <tr>
+
+                                <th>Authors</th>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                                <th>Volume(Issue)</th>
+                                <th>Pages</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for publication in page.get_children.specific %}
+                            {% if publication.pub_type == '0'%}
+                            {% if publication.pub_year|date:"Y" == '2018' %}
+                          <tr>
+                              <td>{{ publication.Authors }}</td>
+                              <td>{{ publication.name }}</td>
+                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_journal }}</td>
+                              <td>{{ publication.vol_issue }}</td>
+                              <td>{{ publication.pages }}</td>
+                          </tr>
+                            {% endif %}
+                            {% endif %}
+                            {% endfor %}
+
+                          <tbody>
+                        </table>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="Section2">
-                        <h3>Section 2</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec urna aliquam, ornare eros vel, malesuada lorem. Nullam faucibus lorem at eros consectetur lobortis. Maecenas nec nibh congue, placerat sem id, rutrum velit. Phasellus porta enim at facilisis condimentum. Maecenas pharetra dolor vel elit tempor pellentesque sed sed eros. Aenean vitae mauris tincidunt, imperdiet orci semper, rhoncus ligula. Vivamus scelerisque.</p>
+
+                    <div id="seven" class="tab-pane fade">
+                      <h1>hyryrjikdnlkd</h1>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="Section3">
-                        <h3>Section 3</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec urna aliquam, ornare eros vel, malesuada lorem. Nullam faucibus lorem at eros consectetur lobortis. Maecenas nec nibh congue, placerat sem id, rutrum velit. Phasellus porta enim at facilisis condimentum. Maecenas pharetra dolor vel elit tempor pellentesque sed sed eros. Aenean vitae mauris tincidunt, imperdiet orci semper, rhoncus ligula. Vivamus scelerisque.</p>
-                    </div>
-                </div>
+
+                  </div>
+              </div>
             </div>
-        </div>
-    </div>
-  </div>
 
 
+            <div id="conference"class="tab-pane fade">
 
-
-
-
-<div class="pub_table">
-      <ul class="nav nav-tabs ">
-        <li class="pubtypecls" id="0" onclick="toggletable(0)"><a href="#poster0" data-toggle="tab">Published posters</a></li>
-        <li class="pubtypecls" id="1" onclick="toggletable(1)"><a href="#conf1" data-toggle="tab">Conference Publications</a></li>
-        <li class="pubtypecls" id="2" onclick="toggletable(2)"><a href="#journal2" data-toggle="tab">Journal Publications</a></li>
-        <li class="pubtypecls" id="3" onclick="toggletable(3)"><a href="#patent3" data-toggle="tab">Patent</a></li>
-        <li class="pubtypecls" id="4" onclick="toggletable(4)"><a href="#books4" data-toggle="tab">Books</a></li>
-        <li class="pubtypecls" id="5" onclick="toggletable(5)"><a href="#chap5" data-toggle="tab">Book Chapters</a></li>
-      </ul>
-
-
-      <ul class="nav nav-tabs"  >
-        <li class="pubdatecls" id="2019" onclick="toggleyear(0)"><a href="#2019" data-toggle="tab">In press</a></li>
-        <li class="pubdatecls" id="2018" onclick="toggleyear(1)"><a href="#2018" data-toggle="tab">2018</a></li>
-        <li class="pubdatecls" id="2017" onclick="toggleyear(2)"><a href="#2017" data-toggle="tab">2017</a></li>
-        <li class="pubdatecls" id="2016" onclick="toggleyear(3)"><a href="#2016" data-toggle="tab">2016</a></li>
-        <li class="pubdatecls" id="2015" onclick="toggleyear(4)"><a href="#2015" data-toggle="tab">2015</a></li>
-        <li class="pubdatecls" id="2014" onclick="toggleyear(5)"><a href="#2014" data-toggle="tab">2014</a></li>
-        <li class="pubdatecls" id="2013" onclick="toggleyear(6)"><a href="#past" data-toggle="tab">2013 and earlier</a></li>
-      </ul>
-
-
-      <div class="tab-content" >
-        <div id="pubyearid pubtypeid" class="tab-pane active">
-          <div class="table-wrapper">
-            <table class="fl-table">
-                <thead>
-                <tr>
-                    <th>Publication Type</th>
-                    <th>Publication Year</th>
-                    <th>Authors</th>
-                    <th>Title</th>
-                    <th>Year</th>
-                    <th>Journal</th>
-                    <th>Volume(Issue)</th>
-                    <th>Pages</th>
-                </tr>
-                </thead>
-                <tbody>
-                  {% for publication in page.get_children.specific %}
-                <tr>
-                    <td>{{ publication.pub_type }}</td>
-                    <td>{{ publication.pub_year }}</td>
-                    <td>{{ publication.Authors }}</td>
-                    <td>{{ publication.name }}</td>
-                    <td>{{ publication.pub_year }}</td>
-                    <td>{{ publication.pub_journal }}</td>
-                    <td>{{ publication.vol_issue }}</td>
-                    <td>{{ publication.pages }}</td>
-                </tr>
-                  {% endfor %}
-                <tbody>
-              </table>
             </div>
-          </div>
+
+            <div id="journal" class="tab-pane fade">
+
+            </div>
+
+            <div id="patent" class="tab-pane fade">
+
+            </div>
+
+            <div id="books" class="tab-pane fade">
+
+            </div>
+
+            <div id="chaps" class="tab-pane fade">
+
+            </div>
+
+
+
         </div>
-
-
-
-
-
-
-    <h2>Responsive Table</h2>
-      <div class="table-wrapper">
-          <table class="fl-table">
-              <thead>
-              <tr>
-                  <th>Authors</th>
-                  <th>Title</th>
-                  <th>Year</th>
-                  <th>Journal</th>
-                  <th>Volume(Issue)</th>
-                  <th>Pages</th>
-              </tr>
-              </thead>
-              <tbody>
-                {% for publication in page.get_children.specific %}
-              <tr>
-                  <td>{{ publication.Authors }}</td>
-                  <td>{{ publication.name }}</td>
-                  <td>{{ publication.pub_year }}</td>
-                  <td>{{ publication.pub_journal }}</td>
-                  <td>{{ publication.vol_issue }}</td>
-                  <td>{{ publication.pages }}</td>
-              </tr>
-                {% endfor %}
-
-              <tbody>
-          </table>
       </div>
+
 
 
 
