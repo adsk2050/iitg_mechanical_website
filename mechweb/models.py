@@ -112,7 +112,7 @@ class MechHomePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech', 'InterestCategories']
 
 	max_count = 1
 
@@ -292,8 +292,14 @@ class EventPageLink(Orderable):
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
-class InterestCategories:
-	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='3')
+class InterestCategories(Page):
+	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0')
+	content_panels = Page.content_panels + [
+			FieldPanel('category'),
+		]
+	parent_page_types=['MechHomePage']
+	max_count = 4
+
 ######################################################
 
 class FacultyHomePage(Page):
