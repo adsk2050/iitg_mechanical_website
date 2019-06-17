@@ -181,3 +181,9 @@ _____________________________________________________________________
 replaced pagechooser with autocomplete
 
 https://wagtail-autocomplete.readthedocs.io/en/latest/index.html
+
+
+_____________________________________________________________________
+Your content_panels definition is using the wrong panel type for description and image - InlinePanel is only used for child object relations such as your greek_bios. You probably want this instead:
+
+https://stackoverflow.com/questions/48690081/attributeerror-deferredattribute-object-has-no-attribute-rel

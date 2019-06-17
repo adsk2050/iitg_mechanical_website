@@ -47,8 +47,8 @@
                   {% if faculty.specific.get_additional_roles_display == "HoD" %}
                       <h3>Head of Department</h3>
                   {% endif %}
-                    <a href="{% pageurl faculty %}">
-                        <h2>{{ faculty.specific.first_name }} {{ faculty.specific.last_name }}</h2>
+                    <a href="{{ faculty.url }}">
+                        <h2>{{ faculty }}</h2>
                     </a>
                     <ul class="bread-meta">
                         <li><strong>{{ faculty.specific.get_designation_display }}</strong></li><hr>

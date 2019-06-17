@@ -22,37 +22,64 @@
     {% if  page.specific.download_link %}
         <div>External Download link: {{ page.specific.download_link }}</div>
     {% endif %}
-
-<div> Journalournal: {{ page.specific.pub_journal }}</div>
-<div> Volume: {{ page.specific.pub_vol }}</div>
-<div> Issue: {{ page.specific.pub_issue }}</div>
-<div> Start: {{ page.specific.page_start }}</div>
-<div> End: {{ page.specific.page_end }}</div>
-<div> Citations: {{ page.specific.citations }}</div>
-
-    {% if page.faculty.all|length != 0 %}
-    	<h2>Faculty</h2>
-        <ul>
-        {% for faculty in page.faculty.all %}
-            <li>
-                <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-            </li>
-            <li>{{ faculty.faculty.research_statement|richtext }}</li>
-        {% endfor %}
-        </ul>
+    {% if  page.specific.pub_journal %}
+        <div> Journal: {{ page.specific.pub_journal }}</div>
+    {% endif %}
+    {% if  page.specific.pub_vol %}
+        <div> Volume: {{ page.specific.pub_vol }}</div>
+    {% endif %}
+    {% if  page.specific.pub_issue %}
+        <div> Issue: {{ page.specific.pub_issue }}</div>
+    {% endif %}
+    {% if  page.specific.page_start %}
+        <div> Start: {{ page.specific.page_start }}</div>
+    {% endif %}
+    {% if  page.specific.page_end %}
+        <div> End: {{ page.specific.page_end }}</div>
+    {% endif %}
+    {% if  page.specific.citations %}
+        <div> Citations: {{ page.specific.citations }}</div>
     {% endif %}
 
-    {% if page.students.all|length != 0 %}
-        <h2>Students</h2>
-        <ul>
-        {% for student in page.students.all %}
-            <li>
-                <a href="{{ student.student.url }}">{{ student.student }}</a>
-            </li>
-            <li>{{ student.student.research_statement|richtext }}</li>
-        {% endfor %}
-        </ul>
+    {% if page.alt_people_text %}
+        {{ page.alt_people_text }}
+    {% else %}
+        {% if page.faculty.all|length != 0 %}
+        	<h2>Faculty</h2>
+            <ul>
+            {% for faculty in page.faculty.all %}
+                <li>
+                    <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+                </li>
+                <li>{{ faculty.faculty.research_statement|richtext }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% if page.other_authors.all|length != 0 %}
+            <h2>Other Authors</h2>
+            <ul>
+            {% for other_author in page.other_authors.all %}
+                <li>
+                    {{ other_author.name }}
+                </li>
+                <li>{{ other_author.organization }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if page.students.all|length != 0 %}
+            <h2>Students</h2>
+            <ul>
+            {% for student in page.students.all %}
+                <li>
+                    <a href="{{ student.student.url }}">{{ student.student }}</a>
+                </li>
+                <li>{{ student.student.research_statement|richtext }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
+
 
     {% if page.links.all|length != 0 %}
         <h2>Links</h2>

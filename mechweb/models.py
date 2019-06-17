@@ -67,8 +67,9 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 # 			return self.is_staff
 
 class CustomUser(AbstractUser):
-	first_name = models.CharField(_('first name'), max_length=30)
-	last_name = models.CharField(_('last name'), max_length=150)
+	first_name = models.CharField(_('first name'), max_length=50)
+	middle_name = models.CharField(_('middle name'), max_length=50, blank=True)
+	last_name = models.CharField(_('last name'), max_length=50)
 	is_staff = models.BooleanField(
 		_('staff status'),
 		default=True,
@@ -173,7 +174,7 @@ class Aboutiitgmech(Page):
 	vision = models.CharField(blank=True, max_length=500)
 	History = models.CharField(blank=True, max_length=500)
 	About = models.CharField(blank=True, max_length=500)
-	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 
 
 	content_panels = Page.content_panels + [
@@ -308,7 +309,7 @@ class FacultyHomePage(Page):
 	# def list_common_interests(self):
 
 	def serve(self, request):
-		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__last_name')
+		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__middle_name', 'facultypage__last_name')
 
 		all_research_interests = faculty_interests()
 
@@ -316,7 +317,7 @@ class FacultyHomePage(Page):
 		if tag:
 			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
 				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
-		paginator = Paginator(faculty_list, 1) # Show 10 faculty per page
+		paginator = Paginator(faculty_list, 50) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
 		faculty_list = paginator.get_page(page_no)
 
@@ -341,8 +342,9 @@ class FacultyResearchInterestTag(TaggedItemBase):
 
 class FacultyPage(Page):
 	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, on_delete=models.SET_NULL)
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
 	office_contact_number = models.CharField(max_length=20, blank=True)
 	home_contact_number = models.CharField(max_length=20, blank=True)
 	office_address_line_1 = models.CharField(max_length=25, blank=True)
@@ -374,6 +376,7 @@ class FacultyPage(Page):
 		# The user should not be able to change these things from here
 		AutocompletePanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
 		######################################################
@@ -425,7 +428,9 @@ class FacultyPage(Page):
 	])
 
 	def __str__(self):
-		return self.first_name+" "+self.last_name
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
 
 	def get_context(self, request):
 		lab_relation_list = self.faculty_lab.all()
@@ -531,8 +536,9 @@ class AbstractStudentHomePage(Page):
 		abstract = True
 
 class AbstractStudentPage(Page):
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(blank=True)
 	enrolment_year = models.DateField(default=timezone.now)
@@ -553,7 +559,10 @@ class AbstractStudentPage(Page):
 	sae = models.CharField(max_length=2, choices=SAE, default='3')
 
 	#################################################################
-
+	def __str__(self):
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
 
 	def get_roll_value(self):
 		return self.roll_no
@@ -569,7 +578,7 @@ class AbstractStudentPage(Page):
 	subpage_types=[]
 
 	def __str__(self):
-		return self.first_name+" "+self.last_name
+		return self.first_name+""+self.middle_name+" "+self.last_name
 
 	class Meta:
 		abstract = True
@@ -577,7 +586,7 @@ class AbstractStudentPage(Page):
 ######################################################
 class StudentHomePage(AbstractStudentHomePage):
 	def serve(self, request):
-		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__last_name')
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
 
 		# Filter by programme
 		prog = request.GET.get('prog')
@@ -623,6 +632,7 @@ class StudentPage(AbstractStudentPage):
 		# The user should not be able to change these things from here
 		AutocompletePanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
 		FieldPanel('roll_no'),
@@ -761,7 +771,7 @@ class StaffHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		staff_list = self.get_children().live().order_by('-first_published_at', 'staffpage__first_name', 'staffpage__last_name')
+		staff_list = self.get_children().live().order_by('-first_published_at', 'staffpage__first_name', 'staffpage__middle_name', 'staffpage__last_name')
 
 		# Filter by designation
 		desig = request.GET.get('desig')
@@ -773,7 +783,7 @@ class StaffHomePage(Page):
 		if tag:
 			staff_list = staff_list.filter(staffpage__skills__name=tag)
 
-		paginator = Paginator(staff_list, 10) # Show 10 faculty per page
+		paginator = Paginator(staff_list, 50) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
 		staff_list = paginator.get_page(page_no)
 
@@ -803,8 +813,9 @@ class StaffSkillag(TaggedItemBase):
 
 class StaffPage(Page):
 	user = models.OneToOneField(AUTH_USER_MODEL,related_name='staff', null=True, on_delete=models.SET_NULL)
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
 	email_id = models.EmailField()
 
 	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='10')
@@ -823,6 +834,7 @@ class StaffPage(Page):
 		# The user should not be able to change these things from here
 		AutocompletePanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('email_id'),
 	######################################################
@@ -838,6 +850,11 @@ class StaffPage(Page):
 
 	parent_page_types=['StaffHomePage']
 	subpage_types=[]
+
+	def __str__(self):
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
 
 	class Meta:
 		verbose_name = "Staff"
@@ -907,6 +924,7 @@ class AlumnusPage(AbstractStudentPage):
 		# The user should not be able to change these things from here
 		AutocompletePanel('user'),
 		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
 		FieldPanel('last_name'),
 		FieldPanel('programme'),
 		FieldPanel('roll_no'),
@@ -1102,6 +1120,7 @@ class ResearchLabPage(Page):
 	people_panels = [
 		AutocompletePanel('faculty_incharge'),
 		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('postdocs', label="Postdocs"),
 		InlinePanel('students', label="Students"),
 	]
 
@@ -1180,12 +1199,53 @@ class ResearchLabStudents(Orderable):
 		FieldPanel('research_statement'),
 	]
 
+class ResearchLabPostdocs(Orderable):
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='postdocs')
+	postdoc = models.ForeignKey('StaffPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='postdoc_lab')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('postdoc'),
+		FieldPanel('research_statement'),
+	]
 #------------------------------------------
 class PublicationHomePage(Page):
 	# Add featured publications
 	parent_page_types=['ResearchHomePage']
 	subpage_types=['PublicationPage']
 	max_count = 1
+
+	def serve(self, request):
+		pub_list = self.get_children().live().order_by('publicationpage__pub_year', 'publicationpage__pub_type', 'publicationpage__citations')
+
+		# # Filter by programme
+		# prog = request.GET.get('prog')
+		# if prog in ['0','1', '2']:
+		# 	course_list = course_list.filter(coursepage__eligible_programmes=prog)
+
+		# structure = []
+		# sem1 = course_list.filter(coursepage__semester=1)
+		# structure.append(sem1)
+		# sem2 = course_list.filter(coursepage__semester=2)
+		# structure.append(sem2)
+		# sem3 = course_list.filter(coursepage__semester=3)
+		# structure.append(sem3)
+		# sem4 = course_list.filter(coursepage__semester=4)
+		# structure.append(sem4)
+		# sem5 = course_list.filter(coursepage__semester=5)
+		# structure.append(sem5)
+		# sem6 = course_list.filter(coursepage__semester=6)
+		# structure.append(sem6)
+		# sem7 = course_list.filter(coursepage__semester=7)
+		# structure.append(sem7)
+		# sem8 = course_list.filter(coursepage__semester=8)
+		# structure.append(sem8)
+
+		return render(request, self.template, {
+			'page': self,
+			'pub_list': pub_list,
+			# 'prog':prog,
+			# 'structure':structure,
+		})
 
 	class Meta:
 		verbose_name = "Publication Home"
@@ -1198,18 +1258,21 @@ class PublicationPage(Page):
 		on_delete=models.SET_NULL,
 		related_name='+'
 	)
-	name = models.CharField(max_length=100, blank=True)
+	name = models.CharField(max_length=500, blank=True)
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
 	download_link = models.URLField(blank=True, max_length=100)
-	pub_issue = models.CharField(max_length=20,null=True, blank=True)
+	pub_issue = models.CharField(max_length=100,null=True, blank=True)
 	pub_year = models.DateField(default=timezone.now)
-	pub_journal = models.CharField(max_length=100, blank=True)
-	pub_vol = models.CharField(max_length=100, blank=True)
-	page_start = models.CharField(max_length=100, blank=True)
-	page_end = models.CharField(max_length=100, blank=True)
-	citations = models.CharField(max_length=100, blank=True)
-
+	pub_journal = models.CharField(max_length=200, blank=True)
+	pub_vol = models.CharField(max_length=200, blank=True)
+	page_start = models.CharField(max_length=10, blank=True)
+	page_end = models.CharField(max_length=10, blank=True)
+	citations = models.CharField(max_length=10, blank=True)
+	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
+	# pub_conference = 
+	# pub_patent_number = 
+	# pub_
 
 
 	content_panels =  Page.content_panels + [
@@ -1230,9 +1293,11 @@ class PublicationPage(Page):
 	]
 
 	people_panels = [
+
 		InlinePanel('faculty', label="Faculty"),
-		InlinePanel('students', label="Students"),
 		InlinePanel('other_authors', label="Other Authors"),
+		InlinePanel('students', label="Students"),
+		FieldPanel('alt_people_text'),
 	]
 
 	edit_handler = TabbedInterface([
@@ -1549,7 +1614,7 @@ class AwardHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		award_list = FacultyAward.objects.all()
+		award_list = Award.objects.all()
 
 		# Filter by research area
 		award_type = request.GET.get('award_type')

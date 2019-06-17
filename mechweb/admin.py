@@ -13,7 +13,6 @@ from .constants import USER_TYPES
 # class UserAdmin(BaseUserAdmin):
 # 	inlines = [CustomUserInline]
 # -------------------------------------------------
-
 admin.site.register(CustomUser, UserAdmin)
 
 # app/admin.py
@@ -28,7 +27,7 @@ class CustomUserResource(resources.ModelResource):
         skip_unchanged = True
         report_skipped = False
         import_id_fields = ('username',)
-        fields = ('username', 'first_name', 'last_name', 'email', 'user_type', 'uid')
+        fields = ('username', 'first_name', 'middle_name', 'last_name', 'email', 'user_type', 'uid')
         export_order = ('username', 'first_name', 'last_name', 'email', 'user_type', 'uid')
 
     def dehydrate_user_type(self, user):

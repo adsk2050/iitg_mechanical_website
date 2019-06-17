@@ -151,18 +151,34 @@
   {% endif %}
 </div>
 
+postdoc
+
+<div class="container">
+  {% if page.postdocs.all|length != 0 %}
+      <h2>Postdocs</h2>
+      <ul>
+      {% for postdoc in page.postdocs.all %}
+          <li>
+              <a href="{{ postdoc.postdoc.url }}">{{ postdoc.postdoc }}</a>
+          </li>
+          <li>{{ postdoc.research_statement|richtext }}</li>
+      {% endfor %}
+      </ul>
+  {% endif %}
+</div>
 
 
-            {% if page.links.all|length != 0 %}
-                <h2>Links to refer</h2>
-                <ul>
-                {% for refer_link in page.links.all %}
-                    <li>
-                        <a href="{{ refer_link.link }}">{{ refer_link.link }}</a>
-                    </li>
-                {% endfor %}
-                </ul>
-            {% endif %}
+
+{% if page.links.all|length != 0 %}
+    <h2>Links to refer</h2>
+    <ul>
+    {% for refer_link in page.links.all %}
+        <li>
+            <a href="{{ refer_link.link }}">{{ refer_link.link }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
 
 
 

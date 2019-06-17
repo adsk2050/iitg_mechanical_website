@@ -201,14 +201,14 @@ AUTH_USER_MODEL = 'mechweb.CustomUser'
 
 WAGTAIL_USER_EDIT_FORM = 'mechweb.forms.CustomUserEditForm'
 WAGTAIL_USER_CREATION_FORM = 'mechweb.forms.CustomUserCreationForm'
-WAGTAIL_USER_CUSTOM_FIELDS = ['user_type', 'is_staff', 'uid']
+WAGTAIL_USER_CUSTOM_FIELDS = ['middle_name', 'user_type', 'uid']
 
 # WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'
 # WAGTAILDOCS_DOCUMENT_MODEL = 'mechweb.CustomDocument'
 
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email', 'user_type']
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'middle_name', 'last_name', 'email', 'user_type']
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = '324f5b70-da2a-4342-a8fb-ed16f5c72f2c'
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = 'm7=3bPSgnX@[XXx/XstUKeE0mzdwAGk7'
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'

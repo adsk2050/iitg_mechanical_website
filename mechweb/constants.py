@@ -53,7 +53,6 @@ STAFF_DESIGNATION = (
 	('8', 'Asst. Workshop Superintendent'),
 	('9', 'PostDoc'),
 	('10', 'Others'),
-
 )
 
 PROJECT_TYPES=(
@@ -62,12 +61,12 @@ PROJECT_TYPES=(
 )
 
 PUBLICATION_TYPES = (
-	('0', 'Poster'),
-	('1', 'Conference Publication'),
-	('2', 'Journal Publication'),
-	('3', 'Patent'),
-	('4', 'Books'),
-	('5', 'Book Chapters'),
+	('0','Journal Publication'),
+	('1','Conference Publication'),
+	('2','Patent'),
+	('3','Books'),
+	('4','Book Chapters'),
+	('5','Poster'),
 )
 
 LAB_TYPES = (
