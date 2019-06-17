@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin# as BaseUserAdmin
-from .models import CustomUser
+from .models import CustomUser, StudentPage, StudentHomePage
 from import_export import resources
 from .constants import USER_TYPES
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin, modeladmin_register)
 
 # If you use this then comment the code in forms 
 # -------------------------------------------------
@@ -14,6 +16,17 @@ from .constants import USER_TYPES
 # 	inlines = [CustomUserInline]
 # -------------------------------------------------
 admin.site.register(CustomUser, UserAdmin)
+
+# class StudentPageInline(admin.StackedInline):
+#     model = StudentPage
+
+# class StudentPageAdmin(ModelAdmin):
+#     model = StudentPage
+#     inlines=[
+#         StudentPageInline,
+#     ]
+# modeladmin_register(StudentPageAdmin)
+
 
 # app/admin.py
 

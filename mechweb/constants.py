@@ -74,7 +74,7 @@ LAB_TYPES = (
 	('1', 'PG Lab'),
 )
 
-LAB_RESEARCH_AREAS = (
+INTEREST_CATEGORIES = (
 	('0', 'Other'),
 	('1', 'Machine Design Engineering'),
 	('2', 'Manufacturing Engineering'),

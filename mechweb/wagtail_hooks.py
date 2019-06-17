@@ -198,8 +198,20 @@ def add_another_welcome_panel(request, panels):
     panels.append(WelcomePanel())
 
 
-
-
+# @hooks.register('construct_explorer_page_queryset')
+# def show_my_profile_only(parent_page, pages, request):
+#     # If we're in the 'user-profiles' section, only show the user's own profile
+#     if parent_page.slug=='faculty' and request.user.user_type=='0':
+#         pages = pages.filter(owner=request.user)
+#     elif parent_page.slug=='student' and request.user.user_type=='1':
+#     	pages = pages.filter(owner=request.user)
+#     elif parent_page.slug=='staff' and request.user.user_type=='3':
+#     	pages = pages.filter(owner=request.user)
+#     elif parent_page.slug=='alumni' and request.user.user_type=='2':
+#     	pages = pages.filter(owner=request.user)
+#     else:
+#     	pass
+#     return pages
 
 # from mechweb.models import CustomUser, FacultyHomePage, FacultyPage, StudentHomePage, StudentPage, AlumniHomePage, AlumnusPage, StaffHomePage, StaffPage
 
