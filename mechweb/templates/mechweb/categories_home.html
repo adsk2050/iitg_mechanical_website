@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-aboutiitgmech-page{% endblock %}
+
+{% block content %}
+{{ page.title }}
+{{ page.intro|richtext }}
+<ul>
+	{% for cat in page.get_children %}
+		<li><a href="{{ cat.url }}">{{ cat.specific.get_category_display }}</a></li>
+	{% endfor %}
+</ul>
+
+	
+
+
+{% endblock %}

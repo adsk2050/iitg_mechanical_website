@@ -197,6 +197,9 @@ class WelcomePanel:
 def add_another_welcome_panel(request, panels):
     panels.append(WelcomePanel())
 
+# @hooks.register()
+
+
 
 # @hooks.register('construct_explorer_page_queryset')
 # def show_my_profile_only(parent_page, pages, request):

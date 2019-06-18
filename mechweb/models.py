@@ -46,6 +46,7 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 # from social_django.strategy import DjangoStrategy
 
 ######################################################
+
 ######################################################
 
 # when makemigrations are happening this does not show as change in the db
@@ -112,7 +113,7 @@ class MechHomePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech', 'InterestCategories']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech', 'CategoriesHome']
 
 	max_count = 1
 
@@ -125,7 +126,10 @@ class MechHomePage(Page):
 		except:
 			hod_image_url = "{% static 'images/hod.jpg' %}"
 
+		categories = get_categories
+
 		context['navlist'] = navlist
+		context['categories'] = categories
 		context['hod_image_url'] = hod_image_url
 		return context
 
@@ -292,14 +296,34 @@ class EventPageLink(Orderable):
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
-class InterestCategories(Page):
-	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0')
+class CategoriesHome(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	content_panels = Page.content_panels + [
-			FieldPanel('category'),
+			FieldPanel('intro'),
 		]
 	parent_page_types=['MechHomePage']
+	subpage_types=['Categories']
+	max_count = 1
+
+class Categories(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0', unique=True)
+	content_panels = Page.content_panels + [
+			FieldPanel('intro'),
+			FieldPanel('category'),
+		]
+	parent_page_types=['CategoriesHome']
 	max_count = 4
 
+	def serve(self, request):
+		faculty_list = self.faculty.all()
+		return render(request, self.template, {
+			'page': self,
+			'faculty_list': faculty_list,
+		})
+
+def get_categories():
+	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
 ######################################################
 
 class FacultyHomePage(Page):
@@ -321,7 +345,12 @@ class FacultyHomePage(Page):
 		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__middle_name', 'facultypage__last_name')
 
 		all_research_interests = faculty_interests()
-
+		all_categories = get_categories()
+		cat = request.GET.get('cat')
+		cat_name = ''
+		if cat:
+			cat_name = INTEREST_CATEGORIES[int(cat)][1]
+			faculty_list = faculty_list.filter(facultypage__fac_research_categories=cat)
 		tag = request.GET.get('tag')
 		if tag:
 			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
@@ -334,6 +363,9 @@ class FacultyHomePage(Page):
 			'page': self,
 			'faculty_list': faculty_list,
 			'all_research_interests': all_research_interests,
+			'all_categories': all_categories,
+			'cat':cat,
+			'cat_name':cat_name,
 			'tag':tag,
 			'page_no':page_no,
 		})
@@ -363,7 +395,7 @@ class FacultyPage(Page):
 	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
-	fac_research_categories = models.ManyToManyField('mechweb.c', blank=True,)
+	fac_research_categories = models.ManyToManyField('mechweb.Categories', blank=True, related_name='faculty')
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
@@ -1036,6 +1068,10 @@ def alumni_interests():
 
 # # How to make this function, student_interests() and faculty_interests() into one?
 ######################################################
+def get_categories():
+	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
+######################################################
+
 class ResearchHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[5])
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -1236,7 +1272,7 @@ class PublicationHomePage(Page):
 		# elif year is 0:
 		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
 
-		paginator = Paginator(pub_list, 50)
+		paginator = Paginator(pub_list, 50) 
 		page_no = request.GET.get('page_no')
 		pub_list = paginator.get_page(page_no)
 
@@ -1658,3 +1694,18 @@ class Award(Orderable):
 
 	class Meta:
 		ordering = ['-award_time']
+
+
+
+# def set_date(year):
+# 	return enrolment_year = datetime.strptime('Jan 1 '+year+' 12:00PM', '%b %d %Y %I:%M%p')
+
+# Not working in sending year list to publication 
+# raises error:
+# local variable 'year_list' referenced before assignment django
+# def year_list():
+# 	year_list = []
+# 	year = timezone.now().year
+# 	for i in  range(1996, year):
+# 		year_list.append(i)
+# 	return year_list

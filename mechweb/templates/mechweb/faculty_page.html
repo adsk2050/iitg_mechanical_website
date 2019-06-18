@@ -80,6 +80,15 @@
              </li>
          {% endif %}
 
+         {% if page.specific.research_interests %}
+             <li>
+                 <h4>Research Interests :</h4>
+                 <p>{% for tag in page.specific.research_interests.all %} <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}</p>
+             </li>
+         {% endif %}
+
+         
+
           <hr>
 
           <div class="w3-container">
