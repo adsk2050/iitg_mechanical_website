@@ -19,7 +19,7 @@
 
 
 from wagtail.core.models import Page, Site
-from mechweb.models  import MechHomePage, EventHomePage, FacultyHomePage, StudentHomePage, StaffHomePage, AlumniHomePage, ResearchHomePage, ResearchLabHomePage, PublicationHomePage, ProjectHomePage, AwardHomePage, CourseStructure
+from mechweb.models  import MechHomePage, EventHomePage, FacultyHomePage, StudentHomePage, StaffHomePage, AlumniHomePage, ResearchHomePage, ResearchLabHomePage, PublicationHomePage, ProjectHomePage, AwardHomePage, CourseStructure, Categories, CategoriesHome
 
 # root = Page.objects.all()[0] # Need to verify if Root is always first object or not... dumb of course it will
 pages = Page.objects.all()[1:]
@@ -48,6 +48,47 @@ home_site = Site(
 	is_default_site=True,
 )
 home_site.save()
+
+if CategoriesHome.objects.all().count()>0:
+	for interestcategoryhomepage in CategoriesHome.objects.all():
+		interestcategoryhomepage.delete()
+if Categories.objects.all().count()>0:
+	for interestcategory in Categories.objects.all():
+		interestcategory.delete()
+interestcateogryhome = CategoriesHome(
+	title='Research Interest Categories',
+	slug='research_interest_divisions',	
+)
+home.add_child(instance=interestcateogryhome)
+home.save()
+interestcateogry0=Categories(
+	title='Other',
+	slug='others',
+	category='0'
+)
+interestcateogryhome.add_child(instance=interestcateogry0)
+interestcateogryhome.save()
+interestcateogry1=Categories(
+	title='Machine Design Engineering',
+	slug='machine_design',
+	category='1'
+)
+interestcateogryhome.add_child(instance=interestcateogry1)
+interestcateogryhome.save()
+interestcateogry2=Categories(
+	title='Manufacturing Engineering',
+	slug='manufacturing',
+	category='2'
+)
+interestcateogryhome.add_child(instance=interestcateogry2)
+interestcateogryhome.save()
+interestcateogry3=Categories(
+	title='Thermal and Fluid Engineering',
+	slug='thermal_and_fluid',
+	category='3'
+)
+interestcateogryhome.add_child(instance=interestcateogry3)
+interestcateogryhome.save()
 
 # main pages after homepage:
 faculty_home_page = FacultyHomePage(
