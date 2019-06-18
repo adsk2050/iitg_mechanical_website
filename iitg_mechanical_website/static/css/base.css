@@ -58,7 +58,7 @@ body,html {
 }
 
 *{
-  box-sizing:border-box;
+  /* box-sizing:border-box; */
   margin:0;
   padding:0;
   list-style:none;
@@ -108,10 +108,9 @@ footer div p{
 }
 
 
-a.btn {
+/* a.btn {
   background-color: #738A8D;
   color: white;
-  /* background-color: linear-gradient(190deg, rgba(0,4,8,1) 0%,#4F5345 100%); */
   display: inline-block;
   font-family: 'Bitter', sans-serif;
   font-size: 16px;
@@ -119,7 +118,7 @@ a.btn {
   letter-spacing: 0.15em;
   padding: 15px 20px;
   text-transform: uppercase;
-}
+} */
 
 a:active{
   outline: none;
@@ -174,6 +173,7 @@ nav{
   color: #0E0A11;
   line-height:1.45;
   font-family: 'Bitter', serif;
+  display: block;
 }
 
 .mechbrand.mechbrandscroll{
@@ -607,10 +607,12 @@ header{
 }
 
 /* staff list css */
-
-.bread-list{
-  padding: 0 100px;
+.bread-list .flex-container{
+  display: flex;
+  justify-content: center;
 }
+
+
 .bread-list-item {
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 4px;
@@ -724,7 +726,7 @@ header{
   vertical-align: middle;
 }
 
-.btn {
+/* .btn {
   color: #ffffff;
   padding: 0.8rem;
   font-size: 14px;
@@ -738,7 +740,7 @@ header{
   /* background: transparent; */
   height: auto;
   margin: 10px;
-}
+} */
 
 .layoutcard .btn {
   color: #ffffff;
@@ -1028,6 +1030,27 @@ h2{
 
 /*  award css*/
 
+.awardscont .awardstab{
+  height: 100px;
+}
+
+.awardstab .nav-link{
+background-color: #fff !important;
+color: #4F5345;
+border-radius: 5px;
+height: auto;
+font-weight: bolder;
+font-size: 1.5rem;
+}
+
+.awardstab .nav-link:active{
+background-color: #4F5345 !important;
+color: #fff;
+}
+
+.awardtabcontent thead{
+  background-color: #4F
+}
 
 ----------------------------------------
 

@@ -25,55 +25,57 @@
     <!-- Faculty List -->
     <div class="bread-list">
       {% for faculty in faculty_list %}
-      <div class="row">
-        <div class="col-2 ">
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-8 bread-list-item">
-            <div class="row">
-                <div class="col-xs-4 col-sm-4 image">
-                  <a href="{% pageurl faculty %}">
+      <div class="flex-container">
+        <div class="row">
 
-                    {% if faculty.specific.photo %}{}
-                    {% image faculty.specific.photo fill-180x250-c-100 %}
-                    <img src="{{ image.url }}" width="{{ image.width }}"
-                            height="{{ image.height }}" alt="{{ image.alt }}" class="" />
-                        {% else %}
-                        <img src="{% static "images/placeholder.jpg" %}" width="180"
-                                height="180" alt="{{ image.alt }}" class="" />
+          <div class="col-xs-12 col-sm-12 col-md-8 bread-list-item">
+              <div class="row">
+                  <div class="col-sm-4 image">
+                    <a href="{% pageurl faculty %}">
+
+                      {% if faculty.specific.photo %}{}
+                      {% image faculty.specific.photo fill-180x250-c-100 %}
+                      <img src="{{ image.url }}" width="{{ image.width }}"
+                              height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                          {% else %}
+                          <img src="{% static "images/placeholder.jpg" %}" width="180"
+                                  height="180" alt="{{ image.alt }}" class="" />
+                      {% endif %}
+                      </a>
+                  </div>
+                  <div class="col-sm-7">
+                    {% if faculty.specific.get_additional_roles_display == "HoD" %}
+                        <h3>Head of Department</h3>
                     {% endif %}
-                    </a>
-                </div>
-                <div class="col-xs-6 col-sm-7">
-                  {% if faculty.specific.get_additional_roles_display == "HoD" %}
-                      <h3>Head of Department</h3>
-                  {% endif %}
-                    <a href="{{ faculty.url }}">
-                        <h2>{{ faculty }}</h2>
-                    </a>
-                    <ul class="bread-meta">
-                        <li><strong>{{ faculty.specific.get_designation_display }}</strong></li><hr>
-                    {% if faculty.specific.office_address_line_1 %}
-                        <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
-                    {% endif %}
-                    {% if faculty.specific.office_contact_number %}
-                        <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
-                    {% endif %}
-                    {% if faculty.specific.email_id %}
-                        <li><span>Email</span> {{ faculty.specific.email_id }}</li>
-                    {% endif %}
-                    {% if faculty.specific.website %}
-                        <li><span>Webpage</span> <a href="{{ faculty.specific.website}}">{{ faculty.specific.name }}</a></li>
-                    {% endif %}
-                    {% if faculty.specific.joining_date %}
-                        <li><span>Joined the institute</span> {{ faculty.specific.joining_date}}</li>
-                    {% endif %}
+                      <a href="{{ faculty.url }}">
+                          <h2>{{ faculty }}</h2>
+                      </a>
+                      <ul class="bread-meta">
+                          <li><strong>{{ faculty.specific.get_designation_display }}</strong></li><hr>
+                      {% if faculty.specific.office_address_line_1 %}
+                          <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
+                      {% endif %}
+                      {% if faculty.specific.office_contact_number %}
+                          <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
+                      {% endif %}
+                      {% if faculty.specific.email_id %}
+                          <li><span>Email</span> {{ faculty.specific.email_id }}</li>
+                      {% endif %}
+                      {% if faculty.specific.website %}
+                          <li><span>Webpage</span> <a href="{{ faculty.specific.website}}">{{ faculty.specific.name }}</a></li>
+                      {% endif %}
+                      {% if faculty.specific.joining_date %}
+                          <li><span>Joined the institute</span> {{ faculty.specific.joining_date}}</li>
+                      {% endif %}
 
 
-                    </ul>
-                </div>
-            </div>
+                      </ul>
+                  </div>
+              </div>
+          </div>
         </div>
       </div>
+
 
       {% endfor %}
     </div>

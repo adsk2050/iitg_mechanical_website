@@ -17,9 +17,12 @@
 
 {% block content %}
 <!-- navbar and carousal code start -->
+
+
+
+
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container-fluid">
-      <div class="col-xs-12 col-sm-4 col-md-1" >
 
           <a class="navbar-brand" href="http://127.0.0.1:8000">
           <img height="85px" width="85px"
@@ -27,10 +30,9 @@
           <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-      </div>
 
 
-      <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs" style="font-family:'Bitter', serif;">
+      <div class="col-sm-3" style="font-family:'Bitter', serif;">
         <div class="row">
           <h4 class="mechbrand">Department of</h4><br>
           <h3 class="mechbrand" >Mechanical Engineering</h3>
@@ -154,7 +156,7 @@
 
 <div class="container-fluid newscontainer">
   <div class="row padding">
-     <div class="col-sm-12 col-xs-12 col-md-4 promo">
+     <div class="col-md-4 promo">
             <figure><img height="100px" width="100px"
                 src="{% static "images/img2.jpg" %}"></figure>
             <div class="promo-text">
@@ -175,7 +177,7 @@
 
 
 
-    <div class="col-sm-12 col-xs-12 col-md-7 newsbox">
+    <div class="col-md-7 newsbox">
         <div class="tab">
          <button class="tablinks text-center" onclick="openCity(event, 'News')">News</button>
          <button class="tablinks text-center" onclick="openCity(event, 'Announcements')">Announcements</button>
@@ -228,7 +230,7 @@
     </div>
     <div class="row">
       <!-- <div class="testimonial-slider"> -->
-      <div class=" col-xs-12 col-sm-12 col-md-4">
+      <div class="col-md-4">
         <div class="single-service">
           <div class="service-bg service-bg-1">
             <h2>Thermal And Fluids Engineering</h2>
@@ -244,7 +246,7 @@
         </div>
       </div>
 
-      <div class=" col-xs-12 col-sm-12 col-md-4">
+      <div class="col-md-4">
         <div class="single-service">
           <div class="service-bg service-bg-1">
             <h2>Thermal And Fluids Engineering</h2>
@@ -260,7 +262,7 @@
         </div>
       </div>
 
-      <div class=" col-xs-12 col-sm-12 col-md-4">
+      <div class="col-md-4">
         <div class="single-service">
           <div class="service-bg service-bg-1">
             <h2>Thermal And Fluids Engineering</h2>
@@ -283,17 +285,17 @@
  <!-- hod message and donate card -->
  <div class="container-fluid padding messagebox">
    <div class="row  text-center">
-     <div class="col-xs-12 col-sm-12 col-md-4 picbox">
+     <div class="col-md-4 picbox">
          <img height="300px" width="300px"
              src="{% static "images/img1.jpg" %}">
      </div>
-     <div class="col-xs-12 col-sm-12 col-md-4 hodmsg">
+     <div class="col-md-4 hodmsg">
          <h3 class="text-center" >FROM HOD's DESK</h3><br>
          <p>{{ page.HOD_message|richtext }}</p><br>
           <strong>Santosha K Dwivedy</strong><br>
           <strong>HOD,Mechanical Department</strong>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 donatecard">
+    <div class="col-md-4 donatecard">
          <div class="cardbox">
              <div class="card" style="width: 300px; height: 300px; background-color:#000000;">
 
@@ -312,11 +314,11 @@
                         {% for child in navlist %}
                          {% with page_type=child.content_type.name %}
                           {% if page_type == 'aboutiitgmech' %}
-                          <a href="{{ child.url }}" class="card-link" style="color: #fff;">Contribute</a></button>
+                          <a href="{{ child.url }}" class="card-link" style="color: #fff;">Contributxxxxxxxxxxxxxxxxxxxxxxxxxxxe</a>
                           {% endif %}
                          {% endwith %}
                         {% endfor %}
-
+                        </button>
 
                     </div>
                   </div>

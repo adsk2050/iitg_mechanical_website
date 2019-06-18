@@ -363,7 +363,7 @@ class FacultyPage(Page):
 	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
-	fac_research_categories = models.ManyToManyField('mechweb.InterestCategories', blank=True,)
+	fac_research_categories = models.ManyToManyField('mechweb.c', blank=True,)
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')

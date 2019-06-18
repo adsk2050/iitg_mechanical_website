@@ -11,256 +11,79 @@
 
 {% block content %}
 
-<!-- work on giving the page ability to sort using date, topic, faculty, etc -->
-
-    <h1>{{ page.title }}</h1><hr>
-    <!-- Intro -->
-
-    <h3>Posters Published:</h3><br>
-    <ul>
-      {% for publication in pub_list %}
-        {% if publication.pub_type == '0' %}
-        <li>
-  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
-  	    	<h3>Team</h3>
-  	    	<ul>
-  		    	{% for faculty in publication.faculty.all %}
-  			        <li>
-  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-  			        </li>
-  		    	{% endfor %}
-  		    	{% for student in publication.students.all %}
-  			        <li>
-  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
-  			        </li>
-  		    	{% endfor %}
-  	    	</ul>
-  	    </li>
-        {% endif %}
-  	    {% endfor %}
-
-    </ul>
-
-    <h3>Conference Publication:</h3><br>
-    <ul>
-      {% for publication in pub_list %}
-        {% if publication.pub_type == '1' %}
-        <li>
-  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
-  	    	<h3>Team</h3>
-  	    	<ul>
-  		    	{% for faculty in publication.faculty.all %}
-  			        <li>
-  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-  			        </li>
-  		    	{% endfor %}
-  		    	{% for student in publication.students.all %}
-  			        <li>
-  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
-  			        </li>
-  		    	{% endfor %}
-  	    	</ul>
-  	    </li>
-        {% endif %}
-  	    {% endfor %}
-
-    </ul>
+{% for publication in pub_list %}
+{% with publication=publication.specific %}
+{{ publication.pub_year|date:"Y" }}<br>
+{{ publication.specific.pub_type }}
+{% endwith %}
+{% endfor %}
 
 
+{% for year in year_list %}
+{{ year }}
+{% endfor %}
 
-    <h3>Journal Publications:</h3><br>
-    <ul>
-      {% for publication in pub_list %}
-        {% if publication.pub_type == '2' %}
-        <li>
-  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
-  	    	<h3>Team</h3>
-  	    	<ul>
-  		    	{% for faculty in publication.faculty.all %}
-  			        <li>
-  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-  			        </li>
-  		    	{% endfor %}
-  		    	{% for student in publication.students.all %}
-  			        <li>
-  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
-  			        </li>
-  		    	{% endfor %}
-  	    	</ul>
-  	    </li>
-        {% endif %}
-  	    {% endfor %}
-
-    </ul>
-
-
-
-    <h3>Patents:</h3><br>
-    <ul>
-      {% for publication in pub_list %}
-        {% if publication.pub_type == '3' %}
-        <li>
-  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
-  	    	<h3>Team</h3>
-  	    	<ul>
-  		    	{% for faculty in publication.faculty.all %}
-  			        <li>
-  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-  			        </li>
-  		    	{% endfor %}
-  		    	{% for student in publication.students.all %}
-  			        <li>
-  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
-  			        </li>
-  		    	{% endfor %}
-  	    	</ul>
-  	    </li>
-        {% endif %}
-  	    {% endfor %}
-
-    </ul>
-
-
-
-
-    <h3>Book Chapters:</h3><br>
-    <ul>
-      {% for publication in pub_list %}
-        {% if publication.pub_type == '5' %}
-        <li>
-  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
-  	    	<h3>Team</h3>
-  	    	<ul>
-  		    	{% for faculty in publication.faculty.all %}
-  			        <li>
-  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-  			        </li>
-  		    	{% endfor %}
-  		    	{% for student in publication.students.all %}
-  			        <li>
-  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
-  			        </li>
-  		    	{% endfor %}
-  	    	</ul>
-  	    </li>
-        {% endif %}
-  	    {% endfor %}
-
-    </ul>
-
-
-
-
-    <h3>Books:</h3><br>
-    <ul>
-      {% for publication in pub_list %}
-        {% if publication.pub_type == '4' %}
-        <li>
-  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
-  	    	<h3>Team</h3>
-  	    	<ul>
-  		    	{% for faculty in publication.faculty.all %}
-  			        <li>
-  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-  			        </li>
-  		    	{% endfor %}
-  		    	{% for student in publication.students.all %}
-  			        <li>
-  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
-  			        </li>
-  		    	{% endfor %}
-  	    	</ul>
-  	    </li>
-        {% endif %}
-  	    {% endfor %}
-
-    </ul>
-
-
-
-
-    <div class="container-fluid">
+    <div class="container-fluid pubcont">
       <h1 class="text-center">{{ page.title }}</h1>
       <!-- Intro -->
       <div class="intro">{{ page.intro|richtext }}</div>
       <hr>
 
-      <ul class="nav nav-tabs">
-                <li class="active">
-                  <a class="btn btn-lg btn-block" href="#poster"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+      <ul class="nav nav-tabs nav-justified pubtabs">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#poster"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Published posters</span></a>
                 </li>
 
-                <li>
-                  <a class="btn btn-lg btn-block" href="#conference" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                <li class="nav-item">
+                  <a class="nav-link" href="#conference" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Conference Publications</span></a>
                 </li>
 
-                <li>
-                  <a class="btn btn-lg btn-block" href="#journal"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                <li class="nav-item">
+                  <a class="nav-link" href="#journal"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Journal Publications</span></a>
                 </li>
 
-                <li>
-                  <a class="btn btn-lg btn-block" href="#patent"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                <li class="nav-item">
+                  <a class="nav-link" href="#patent"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Patent</span></a>
                 </li>
 
-                <li>
-                  <a class="btn btn-lg btn-block" href="#books"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                <li class="nav-item">
+                  <a class="nav-link" href="#books"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Books</span></a>
                 </li>
 
-                <li>
-                  <a class="btn btn-lg btn-block" href="#chaps"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                <li class="nav-item">
+                  <a class="nav-link" href="#chaps"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                   <span class="hidden-xs">Book Chapters</span></a>
                 </li>
 
       </ul>
 
-      <hr>
-      <hr>
-      <hr>
 
-          <div class="tab-content">
-            <div id="poster" class="tab-pane fade in active">
+  <br><br><br><br>
+
+          <div class="tab-content pubtabcontent ">
+            <div id="poster" class="tab-pane fade active">
               <div class="container-fluid">
-                <ul class="nav nav-tabs">
-                          <li class="active">
-                            <a class="btn btn-lg btn-block" href="#eight"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                            <span class="hidden-xs">2018</span></a>
-                          </li>
+                <ul class="nav nav-tabs nav-justified ">
 
-                          <li>
-                            <a class="btn btn-lg btn-block" href="#seven" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                            <span class="hidden-xs">2017</span></a>
-                          </li>
-
-                          <li>
-                            <a class="btn btn-lg btn-block" href="#six"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                            <span class="hidden-xs">2016</span></a>
-                          </li>
-
-                          <li>
-                            <a class="btn btn-lg btn-block" href="#five"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                            <span class="hidden-xs">2015</span></a>
-                          </li>
-
-                          <li>
-                            <a class="btn btn-lg btn-block" href="#four"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                            <span class="hidden-xs">2014</span></a>
-                          </li>
-
-                          <li>
-                            <a class="btn btn-lg btn-block" href="#three"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                            <span class="hidden-xs">2013 and older</span></a>
-                          </li>
+                     {% for year in year_list %}
+                     <li class="nav-item">
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abcd{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <span class="hidden-xs">{{ year }}</span></a>
+                     </li>
+                      {% endfor %}
 
                 </ul>
 
                   <div class="tab-content">
 
-                    <div id="eight" class="tab-pane fade in active">
+                      {% for year in year_list %}
+
+                    <div id="abcd{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
                       <table class="table table-hover">
                           <thead>
                             <tr>
@@ -275,9 +98,10 @@
                           </thead>
                           <tbody>
 
-                            {% for publication in page.get_children.specific %}
-                            {% if publication.pub_type == '0'%}
-                            {% if publication.pub_year|date:"Y" == '2018' %}
+                            {% for publication in pub_list %}
+                            {% with publication=publication.specific %}
+                            {% if publication.pub_type == '5'%}
+                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
                           <tr>
                               <td>{{ publication.Authors }}</td>
                               <td>{{ publication.name }}</td>
@@ -288,15 +112,15 @@
                           </tr>
                             {% endif %}
                             {% endif %}
+                            {% endwith %}
                             {% endfor %}
 
                           <tbody>
                         </table>
                     </div>
+                    {% endfor %}
 
-                    <div id="seven" class="tab-pane fade">
-                      <h1>hyryrjikdnlkd</h1>
-                    </div>
+
 
                   </div>
               </div>
@@ -304,39 +128,314 @@
 
 
             <div id="conference"class="tab-pane fade">
+              <div class="container-fluid">
+                <ul class="nav nav-tabs nav-justified">
 
+                     {% for year in year_list %}
+                     <li class="nav-item">
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abce{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <span class="hidden-xs">{{ year }}</span></a>
+                     </li>
+                      {% endfor %}
+
+                </ul>
+
+                  <div class="tab-content">
+
+                      {% for year in year_list %}
+
+                    <div id="abce{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
+                      <table class="table table-hover">
+                          <thead>
+                            <tr>
+
+                                <th>Authors</th>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                                <th>Volume(Issue)</th>
+                                <th>Pages</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for publication in pub_list %}
+                            {% with publication=publication.specific %}
+                            {% if publication.pub_type == '1'%}
+                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                          <tr>
+                              <td>{{ publication.Authors }}</td>
+                              <td>{{ publication.name }}</td>
+                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_journal }}</td>
+                              <td>{{ publication.vol_issue }}</td>
+                              <td>{{ publication.pages }}</td>
+                          </tr>
+                            {% endif %}
+                            {% endif %}
+                            {% endwith %}
+                            {% endfor %}
+
+                          <tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
+
+
+
+                  </div>
+              </div>
             </div>
 
             <div id="journal" class="tab-pane fade">
+              <div class="container-fluid">
+                <ul class="nav nav-tabs nav-justified">
 
+                     {% for year in year_list %}
+                     <li class="nav-item">
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abcf{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <span class="hidden-xs">{{ year }}</span></a>
+                     </li>
+                      {% endfor %}
+
+                </ul>
+
+                  <div class="tab-content">
+
+                      {% for year in year_list %}
+
+                    <div id="abcf{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
+                      <table class="table table-hover">
+                          <thead>
+                            <tr>
+
+                                <th>Authors</th>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                                <th>Volume(Issue)</th>
+                                <th>Pages</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for publication in pub_list %}
+                            {% with publication=publication.specific %}
+                            {% if publication.pub_type == '0'%}
+                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                          <tr>
+                              <td>{{ publication.Authors }}</td>
+                              <td>{{ publication.name }}</td>
+                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_journal }}</td>
+                              <td>{{ publication.vol_issue }}</td>
+                              <td>{{ publication.pages }}</td>
+                          </tr>
+                            {% endif %}
+                            {% endif %}
+                            {% endwith %}
+                            {% endfor %}
+
+                          <tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
+
+
+
+                  </div>
+              </div>
             </div>
 
             <div id="patent" class="tab-pane fade">
+              <div class="container-fluid">
+                <ul class="nav nav-tabs nav-justified">
 
+                     {% for year in year_list %}
+                     <li class="nav-item">
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abcg{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <span class="hidden-xs">{{ year }}</span></a>
+                     </li>
+                      {% endfor %}
+
+                </ul>
+
+                  <div class="tab-content">
+
+                      {% for year in year_list %}
+
+                    <div id="abcg{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
+                      <table class="table table-hover">
+                          <thead>
+                            <tr>
+
+                                <th>Authors</th>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                                <th>Volume(Issue)</th>
+                                <th>Pages</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for publication in pub_list %}
+                            {% with publication=publication.specific %}
+                            {% if publication.pub_type == '2'%}
+                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                          <tr>
+                              <td>{{ publication.Authors }}</td>
+                              <td>{{ publication.name }}</td>
+                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_journal }}</td>
+                              <td>{{ publication.vol_issue }}</td>
+                              <td>{{ publication.pages }}</td>
+                          </tr>
+                            {% endif %}
+                            {% endif %}
+                            {% endwith %}
+                            {% endfor %}
+
+                          <tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
+
+
+
+                  </div>
+              </div>
             </div>
 
             <div id="books" class="tab-pane fade">
+              <div class="container-fluid">
+                <ul class="nav nav-tabs nav-justified">
 
+                     {% for year in year_list %}
+                     <li class="nav-item">
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abch{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <span class="hidden-xs">{{ year }}</span></a>
+                     </li>
+                      {% endfor %}
+
+                </ul>
+
+                  <div class="tab-content">
+
+                      {% for year in year_list %}
+
+                    <div id="abch{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
+                      <table class="table table-hover">
+                          <thead>
+                            <tr>
+
+                                <th>Authors</th>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                                <th>Volume(Issue)</th>
+                                <th>Pages</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for publication in pub_list %}
+                            {% with publication=publication.specific %}
+                            {% if publication.pub_type == '3'%}
+                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                          <tr>
+                              <td>{{ publication.Authors }}</td>
+                              <td>{{ publication.name }}</td>
+                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_journal }}</td>
+                              <td>{{ publication.vol_issue }}</td>
+                              <td>{{ publication.pages }}</td>
+                          </tr>
+                            {% endif %}
+                            {% endif %}
+                            {% endwith %}
+                            {% endfor %}
+
+                          <tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
+
+
+
+                  </div>
+              </div>
             </div>
 
             <div id="chaps" class="tab-pane fade">
+              <div class="container-fluid">
+                <ul class="nav nav-tabs nav-justified">
 
+                     {% for year in year_list %}
+                     <li class="nav-item">
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abci{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <span class="hidden-xs">{{ year }}</span></a>
+                     </li>
+                      {% endfor %}
+
+                </ul>
+
+                  <div class="tab-content">
+
+                      {% for year in year_list %}
+
+                    <div id="abci{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
+                      <table class="table table-hover">
+                          <thead>
+                            <tr>
+
+                                <th>Authors</th>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                                <th>Volume(Issue)</th>
+                                <th>Pages</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for publication in pub_list %}
+                            {% with publication=publication.specific %}
+                            {% if publication.pub_type == '4'%}
+                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                          <tr>
+                              <td>{{ publication.Authors }}</td>
+                              <td>{{ publication.name }}</td>
+                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_journal }}</td>
+                              <td>{{ publication.vol_issue }}</td>
+                              <td>{{ publication.pages }}</td>
+                          </tr>
+                            {% endif %}
+                            {% endif %}
+                            {% endwith %}
+                            {% endfor %}
+
+                          <tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
+
+
+
+                  </div>
+              </div>
             </div>
 
 
 
         </div>
       </div>
+<hr>
+<hr><hr>
 
-      <ul>
-         {% for year in year_list %}
 
-          <li {% if current_year %}class="active"{% endif %}>
-            <a href="{{ page.url }}?year={{ year }}" >
-            <span class="hidden-xs">{{ year }}</span></a>
-          </li>
-          {% endfor %}
-      </ul>
+
 
       <ul>
         {% for publication in pub_list %}
