@@ -1225,34 +1225,27 @@ class PublicationHomePage(Page):
 	def serve(self, request):
 		pub_list = self.get_children().live().order_by('publicationpage__pub_year', 'publicationpage__pub_type', 'publicationpage__citations')
 
-		# # Filter by programme
-		# prog = request.GET.get('prog')
-		# if prog in ['0','1', '2']:
-		# 	course_list = course_list.filter(coursepage__eligible_programmes=prog)
+		year_list = []
+		year = timezone.now().year
+		for i in  range(1996, year):
+			year_list.append(i)
 
-		# structure = []
-		# sem1 = course_list.filter(coursepage__semester=1)
-		# structure.append(sem1)
-		# sem2 = course_list.filter(coursepage__semester=2)
-		# structure.append(sem2)
-		# sem3 = course_list.filter(coursepage__semester=3)
-		# structure.append(sem3)
-		# sem4 = course_list.filter(coursepage__semester=4)
-		# structure.append(sem4)
-		# sem5 = course_list.filter(coursepage__semester=5)
-		# structure.append(sem5)
-		# sem6 = course_list.filter(coursepage__semester=6)
-		# structure.append(sem6)
-		# sem7 = course_list.filter(coursepage__semester=7)
-		# structure.append(sem7)
-		# sem8 = course_list.filter(coursepage__semester=8)
-		# structure.append(sem8)
+		year = request.GET.get('year')
+		if year:
+			pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		# elif year is 0:
+		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+
+		paginator = Paginator(pub_list, 50)
+		page_no = request.GET.get('page_no')
+		pub_list = paginator.get_page(page_no)
 
 		return render(request, self.template, {
 			'page': self,
 			'pub_list': pub_list,
-			# 'prog':prog,
-			# 'structure':structure,
+			'year':year,
+			'page_no':page_no,
+			'year_list':year_list,
 		})
 
 	class Meta:
@@ -1278,8 +1271,8 @@ class PublicationPage(Page):
 	page_end = models.CharField(max_length=10, blank=True)
 	citations = models.CharField(max_length=10, blank=True)
 	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
-	# pub_conference = 
-	# pub_patent_number = 
+	# pub_conference =
+	# pub_patent_number =
 	# pub_
 
 
@@ -1653,9 +1646,9 @@ class Award(Orderable):
 	panels = [
 		FieldPanel('award_title'),
 		FieldPanel('award_description'),
-		FieldPanel('award_type'),	
-		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),	
-		FieldPanel('other_recipients'),	
+		FieldPanel('award_type'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+		FieldPanel('other_recipients'),
 		ImageChooserPanel('image'),
 		FieldPanel('award_time'),
 		FieldPanel('conferrer'),
