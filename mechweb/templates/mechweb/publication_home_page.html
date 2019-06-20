@@ -11,17 +11,7 @@
 
 {% block content %}
 
-{% for publication in pub_list %}
-{% with publication=publication.specific %}
-{{ publication.pub_year|date:"Y" }}<br>
-{{ publication.specific.pub_type }}
-{% endwith %}
-{% endfor %}
 
-
-{% for year in year_list %}
-{{ year }}
-{% endfor %}
 
     <div class="container-fluid pubcont">
       <h1 class="text-center">{{ page.title }}</h1>
@@ -70,12 +60,31 @@
               <div class="container-fluid">
                 <ul class="nav nav-tabs nav-justified ">
 
+                  {% for year in year_list %}
+                  {% if year >= 2010 %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if current_year %}active{% endif %}" href="#abcd{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                    <span class="hidden-xs">{{ year }}</span></a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+
+                  <div class="dropdown">
+                   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prev Years
+                   <span class="caret"></span></button>
+                   <ul class="dropdown-menu">
                      {% for year in year_list %}
+                     {% if year < 2010 %}
+
                      <li class="nav-item">
-                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abcd{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abcd{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                        <span class="hidden-xs">{{ year }}</span></a>
                      </li>
-                      {% endfor %}
+                     {% endif %}
+                     {% endfor %}
+                   </ul>
+                 </div>
+
 
                 </ul>
 
@@ -131,12 +140,31 @@
               <div class="container-fluid">
                 <ul class="nav nav-tabs nav-justified">
 
+                  {% for year in year_list %}
+                  {% if year >= 2010 %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if current_year %}active{% endif %}" href="#abce{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                    <span class="hidden-xs">{{ year }}</span></a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+
+                  <div class="dropdown">
+                   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prev Years
+                   <span class="caret"></span></button>
+                   <ul class="dropdown-menu">
                      {% for year in year_list %}
+                     {% if year < 2010 %}
+
                      <li class="nav-item">
-                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abce{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abce{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                        <span class="hidden-xs">{{ year }}</span></a>
                      </li>
-                      {% endfor %}
+                     {% endif %}
+                     {% endfor %}
+                   </ul>
+                 </div>
+
 
                 </ul>
 
@@ -191,12 +219,31 @@
               <div class="container-fluid">
                 <ul class="nav nav-tabs nav-justified">
 
+                  {% for year in year_list %}
+                  {% if year >= 2010 %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if current_year %}active{% endif %}" href="#abcf{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                    <span class="hidden-xs">{{ year }}</span></a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+
+                  <div class="dropdown">
+                   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prev Years
+                   <span class="caret"></span></button>
+                   <ul class="dropdown-menu">
                      {% for year in year_list %}
+                     {% if year < 2010 %}
+
                      <li class="nav-item">
-                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abcf{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abcf{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                        <span class="hidden-xs">{{ year }}</span></a>
                      </li>
-                      {% endfor %}
+                     {% endif %}
+                     {% endfor %}
+                   </ul>
+                 </div>
+
 
                 </ul>
 
@@ -252,11 +299,30 @@
                 <ul class="nav nav-tabs nav-justified">
 
                      {% for year in year_list %}
+                     {% if year >= 2010 %}
                      <li class="nav-item">
                        <a class="nav-link {% if current_year %}active{% endif %}" href="#abcg{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                        <span class="hidden-xs">{{ year }}</span></a>
                      </li>
-                      {% endfor %}
+                     {% endif %}
+                     {% endfor %}
+
+                     <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prev Years
+                      <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        {% for year in year_list %}
+                        {% if year < 2010 %}
+
+                        <li class="nav-item">
+                          <a class="nav-link {% if current_year %}active{% endif %}" href="#abcg{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                          <span class="hidden-xs">{{ year }}</span></a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                      </ul>
+                    </div>
+
 
                 </ul>
 
@@ -311,12 +377,31 @@
               <div class="container-fluid">
                 <ul class="nav nav-tabs nav-justified">
 
+                  {% for year in year_list %}
+                  {% if year >= 2010 %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if current_year %}active{% endif %}" href="#abch{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                    <span class="hidden-xs">{{ year }}</span></a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+
+                  <div class="dropdown">
+                   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prev Years
+                   <span class="caret"></span></button>
+                   <ul class="dropdown-menu">
                      {% for year in year_list %}
+                     {% if year < 2010 %}
+
                      <li class="nav-item">
                        <a class="nav-link {% if current_year %}active{% endif %}" href="#abch{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                        <span class="hidden-xs">{{ year }}</span></a>
                      </li>
-                      {% endfor %}
+                     {% endif %}
+                     {% endfor %}
+                   </ul>
+                 </div>
+
 
                 </ul>
 
@@ -371,12 +456,31 @@
               <div class="container-fluid">
                 <ul class="nav nav-tabs nav-justified">
 
+                  {% for year in year_list %}
+                  {% if year >= 2010 %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if current_year %}active{% endif %}" href="#abci{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                    <span class="hidden-xs">{{ year }}</span></a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+
+                  <div class="dropdown">
+                   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prev Years
+                   <span class="caret"></span></button>
+                   <ul class="dropdown-menu">
                      {% for year in year_list %}
+                     {% if year < 2010 %}
+
                      <li class="nav-item">
-                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abci{{ year }}"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                       <a class="nav-link {% if current_year %}active{% endif %}" href="#abci{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                        <span class="hidden-xs">{{ year }}</span></a>
                      </li>
-                      {% endfor %}
+                     {% endif %}
+                     {% endfor %}
+                   </ul>
+                 </div>
+
 
                 </ul>
 
@@ -431,12 +535,10 @@
 
         </div>
       </div>
-<hr>
-<hr><hr>
 
 
 
-
+<!--
       <ul>
         {% for publication in pub_list %}
           <li class="{{ publication.specific.pub_type }}">
@@ -463,7 +565,7 @@
               {% endif %}
           </li>
         {% endfor %}
-      </ul>
+      </ul> -->
 
 
 

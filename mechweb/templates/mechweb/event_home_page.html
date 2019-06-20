@@ -39,7 +39,7 @@
       {% for event in event_list %}
 
         <div class="row">
-          {% image page.featured_event.specific.poster fill-500x300 %}
+          {% image event.specific.poster fill-500x300 %}
           <a href="{{ event.url }}">{{ event.specific.event_name }}
           </a>
           <!-- <a href="#">
