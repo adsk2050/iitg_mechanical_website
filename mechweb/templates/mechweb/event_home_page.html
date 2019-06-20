@@ -7,62 +7,56 @@
 
 
 {% block content %}
-<div class="container-fluid">
 
+<div class="container-fluid">
   <h1 class="my-4">{{ page.title }}<br>
     <small>Featured Event</small>
   </h1>
+  <div class="row padding">
+    <div class="col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-4 col-md-10">
+        {% if event_list.number == 1 %}
+        {% if featured_event %}
 
+          <div class="row">
 
+            <div class="col-md-8">
+              {% image page.featured_event.specific.poster fill-750x500 %}
+              <!-- <img class="img-fluid" src="http://placehold.it/750x500" alt=""> -->
+            </div>
 
-  <!-- Portfolio Item Row -->
-  {% if event_list.number == 1 %}
-  {% if featured_event %}
+            <div class="col-md-4">
+              <h3 class="my-3"><a href="{{ page.featured_event.url }}">{{ page.featured_event.specific.event_name }}</a></h3>
+              <p>The {{ page.featured_event.specific.get_event_type_display }} will be held from: {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.get_venue_display }}</p>
+            </div>
+        {% endif %}
+        {% endif %}
 
-    <div class="row">
-
-      <div class="col-md-8">
-        {% image page.featured_event.specific.poster fill-750x500 %}
-        <!-- <img class="img-fluid" src="http://placehold.it/750x500" alt=""> -->
       </div>
 
-    <div class="col-md-4">
-      <h3 class="my-3"><a href="{{ page.featured_event.url }}">{{ page.featured_event.specific.event_name }}</a></h3>
-      <p>The {{ page.featured_event.specific.get_event_type_display }} will be held from: {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.get_venue_display }}</p>
+    <div class="col-xs-12 col-sm-12 col-md-12 mb-4 ml-4 labbox">
+      <h3 class="text-center" style="color:#881125; font-weight:bolder;"> Other Events</h3>
+      {% for event in event_list %}
+
+        <div class="row">
+          {% image page.featured_event.specific.poster fill-500x300 %}
+          <a href="{{ event.url }}">{{ event.specific.event_name }}
+          </a>
+          <!-- <a href="#">
+                <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+              </a> -->
+        </div>
+        <div class="row">
+          The {{ event.specific.get_event_type_display }} will be held from: {{ event.specific.start_date }} to {{ event.specific.end_date }} at {{ event.specific.get_venue_display }}
+        </div>
+      {% endfor %}
     </div>
-  {% endif %}
-  {% endif %}
-
-
   </div>
-  <!-- /.row -->
-
-  <!-- Related Projects Row -->
-  <h3 class="my-4">Other Events</h3>
-
-  <div class="row">
-
-    {% for event in event_list %}
-
-    <div class="col-md-3 col-sm-6 mb-4">
-      <div class="row">
-        {% image page.featured_event.specific.poster fill-500x300 %}
-        <a href="{{ event.url }}">{{ event.specific.event_name }}
-        </a>
-        <!-- <a href="#">
-              <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-            </a> -->
-      </div>
-      <div class="row">
-        The {{ event.specific.get_event_type_display }} will be held from: {{ event.specific.start_date }} to {{ event.specific.end_date }} at {{ event.specific.get_venue_display }}
-      </div>
-    </div>
-    {% endfor %}<hr>
-  </div>
-  <!-- /.row -->
-
 </div>
-<!-- /.container -->
+
+
+
+
 <div class="pagination">
     <span class="step-links">
         {% if event_list.has_previous %}

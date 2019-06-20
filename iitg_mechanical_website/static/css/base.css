@@ -1,4 +1,30 @@
+/* media queries */
 
+
+@media (min-width: 768px) {
+  body {
+    font-size: 22px;
+  }
+
+  nav {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: block;
+  }
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+  .mechname {
+    display: none;
+  }
+
+  .fixed-top .navbar-collapse {
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+}
 
 body,html {
   /* color: #272727; */
@@ -12,7 +38,6 @@ body,html {
   letter-spacing: 0;
   /* padding: 1rem; */
   background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 50%,rgba(233,228,221,1) 100%);
-
 }
 
 
@@ -173,7 +198,6 @@ nav{
   color: #0E0A11;
   line-height:1.45;
   font-family: 'Bitter', serif;
-  display: block;
 }
 
 .mechbrand.mechbrandscroll{
@@ -607,10 +631,7 @@ header{
 }
 
 /* staff list css */
-.bread-list .flex-container{
-  display: flex;
-  justify-content: center;
-}
+
 
 
 .bread-list-item {
@@ -639,10 +660,30 @@ header{
   min-width: 180px;
   min-height: 180px;
   padding: 0;
+  background-size: 100% 100%;
 }
 
+.facultyhome .bread-list {
+  max-width: 80%;
+  margin: auto;
+
+}
+
+/* .staffhome .bread-list{
+  max-width: 80%;
+  margin: auto;
+} */
+
+.facultyhome .bread-list-item .researchbox{
+  padding: 20px;
+  text-align: left;
+}
 .bread-list-item .image:hover img {
   opacity: 0.8;
+}
+
+.bread-list-item .faculty_detail{
+  margin-left: 20px;
 }
 
 .bread-list-item img {
@@ -662,7 +703,7 @@ header{
   color: #777;
   display: inline-block;
   font-weight: 600;
-  width: 250px;
+  width: 150px;
 }
 
 /* Bread detail page */
@@ -1038,18 +1079,12 @@ h2{
 background-color: #fff !important;
 color: #4F5345;
 border-radius: 5px;
-height: auto;
-font-weight: bolder;
-font-size: 1.5rem;
+height:
 }
 
 .awardstab .nav-link:active{
 background-color: #4F5345 !important;
 color: #fff;
-}
-
-.awardtabcontent thead{
-  background-color: #4F
 }
 
 ----------------------------------------
