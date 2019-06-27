@@ -60,13 +60,12 @@
                   <div class="row">
                       <div class="col-xs-4 col-sm-5 image">
                         <a href="{{ student.specific.url }}">
-                          {% if student.specific.photo %}{{% image student.specific.photo fill-180x250 %}
-                          <img src="{{ image.url }}" width="{{ image.width }}"
-                                  height="{{ image.height }}" alt="{{ image.alt }}" class="" />}
+                          {% if student.specific.photo %}
+                          {{% image student.specific.photo original as photo %}
+                          <img src="{{ photo.url }}" width="{{ photo.width }}" height="{{ photo.height }}" alt="{{ photo.alt }}" class="" />}
 
                               {% else %}
-                              <img src="{% static "images/placeholder.jpg" %}" width="180"
-                                      height="180" alt="{{ image.alt }}" class="" />
+                              <img src="{% static "images/placeholder.jpg" %}" width="180" height="180" alt="{{ photo.alt }}" class="" />
                           {% endif %}
                           </a>
                       </div>

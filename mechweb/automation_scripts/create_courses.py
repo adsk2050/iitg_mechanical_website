@@ -63,3 +63,6 @@ with open('mechweb/automation_scripts/courses.tsv', mode='r') as tsv_file:
 		line_count += 1
 	logf.close()
 
+
+
+# img_dnbasu = open('/media/original_images/dnbasu.jpg', mode='r')
