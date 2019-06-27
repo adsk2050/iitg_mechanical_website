@@ -20,15 +20,13 @@
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
-          {% if student.specific.photo %}{
-            {% image page.specific.photo width-300 style="width:100%"%}
-            <img src="{{ image.url }}" width="{{ image.width }}"
-                    height="{{ image.height }}" alt="{{ image.alt }}" class="" />
-          }
-
+          {% if page.specific.photo %}
+            {% image page.specific.photo original as photo %}
+            <img src="{{ photo.url }}" width="{{ photo.width }}"
+                    height="{{ photo.height }}" alt="{{ photo.alt }}" class="" />
           {% else %}
               <img src="{% static "images/placeholder.jpg" %}" width="450"
-                      height="400" alt="{{ image.alt }}" class="" style="object-fit:cover;"/>
+                      height="400" alt="{{ photo.alt }}" class="" style="object-fit:cover;"/>
           {% endif %}
           <div class="w3-display-bottomleft w3-container w3-text-black">
             <h1><a href="{{ page.specific.url }}">{{ page }}</a></h1>

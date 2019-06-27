@@ -20,12 +20,12 @@
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
           {% if page.specific.photo %}
-            {% image page.specific.photo width-300 style="width:100%"%}
-            <img src="{{ image.url }}" width="{{ image.width }}"
-                    height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+            {% image page.specific.photo original as photo %}
+            <img src="{{ photo.url }}" width="{{ photo.width }}"
+                    height="{{ photo.height }}" alt="{{ photo.alt }}" class="" />
           {% else %}
               <img src="{% static "images/placeholder.jpg" %}" width="180"
-                      height="250" alt="{{ image.alt }}" class="" />
+                      height="250" alt="{{ photo.alt }}" class="" />
           {% endif %}
           <div class="w3-display-bottomleft w3-container w3-text-black">
             <h1>{{ page }}</h1>
