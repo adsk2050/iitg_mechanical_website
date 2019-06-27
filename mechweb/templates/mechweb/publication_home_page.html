@@ -13,6 +13,9 @@
 
 
 
+
+
+
     <div class="container-fluid pubcont">
       <h1 class="text-center">{{ page.title }}</h1>
       <!-- Intro -->
@@ -109,12 +112,12 @@
 
                             {% for publication in pub_list %}
                             {% with publication=publication.specific %}
-                            {% if publication.pub_type == '5'%}
-                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                            {% if publication.pub_type == '5' %}
+                            {% if publication.pub_year|date:"Y" == year|slugify %}
                           <tr>
                               <td>{{ publication.Authors }}</td>
                               <td>{{ publication.name }}</td>
-                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_year|date:"Y" }}</td>
                               <td>{{ publication.pub_journal }}</td>
                               <td>{{ publication.vol_issue }}</td>
                               <td>{{ publication.pages }}</td>
@@ -189,16 +192,16 @@
 
                             {% for publication in pub_list %}
                             {% with publication=publication.specific %}
-                            {% if publication.pub_type == '1'%}
-                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
-                          <tr>
-                              <td>{{ publication.Authors }}</td>
-                              <td>{{ publication.name }}</td>
-                              <td>{{ publication.pub_year }}</td>
-                              <td>{{ publication.pub_journal }}</td>
-                              <td>{{ publication.vol_issue }}</td>
-                              <td>{{ publication.pages }}</td>
-                          </tr>
+                            {% if publication.pub_type == '1' %}
+                            {% if publication.pub_year|date:"Y" == year|slugify %}
+                              <tr>
+                                  <td>{{ publication.Authors }}</td>
+                                  <td>{{ publication.name }}</td>
+                                  <td>{{ publication.pub_year|date:"Y" }}</td>
+                                  <td>{{ publication.pub_journal }}</td>
+                                  <td>{{ publication.vol_issue }}</td>
+                                  <td>{{ publication.pages }}</td>
+                              </tr>
                             {% endif %}
                             {% endif %}
                             {% endwith %}
@@ -268,12 +271,15 @@
 
                             {% for publication in pub_list %}
                             {% with publication=publication.specific %}
-                            {% if publication.pub_type == '0'%}
-                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                            {% if publication.pub_type == '0' %}
+                            {% if publication.pub_year|date:"Y" == year|slugify %}
+                            <div class="">
+                              hi
+                            </div>
                           <tr>
                               <td>{{ publication.Authors }}</td>
                               <td>{{ publication.name }}</td>
-                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_year|date:"Y" }}</td>
                               <td>{{ publication.pub_journal }}</td>
                               <td>{{ publication.vol_issue }}</td>
                               <td>{{ publication.pages }}</td>
@@ -347,12 +353,12 @@
 
                             {% for publication in pub_list %}
                             {% with publication=publication.specific %}
-                            {% if publication.pub_type == '2'%}
-                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                            {% if publication.pub_type == '2' %}
+                            {% if publication.pub_year|date:"Y" == year|slugify %}
                           <tr>
                               <td>{{ publication.Authors }}</td>
                               <td>{{ publication.name }}</td>
-                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_year|date:"Y" }}</td>
                               <td>{{ publication.pub_journal }}</td>
                               <td>{{ publication.vol_issue }}</td>
                               <td>{{ publication.pages }}</td>
@@ -426,12 +432,12 @@
 
                             {% for publication in pub_list %}
                             {% with publication=publication.specific %}
-                            {% if publication.pub_type == '3'%}
-                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                            {% if publication.pub_type == '3' %}
+                            {% if publication.pub_year|date:"Y" == year|slugify %}
                           <tr>
                               <td>{{ publication.Authors }}</td>
                               <td>{{ publication.name }}</td>
-                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_year|date:"Y" }}</td>
                               <td>{{ publication.pub_journal }}</td>
                               <td>{{ publication.vol_issue }}</td>
                               <td>{{ publication.pages }}</td>
@@ -506,11 +512,11 @@
                             {% for publication in pub_list %}
                             {% with publication=publication.specific %}
                             {% if publication.pub_type == '4'%}
-                            {% if publication.pub_year|date:"Y" == '{{ year }}' %}
+                            {% if publication.pub_year|date:"Y" == year|slugify %}
                           <tr>
                               <td>{{ publication.Authors }}</td>
                               <td>{{ publication.name }}</td>
-                              <td>{{ publication.pub_year }}</td>
+                              <td>{{ publication.pub_year|date:"Y" }}</td>
                               <td>{{ publication.pub_journal }}</td>
                               <td>{{ publication.vol_issue }}</td>
                               <td>{{ publication.pages }}</td>

@@ -1260,12 +1260,13 @@ class PublicationHomePage(Page):
 
 		year_list = []
 		year = timezone.now().year
-		for i in  range(1996, year):
+		for i in  range(year, 1996, -1):
 			year_list.append(i)
 
 		year = request.GET.get('year')
 		if year:
 			pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		else: year = timezone.now().year
 		# elif year is 0:
 		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
 
