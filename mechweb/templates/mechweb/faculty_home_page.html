@@ -36,16 +36,18 @@
             <div class="row">
                 <div class="col-xs-4 col-sm-12 col-md-3 image">
                   <a href="{{ faculty.url }">
-
-                    {% if faculty.specific.photo %}
-                        {% image faculty.specific.photo original as photo %}
-                        <img src="{{ photo.url }}" width="{{ photo.width }}" height="{{ photo.height }}" alt="{{ photo.alt }}" class="" />
-                    {% else %}
+                    {% with 'images/'|add:faculty.slug|add:'.jpg' as image_static %}
+                      <img src="{% static image_static %}" width="180" height="180" alt="{{ photo.alt }}" class="" />
+                    {% endwith %}
+                    <!-- {% if faculty.specific.photo %}
                         {% with 'images/'|add:faculty.slug|add:'.jpg' as image_static %}
                           <img src="{% static image_static %}" width="180" height="180" alt="{{ photo.alt }}" class="" />
                         {% endwith %}
-                        
-                    {% endif %}
+                    {% else %}
+                    <img src="{% static "images/placeholder.jpg" %}" width="180"
+                            height="180" alt="{{ image.alt }}" class="" />
+
+                    {% endif %} -->
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">

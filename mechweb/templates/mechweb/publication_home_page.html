@@ -4,6 +4,9 @@
 
 {% load wagtailcore_tags wagtailimages_tags %}
 
+{% block extra_css %}
+{% endblock %}
+
 {% block body_class %}template-publication-homepage{% endblock %}
 
 {% block body_style %}padding-top: 105px; {% endblock %}
@@ -12,7 +15,49 @@
 {% block content %}
 
 
+<!-- <ul>
+  {% for publication in pub_list %}
+    <li class="{{ publication.specific.pub_type }}">
+      <h2><a href="{{ publication.url }}">{{ publication.specific.name }}</a></h2>
+      {% if publication.specific.alt_people_text %}
+        <h3>Team</h3>
+        <div>{{ publication.specific.alt_people_text }}</div>
+      {% else %}
+        {% if publication.specific.faculty.all.count > 0 or publication.specific.students.all.count > 0 or publication.specific.other_authors.all.count > 0  %}
+          <h3>Team</h3>
+          <ul>
+            {% for faculty in publication.specific.faculty.all %}
+                <li>
+                    <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+                </li>
+            {% endfor %}
+            {% for student in publication.specific.students.all %}
+                <li>
+                    <a href="{{ student.student.url }}">{{ student.student }}</a>
+                </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
 
+
+
+{% for publication in pub_list %}
+{% with publication=publication.specific %}
+  <tr>
+      <td>{{ publication.Authors }}</td>
+      <td>{{ publication.name }}</td>
+      <td>{{ publication.pub_year|date:"Y" }}</td>
+      <td>{{ publication.pub_journal }}</td>
+      <td>{{ publication.vol_issue }}</td>
+      <td>{{ publication.pages }}</td>
+      <br>
+  </tr>
+{% endwith %}
+{% endfor %} -->
 
 
 
@@ -64,20 +109,27 @@
                 <ul class="nav nav-tabs nav-justified ">
 
                   {% for year in year_list %}
-                  {% if year >= 2010 %}
+                  {% if year >= 2014 %}
                   <li class="nav-item">
                     <a class="nav-link {% if current_year %}active{% endif %}" href="#abcd{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
                     <span class="hidden-xs">{{ year }}</span></a>
                   </li>
+
                   {% endif %}
                   {% endfor %}
 
-                  <div class="dropdown">
+                  <li class="nav-item">
+                    <a class="nav-link " href="#abcd_older" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                    <span class="hidden-xs">Older</span></a>
+                  </li>
+
+
+                  <!-- <div class="dropdown">
                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prev Years
                    <span class="caret"></span></button>
                    <ul class="dropdown-menu">
                      {% for year in year_list %}
-                     {% if year < 2010 %}
+                     {% if year < 2014 %}
 
                      <li class="nav-item">
                        <a class="nav-link {% if current_year %}active{% endif %}" href="#abcd{{ year }}" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
@@ -86,7 +138,7 @@
                      {% endif %}
                      {% endfor %}
                    </ul>
-                 </div>
+                 </div> -->
 
 
                 </ul>
@@ -94,6 +146,7 @@
                   <div class="tab-content">
 
                       {% for year in year_list %}
+                      {% if year >= 2014 %}
 
                     <div id="abcd{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
                       <table class="table table-hover">
@@ -130,6 +183,8 @@
                           <tbody>
                         </table>
                     </div>
+
+                    {% endif %}
                     {% endfor %}
 
 
@@ -175,42 +230,42 @@
 
                       {% for year in year_list %}
 
-                    <div id="abce{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
-                      <table class="table table-hover">
-                          <thead>
-                            <tr>
+                          <div id="abce{{ year }}" class="tab-pane fade {% if current_year %}in active{% endif %}">
+                            <table class="table table-hover">
+                                <thead>
+                                  <tr>
 
-                                <th>Authors</th>
-                                <th>Title</th>
-                                <th>Year</th>
-                                <th>Journal</th>
-                                <th>Volume(Issue)</th>
-                                <th>Pages</th>
-                            </tr>
-                          </thead>
-                          <tbody>
+                                      <th>Authors</th>
+                                      <th>Title</th>
+                                      <th>Year</th>
+                                      <th>Journal</th>
+                                      <th>Volume(Issue)</th>
+                                      <th>Pages</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
 
-                            {% for publication in pub_list %}
-                            {% with publication=publication.specific %}
-                            {% if publication.pub_type == '1' %}
-                            {% if publication.pub_year|date:"Y" == year|slugify %}
-                              <tr>
-                                  <td>{{ publication.Authors }}</td>
-                                  <td>{{ publication.name }}</td>
-                                  <td>{{ publication.pub_year|date:"Y" }}</td>
-                                  <td>{{ publication.pub_journal }}</td>
-                                  <td>{{ publication.vol_issue }}</td>
-                                  <td>{{ publication.pages }}</td>
-                              </tr>
-                            {% endif %}
-                            {% endif %}
-                            {% endwith %}
-                            {% endfor %}
+                                  {% for publication in pub_list %}
+                                  {% with publication=publication.specific %}
+                                  {% if publication.pub_type == '1' %}
+                                  {% if publication.pub_year|date:"Y" == year|slugify %}
+                                    <tr>
+                                        <td>{{ publication.Authors }}</td>
+                                        <td>{{ publication.name }}</td>
+                                        <td>{{ publication.pub_year|date:"Y" }}</td>
+                                        <td>{{ publication.pub_journal }}</td>
+                                        <td>{{ publication.vol_issue }}</td>
+                                        <td>{{ publication.pages }}</td>
+                                    </tr>
+                                  {% endif %}
+                                  {% endif %}
+                                  {% endwith %}
+                                  {% endfor %}
 
-                          <tbody>
-                        </table>
-                    </div>
-                    {% endfor %}
+                                <tbody>
+                              </table>
+                          </div>
+                        {% endfor %}
 
 
 
