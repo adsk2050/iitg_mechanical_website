@@ -1266,9 +1266,13 @@ class PublicationHomePage(Page):
 		for i in  range(1996, year):
 			year_list.append(i)
 
-		year = request.GET.get('year')
-		if year:
-			pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		# year = request.GET.get('year')
+		# if year:
+		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+
+		pub_type = request.GET.get('pub_type')
+		if pub_type:
+			pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
 		# elif year is 0:
 		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
 
@@ -1279,8 +1283,9 @@ class PublicationHomePage(Page):
 		return render(request, self.template, {
 			'page': self,
 			'pub_list': pub_list,
-			'year':year,
+			# 'year':year,
 			'page_no':page_no,
+			'pub_type':pub_type,
 			'year_list':year_list,
 		})
 

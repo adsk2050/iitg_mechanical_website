@@ -61,9 +61,9 @@ PROJECT_TYPES=(
 )
 
 PUBLICATION_TYPES = (
-	('0','Journal Publication'),
+	('0','Patent'),
 	('1','Conference Publication'),
-	('2','Patent'),
+	('2','Journal Publication'),
 	('3','Books'),
 	('4','Book Chapters'),
 	('5','Poster'),

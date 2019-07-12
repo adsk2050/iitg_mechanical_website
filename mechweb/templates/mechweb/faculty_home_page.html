@@ -39,7 +39,7 @@
                         <img src="{{ photo.url }}" width="{{ photo.width }}" height="{{ photo.height }}" alt="{{ photo.alt }}" class="" />
                     {% else %}
                         {% with 'images/'|add:faculty.slug|add:'.jpg' as image_static %}
-                          <img src="{% static image_static %}" width="180" height="180" alt="{{ photo.alt }}" class="" />
+                          <img src="{% static image_static %}" width="180" height="180" alt={{image_static}} class="" />
                         {% endwith %}
                         
                     {% endif %}
