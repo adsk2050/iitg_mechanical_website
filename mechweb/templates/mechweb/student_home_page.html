@@ -52,51 +52,54 @@
             {% endif %}
           {% endif %}
   <hr>
+  <div class="container-fluid">
+    <div class="row bread-list">
+      {% for student in student_list %}
 
-          <div class="row padding bread-list">
-            {% for student in student_list %}
+        <div class="col-xs-11 col-md-5 bread-list-item">
+            <div class="row">
+                <div class="col-xs-4 col-sm-5 image">
+                  <a href="{{ student.specific.url }}">
+                    {% if student.specific.photo %}{{% image student.specific.photo fill-180x250 %}
+                    <img src="{{ image.url }}" width="{{ image.width }}"
+                            height="{{ image.height }}" alt="{{ image.alt }}" class="" />}
 
-              <div class="col-xs-11 col-md-5 bread-list-item">
-                  <div class="row">
-                      <div class="col-xs-4 col-sm-5 image">
-                        <a href="{{ student.specific.url }}">
-                          {% if student.specific.photo %}
-                          {{% image student.specific.photo original as photo %}
-                          <img src="{{ photo.url }}" width="{{ photo.width }}" height="{{ photo.height }}" alt="{{ photo.alt }}" class="" />}
+                        {% else %}
+                        <img src="{% static "images/placeholder.jpg" %}" width="180"
+                                height="180" alt="{{ image.alt }}" class="" />
+                    {% endif %}
+                    </a>
+                </div>
+                <div class="col-xs-8 col-sm-8">
+                    <a href="{{ student.specific.url }}">
+                        <h2>{{ student }}</h2>
+                    </a>
+                    <ul class="bread-meta">
+                        <li><strong>{{ student.specific.get_programme_display }}</strong></li>
+                        {% if student.specific.enrolment_year %}
+                            <li><span>Enrolment year</span>{{ student.specific.enrolment_year }}</li>
+                        {% endif %}
+                        {% if student.specific.email_id %}
+                            <li><span>Email</span>{{ student.specific.email_id }}</li>
+                        {% endif %}
+                        {% if student.specific.roll_no %}
+                            <li><span>Enrolment NO.</span>{{ student.specific.roll_no }}</li>
+                        {% endif %}
+                        {% if student.specific.faculty_advisor %}
+                            <li><span>Faculty Advisor</span>{{ student.specific.faculty_advisor }}</li>
+                        {% endif %}
+                        {% if student.specific.hostel_address_line_1 %}
+                            <li><span>Hostel</span>{{ student.specific.hostel_address_line_1 }}</li>
+                        {% endif %}
 
-                              {% else %}
-                              <img src="{% static "images/placeholder.jpg" %}" width="180" height="180" alt="{{ photo.alt }}" class="" />
-                          {% endif %}
-                          </a>
-                      </div>
-                      <div class="col-xs-8 col-sm-8">
-                          <a href="{{ student.specific.url }}">
-                              <h2>{{ student }}</h2>
-                          </a>
-                          <ul class="bread-meta">
-                              <li><strong>{{ student.specific.get_programme_display }}</strong></li>
-                              {% if student.specific.enrolment_year %}
-                                  <li><span>Enrolment year</span>{{ student.specific.enrolment_year }}</li>
-                              {% endif %}
-                              {% if student.specific.email_id %}
-                                  <li><span>Email</span>{{ student.specific.email_id }}</li>
-                              {% endif %}
-                              {% if student.specific.roll_no %}
-                                  <li><span>Enrolment NO.</span>{{ student.specific.roll_no }}</li>
-                              {% endif %}
-                              {% if student.specific.faculty_advisor %}
-                                  <li><span>Faculty Advisor</span>{{ student.specific.faculty_advisor }}</li>
-                              {% endif %}
-                              {% if student.specific.hostel_address_line_1 %}
-                                  <li><span>Hostel</span>{{ student.specific.hostel_address_line_1 }}</li>
-                              {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+  </div>
 
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-          {% endfor %}
-          </div>
         </div>
 
 

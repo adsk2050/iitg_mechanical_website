@@ -43,27 +43,32 @@
     {% endif %} -->
 
 
-    <div class="w3-container-fluid">
+    <div class="w3-container-fluid ">
       <h1 class="text-center">{{ page.title }}</h1>
       <!-- Intro -->
       <div class="intro">{{ page.intro|richtext }}</div>
       <hr>
+      <div class="container-fluid awardscont">
+        <ul class="nav nav-tabs nav-justified awardstab">
 
-      <ul class="nav nav-tabs">
-                <li class="active">
-                  <a class="btn btn-lg btn-block" href="#faculty"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Faculty Honors and Awards</span></a>
-                </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#faculty"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">Faculty Honors and Awards</span></a>
+                    </li>
 
-                <li>
-                  <a class="btn btn-lg btn-block" href="#paper" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Best Papers</span></a>
-                </li>
-          </ul>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#paper" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">Best Papers</span></a>
+                    </li>
 
-          <div class="tab-content">
+            </ul>
 
-            <div id="faculty" class="tab-pane fade in active">
+            <br><br><br>
+
+
+          <div class="tab-content awardtabcontent">
+
+            <div id="faculty" class="tab-pane active">
               <table class="table table-hover">
                   <thead>
                     <tr>
@@ -122,6 +127,8 @@
 
 
         </div>
+      </div>
+
       </div>
 
 

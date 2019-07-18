@@ -306,7 +306,7 @@ class CategoriesHome(Page):
 	max_count = 1
 
 class Categories(Page):
-	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT) 
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0', unique=True)
 	content_panels = Page.content_panels + [
 			FieldPanel('intro'),
@@ -1107,12 +1107,10 @@ class ResearchLabHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		lab_list = self.get_children().live().order_by('researchlabpage__lab_type', 'researchlabpage__lab_research_area', 'researchlabpage__name')
+		lab_list = self.get_children().live().order_by('researchlabpage__lab_type', 'researchlabpage__name')
 
 		# Filter by research area
-		area = request.GET.get('area')
-		if area in ['0','1', '2', '3']:
-			lab_list = lab_list.filter(researchlabpage__lab_research_area=area)
+
 		ugpg = request.GET.get('ugpg')
 		if ugpg in ['0','1']:
 			lab_list = lab_list.filter(researchlabpage__lab_type=ugpg)
@@ -1121,7 +1119,6 @@ class ResearchLabHomePage(Page):
 			'page': self,
 			'lab_list': lab_list,
 			'ugpg':ugpg,
-			'area':area,
 		})
 
 	class Meta:
@@ -1263,20 +1260,21 @@ class PublicationHomePage(Page):
 
 		year_list = []
 		year = timezone.now().year
-		for i in  range(1996, year):
+		for i in  range(year, 1996, -1):
 			year_list.append(i)
 
-		# year = request.GET.get('year')
-		# if year:
-		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		year = request.GET.get('year')
+		if year:
+			pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		else: year = timezone.now().year
 
-		pub_type = request.GET.get('pub_type')
-		if pub_type:
-			pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
+		# pub_type = request.GET.get('pub_type')
+		# if pub_type:
+		# 	pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
 		# elif year is 0:
 		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
 
-		paginator = Paginator(pub_list, 50) 
+		paginator = Paginator(pub_list, 50)
 		page_no = request.GET.get('page_no')
 		pub_list = paginator.get_page(page_no)
 
@@ -1705,7 +1703,7 @@ class Award(Orderable):
 # def set_date(year):
 # 	return enrolment_year = datetime.strptime('Jan 1 '+year+' 12:00PM', '%b %d %Y %I:%M%p')
 
-# Not working in sending year list to publication 
+# Not working in sending year list to publication
 # raises error:
 # local variable 'year_list' referenced before assignment django
 # def year_list():

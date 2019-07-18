@@ -37,78 +37,6 @@
 
 
 
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col">
-            <div class="section-header">
-              <h2>Laboratories of Different Research Areas</h2>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <!-- <div class="testimonial-slider"> -->
-              <div class="single-service col">
-                <div class="service-bg service-bg-1">
-                  <h2><a href="{{ page.url }}?area=3">Thermal And Fluids Engineering</h2>
-                </div>
-
-                <div class="service-text">
-                  <ul>
-                    {% for child in page.get_children %}
-                    {% if child.specific.lab_research_area == '3' %}
-                    <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-                   </ul>
-  <!--
-                  <a href="#" class="btn-area">Read more.. <i class="
-                    fa fa-long-arrow-right"></i>
-                  </a> -->
-                </div>
-              </div>
-
-              <div class="single-service col">
-                <div class="service-bg service-bg-1">
-                  <h2><a href="{{ page.url }}?area=2">Manufacturing Engineering</h2>
-                </div>
-
-                <div class="service-text">
-                  <ul>
-                    {% for child in page.get_children %}
-                    {% if child.specific.lab_research_area == '2' %}
-                      <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-                   </ul>
-                  <!-- <a href="#" class="btn-area">Read more.. <i class="
-                    fa fa-long-arrow-right"></i>
-                  </a> -->
-                </div>
-              </div>
-
-              <div class="single-service col">
-                <div class="service-bg service-bg-1">
-                  <h2><a href="{{ page.url }}?area=1">Machine Design Engineering </h2>
-                </div>
-
-                <div class="service-text">
-                  <ul>
-
-                    {% for child in page.get_children %}
-                    {% if child.specific.lab_research_area == '1' %}
-                    <li><a href="{{ child.specific.url }}">{{ child.specific.title }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-                   </ul>
-                  <!-- <a href="#" class="btn-area">Read more.. <i class="
-                    fa fa-long-arrow-right"></i>
-                  </a> -->
-                </div>
-              </div>
-
-
-        </div>
-      </div>
 
 
 
@@ -118,7 +46,7 @@
           <ul>
               {% for lab in lab_list %}
                   <li>
-                      <a href="{{ lab.url }}">{{ lab.name }}</a>
+                      <a href="{{ lab.url }}">{{ lab.specific.name }}</a>
                   </li>
               {% endfor %}
           </ul>

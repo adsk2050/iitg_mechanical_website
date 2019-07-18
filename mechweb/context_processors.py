@@ -10,4 +10,3 @@ def navbar(request):
 		return {'navlist': navlist}
 	else:
 		return {'navlist':[]}
-
