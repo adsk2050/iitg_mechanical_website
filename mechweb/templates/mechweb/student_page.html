@@ -43,7 +43,7 @@
           {% if page.specific.get_programme_display %}
               <li>
                   <h4>Programme</h4>
-                  <p>page.specific.get_programme_display</p>
+                  <p>{{ page.specific.get_programme_display }}</p>
               </li>
           {% endif %}
 
@@ -190,6 +190,7 @@
                             <h3> Publications</h3>
                             <ul>
                               {% for pub in pub_list %}
+                              {% if forloop.counter <11 %}
                               <h3><a href="{{ pub.url }}">{{ pub.specific.name }}</a></h3>
                               <p>[{{ pub.specific.get_pub_type_display }}]</p>
                               {% if pub.specific.faculty.all|length != 0 %}
@@ -202,6 +203,7 @@
                                   {% for student in pub.specific.students.all %}
                                     <p><a href="{{ student.student.url }}">{{ student.student }}</a>, </p>
                                   {% endfor %}
+                              {% endif %}
                               {% endif %}
                               {% endfor %}
                             </ul>

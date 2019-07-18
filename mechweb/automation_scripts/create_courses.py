@@ -32,6 +32,7 @@ with open('mechweb/automation_scripts/courses.tsv', mode='r') as tsv_file:
 	tsv_reader = csv.DictReader(tsv_file, dialect='excel-tab')
 	line_count = 0
 	logf = open("mechweb/automation_scripts/course_errors.log", "a")
+	logf.write("----------------------------------\nAdding courses on  {0}\n----------------------------------\n".format(datetime.datetime.now() ))
 	for row in tsv_reader:
 		if line_count == 0:
 			pass

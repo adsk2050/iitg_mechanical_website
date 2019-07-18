@@ -206,11 +206,13 @@
       <div class="w3-container w3-card w3-white">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Publications</h2>
         {% for pub in pub_list %}
+        {% if forloop.counter <11 %}
         <div class="w3-container">
           <h5 class="w3-opacity"><b><a href="{{ pub.url }}">{{ pub.specific.name }}</a></b></h5>
           <p>{{ pub.specific.get_pub_type_display }}</p>
           <hr>
         </div>
+        {% endif %}
         {% endfor %}
       </div>
       {% endif %}

@@ -13,7 +13,12 @@ gallery_images
 {% block content %}
     {{ page.title }}
 	<h1><a href="{{ page.specific.url }}">{{ page.specific.name }}</a></h1>
-	<h2>Principal Investigator : <a href="{{ page.specific.principal_investigator.url }}">{{ page.specific.principal_investigator }}</a></h2>
+    {% if page.specific.principal_investigator %}
+        <h2>Principal Investigator : <a href="{{ page.specific.principal_investigator.url }}">{{ page.specific.principal_investigator }}</a></h2>
+    {% elif page.specific.alt_PI_text %}
+        <h2>Principal Investigator : {{ page.specific.alt_PI_text }}</h2>
+    {% endif %}
+	
 	<h4>Funding agency: <a href="{{ page.specific.funding_agency_link }}">{{ page.specific.funding_agency }}</a></h4>
 	<hr>
 	<!-- Images for carousal -->

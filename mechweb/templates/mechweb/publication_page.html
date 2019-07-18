@@ -41,11 +41,9 @@
         <div> Citations: {{ page.specific.citations }}</div>
     {% endif %}
 
-    {% if page.alt_people_text %}
-        {{ page.alt_people_text }}
-    {% else %}
+    {% if not page.alt_people_text %}
         {% if page.faculty.all|length != 0 %}
-        	<h2>Faculty</h2>
+            <h2>Faculty</h2>
             <ul>
             {% for faculty in page.faculty.all %}
                 <li>
@@ -78,6 +76,8 @@
             {% endfor %}
             </ul>
         {% endif %}
+    {% else %}
+        {{ page.alt_people_text }}
     {% endif %}
 
 

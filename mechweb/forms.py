@@ -9,7 +9,7 @@ from .constants import USER_TYPES
 # if you used this then comment admin edit panels
 # -------------------------------------------------
 class CustomUserEditForm(UserEditForm):
-	middle_name = forms.CharField(label=_("Middle Name"))
+	middle_name = forms.CharField(label=_("Middle Name"), required=False)
 	user_type = forms.ChoiceField(required=True, choices=USER_TYPES, label=_("User Type"))
 	uid = forms.CharField(required=True, label=_("Roll No. / Employee ID"))
     
@@ -17,7 +17,7 @@ class CustomUserEditForm(UserEditForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
-	middle_name = forms.CharField(label=_("Middle Name"))
+	middle_name = forms.CharField(label=_("Middle Name"), required=False)
 	user_type = forms.ChoiceField(required=True, choices=USER_TYPES, label=_("User Type"))
 	uid = forms.CharField(required=True, label=_("Roll No. / Employee ID"))
     # status = forms.ModelChoiceField(queryset=MembershipStatus.objects, required=True, label=_("Status"))

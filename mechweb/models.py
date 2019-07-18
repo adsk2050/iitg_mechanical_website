@@ -1129,7 +1129,7 @@ class ResearchLabPage(Page):
 	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
 	# When already defined in faculty model who is lab incharge... then do we need it here?
 	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
-	intro = models.CharField(max_length=250)
+	intro = models.CharField(max_length=500, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	contact_number = models.CharField(max_length=20, blank=True)
 	address = models.CharField(max_length=100, blank=True)
@@ -1283,7 +1283,7 @@ class PublicationHomePage(Page):
 			'pub_list': pub_list,
 			# 'year':year,
 			'page_no':page_no,
-			'pub_type':pub_type,
+			# 'pub_type':pub_type,
 			'year_list':year_list,
 		})
 
@@ -1412,13 +1412,15 @@ class ProjectHomePage(Page):
 class ProjectPage(Page):
 	principal_investigator = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=500)
 	start_date = models.DateField(default=timezone.now)
 	end_date = models.DateField(blank=True)
-	budget = models.FloatField(blank=True)
-	funding_agency = models.CharField(max_length=100)
+	budget = models.CharField(blank=True, max_length=100)
+	funding_agency = models.CharField(blank=True, max_length=100)
 	funding_agency_link = models.URLField(blank=True, max_length=100)
 	project_type = models.CharField(max_length=20, default='1', choices=PROJECT_TYPES)
+	alt_PI_text=models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
+
 	content_panels = Page.content_panels + [
 		FieldPanel('project_type'),
 		FieldPanel('name'),
@@ -1444,6 +1446,7 @@ class ProjectPage(Page):
 		AutocompletePanel('principal_investigator', target_model='mechweb.FacultyPage'),
 		InlinePanel('faculty', label="Faculty"),
 		InlinePanel('students', label="Students"),
+		FieldPanel('alt_PI_text')
 	]
 
 	edit_handler = TabbedInterface([
@@ -1671,16 +1674,18 @@ class AwardHomePage(Page):
 
 class Award(Orderable):
 	page = ParentalKey(AwardHomePage, null=True, on_delete=models.SET_NULL, related_name='awards')
-	faculty =  models.ForeignKey( 'FacultyPage', null=True, on_delete=models.SET_NULL,related_name='award_fac')
+	faculty =  models.ForeignKey( 'FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,related_name='award_fac')
 	other_recipients = models.CharField(max_length=100, blank=True)
-	award_title = models.CharField(max_length=100)
+	award_title = models.CharField(max_length=500)
 	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
-	award_time = models.DateField(default=timezone.now)
+	award_time = models.CharField(max_length=100, blank=True)
 	conferrer = models.CharField(max_length=100)
 	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
+	alt_recipient_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty")
+	
 
 	panels = [
 		FieldPanel('award_title'),
@@ -1693,6 +1698,7 @@ class Award(Orderable):
 		FieldPanel('conferrer'),
 		FieldPanel('conferrer_description'),
 		FieldPanel('link'),
+		FieldPanel('alt_recipient_text'),
 	]
 
 	class Meta:

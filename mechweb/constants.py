@@ -14,6 +14,8 @@ USER_TYPES = (
 
 LOCATIONS=(
 	('0', 'Seminar hall'),
+	('1', 'ME new meeting room'),
+	('2', 'Other'),
 )
 
 EVENTS=(
@@ -57,7 +59,7 @@ STAFF_DESIGNATION = (
 
 PROJECT_TYPES=(
 	('1','Academic'),
-	('0','Consultancy')
+	('0','Consultancy'),
 )
 
 PUBLICATION_TYPES = (
