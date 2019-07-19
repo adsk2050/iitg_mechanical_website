@@ -8,19 +8,7 @@
 
 
 {% block content %}
-  <div class="container-fluid">
-    <div class="row">
 
-      <div class="col-xs-12 col-sm-6 col-md-7">
-        <!-- <h3>All Faculties</h3> -->
-      </div>
-      <i class="fa fa-search fa-2x"></i>
-
-      <div class="col-xs-12 col-sm-6 col-md-4">
-         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for faculty..">
-      </div>
-    </div>
-  </div>
 
   <div class="container-fluid text-center">
     <div class="row">
@@ -57,29 +45,60 @@
 
     </div>
 
+    <!-- <div class="row ">
+
+      {% for category in all_categories %}
+      <div class="col-xs-6 col-sm-6 col-md-3">
+        <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('{{ category.specific.category }}')" name="button">
+          <i class="fa fa-check-square-o visible-xs"></i>
+          <span class="hidden-xs"><li>{{ category.specific.get_category_display }}</li></span>
+        </button>
+
+      </div>
+      {% endfor %}
+
+    </div> -->
+
   </ul>
   {% endif %}
 
 
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-6 col-md-7">
+        <!-- <h3>All Faculties</h3> -->
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4" style="text-align:center">
+         <i class="fa fa-search fa-2x"></i>
+         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for faculty..">
+      </div>
+    </div>
+  </div>
 
 
 
     <!-- Faculty List -->
     <div class="container-fluid facultyhome">
-    <div class="row bread-list">
+    <div class="row bread-list" id="myUL">
       {% for faculty in faculty_list %}
 
-        <div class="col-md-12 bread-list-item">
+        <div class="col-md-12 bread-list-item" >
+          <span style="display:none">{{ faculty }}</span>
+
             <div class="row">
                 <div class="col-xs-4 col-sm-12 col-md-3 image">
                   <a href="{{ faculty.url }">
                     {% if faculty.specific.photo %}
-                      {% image faculty.specific.photo original %}
-                    {% else %}
                       {% with 'images/'|add:faculty.slug|add:'.jpg' as image_static %}
-                            <img src="{% static image_static %}" width=100% height=100% alt="{{ photo.alt }}" class="" />
+                        <img src="{% static image_static %}" width=100% height=100% alt="{{ photo.alt }}" class="" />
                       {% endwith %}
+                    {% else %}
+                        <img src="{% static "images/placeholder.jpg" %}" width=100%
+                                height=100% alt="{{ image.alt }}" class="" />
                     {% endif %}
+
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">
@@ -166,5 +185,46 @@
 
 
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+{% endblock %}
+
+
+{% block extra_script %}
+    <script>
+    function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByClassName("bread-list-item");
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("span")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+    }
+    </script>
+
+    <script>
+    filterSelection("all")
+      function filterSelection(c) {
+      var x, i, ul, li;
+      ul = document.getElementById("myUL");
+      li = ul.getElementsByClassName("bread-list-item");
+      if (c == "all") c = "";
+      // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+      for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+      }
+      }
+    </script>
 
 {% endblock %}
