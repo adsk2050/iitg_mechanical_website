@@ -56,7 +56,7 @@
 
 <ul>
   {% for publication in pub_list %}
-    <li class="filterDiv" id="{{ publication.pub_year|date:'Y' }}">
+    <li class="filterDiv" id="year_{{ publication.pub_year|date:'Y' }}">
       <h2> {{ publication.specific.pub_type }}<a href="{{ publication.url }}">{{ publication.specific.name }}</a></h2>
       
       {% if publication.specific.faculty.all.count > 0 or publication.specific.students.all.count > 0 or publication.specific.other_authors.all.count > 0  %}
