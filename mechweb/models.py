@@ -324,6 +324,9 @@ class Categories(Page):
 
 def get_categories():
 	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
+
+def get_cat_fac(cat):
+	return Categories.objects.all().get(category=cat).faculty.all()
 ######################################################
 
 class FacultyHomePage(Page):
@@ -350,7 +353,7 @@ class FacultyHomePage(Page):
 		cat_name = ''
 		if cat:
 			cat_name = INTEREST_CATEGORIES[int(cat)][1]
-			faculty_list = faculty_list.filter(facultypage__fac_research_categories=cat)
+			faculty_list = get_cat_fac(cat)
 		tag = request.GET.get('tag')
 		if tag:
 			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)

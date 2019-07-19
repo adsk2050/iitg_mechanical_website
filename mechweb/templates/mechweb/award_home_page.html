@@ -109,7 +109,7 @@
                   </thead>
                   <tbody>
                     {% for award in page.awards.all %}
-                    {% if award.award_type == '0' %}
+                    {% if award.award_type == '1' %}
                   <tr>
                       <td>{{ award.faculty }}</td>
                       <td><a href="{{ award.link }}">{{ award.award_title }}</a></td>
