@@ -142,7 +142,7 @@
 
 
 
-                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home'%}
+                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home'%}
 
                     {% else %}
                     <li class="nav-item"> <a class="nav-link"  role="button" style="color: #fff; font-family:'Bitter', serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
@@ -286,6 +286,16 @@
                   </li>
                   <li>
                     <a href="http://shilloi.iitg.ernet.in/~mech/intranet/useful_links.php">Useful links</a>
+                  </li>
+
+                  <li>
+                  {% for child in navlist %}
+                     {% with page_type=child.content_type.name %}
+                     {% if page_type == 'Event Home' %}
+                      <a  href="{{ child.url }}">{{ child.title }}</a>
+                     {% endif %}
+                     {% endwith %}
+                  {% endfor %}
                   </li>
                 </ul>
 
