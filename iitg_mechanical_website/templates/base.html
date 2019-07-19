@@ -25,6 +25,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
 
     {% block extra_css %}
@@ -66,12 +67,13 @@
             </div>
 
           <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs baseheading mechname">
+            <div class="row">
+              <span><h4 class="mechbrand">Department of </h4></span>        </div>
+
               <div class="row">
-                <h4  >Department of</h4><br>
-               </div>
-                <div class="row">
-                <h3>Mechanical Engineering</h3>
-                </div>
+                <span><h3 class="mechbrand" > Mechanical Engineering</h3></span>
+
+              </div>
           </div>
 
             <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -142,7 +144,7 @@
 
 
 
-                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home'%}
+                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home'%}
 
                     {% else %}
                     <li class="nav-item"> <a class="nav-link"  role="button" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>

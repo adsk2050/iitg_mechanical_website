@@ -66,9 +66,8 @@
     </div>
 </div>
 
-<hr>
 
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="row ">
         <div class="col-xs-4 col-sm-4 col-md-4 ">
             <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block ">
@@ -89,7 +88,7 @@
             </a>
         </div>
     </div>
-</div>
+</div> -->
 
 <br><br><br>
 
@@ -167,12 +166,8 @@
         <hr>
         {% endif %}
     {% endfor %}
-<<<<<<< HEAD
     {% elif prog == '2' %}
-=======
-    {% endif %}
-    {% if prog == '2' %}
->>>>>>> webdev
+
     <h2 class="text-center" style="font-weight:bolder;">PhD Course Structure</h2>
         <ul class="cards">
             {% for course in course_list %}
@@ -182,45 +177,44 @@
             </li>
             {% endfor %}
         </ul>
-<<<<<<< HEAD
-    <hr> 
-=======
     <hr>
-    {% endif %}
->>>>>>> webdev
+    <hr>
 
     <!--       {#% elif prog == '2' %#}
 <h2 class="text-center">PhD Course Structure</h2> -->
     {% else %}
     <h2>All courses</h2>
-    <table>
-        <tr>
-            <th>Course code</th>
-            <th>Course Name</th>
-            <th>Lectures</th>
-            <th>Tutorials</th>
-            <th>Practicals</th>
-            <th>Credits</th>
-            <th>Semester</th>
-            <th>Course Type</th>
-            <th>Eligible Programmes</th>
-        </tr>
-        {% for course in course_list %}
-        <tr>
-            <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
-            <td>{{ course.specific.name }}</td>
-            <td>{{ course.specific.lectures }}</td>
-            <td>{{ course.specific.tutorials }}</td>
-            <td>{{ course.specific.practicals }}</td>
-            <td>{{ course.specific.credits }}</td>
-            <td>{{ course.specific.semester }}</td>
-            <td>{{ course.specific.get_course_type_display }}</td>
-            <td>{{ course.specific.get_eligible_programmes_display }}</td>
-        </tr>
+    <div class="table-wrapper">
+      <table class="fl-table">
+          <tr>
+              <th>Course code</th>
+              <th>Course Name</th>
+              <th>Lectures</th>
+              <th>Tutorials</th>
+              <th>Practicals</th>
+              <th>Credits</th>
+              <th>Semester</th>
+              <th>Course Type</th>
+              <th>Eligible Programmes</th>
+          </tr>
+          {% for course in course_list %}
+          <tr>
+              <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
+              <td>{{ course.specific.name }}</td>
+              <td>{{ course.specific.lectures }}</td>
+              <td>{{ course.specific.tutorials }}</td>
+              <td>{{ course.specific.practicals }}</td>
+              <td>{{ course.specific.credits }}</td>
+              <td>{{ course.specific.semester }}</td>
+              <td>{{ course.specific.get_course_type_display }}</td>
+              <td>{{ course.specific.get_eligible_programmes_display }}</td>
+          </tr>
 
-        {% endfor %}
-    </table>
-    
+          {% endfor %}
+      </table>
+    </div>
+
+{% endif %}
     {% if featured_courses %}
     <!-- List of featured courses here -->
     <ul class="cards">
@@ -242,7 +236,6 @@
         </li>
         {% endfor %}
     </ul>
-    {% endif %}
     {% endif %}
 </div>
 

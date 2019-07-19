@@ -35,9 +35,12 @@
 
       <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs mechname" style="font-family:'Source Sans Pro', sans-serif;">
         <div class="row">
-          <h4 class="mechbrand">Department of</h4><br>
-          <h3 class="mechbrand" >Mechanical Engineering</h3>
-        </div>
+          <span><h4 class="mechbrand">Department of </h4></span>        </div>
+
+          <div class="row">
+            <span><h3 class="mechbrand" > Mechanical Engineering</h3></span>
+
+          </div>
       </div>
 
       <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -105,7 +108,7 @@
                     </ul>
               {% endif %}
 
-              {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' %}
+              {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' %}
 
               {% else %}
               <li class="nav-item"> <a class="nav-link"  role="button" style="color: #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
@@ -314,15 +317,19 @@
          <img height="300px" width="300px"
              src="{% static "images/img1.jpg" %}">
      </div>
-     <div class="col-xs-12 col-sm-12 col-md-4 hodmsg sidebar-box">
+     <div class="col-xs-12 col-sm-12 col-md-4 hodmsg">
+       <div class="sidebar-box">
          <h3 class="text-center" >FROM HOD's DESK</h3><br>
          <p>{{ page.HOD_message|richtext }}</p><br>
-         <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
-           fa fa-long-arrow-right"></i>
-         </a>
-         </p>
+
+                <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
+                  fa fa-long-arrow-right"></i>
+                </a>
+                </p>
+
            <strong>Santosha K Dwivedy</strong><br>
-          <strong>HOD,Mechanical Department</strong>
+          <strong>HOD,Mechanical Department</strong>       </div>
+
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 donatecard">
          <div class="cardbox">
@@ -385,7 +392,7 @@
         </div>
         <div class="">
           <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-            <i class="fas fa-envelope-open-text" ></i>dhiraj.mittal@iitg.ac.in
+            <i class="fa fa-envelope"></i>dhiraj.mittal@iitg.ac.in
           </a>
         </div>
         <div class="ml-1 font-weight-light">
@@ -633,7 +640,8 @@ $(".sidebar-box .button").click(function() {
 
   // measure how tall inside should be by adding together heights of all inside paragraphs (except read-more paragraph)
   $ps.each(function() {
-    totalHeight += $(this).outerHeight();
+    // totalHeight += $(this).outerHeight();
+    totalHeight = 1000;
   });
 
   $up
