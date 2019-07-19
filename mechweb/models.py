@@ -126,11 +126,13 @@ class MechHomePage(Page):
 		except:
 			hod_image_url = "{% static 'images/hod.jpg' %}"
 
-		categories = get_categories
-
-		context['navlist'] = navlist
+		categories = get_categories()
+		new_events = get_new_events()
+		# context['navlist'] = navlist
 		context['categories'] = categories
 		context['hod_image_url'] = hod_image_url
+		context['new_events'] = new_events
+		
 		return context
 
 	class Meta:
@@ -293,6 +295,8 @@ class EventPageLink(Orderable):
 		FieldPanel('link'),
 	]
 
+def get_new_events():
+	return EventPage.objects.all().live().order_by('-first_published_at')[0:10]
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
@@ -1071,8 +1075,8 @@ def alumni_interests():
 
 # # How to make this function, student_interests() and faculty_interests() into one?
 ######################################################
-def get_categories():
-	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
+# def get_categories():
+# 	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
 ######################################################
 
 class ResearchHomePage(Page):
