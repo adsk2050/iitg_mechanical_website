@@ -1,4 +1,6 @@
 import csv
+import datetime
+
 from mechweb import wagtail_hooks
 from mechweb.models import CoursePage, CourseStructure, CourseProgrammes, CourseSpecializations
 
@@ -51,21 +53,37 @@ with open('mechweb/automation_scripts/courses.tsv', mode='r') as tsv_file:
 				tutorials = row["tutorials"],
 				practicals = row["practicals"],
 				credits = row["credits"],
-				semester = row["semester"],
+				eligible_programmes = row["eligible_programmes"],				
 				course_type = row["course_type"],
+				zero = bool(int(row["zero"])),
+				zero_sem = row["zero_sem"],
+				one = bool(int(row["one"])),
+				one_sem = row["one_sem"],
+				two = bool(int(row["two"])),
+				two_sem = row["two_sem"],
+				three = bool(int(row["three"])),
+				three_sem = row["three_sem"],
+				four = bool(int(row["four"])),
+				four_sem = row["four_sem"],
+				five = bool(int(row["five"])),
+				five_sem = row["five_sem"],
+				six = bool(int(row["six"])),
+				six_sem = row["six_sem"],
 				course_page_link = row["course_page_link"],
 				description = row["description"],
+								
 			)
-			ep = row["eligible_programmes"],
-			ep = ep.split(',')
-			es = row["eligible_specializations"],
-			es = es.split(',')
-			for cat in ep:
-				cp = CourseProgrammes.objects.all().get(category=cat)
-				course.eligible_programmes.add(cp)
-			for cat in es:
-				cs = CourseSpecializations.objects.all().get(category=cat)
-				course.eligible_specializations.add(cs)
+			# ep = row["eligible_programmes"]
+			# ep = ep.split(',')
+			# es = row["eligible_specializations"]
+			# es = es.split(',')
+
+			# for cat in ep:
+			# 	cp = CourseProgrammes.objects.all().get(category=cat)
+			# 	course.eligible_programmes.add(cp)
+			# for cat in es:
+			# 	cs = CourseSpecializations.objects.all().get(category=cat)
+			# 	course.eligible_specializations.add(cs)
 			course_structure.add_child(instance=course)
 			course_structure.save()
 		except Exception as e:
@@ -83,3 +101,4 @@ with open('mechweb/automation_scripts/courses.tsv', mode='r') as tsv_file:
 # for cat in es:
 # 	cs = CourseSpecializations.objects.all().get(category=cat)
 # 	course.eligible_specializations.add(cs)
+

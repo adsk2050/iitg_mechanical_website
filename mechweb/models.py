@@ -306,7 +306,8 @@ class CategoriesHome(Page):
 			FieldPanel('intro'),
 		]
 	parent_page_types=['MechHomePage']
-	subpage_types=['Categories', 'CourseProgrammes', 'CourseSpecializations']
+	subpage_types=['Categories']
+	# , 'CourseProgrammes', 'CourseSpecializations']
 	max_count = 1
 
 class Categories(Page):
@@ -1520,76 +1521,74 @@ class CourseStructure(Page):
 	max_count = 1
 
 	def serve(self, request):
-		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__semester')
+		course_list = self.get_children().live().filter().order_by('coursepage__name')
 
 
-		# Filter by programme
-		prog = request.GET.get('prog')
-		if prog in ['0','1', '2']:
-			course_list = get_prog_course(prog)
+		# # Filter by programme
+		# prog = request.GET.get('prog')
+		# if prog in ['0','1', '2', '3', '4', '5', '6']:
+		# 	course_list = get_prog_course(prog)
 
-		spec = request.GET.get('spec')
-		if spec in ['1', '2', '3', '4', '5']:
-			course_list = get_spec_course(spec)
-
-		structure = []
-		sem1 = course_list.filter(coursepage__semester=1)
-		structure.append(sem1)
-		sem2 = course_list.filter(coursepage__semester=2)
-		structure.append(sem2)
-		sem3 = course_list.filter(coursepage__semester=3)
-		structure.append(sem3)
-		sem4 = course_list.filter(coursepage__semester=4)
-		structure.append(sem4)
-		sem5 = course_list.filter(coursepage__semester=5)
-		structure.append(sem5)
-		sem6 = course_list.filter(coursepage__semester=6)
-		structure.append(sem6)
-		sem7 = course_list.filter(coursepage__semester=7)
-		structure.append(sem7)
-		sem8 = course_list.filter(coursepage__semester=8)
-		structure.append(sem8)
+		# structure = []
+		# sem1 = course_list.filter(coursepage__semester=1)
+		# structure.append(sem1)
+		# sem2 = course_list.filter(coursepage__semester=2)
+		# structure.append(sem2)
+		# sem3 = course_list.filter(coursepage__semester=3)
+		# structure.append(sem3)
+		# sem4 = course_list.filter(coursepage__semester=4)
+		# structure.append(sem4)
+		# sem5 = course_list.filter(coursepage__semester=5)
+		# structure.append(sem5)
+		# sem6 = course_list.filter(coursepage__semester=6)
+		# structure.append(sem6)
+		# sem7 = course_list.filter(coursepage__semester=7)
+		# structure.append(sem7)
+		# sem8 = course_list.filter(coursepage__semester=8)
+		# structure.append(sem8)
 
 		return render(request, self.template, {
 			'page': self,
 			'course_list': course_list,
-			'prog':prog,
-			'structure':structure,
+			# 'prog':prog,
+			# 'structure':structure,
 		})
 
 	class Meta:
 		verbose_name = "Course Structure"
 		verbose_name_plural = "CourseStructure"
 
-class CourseProgrammes(Page):
-	category = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0', unique=True)
-	content_panels = Page.content_panels + [
-			FieldPanel('category'),
-		]
-	parent_page_types=['CategoriesHome']
-	max_count = 4
+# class CourseProgrammes(Page):
+# 	category = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0', unique=True)
+# 	content_panels = Page.content_panels + [
+# 			FieldPanel('category'),
+# 		]
+# 	parent_page_types=['CategoriesHome']
+# 	max_count = 4
 
-	def serve(self, request):
-		course_list = self.courses.all()
-		return render(request, self.template, {
-			'page': self,
-			'course_list': course_list,
-		})
+# 	def serve(self, request):
+# 		course_list = self.courses.all()
+# 		return render(request, self.template, {
+# 			'page': self,
+# 			'course_list': course_list,
+# 		})
 
-class CourseSpecializations(Page):
-	category = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', unique=True)
-	content_panels = Page.content_panels + [
-			FieldPanel('category'),
-		]
-	parent_page_types=['CategoriesHome']
-	max_count = 6
+# class CourseSpecializations(Page):
+# 	category = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', unique=True)
+# 	# semester = models.CharField(max_length=2, default='1')
+# 	content_panels = Page.content_panels + [
+# 			FieldPanel('category'),
+# 			# FieldPanel('semester'),# check if this category is checked - if yes, then filling this field should be mandatory
+# 		]
+# 	parent_page_types=['CategoriesHome']
+# 	max_count = 6
 
-	def serve(self, request):
-		course_list = self.courses.all()
-		return render(request, self.template, {
-			'page': self,
-			'course_list': course_list,
-		})
+	# def serve(self, request):
+	# 	course_list = self.courses.all()
+	# 	return render(request, self.template, {
+	# 		'page': self,
+	# 		'course_list': course_list,
+	# 	})
 
 class CoursePage(Page):
 	name = models.CharField(max_length=50)
@@ -1599,10 +1598,27 @@ class CoursePage(Page):
 	tutorials = models.IntegerField(verbose_name="T")
 	practicals = models.IntegerField(verbose_name="P")
 	credits = models.IntegerField(verbose_name="C")
-	semester = models.IntegerField()
+	# semester = models.IntegerField()
+
+	eligible_programmes = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0')
 	course_type = models.CharField(max_length=2, choices=COURSE_TYPES, default='0')
-	eligible_programmes = ParentalManyToManyField('mechweb.CourseProgrammes', blank=True, related_name='courses')
-	eligible_specializations = ParentalManyToManyField('mechweb.CourseSpecializations', blank=True, related_name='courses')
+	zero = models.BooleanField(default=True, verbose_name="B. Tech")
+	zero_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	one = models.BooleanField(default=False, verbose_name="M.Tech: Aerodynamics & Propulsion ")
+	one_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	two = models.BooleanField(default=False, verbose_name="M.Tech: Manufacturing Science and Engineering")
+	two_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	three = models.BooleanField(default=False, verbose_name="M.Tech: Computational Mechanics")
+	three_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	four = models.BooleanField(default=False, verbose_name="M.Tech: Fluids and Thermal")
+	four_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	five = models.BooleanField(default=False, verbose_name="M.Tech: Machine Design")
+	five_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	six = models.BooleanField(default=False, verbose_name="PhD")
+	six_sem = models.IntegerField(blank=True, verbose_name="Semester")
+
+	# eligible_programmes = ParentalManyToManyField('mechweb.CourseProgrammes', blank=True, related_name='courses')
+	# eligible_specializations = ParentalManyToManyField('mechweb.CourseSpecializations', blank=True, related_name='courses')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	course_page_link = models.URLField(blank=True)
 	document = models.ForeignKey(
@@ -1618,23 +1634,54 @@ class CoursePage(Page):
 		FieldPanel('name'),
 		MultiFieldPanel([
 			FieldPanel('code'),
-			FieldPanel('semester'),
 			FieldPanel('course_type'),
-			FieldPanel('eligible_programmes',widget=forms.CheckboxSelectMultiple),
-			FieldPanel('eligible_specializations', widget=forms.CheckboxSelectMultiple),
-			FieldRowPanel([
-				FieldPanel('lectures'),
-				FieldPanel('tutorials'),
-				FieldPanel('practicals'),
-				FieldPanel('credits'),
-			]),
+			FieldPanel('eligible_programmes'),
+			# FieldPanel('eligible_programmes',widget=forms.CheckboxSelectMultiple),
+			# FieldPanel('eligible_specializations', widget=forms.CheckboxSelectMultiple),
 			DocumentChooserPanel('document'),
 			FieldPanel('course_page_link'),
 		], heading="Course Details"),
 		FieldPanel('description'),
 		ImageChooserPanel('photo'),
 		InlinePanel('course_instructor', label="Course Instructor"),
+	]
 
+	eligibility_and_sem_panels = [
+			FieldRowPanel([
+				FieldPanel('zero'),
+				FieldPanel('zero_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('one'),
+				FieldPanel('one_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('two'),
+				FieldPanel('two_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('three'),
+				FieldPanel('three_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('four'),
+				FieldPanel('four_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('five'),
+				FieldPanel('five_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('six'),
+				FieldPanel('six_sem'),
+			]),
+
+			FieldRowPanel([
+				FieldPanel('lectures'),
+				FieldPanel('tutorials'),
+				FieldPanel('practicals'),
+				FieldPanel('credits'),
+			]),
 	]
 
 	announcement_tab_panels = [
@@ -1643,6 +1690,7 @@ class CoursePage(Page):
 
 	edit_handler = TabbedInterface([
 		ObjectList(content_panels, heading="Content"),
+		ObjectList(eligibility_and_sem_panels, heading="Eligibility and Semester"),
 		ObjectList(announcement_tab_panels, heading="Announcements"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
