@@ -32,7 +32,7 @@ body,html {
   height: 100%;
   min-height: 100vh;
 
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
@@ -92,7 +92,7 @@ body,html {
 
 h1 {
   font-weight: 300;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   position: relative;
   color: #6D7993;
 
@@ -159,7 +159,7 @@ nav{
   height: auto;
   top: 0;
   left:0;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
 }
 
 
@@ -177,7 +177,7 @@ nav{
 
 .navbar-light .navbar-nav .nav-link{
   color: #fff;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 0.15;
   font-size: 20px;
 }
@@ -198,12 +198,12 @@ nav{
 .mechbrand{
   color: #0E0A11;
   line-height:1.45;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
 }
 
 .mechbrand.mechbrandscroll{
   color: #fff;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height:1.45;
 
 }
@@ -214,25 +214,25 @@ nav{
 
 .baseheading{
   color: #fff;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   font-size: 1.5rem;
 }
 
 .baseheading h4{
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 1.05;
   color: #fff;
 
 }
 
 .baseheading h3{
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 1.05;
   color: #fff;
 }
 
 .basenavheads a{
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 1.45;
 }
 
@@ -340,6 +340,7 @@ s
   padding: 50px 30px 20px;
   font: 15px;
   font-weight: 400;
+  height: 300px;
 }
 
 .service-text p:last-child{
@@ -513,6 +514,7 @@ header{
   padding: 40px 0 40px 0;
 }
 .newscontainer .promo {
+  font-weight: 300;
   background: linear-gradient(190deg, #6D7993 0%,#D5D5D5 100%);
   border-radius: 0px 0px 10px 10px;
   color: #fff;
@@ -612,7 +614,7 @@ header{
 
   /* background-color: #373434; */
   padding-top: 2rem;
-  color: #fff;
+  color: #050303;
 
 }
 .hodmsg{
@@ -1118,7 +1120,7 @@ h2{
     padding: 5px;
     margin: 2px;
     background-color: linear-gradient(190deg, #6D7993 0%,#D5D5D5 100%);
-    font-family: 'Bitter', serif;
+    font-family: 'Source Sans Pro', sans-serif;;
     height: auto;
     width: 300px;
   }
