@@ -1669,6 +1669,33 @@ class AwardHomePage(Page):
 	# 		'award_list': award_list,
 	# 		'award_type':award_type,
 	# 	})
+
+	def serve(self, request):
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
+
+		# Filter by programme
+		prog = request.GET.get('prog')
+		if prog in ['0','1', '2', '3']:
+			student_list = student_list.filter(studentpage__programme=prog)
+
+		# Filter by tag
+		tag = request.GET.get('tag')
+		if tag:
+			student_list = student_list.filter(studentpage__research_interests__name=tag)
+
+		paginator = Paginator(student_list, 10) # Show 10 students per page
+		page_no = request.GET.get('page_no')
+		student_list = paginator.get_page(page_no)
+
+		all_research_interests = student_interests()
+		return render(request, self.template, {
+			'page': self,
+			'student_list': student_list,
+			'all_research_interests': all_research_interests,
+			'tag':tag,
+			'page_no':page_no,
+			'prog':prog,
+		})
 	class Meta:
 		verbose_name = "Awards Home"
 
@@ -1685,7 +1712,7 @@ class Award(Orderable):
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
 	alt_recipient_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty")
-	
+
 
 	panels = [
 		FieldPanel('award_title'),
