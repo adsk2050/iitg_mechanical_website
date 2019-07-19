@@ -187,3 +187,6 @@ _____________________________________________________________________
 Your content_panels definition is using the wrong panel type for description and image - InlinePanel is only used for child object relations such as your greek_bios. You probably want this instead:
 
 https://stackoverflow.com/questions/48690081/attributeerror-deferredattribute-object-has-no-attribute-rel
+_____________________________________________________________________
+
+https://stackoverflow.com/questions/28057512/django-form-with-many-to-many-relationship-does-not-save

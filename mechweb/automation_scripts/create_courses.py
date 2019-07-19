@@ -1,6 +1,6 @@
 import csv
 from mechweb import wagtail_hooks
-from mechweb.models import CoursePage, CourseStructure
+from mechweb.models import CoursePage, CourseStructure, CourseProgrammes, CourseSpecializations
 
 from django.utils.text import slugify
 
@@ -53,10 +53,19 @@ with open('mechweb/automation_scripts/courses.tsv', mode='r') as tsv_file:
 				credits = row["credits"],
 				semester = row["semester"],
 				course_type = row["course_type"],
-				eligible_programmes = row["eligible_programmes"],
 				course_page_link = row["course_page_link"],
 				description = row["description"],
 			)
+			ep = row["eligible_programmes"],
+			ep = ep.split(',')
+			es = row["eligible_specializations"],
+			es = es.split(',')
+			for cat in ep:
+				cp = CourseProgrammes.objects.all().get(category=cat)
+				course.eligible_programmes.add(cp)
+			for cat in es:
+				cs = CourseSpecializations.objects.all().get(category=cat)
+				course.eligible_specializations.add(cs)
 			course_structure.add_child(instance=course)
 			course_structure.save()
 		except Exception as e:
@@ -67,3 +76,10 @@ with open('mechweb/automation_scripts/courses.tsv', mode='r') as tsv_file:
 
 
 # img_dnbasu = open('/media/original_images/dnbasu.jpg', mode='r')
+
+# for cat in ep:
+# 	cp = CourseProgrammes.objects.all().get(category=cat)
+# 	course.eligible_programmes.add(cp)
+# for cat in es:
+# 	cs = CourseSpecializations.objects.all().get(category=cat)
+# 	course.eligible_specializations.add(cs)

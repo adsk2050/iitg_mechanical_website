@@ -20,7 +20,7 @@ from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 ######################################################
 
 from wagtail.documents.models import Document, AbstractDocument
@@ -306,7 +306,7 @@ class CategoriesHome(Page):
 			FieldPanel('intro'),
 		]
 	parent_page_types=['MechHomePage']
-	subpage_types=['Categories']
+	subpage_types=['Categories', 'CourseProgrammes', 'CourseSpecializations']
 	max_count = 1
 
 class Categories(Page):
@@ -327,7 +327,7 @@ class Categories(Page):
 		})
 
 def get_categories():
-	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
+	return Categories.objects.all().live().order_by('-category')
 
 def get_cat_fac(cat):
 	return Categories.objects.all().get(category=cat).faculty.all()
@@ -402,7 +402,7 @@ class FacultyPage(Page):
 	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
-	fac_research_categories = models.ManyToManyField('mechweb.Categories', blank=True, related_name='faculty')
+	fac_research_categories = ParentalManyToManyField('mechweb.Categories', blank=True, related_name='faculty')
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True, null=True)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
@@ -1520,13 +1520,17 @@ class CourseStructure(Page):
 	max_count = 1
 
 	def serve(self, request):
-		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__eligible_programmes', 'coursepage__semester', 'coursepage__eligible_specializations')
+		course_list = self.get_children().live().order_by('coursepage__name', 'coursepage__semester')
 
 
 		# Filter by programme
 		prog = request.GET.get('prog')
 		if prog in ['0','1', '2']:
-			course_list = course_list.filter(coursepage__eligible_programmes=prog)
+			course_list = get_prog_course(prog)
+
+		spec = request.GET.get('spec')
+		if spec in ['1', '2', '3', '4', '5']:
+			course_list = get_spec_course(spec)
 
 		structure = []
 		sem1 = course_list.filter(coursepage__semester=1)
@@ -1557,6 +1561,36 @@ class CourseStructure(Page):
 		verbose_name = "Course Structure"
 		verbose_name_plural = "CourseStructure"
 
+class CourseProgrammes(Page):
+	category = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0', unique=True)
+	content_panels = Page.content_panels + [
+			FieldPanel('category'),
+		]
+	parent_page_types=['CategoriesHome']
+	max_count = 4
+
+	def serve(self, request):
+		course_list = self.courses.all()
+		return render(request, self.template, {
+			'page': self,
+			'course_list': course_list,
+		})
+
+class CourseSpecializations(Page):
+	category = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', unique=True)
+	content_panels = Page.content_panels + [
+			FieldPanel('category'),
+		]
+	parent_page_types=['CategoriesHome']
+	max_count = 6
+
+	def serve(self, request):
+		course_list = self.courses.all()
+		return render(request, self.template, {
+			'page': self,
+			'course_list': course_list,
+		})
+
 class CoursePage(Page):
 	name = models.CharField(max_length=50)
 	code = models.CharField(max_length=10)
@@ -1566,9 +1600,9 @@ class CoursePage(Page):
 	practicals = models.IntegerField(verbose_name="P")
 	credits = models.IntegerField(verbose_name="C")
 	semester = models.IntegerField()
-	course_type = models.CharField(max_length=100, choices=COURSE_TYPES, default='0')
-	eligible_programmes = models.CharField(max_length=100, choices=STUDENT_PROGRAMME, default='0', help_text="Minimum qualification needed to take course")
-	eligible_specializations = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', )
+	course_type = models.CharField(max_length=2, choices=COURSE_TYPES, default='0')
+	eligible_programmes = ParentalManyToManyField('mechweb.CourseProgrammes', blank=True, related_name='courses')
+	eligible_specializations = ParentalManyToManyField('mechweb.CourseSpecializations', blank=True, related_name='courses')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	course_page_link = models.URLField(blank=True)
 	document = models.ForeignKey(
@@ -1586,8 +1620,8 @@ class CoursePage(Page):
 			FieldPanel('code'),
 			FieldPanel('semester'),
 			FieldPanel('course_type'),
-			FieldPanel('eligible_programmes'),
-			FieldPanel('eligible_specializations'),
+			FieldPanel('eligible_programmes',widget=forms.CheckboxSelectMultiple),
+			FieldPanel('eligible_specializations', widget=forms.CheckboxSelectMultiple),
 			FieldRowPanel([
 				FieldPanel('lectures'),
 				FieldPanel('tutorials'),
@@ -1652,6 +1686,11 @@ class FeaturedCourse(Orderable):
 	panels = [
 		AutocompletePanel('featured_course', target_model='mechweb.CoursePage'),
 	]
+
+def get_prog_course(cat):
+	return CourseProgrammes.objects.all().get(category=cat).courses.all()
+def get_spec_course(cat):
+	return CourseSpecializations.objects.all().get(category=cat).courses.all()
 ######################################################
 class AwardHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -1726,3 +1765,5 @@ class Award(Orderable):
 # 	for i in  range(1996, year):
 # 		year_list.append(i)
 # 	return year_list
+
+ # from mechweb.models import CourseProgrammes, CourseSpecializations, CourseTypes
