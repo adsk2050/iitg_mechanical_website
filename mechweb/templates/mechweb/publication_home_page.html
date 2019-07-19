@@ -44,7 +44,7 @@
 
 <ul>
    {% for year in year_list %}
-    <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
+    <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('year_{{ year }}')">{{ year }}</button>
 <!--     <li >
       <a href="#abc{{ year }}" >
       <span class="hidden-xs">{{ year }}</span></a>
