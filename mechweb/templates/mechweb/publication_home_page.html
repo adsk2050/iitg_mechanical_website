@@ -44,7 +44,7 @@
 
 <ul>
    {% for year in year_list %}
-    <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('year_{{ year }}')">{{ year }}</button>
+    <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
 <!--     <li >
       <a href="#abc{{ year }}" >
       <span class="hidden-xs">{{ year }}</span></a>
@@ -54,9 +54,9 @@
 </ul>
 
 
-<ul id="myUL">
+<ul>
   {% for publication in pub_list %}
-    <li class="filterDiv" id="year_{{ publication.pub_year|date:'Y' }}">
+    <li class="filterDiv" id="{{ publication.pub_year|date:'Y' }}">
       <h2> {{ publication.specific.pub_type }}<a href="{{ publication.url }}">{{ publication.specific.name }}</a></h2>
 
       {% if publication.specific.faculty.all.count > 0 or publication.specific.students.all.count > 0 or publication.specific.other_authors.all.count > 0  %}
@@ -81,27 +81,23 @@
   {% endfor %}
 </ul>
 
-
-
-
-
-{% endblock %}
-
-
-{% block extra_script %}
+    <div class="container-fluid pubcont">
+      <h1 class="text-center">{{ page.title }}</h1>
+      <!-- Intro -->
+      <div class="intro">{{ page.intro|richtext }}</div>
+      <hr>
 <script type="text/javascript">
 filterSelection("all")
 function filterSelection(c) {
-  var x, i,ul;
-  ul = document.getElementById("myUL");
-  x = ul.getElementsByClassName("filterDiv");
-  if (c == "all") c = "";
+  var x, i;
+  x = document.getElementsByClassName("filterDiv");
+  if (c === "all") c == "";
   for (i = 0; i < x.length; i++) {
-    if(x.id !== "year_"+c ){
+    if(x[i].id !== c){
       x[i].style.display = 'none';
     }
     else{
-      x[i].style.display = 'inline';
+      x[i].style.display = 'block';
     }
   }
 }
@@ -118,4 +114,11 @@ for (var i = 0; i < btns.length; i++) {
   });
 }
 </script>
+
+
+{% endblock %}
+
+
+{% block extra_script %}
+
 {% endblock %}

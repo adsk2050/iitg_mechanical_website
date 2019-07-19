@@ -197,14 +197,16 @@ nav{
 
 .mechbrand{
   color: #0E0A11;
-  line-height:1.45;
+  line-height:1.2;
   font-family: 'Source Sans Pro', sans-serif;;
 }
+
+
 
 .mechbrand.mechbrandscroll{
   color: #fff;
   font-family: 'Source Sans Pro', sans-serif;;
-  line-height:1.45;
+  line-height:1.2;
 
 }
 
@@ -376,11 +378,11 @@ s
   bottom: 0;
   left: 0;
   width: 100%;
-  text-align: center;
+  text-align: right;
   margin: 0; padding: 30px 0;
 
   /* "transparent" only works here because == rgba(0,0,0,0) */
-  /* background-image: linear-gradient(to bottom, transparent, black); */
+  /* background-image: linear-gradient(to bottom, transparent, white); */
 }
 
 //bring carousel down as padding is added
@@ -1027,11 +1029,51 @@ h2{
     padding: 30px 0;
 } */
 
+.table-wrapper{
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
 
+.fl-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td, .fl-table th {
+    text-align: center;
+    padding: 8px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.fl-table thead th {
+    color: #ffffff;
+    background: #4FC3A1;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #324960;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
 
 /* Responsive */
 
-/* @media (max-width: 767px) {
+@media (max-width: 767px) {
     .fl-table {
         display: block;
         width: 100%;
@@ -1093,7 +1135,7 @@ h2{
         display: block;
         text-align: center;
     }
-} */
+}
 
 
 /* lab page css */
