@@ -53,12 +53,11 @@
                       <div class="col-xs-4 col-sm-4 image">
                         <a href="{% pageurl staff %}">
                           {% if staff.specific.photo %}{
-                            {% with 'images/'|add:staff.slug|add:'.jpg' as image_static %}
+                            {% image staff.specific.photo original %}
+                          {% else %}
+                              {% with 'images/'|add:staff.slug|add:'.jpg' as image_static %}
                               <img src="{% static image_static %}" width=100% height=100% alt="{{ photo.alt }}" class="" />
                             {% endwith %}
-                          {% else %}
-                              <img src="{% static "images/placeholder.jpg" %}" width=100%
-                                      height=100% alt="{{ image.alt }}" class="" />
                           {% endif %}
 
                           </a>

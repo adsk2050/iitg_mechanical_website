@@ -1,4 +1,4 @@
-	pub_type	alt_people_text	name	pub_year	pub_journal(conference name etc)	pub_vol	pub_issue	page_start	page_end	abstract	citations	download_link
+	pub_type	alt_people_text	name	pub_year	pub_journal	pub_vol	pub_issue	page_start	page_end	abstract	citations	download_link
 	2	P. Rath, S.C. Mishra, P. Mahanta, U.K. Saha, K. Mitra	Discrete transfer method applied to transient radiative transfer problems in participating medium	2003	Numerical Heat Transfer	Part A: Applications	44	2	183		197	
 	2	R.P Chopade, E. Agnihotri, A.K.Singh, A.Kumar, R.Uppaluri, S.C Mishra, P.Mahanta	Application of a particle swarm algorithm for parameter retrieval in a transient conduction-radiation problem	2011	Numerical Heat Transfer	Part A: Applications	59	9	672		692	
 	2	R.P Chopade, S.C Mishra, P. Mahanta, S. Maruyama	Numerical analysis of an inverseboundary design problem of a 3-D radiant furnace with a 3-D design object	2011	Numerical Heat Transfer	Part A: Applications	60	1	25		49	

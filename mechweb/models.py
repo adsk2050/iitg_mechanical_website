@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.utils.translation import gettext_lazy as _
-
+from django.http import Http404
 
 
 from django.contrib.auth.models import AbstractUser
@@ -126,11 +126,13 @@ class MechHomePage(Page):
 		except:
 			hod_image_url = "{% static 'images/hod.jpg' %}"
 
-		categories = get_categories
-
-		context['navlist'] = navlist
+		categories = get_categories()
+		new_events = get_new_events()
+		# context['navlist'] = navlist
 		context['categories'] = categories
 		context['hod_image_url'] = hod_image_url
+		context['new_events'] = new_events
+		
 		return context
 
 	class Meta:
@@ -293,6 +295,8 @@ class EventPageLink(Orderable):
 		FieldPanel('link'),
 	]
 
+def get_new_events():
+	return EventPage.objects.all().live().order_by('-first_published_at')[0:10]
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
@@ -1071,8 +1075,8 @@ def alumni_interests():
 
 # # How to make this function, student_interests() and faculty_interests() into one?
 ######################################################
-def get_categories():
-	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
+# def get_categories():
+# 	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
 ######################################################
 
 class ResearchHomePage(Page):
@@ -1301,16 +1305,16 @@ class PublicationPage(Page):
 		on_delete=models.SET_NULL,
 		related_name='+'
 	)
-	name = models.CharField(max_length=500, blank=True)
+	name = models.CharField(max_length=500)
 	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
 	download_link = models.URLField(blank=True, max_length=100)
 	pub_issue = models.CharField(max_length=100,null=True, blank=True)
 	pub_year = models.DateField(default=timezone.now)
-	pub_journal = models.CharField(max_length=200, blank=True)
+	pub_journal = models.CharField(max_length=300, blank=True)
 	pub_vol = models.CharField(max_length=200, blank=True)
-	page_start = models.CharField(max_length=10, blank=True)
-	page_end = models.CharField(max_length=10, blank=True)
+	page_start = models.CharField(max_length=50, blank=True)
+	page_end = models.CharField(max_length=50, blank=True)
 	citations = models.CharField(max_length=10, blank=True)
 	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
 	# pub_conference =
@@ -1654,6 +1658,7 @@ class AwardHomePage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
 		InlinePanel('awards', label="Awards"),
+			# , widget=),
 	]
 	parent_page_types=['MechHomePage']
 	subpage_types=[]

@@ -1,4 +1,4 @@
-from .models import MechHomePage
+from .models import MechHomePage, ResearchLabPage
 
 def navbar(request):
 	navlist_parent = MechHomePage.objects.all()
@@ -10,3 +10,8 @@ def navbar(request):
 		return {'navlist': navlist}
 	else:
 		return {'navlist':[]}
+
+# def get_mech_workshop():
+# 	workshop = ResearchLabPage.objects.all().get(name="Mechanical Workshop")
+# 	return {'workshop':workshop }
+	
