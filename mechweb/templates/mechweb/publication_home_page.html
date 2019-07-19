@@ -12,7 +12,7 @@
 {% block body_style %}padding-top: 105px; {% endblock %}
 
 
-{% block content %} 
+{% block content %}
 
 <ul>
     <li >
@@ -54,11 +54,11 @@
 </ul>
 
 
-<ul>
+<ul id="myUL">
   {% for publication in pub_list %}
     <li class="filterDiv" id="year_{{ publication.pub_year|date:'Y' }}">
       <h2> {{ publication.specific.pub_type }}<a href="{{ publication.url }}">{{ publication.specific.name }}</a></h2>
-      
+
       {% if publication.specific.faculty.all.count > 0 or publication.specific.students.all.count > 0 or publication.specific.other_authors.all.count > 0  %}
         <h3>Team</h3>
         <ul>
@@ -81,19 +81,23 @@
   {% endfor %}
 </ul>
 
-    <div class="container-fluid pubcont">
-      <h1 class="text-center">{{ page.title }}</h1>
-      <!-- Intro -->
-      <div class="intro">{{ page.intro|richtext }}</div>
-      <hr>
+
+
+
+
+{% endblock %}
+
+
+{% block extra_script %}
 <script type="text/javascript">
 filterSelection("all")
 function filterSelection(c) {
-  var x, i;
-  x = document.getElementsByClassName("filterDiv");
+  var x, i,ul;
+  ul = document.getElementById("myUL");
+  x = ul.getElementsByClassName("filterDiv");
   if (c == "all") c = "";
   for (i = 0; i < x.length; i++) {
-    if(x.id != c){
+    if(x.id !== "year_"+c ){
       x[i].style.display = 'none';
     }
     else{
@@ -114,11 +118,4 @@ for (var i = 0; i < btns.length; i++) {
   });
 }
 </script>
-
-
-{% endblock %}
-
-
-{% block extra_script %}
-
 {% endblock %}
