@@ -45,20 +45,6 @@
 
     </div>
 
-    <!-- <div class="row ">
-
-      {% for category in all_categories %}
-      <div class="col-xs-6 col-sm-6 col-md-3">
-        <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('{{ category.specific.category }}')" name="button">
-          <i class="fa fa-check-square-o visible-xs"></i>
-          <span class="hidden-xs"><li>{{ category.specific.get_category_display }}</li></span>
-        </button>
-
-      </div>
-      {% endfor %}
-
-    </div> -->
-
   </ul>
   {% endif %}
 
@@ -212,18 +198,31 @@
     }
     </script>
 
+
+
     <script>
     filterSelection("all")
       function filterSelection(c) {
-      var x, i, ul, li;
+      var input, filter, ul, li, a, i, txtValue, integ;
       ul = document.getElementById("myUL");
       li = ul.getElementsByClassName("bread-list-item");
-      if (c == "all") c = "";
+
+      // for (i = 0; i < li.length; i++) {
+      //       li[i].style.display = "none";
+      //   }
+
       // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
-      for (i = 0; i < x.length; i++) {
-        w3RemoveClass(x[i], "show");
-        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("span")[0];
+        txtValue = a.textContent || a.innerText;
+        integ = parseInt(txtValue);
+        if (integ < c && integ >= c-4) {
+          li[i].style.display = "block";
+        } else {
+          li[i].style.display = "none";
+        }
       }
+
       }
     </script>
 

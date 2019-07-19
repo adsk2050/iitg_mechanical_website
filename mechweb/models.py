@@ -1419,7 +1419,7 @@ class ProjectHomePage(Page):
 class ProjectPage(Page):
 	principal_investigator = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	name = models.CharField(max_length=75)
+	name = models.CharField(max_length=150)
 	start_date = models.DateField(default=timezone.now)
 	end_date = models.DateField(blank=True)
 	budget = models.CharField(blank=True, max_length=100)
