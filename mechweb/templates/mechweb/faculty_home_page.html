@@ -80,7 +80,7 @@
                       {% image faculty.specific.photo original %}
                     {% else %}
                       {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
-                            <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
+                            <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
                       {% endwith %}
                     {% endif %}
                     </a>
@@ -198,30 +198,5 @@
 
 
 
-    <script>
-    filterSelection("all")
-      function filterSelection(c) {
-      var input, filter, ul, li, a, i, txtValue, integ;
-      ul = document.getElementById("myUL");
-      li = ul.getElementsByClassName("bread-list-item");
-
-      // for (i = 0; i < li.length; i++) {
-      //       li[i].style.display = "none";
-      //   }
-
-      // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
-      for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("span")[0];
-        txtValue = a.textContent || a.innerText;
-        integ = parseInt(txtValue);
-        if (integ < c && integ >= c-4) {
-          li[i].style.display = "block";
-        } else {
-          li[i].style.display = "none";
-        }
-      }
-
-      }
-    </script>
 
 {% endblock %}

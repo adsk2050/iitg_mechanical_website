@@ -867,6 +867,7 @@ class StaffPage(Page):
 	middle_name = models.CharField(max_length=50, blank=True)
 	last_name = models.CharField(max_length=50)
 	email_id = models.EmailField()
+	responsibilities = models.CharField(max_length=500,null=True, blank=True)
 
 	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='10')
 	joining_year = models.DateField(default=timezone.now)
