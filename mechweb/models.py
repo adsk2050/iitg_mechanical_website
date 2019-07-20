@@ -132,7 +132,7 @@ class MechHomePage(Page):
 		context['categories'] = categories
 		context['hod_image_url'] = hod_image_url
 		context['new_events'] = new_events
-		
+
 		return context
 
 	class Meta:
@@ -1524,79 +1524,73 @@ class CourseStructure(Page):
 		course_list = self.get_children().live().order_by('coursepage__name')
 		# Filter by programme
 		prog = request.GET.get('prog')
+		structure = []
 		if prog=='0':
-			structure = []
-			sem1 = course_list.filter(zero='1').filter(zero_sem=1)
-			structure.append(sem1)
-			sem2 = course_list.filter(zero='1').filter(zero_sem=2)
-			structure.append(sem2)
-			sem3 = course_list.filter(zero='1').filter(zero_sem=3)
-			structure.append(sem3)
-			sem4 = course_list.filter(zero='1').filter(zero_sem=4)
-			structure.append(sem4)
-			sem5 = course_list.filter(zero='1').filter(zero_sem=5)
-			structure.append(sem5)
-			sem6 = course_list.filter(zero='1').filter(zero_sem=6)
-			structure.append(sem6)
-			sem7 = course_list.filter(zero='1').filter(zero_sem=7)
-			structure.append(sem7)
-			sem8 = course_list.filter(zero='1').filter(zero_sem=8)
-			structure.append(sem8)
+		  sem1 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=4)
+		  structure.append(sem4)
+		  sem5 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=5)
+		  structure.append(sem5)
+		  sem6 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=6)
+		  structure.append(sem6)
+		  sem7 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=7)
+		  structure.append(sem7)
+		  sem8 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=8)
+		  structure.append(sem8)
 		elif prog=='1':
-			structure = []
-			sem1 = course_list.filter(one='1').filter(one_sem=1)
-			structure.append(sem1)
-			sem2 = course_list.filter(one='1').filter(one_sem=2)
-			structure.append(sem2)
-			sem3 = course_list.filter(one='1').filter(one_sem=3)
-			structure.append(sem3)
-			sem4 = course_list.filter(one='1').filter(one_sem=4)
+		  sem1 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=4)
 		elif prog=='2':
-			structure = []
-			sem1 = course_list.filter(two='1').filter(two_sem=1)
-			structure.append(sem1)
-			sem2 = course_list.filter(two='1').filter(two_sem=2)
-			structure.append(sem2)
-			sem3 = course_list.filter(two='1').filter(two_sem=3)
-			structure.append(sem3)
-			sem4 = course_list.filter(two='1').filter(two_sem=4)
-			structure.append(sem4)
+		  sem1 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=4)
+		  structure.append(sem4)
 		elif prog=='3':
-			structure = []
-			sem1 = course_list.filter(three='1').filter(three_sem=1)
-			structure.append(sem1)
-			sem2 = course_list.filter(three='1').filter(three_sem=2)
-			structure.append(sem2)
-			sem3 = course_list.filter(three='1').filter(three_sem=3)
-			structure.append(sem3)
-			sem4 = course_list.filter(three='1').filter(three_sem=4)
-			structure.append(sem4)
+		  sem1 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=4)
+		  structure.append(sem4)
 		elif prog=='4':
-			structure = []
-			sem1 = course_list.filter(four='1').filter(four_sem=1)
-			structure.append(sem1)
-			sem2 = course_list.filter(four='1').filter(four_sem=2)
-			structure.append(sem2)
-			sem3 = course_list.filter(four='1').filter(four_sem=3)
-			structure.append(sem3)
-			sem4 = course_list.filter(four='1').filter(four_sem=4)
-			structure.append(sem4)
+		  sem1 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=4)
+		  structure.append(sem4)
 		elif prog=='5':
-			structure = []
-			sem1 = course_list.filter(five='1').filter(five_sem=1)
-			structure.append(sem1)
-			sem2 = course_list.filter(five='1').filter(five_sem=2)
-			structure.append(sem2)
-			sem3 = course_list.filter(five='1').filter(five_sem=3)
-			structure.append(sem3)
-			sem4 = course_list.filter(five='1').filter(five_sem=4)
-			structure.append(sem4)
+		  sem1 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=4)
+		  structure.append(sem4)
 		elif prog=='6':
-			structure = []
-			sem1 = course_list.filter(six='1').filter(six_sem=1)
-			structure.append(sem1)
+		  sem1 = course_list.filter(coursepage__six='1').filter(coursepage__six_sem=1)
+		  structure.append(sem1)
 		else:
-			structure = []				
+		  pass
 
 		return render(request, self.template, {
 			'page': self,
@@ -1831,7 +1825,7 @@ class Award(Orderable):
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
 	alt_recipient_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty")
-	
+
 
 	panels = [
 		FieldPanel('award_title'),
