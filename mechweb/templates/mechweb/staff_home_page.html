@@ -55,8 +55,8 @@
                           {% if staff.specific.photo %}{
                             {% image staff.specific.photo original %}
                           {% else %}
-                              {% with 'images/'|add:staff.slug|add:'.jpg' as image_static %}
-                              <img src="{% static image_static %}" width=100% height=100% alt="{{ photo.alt }}" class="" />
+                              {% with '/media/images/staff/'|add:staff.slug|add:'.jpg' as image_static %}
+                              <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
                             {% endwith %}
                           {% endif %}
 

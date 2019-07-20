@@ -14,34 +14,7 @@
 </div>
 </div>
 </div> -->
-<button onclick=arrange("zero-1")>B.Tech</button>
-<button onclick=arrange("one-1")>M.Tech : Aerodynamics & Propulsion</button>
-<button onclick=arrange("two-1")>M.Tech : Manufacturing Science and Engineering</button>
-<button onclick=arrange("three-1")>M.Tech : Computational Mechanics</button>
-<button onclick=arrange("four-1")>M.Tech : Fluids and Thermal</button>
-<button onclick=arrange("five-1")>M.Tech : Machine Design</button>
-<button onclick=arrange("six-1")>PhD</button>
-<ul class="cards">
-{% for course in course_list %}
-<li class="cards_item zero-{{ course.zero }} zero_sem-{{ course.zero_sem }} one-{{ course.one }} one_sem-{{ course.one_sem }} two-{{ course.two }} two_sem-{{ course.two_sem }} three-{{ course.three }} three_sem-{{ course.three_sem }} four-{{ course.four }} four_sem-{{ course.four_sem }} five-{{ course.five }} five_sem-{{ course.five_sem }} six-{{ course.six }} six_sem-{{ course.six_sem }}">
-    <div class="card ">
-    <!-- <div class="card_image"><img src="https://picsum.photos/500/300/?image=10"></div> -->
-    <div class="card_content">
-        <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
-        <hr>
-        <ul>
-            <li><span>Course code</span> {{ course.specific.code }}</li>
-            <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
-            {% if course.specific.document.url %}
-                <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
-            {% endif %}
-            <li>Course Type : {{ course.specific.get_course_type_display }}</li>
-        </ul>
-    </div>
-    </div>
-</li>
-{% endfor %}
-</ul>
+
 <div class="container-fluid">
     <div class="row ">
         <div class="col-xs-4 col-sm-4 col-md-4 active">

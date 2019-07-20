@@ -9,7 +9,13 @@
     <h1>{{ page }}</h1>
     <div>{{ page.intro|richtext }}</div>
     <hr>
-    <div>{% image page.photo fill-160x100 %}</div>
+	{% if page.specific.photo %}{
+		{% image page.specific.photo original %}
+	{% else %}
+		{% with '/media/images/staff/'|add:staff.slug|add:'.jpg' as image_static %}
+			<img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
+		{% endwith %}
+	{% endif %}
     <div>{{ page.get_designation_display }}</div>
     <div>Email ID : {{ page.email_id }}</div>
     <div>Joining year : {{ page.joining_year }}</div>
