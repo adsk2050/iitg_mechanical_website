@@ -41,8 +41,7 @@ from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT, AUTH_USER_MOD
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, USER_TYPES, MESA, SAE, INTEREST_CATEGORIES
 # NAV_ORDER
 
-from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES
-
+from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES, FAC_PREV_WORK_TYPES
 # from social_django.strategy import DjangoStrategy
 
 ######################################################
@@ -333,6 +332,7 @@ def get_categories():
 def get_cat_fac(cat):
 	return Categories.objects.all().get(category=cat).faculty.all()
 ######################################################
+######################################################
 
 class FacultyHomePage(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[1])
@@ -410,7 +410,6 @@ class FacultyPage(Page):
 	website = models.URLField(max_length=250, blank=True)
 	abbreviation = models.CharField(max_length=10, blank=True)
 	#################################################################
-
 	additional_roles = models.CharField(max_length=2, choices=FACULTY_ROLES, default='2')
 	disposal_committee = models.CharField(max_length=2, choices=DISPOSAL_COMMITTEE, default='4')
 	laboratory_in_charge = models.CharField(max_length=2, choices=LABORATORY_IN_CHARGE, default='14')
@@ -451,6 +450,7 @@ class FacultyPage(Page):
 		FieldPanel('research_interests'),
 		InlinePanel('gallery_images', label="Gallery images", max_num=10),
 		FieldPanel('leaving_date'),
+		InlinePanel('faculty_prev_work', label="Previous Work")
 	]
 	# Creating custom tabs
 	custom_tab_panels = [
@@ -548,6 +548,20 @@ class FacultyAnnouncement(Orderable):
 		FieldPanel('link'),
 	]
 
+class FacultyPreviousWork(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='faculty_prev_work')
+	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	title = models.CharField(blank=True, max_length=50)
+	work_type = models.CharField(max_length=2, choices=FAC_PREV_WORK_TYPES, default='0')
+	start_date = models.DateTimeField(blank=True, default=timezone.now)
+	end_date = models.DateTimeField(blank=True, default=timezone.now)
+	panels = [
+		FieldPanel('title'),
+		FieldPanel('about'),
+		FieldPanel('start_date'),
+		FieldPanel('end_date'),
+	]
+
 class FacultyPageGalleryImage(Orderable):
 	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='gallery_images')
 	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
@@ -558,7 +572,6 @@ class FacultyPageGalleryImage(Orderable):
 			FieldPanel('caption'),
 		]),
 	]
-
 
 def faculty_interests():
 	live_tags = FacultyResearchInterestTag.objects.all()
@@ -571,6 +584,8 @@ def faculty_interests():
 	return common_tags
 
 ######################################################
+######################################################
+
 class AbstractStudentHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 

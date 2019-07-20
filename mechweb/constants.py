@@ -222,3 +222,11 @@ DISPOSAL_COMMITTEE = (
 	('2', 'External Member'),
 	('3', 'Non Member Secretary'),
 )
+
+FAC_PREV_WORK_TYPES = (
+	('0', 'Undergrad'),
+	('1', 'Masters'),
+	('2', 'PhD'),
+	('3', 'PostDoc'),
+	('4', 'Work'),
+)
