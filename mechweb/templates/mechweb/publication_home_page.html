@@ -42,25 +42,29 @@
 
 </ul>
 
-<ul>
+<ul >
    {% for year in year_list %}
-    <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
+   <li>
+     <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
+   </li>
 <!--     <li >
       <a href="#abc{{ year }}" >
       <span class="hidden-xs">{{ year }}</span></a>
     </li> -->
     {% endfor %}
-    <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('all')">All</button>
+    <li>
+      <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('all')">All</button>
+    </li>
 </ul>
 
 
-<ul>
+<ul id="myInputpub">
   {% for publication in pub_list %}
-    <li class="filterDiv" id="{{ publication.pub_year|date:'Y' }}">
+    <li class="filterDiv" id="year_{{ publication.specific.pub_year|date:'Y' }}">
       <h2> {{ publication.specific.pub_type }}<a href="{{ publication.url }}">{{ publication.specific.name }}</a></h2>
-
       {% if publication.specific.faculty.all.count > 0 or publication.specific.students.all.count > 0 or publication.specific.other_authors.all.count > 0  %}
-        <h3>Team</h3>
+        <h3>Team </h3>
+
         <ul>
           {% for faculty in publication.specific.faculty.all %}
             <li>
@@ -86,34 +90,37 @@
       <!-- Intro -->
       <div class="intro">{{ page.intro|richtext }}</div>
       <hr>
-<script type="text/javascript">
-filterSelection("all")
-function filterSelection(c) {
-  var x, i;
-  x = document.getElementsByClassName("filterDiv");
-  if (c === "all") c == "";
-  for (i = 0; i < x.length; i++) {
-    if(x[i].id !== c){
-      x[i].style.display = 'none';
-    }
-    else{
-      x[i].style.display = 'block';
+
+
+
+
+
+<script>
+  function filterSelection(year) {
+  var input, filter, ul, li, a, i, txtValue, integ, substraa, substrbb, yearint;
+  ul = document.getElementById("myInputpub");
+  list = ul.getElementsByClassName("filterDiv");
+  yearint = parseInt(year);
+  ;  // for (i = 0; i < li.length; i++) {
+  //       li[i].style.display = "none";
+  //   }
+
+  // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+  for (i = 0; i < list.length; i++) {
+    a = list[i].id;
+    substraa = a.substring(0,4);
+    substrbb = a.substring(5,9);
+    integ = parseInt(substrbb);
+    if ( integ === yearint) {
+      list[i].style.display = "block";
+    } else {
+      list[i].style.display = "none";
     }
   }
-}
 
-
-// Add active class to the current button (highlight it)
-var btnContainer = document.getElementById("myBtnContainer");
-var btns = btnContainer.getElementsByClassName("btn");
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function(){
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
-}
+  }
 </script>
+
 
 
 {% endblock %}

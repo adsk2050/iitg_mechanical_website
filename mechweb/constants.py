@@ -77,7 +77,7 @@ LAB_TYPES = (
 )
 
 INTEREST_CATEGORIES = (
-	('0', 'Other'),
+	('0', 'other'),
 	('1', 'Machine Design Engineering'),
 	('2', 'Manufacturing Engineering'),
 	('3', 'Thermal and Fluid Engineering'),

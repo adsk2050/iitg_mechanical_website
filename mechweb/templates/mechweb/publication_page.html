@@ -19,6 +19,9 @@
     {% if  page.specific.document %}
 	   <div>{{ page.specific.document|truncatechars:25 }} : <a href="{{ page.specific.document.url }}">Download</a></div>
     {% endif %}
+    {% if  page.specific.pub_year %}
+	   <div>{{ page.specific.pub_year|date:'Y' }}</div>
+    {% endif %}
     {% if  page.specific.download_link %}
         <div>External Download link: {{ page.specific.download_link }}</div>
     {% endif %}
