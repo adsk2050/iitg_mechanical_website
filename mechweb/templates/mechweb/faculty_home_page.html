@@ -75,16 +75,14 @@
 
             <div class="row">
                 <div class="col-xs-4 col-sm-12 col-md-3 image">
-                  <a href="{{ faculty.url }">
+                  <a href="{{ faculty.url }}">
                     {% if faculty.specific.photo %}
-                      {% with 'images/'|add:faculty.slug|add:'.jpg' as image_static %}
-                        <img src="{% static image_static %}" width=100% height=100% alt="{{ photo.alt }}" class="" />
-                      {% endwith %}
+                      {% image faculty.specific.photo original %}
                     {% else %}
-                        <img src="{% static "images/placeholder.jpg" %}" width=100%
-                                height=100% alt="{{ image.alt }}" class="" />
+                      {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
+                            <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
+                      {% endwith %}
                     {% endif %}
-
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">

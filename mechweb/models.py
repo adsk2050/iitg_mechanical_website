@@ -1521,37 +1521,82 @@ class CourseStructure(Page):
 	max_count = 1
 
 	def serve(self, request):
-		course_list = self.get_children().live().filter().order_by('coursepage__name')
-
-
-		# # Filter by programme
-		# prog = request.GET.get('prog')
-		# if prog in ['0','1', '2', '3', '4', '5', '6']:
-		# 	course_list = get_prog_course(prog)
-
-		# structure = []
-		# sem1 = course_list.filter(coursepage__semester=1)
-		# structure.append(sem1)
-		# sem2 = course_list.filter(coursepage__semester=2)
-		# structure.append(sem2)
-		# sem3 = course_list.filter(coursepage__semester=3)
-		# structure.append(sem3)
-		# sem4 = course_list.filter(coursepage__semester=4)
-		# structure.append(sem4)
-		# sem5 = course_list.filter(coursepage__semester=5)
-		# structure.append(sem5)
-		# sem6 = course_list.filter(coursepage__semester=6)
-		# structure.append(sem6)
-		# sem7 = course_list.filter(coursepage__semester=7)
-		# structure.append(sem7)
-		# sem8 = course_list.filter(coursepage__semester=8)
-		# structure.append(sem8)
+		course_list = self.get_children().live().order_by('coursepage__name')
+		# Filter by programme
+		prog = request.GET.get('prog')
+		structure = []
+		if prog=='0':
+		  sem1 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=4)
+		  structure.append(sem4)
+		  sem5 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=5)
+		  structure.append(sem5)
+		  sem6 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=6)
+		  structure.append(sem6)
+		  sem7 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=7)
+		  structure.append(sem7)
+		  sem8 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=8)
+		  structure.append(sem8)
+		elif prog=='1':
+		  sem1 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=4)
+		elif prog=='2':
+		  sem1 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=4)
+		  structure.append(sem4)
+		elif prog=='3':
+		  sem1 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=4)
+		  structure.append(sem4)
+		elif prog=='4':
+		  sem1 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=4)
+		  structure.append(sem4)
+		elif prog=='5':
+		  sem1 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=4)
+		  structure.append(sem4)
+		elif prog=='6':
+		  sem1 = course_list.filter(coursepage__six='1').filter(coursepage__six_sem=1)
+		  structure.append(sem1)
+		else:
+		  pass
 
 		return render(request, self.template, {
 			'page': self,
 			'course_list': course_list,
-			# 'prog':prog,
-			# 'structure':structure,
+			'prog':prog,
+			'structure':structure,
 		})
 
 	class Meta:
