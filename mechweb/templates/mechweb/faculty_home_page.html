@@ -35,7 +35,7 @@
     <div class="row ">
 
       {% for category in all_categories %}
-      <div class="col-xs-6 col-sm-6 col-md-3">
+      <div class="col-xs-6 col-sm-6 col-md-4">
         <a href="{{ page.url }}?cat={{ category.specific.category }}" class="btn btn-lg btn-block ">
           <i class="fa fa-check-square-o visible-xs"></i>
           <span class="hidden-xs"><li>{{ category.specific.get_category_display }}</li></span>
@@ -172,6 +172,10 @@
 
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
+{% endblock %}
+
+
+{% block extra_script %}
     <script>
     function myFunction() {
     // Declare variables
@@ -195,14 +199,17 @@
     </script>
 
 
-<!--
+
     <script>
+    filterSelection("all")
       function filterSelection(c) {
       var input, filter, ul, li, a, i, txtValue, integ;
       ul = document.getElementById("myUL");
       li = ul.getElementsByClassName("bread-list-item");
 
-
+      // for (i = 0; i < li.length; i++) {
+      //       li[i].style.display = "none";
+      //   }
 
       // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
       for (i = 0; i < li.length; i++) {
@@ -217,7 +224,6 @@
       }
 
       }
-    </script> -->
-
+    </script>
 
 {% endblock %}
