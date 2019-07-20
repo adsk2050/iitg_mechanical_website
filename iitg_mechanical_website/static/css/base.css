@@ -32,7 +32,7 @@ body,html {
   height: 100%;
   min-height: 100vh;
 
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
@@ -73,7 +73,7 @@ body,html {
 .dropdown-menu {
   display: none;
   position: absolute;
-  background-color: #6D7993 !important;
+  background-color: #222546 !important;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -92,22 +92,22 @@ body,html {
 
 h1 {
   font-weight: 300;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   position: relative;
-  color: #6D7993;
+  color: #222546;
 
 }
 
 h2 ,h3{
   font-weight: 900;
   font-family: 'Bitter', sans-serif;
-  color: #6D7993;
+  color: #222546;
 }
 
 h4 {
   font-weight: 600;
   font-family: 'Bitter', sans-serif;
-  color: #6D7993;
+  color: #222546;
   font-size: 22px;
 }
 
@@ -151,7 +151,7 @@ a:active{
 }
 /* a.btn:hover {
   background-color: #eb7400;
-  color: #6D7993;
+  color: #222546;
 } */
 
 nav{
@@ -159,7 +159,7 @@ nav{
   height: auto;
   top: 0;
   left:0;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
 }
 
 
@@ -177,15 +177,15 @@ nav{
 
 .navbar-light .navbar-nav .nav-link{
   color: #fff;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 0.15;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .fixed-top.scrolled {
   /* background-color: #62A8E0 !important; */
   color: #fff !important;
-  background: #6D7993 !important;
+  background: #222546 !important;
 
   transition: background-color 200ms linear;
 }
@@ -197,14 +197,16 @@ nav{
 
 .mechbrand{
   color: #0E0A11;
-  line-height:1.45;
-  font-family: 'Bitter', serif;
+  line-height:1.2;
+  font-family: 'Source Sans Pro', sans-serif;;
 }
+
+
 
 .mechbrand.mechbrandscroll{
   color: #fff;
-  font-family: 'Bitter', serif;
-  line-height:1.45;
+  font-family: 'Source Sans Pro', sans-serif;;
+  line-height:1.2;
 
 }
 
@@ -214,25 +216,25 @@ nav{
 
 .baseheading{
   color: #fff;
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   font-size: 1.5rem;
 }
 
 .baseheading h4{
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 1.05;
   color: #fff;
 
 }
 
 .baseheading h3{
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 1.05;
   color: #fff;
 }
 
 .basenavheads a{
-  font-family: 'Bitter', serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   line-height: 1.45;
 }
 
@@ -312,8 +314,8 @@ s
 
 .service-bg h2{
   color: #fff;
-  background: linear-gradient(190deg, #6D7993 0%,#6D7993 100%);
-  border: 1px solid #6D7993;
+  background: linear-gradient(190deg, #222546 0%,#222546 100%);
+  border: 1px solid #222546;
   font-size: 17px;
   text-align: center;
   font-weight: 700;
@@ -331,15 +333,16 @@ s
 .single-service:hover .service-bg h2{
   background: #fff;
   transition: 0.9s;
-  color: #6D7993;
+  color: #222546;
 }
 
 .service-text{
   /* background-color: #D5D5D5; */
-  color: #6D7993;
+  color: #222546;
   padding: 50px 30px 20px;
   font: 15px;
   font-weight: 400;
+  height: 300px;
 }
 
 .service-text p:last-child{
@@ -363,6 +366,23 @@ s
   .service-bg h2{
     font-size: 13px;
   }
+}
+
+.sidebar-box {
+  max-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+.sidebar-box .read-more {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+  margin: 0; padding: 30px 0;
+
+  /* "transparent" only works here because == rgba(0,0,0,0) */
+  /* background-image: linear-gradient(to bottom, transparent, white); */
 }
 
 //bring carousel down as padding is added
@@ -422,12 +442,14 @@ header{
   background-color: #fff;
   width: 30%;
   height: auto;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 20px;
 }
 
 /* Style the buttons that are used to open the tab content */
 .tab button {
   display: block;
-  background: linear-gradient(190deg, #6D7993 0%,#D5D5D5 100%);
+  background: linear-gradient(190deg, #222546 0%,#5085A5 100%);
 
   /* background-color: inherit; */
   color: #fff;
@@ -442,6 +464,7 @@ header{
   transition: 0.3s;
   border-radius: 10px;
   font-weight: bolder;
+  font-family: 'Source Sans Pro', sans-serif;
 
 }
 
@@ -452,13 +475,13 @@ header{
 
 
 .newsbox .tab .tablinks:hover {
-  background: #6D7993;
+  background: #222546;
   transition: 0.9s;
   color: #fff;
 }
 
 .newsbox .tab .tablinks:active {
-  background: #6D7993;
+  background: #222546;
   transition: 0.9s;
   color: #fff;
   font-weight: 400;
@@ -482,6 +505,7 @@ header{
   height: 435px;;
   display: none;
   overflow-y: scroll;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
  #News {
@@ -496,7 +520,8 @@ header{
   padding: 40px 0 40px 0;
 }
 .newscontainer .promo {
-  background: linear-gradient(190deg, #6D7993 0%,#D5D5D5 100%);
+  font-weight: 300;
+  background: linear-gradient(190deg, #222546 0%,#5085A5 100%);
   border-radius: 0px 0px 10px 10px;
   color: #fff;
   height: 432px;
@@ -508,6 +533,8 @@ header{
   text-align: center;
   overflow: hidden;
   position: relative;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 18px;
 }
 
 .promo-text .read-more{
@@ -517,8 +544,9 @@ header{
   width: 100%;
   text-align: center;
   margin: 0; padding: 30px 0;
+  font-family: 'Source Sans Pro', sans-serif;
 
-  background-image: linear-gradient(to bottom, transparent, #6D7993);
+  background-image: linear-gradient(to bottom, transparent, #222546);
 
 }
 
@@ -591,16 +619,18 @@ header{
 /* split screen and news code ends */
 
 .messagebox{
-  background: linear-gradient(190deg, #6D7993 0%,#D5D5D5 100%);
+  background: linear-gradient(190deg, #222546 0%,#5085A5 100%);
 
   /* background-color: #373434; */
   padding-top: 2rem;
-  color: #fff;
+  color: #050303;
+  font-family: 'Source Sans Pro', sans-serif;
 
 }
 .hodmsg{
   padding: 50px;
   text-align: left;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 .donatecard .cardbox .card-body{
@@ -608,15 +638,15 @@ header{
 }
 
 .donatecard button{
-  background-color: #6D7993;
-  border-color: #6D7993;
+  background-color: #222546;
+  border-color: #222546;
   max-width: 200px;
 }
 
 .donatecard  button:hover{
   background-color: #fff;
-  color: #6D7993;
-  border-color: #6D7993;
+  color: #222546;
+  border-color: #222546;
 }
 
 .donatecard .card-img-overlay{
@@ -625,7 +655,7 @@ header{
 }
 
 .donatecard .card-body a:hover{
-  color: #6D7993 !important;
+  color: #222546 !important;
 
 }
 
@@ -664,6 +694,7 @@ header{
   border-radius: 4px;
   margin: 12px;
   overflow: hidden;
+  display: block;
 }
 
 .bread-list-item h2 .lolo{
@@ -680,8 +711,8 @@ header{
 .bread-list-item .image {
   background-color: #eb7400;
   margin: 0;
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 180px;
+  max-height: 180px;
   min-width: 180px;
   min-height: 180px;
   padding: 0;
@@ -715,6 +746,7 @@ header{
   margin: 0;
   width: auto;
 }
+
 
 .bread-list-item ul {
   padding-left: 2px;
@@ -760,6 +792,22 @@ header{
   border-bottom: 1px solid #ccc;
   list-style: none;
   max-width: 450px;
+}
+
+/* #myInput {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+} */
+
+
+.filterDiv{
+  display: block;
 }
 ------------------------------------------
 
@@ -859,6 +907,11 @@ header{
   }
 }
 
+
+.coursecards{
+  display: block;
+}
+
 .layoutcard .card {
   height: 14.5rem;
   width: 20rem;
@@ -877,7 +930,7 @@ header{
 
 .layoutcard .card_title {
   text-align: center;
-  color: #6D7993;
+  color: #222546;
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 1px;
@@ -933,11 +986,11 @@ header{
     }
 
 .layoutcard .btn-block:active{
-  background-color: #6D7993;
+  background-color: #222546;
 }
 
 .btn-block:active{
-  background-color: #6D7993;
+  background-color: #222546;
 }
 ------------------------------------------
 
@@ -966,7 +1019,7 @@ header{
 /* publications table css */
 
 .pubcont .pubtabs a .nav-link{
-  color: #6D7993 !important;
+  color: #222546 !important;
   padding: 100px !important;
 }
 
@@ -990,11 +1043,52 @@ h2{
     padding: 30px 0;
 } */
 
+.table-wrapper{
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
 
+.fl-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td, .fl-table th {
+    text-align: center;
+    padding: 15px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.fl-table thead th {
+    color: #ffffff;
+    background: #222546;
+
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #324960;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
 
 /* Responsive */
 
-/* @media (max-width: 767px) {
+@media (max-width: 767px) {
     .fl-table {
         display: block;
         width: 100%;
@@ -1056,7 +1150,7 @@ h2{
         display: block;
         text-align: center;
     }
-} */
+}
 
 
 /* lab page css */
@@ -1082,14 +1176,14 @@ h2{
     border-radius: 3px;
     padding: 5px;
     margin: 2px;
-    background-color: linear-gradient(190deg, #6D7993 0%,#D5D5D5 100%);
-    font-family: 'Bitter', serif;
+    background-color: linear-gradient(190deg, #222546 0%,#5085A5 100%);
+    font-family: 'Source Sans Pro', sans-serif;;
     height: auto;
     width: 300px;
   }
 
   .eqptlist span{
-    color: #6D7993;
+    color: #222546;
     font-weight: 200;
   }
 
@@ -1118,6 +1212,13 @@ background-color: #D5D5D5 !important;
 color: #fff;
 }
 
+#myInputpub li{
+  display: block;
+}
+
+.filterDiv{
+  display:block;
+}
 ----------------------------------------
 
 

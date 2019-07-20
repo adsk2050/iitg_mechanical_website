@@ -1420,7 +1420,7 @@ class ProjectHomePage(Page):
 class ProjectPage(Page):
 	principal_investigator = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	name = models.CharField(max_length=500)
+	name = models.CharField(max_length=150)
 	start_date = models.DateField(default=timezone.now)
 	end_date = models.DateField(blank=True)
 	budget = models.CharField(blank=True, max_length=100)
@@ -1809,6 +1809,33 @@ class AwardHomePage(Page):
 	# 		'award_list': award_list,
 	# 		'award_type':award_type,
 	# 	})
+
+	def serve(self, request):
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
+
+		# Filter by programme
+		prog = request.GET.get('prog')
+		if prog in ['0','1', '2', '3']:
+			student_list = student_list.filter(studentpage__programme=prog)
+
+		# Filter by tag
+		tag = request.GET.get('tag')
+		if tag:
+			student_list = student_list.filter(studentpage__research_interests__name=tag)
+
+		paginator = Paginator(student_list, 10) # Show 10 students per page
+		page_no = request.GET.get('page_no')
+		student_list = paginator.get_page(page_no)
+
+		all_research_interests = student_interests()
+		return render(request, self.template, {
+			'page': self,
+			'student_list': student_list,
+			'all_research_interests': all_research_interests,
+			'tag':tag,
+			'page_no':page_no,
+			'prog':prog,
+		})
 	class Meta:
 		verbose_name = "Awards Home"
 

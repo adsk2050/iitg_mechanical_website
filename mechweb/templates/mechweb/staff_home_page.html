@@ -22,33 +22,43 @@
       </div>
 
 
-      {% if all_categories %}
-      <!-- <h2>Fields:</h2> -->
+      <div class="row ">
 
-
-      <ul>
-        <div class="row ">
-
-          {% for category in all_categories %}
-          <div class="col-xs-6 col-sm-6 col-md-3">
-            <a href="{{ page.url }}?cat={{ category.specific.category }}" class="btn btn-lg btn-block ">
-              <i class="fa fa-check-square-o visible-xs"></i>
-              <span class="hidden-xs"><li>{{ category.specific.get_category_display }}</li></span>
-            </a>
-          </div>
-          {% endfor %}
+        <div class="col-xs-12 col-sm-4 col-md-4">
+          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('4')" name="button">
+            <i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs"><li>Officer</li></span>
+          </button>
 
         </div>
 
-      </ul>
-      {% endif %}
+        <div class="col-xs-12 col-sm-4 col-md-4">
+          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('9')" name="button">
+            <i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs"><li>Staff</li></span>
+          </button>
 
-    
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4">
+          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('13')" name="button">
+            <i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs"><li>Other</li></span>
+          </button>
+
+        </div>
+
+      </div>
+
+<hr>
+
 
       <div class="container-fluid staffhome">
-          <div class="row bread-list">
+          <div class="row bread-list" id="myUL">
             {% for staff in staff_list %}
               <div class="col-xs-11 col-md-5 bread-list-item">
+                <span style="display:none">{{ staff.specific.designation }}</span>
+
                   <div class="row">
                       <div class="col-xs-4 col-sm-4 image">
                         <a href="{% pageurl staff %}">
@@ -98,3 +108,35 @@
 </div>
 
 {% endblock content %}
+
+
+{% block extra_script %}
+
+
+    <script>
+    filterSelection("all")
+      function filterSelection(c) {
+      var input, filter, ul, li, a, i, txtValue, integ;
+      ul = document.getElementById("myUL");
+      li = ul.getElementsByClassName("bread-list-item");
+
+      for (i = 0; i < li.length; i++) {
+            li[i].style.display = "none";
+        }
+
+      // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("span")[0];
+        txtValue = a.textContent || a.innerText;
+        integ = parseInt(txtValue);
+        if (integ < c && integ >= c-4) {
+          li[i].style.display = "block";
+        } else {
+          li[i].style.display = "none";
+        }
+      }
+
+      }
+    </script>
+
+{% endblock %}

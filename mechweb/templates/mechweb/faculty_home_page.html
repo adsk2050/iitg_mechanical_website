@@ -8,6 +8,8 @@
 
 
 {% block content %}
+
+
   <div class="container-fluid text-center">
     <div class="row">
       <div class="col-md-12">
@@ -47,13 +49,30 @@
   {% endif %}
 
 
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-6 col-md-7">
+        <!-- <h3>All Faculties</h3> -->
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4" style="text-align:center">
+         <i class="fa fa-search fa-2x"></i>
+         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for faculty..">
+      </div>
+    </div>
+  </div>
+
+
 
     <!-- Faculty List -->
     <div class="container-fluid facultyhome">
-    <div class="row bread-list">
+    <div class="row bread-list" id="myUL">
       {% for faculty in faculty_list %}
 
-        <div class="col-md-12 bread-list-item">
+        <div class="col-md-12 bread-list-item" >
+          <span style="display:none">{{ faculty }}</span>
+
             <div class="row">
                 <div class="col-xs-4 col-sm-12 col-md-3 image">
                   <a href="{{ faculty.url }}">
@@ -150,5 +169,53 @@
 
 
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+    <script>
+    function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByClassName("bread-list-item");
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("span")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+    }
+    </script>
+
+
+<!--
+    <script>
+      function filterSelection(c) {
+      var input, filter, ul, li, a, i, txtValue, integ;
+      ul = document.getElementById("myUL");
+      li = ul.getElementsByClassName("bread-list-item");
+
+
+
+      // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("span")[0];
+        txtValue = a.textContent || a.innerText;
+        integ = parseInt(txtValue);
+        if (integ < c && integ >= c-4) {
+          li[i].style.display = "block";
+        } else {
+          li[i].style.display = "none";
+        }
+      }
+
+      }
+    </script> -->
+
 
 {% endblock %}
