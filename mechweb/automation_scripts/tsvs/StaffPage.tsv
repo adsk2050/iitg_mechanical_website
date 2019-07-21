@@ -1,0 +1,34 @@
+page_ptr	id	path	depth	numchild	title	draft_title	slug	content_type	live	has_unpublished_changes	url_path	owner	seo_title	show_in_menus	search_description	go_live_at	expire_at	expired	locked	first_published_at	last_published_at	latest_revision_created_at	live_revision	user	first_name	middle_name	last_name	email_id	responsibilities	designation	joining_year	contact_number	address	photo	intro	skills
+83	83	0001000100060001	4	0	Raju  Talukdar	Raju  Talukdar	rajutalukdar	22	1	0	/mech/staff/rajutalukdar/	642		0				0	0					642	Raju		Talukdar	raju.talukdar@iitg.ac.in		10	2019-07-21					
+84	84	0001000100060002	4	0	Sanjib  Sarma	Sanjib  Sarma	sanjibs	22	1	0	/mech/staff/sanjibs/	643		0				0	0					643	Sanjib		Sarma	sanjib.s@iitg.ac.in		10	2019-07-21					
+85	85	0001000100060003	4	0	Mrinal  Sarma	Mrinal  Sarma	mrinal_s	22	1	0	/mech/staff/mrinal_s/	644		0				0	0					644	Mrinal		Sarma	mrinal_s@iitg.ac.in		10	2019-07-21					
+86	86	0001000100060004	4	0	Joykrishna  Saikia	Joykrishna  Saikia	joykrishna	22	1	0	/mech/staff/joykrishna/	645		0				0	0					645	Joykrishna		Saikia	joykrishna@iitg.ac.in		10	2019-07-21					
+87	87	0001000100060005	4	0	Nidul  Saikia	Nidul  Saikia	nidul_s	22	1	0	/mech/staff/nidul_s/	646		0				0	0					646	Nidul		Saikia	nidul_s@iitg.ac.in		10	2019-07-21					
+88	88	0001000100060006	4	0	Porag  Saikia	Porag  Saikia	porag_s	22	1	0	/mech/staff/porag_s/	647		0				0	0					647	Porag		Saikia	porag_s@iitg.ac.in		10	2019-07-21					
+89	89	0001000100060007	4	0	Rituraj  Saikia	Rituraj  Saikia	rsaikia	22	1	0	/mech/staff/rsaikia/	648		0				0	0					648	Rituraj		Saikia	rsaikia@iitg.ac.in		10	2019-07-21					
+90	90	0001000100060008	4	0	Pranjol  Paul	Pranjol  Paul	pranjol	22	1	0	/mech/staff/pranjol/	649		0				0	0					649	Pranjol		Paul	pranjol@iitg.ac.in		10	2019-07-21					
+91	91	0001000100060009	4	0	Ganesh  Nath	Ganesh  Nath	ganesh81	22	1	0	/mech/staff/ganesh81/	650		0				0	0					650	Ganesh		Nath	ganesh81@iitg.ac.in		10	2019-07-21					
+92	92	000100010006000A	4	0	Minesh Ch. Medhi	Minesh Ch. Medhi	minesh	22	1	0	/mech/staff/minesh/	651		0				0	0					651	Minesh	Ch.	Medhi	minesh@iitg.ac.in		10	2019-07-21					
+93	93	000100010006000B	4	0	Ratan  Medhi	Ratan  Medhi	medhir58	22	1	0	/mech/staff/medhir58/	652		0				0	0					652	Ratan		Medhi	medhir58@iitg.ac.in		10	2019-07-21					
+94	94	000100010006000C	4	0	Dhaneswar  Khaklary	Dhaneswar  Khaklary	dhani	22	1	0	/mech/staff/dhani/	653		0				0	0					653	Dhaneswar		Khaklary	dhani@iitg.ac.in		10	2019-07-21					
+95	95	000100010006000D	4	0	Amal  Kalita	Amal  Kalita	amal	22	1	0	/mech/staff/amal/	654		0				0	0					654	Amal		Kalita	amal@iitg.ac.in		10	2019-07-21					
+96	96	000100010006000E	4	0	Jyotirmoy  Kakati	Jyotirmoy  Kakati	jkakati	22	1	0	/mech/staff/jkakati/	655		0				0	0					655	Jyotirmoy		Kakati	j.kakati@iitg.ac.in		10	2019-07-21					
+97	97	000100010006000F	4	0	Upen  Gohain	Upen  Gohain	ug	22	1	0	/mech/staff/ug/	656		0				0	0					656	Upen		Gohain	ug@iitg.ac.in		10	2019-07-21					
+98	98	000100010006000G	4	0	Lakhinath  Gogoi	Lakhinath  Gogoi	lng	22	1	0	/mech/staff/lng/	657		0				0	0					657	Lakhinath		Gogoi	lng@iitg.ac.in		10	2019-07-21					
+99	99	000100010006000H	4	0	Santush  Gogoi	Santush  Gogoi	santoshgogoi	22	1	0	/mech/staff/santoshgogoi/	658		0				0	0					658	Santush		Gogoi	santoshgogoi@iitg.ac.in		10	2019-07-21					
+100	100	000100010006000I	4	0	Gautam  Gogoi	Gautam  Gogoi	gautamgogoi	22	1	0	/mech/staff/gautamgogoi/	659		0				0	0					659	Gautam		Gogoi	gautamgogoi@iitg.ac.in		10	2019-07-21					
+101	101	000100010006000J	4	0	Nabajyoti  Dutta	Nabajyoti  Dutta	naba	22	1	0	/mech/staff/naba/	660		0				0	0					660	Nabajyoti		Dutta	naba@iitg.ac.in		10	2019-07-21					
+102	102	000100010006000K	4	0	Monuranjan  Dowarah	Monuranjan  Dowarah	monudh	22	1	0	/mech/staff/monudh/	661		0				0	0					661	Monuranjan		Dowarah	monudh@iitg.ac.in		10	2019-07-21					
+103	103	000100010006000L	4	0	Dipak Kr. Deka	Dipak Kr. Deka	dkd	22	1	0	/mech/staff/dkd/	662		0				0	0					662	Dipak	Kr.	Deka	dkd@iitg.ac.in		10	2019-07-21					
+104	104	000100010006000M	4	0	Nandan Kanan Das	Nandan Kanan Das	nandan	22	1	0	/mech/staff/nandan/	663		0				0	0					663	Nandan	Kanan	Das	nandan@iitg.ac.in		10	2019-07-21					
+105	105	000100010006000N	4	0	Dulumoni  Das	Dulumoni  Das	dulumonidas	22	1	0	/mech/staff/dulumonidas/	664		0				0	0					664	Dulumoni		Das	dulumonidas@iitg.ac.in		10	2019-07-21					
+106	106	000100010006000O	4	0	Gakul  Das	Gakul  Das	gakul84	22	1	0	/mech/staff/gakul84/	665		0				0	0					665	Gakul		Das	gakul84@iitg.ac.in		10	2019-07-21					
+107	107	000100010006000P	4	0	Bijoy Kr. Choudhury	Bijoy Kr. Choudhury	bijoyk	22	1	0	/mech/staff/bijoyk/	666		0				0	0					666	Bijoy	Kr.	Choudhury	bijoy.k@iitg.ac.in		10	2019-07-21					
+108	108	000100010006000Q	4	0	Dilip  Chetri	Dilip  Chetri	chetri	22	1	0	/mech/staff/chetri/	667		0				0	0					667	Dilip		Chetri	chetri@iitg.ac.in		10	2019-07-21					
+109	109	000100010006000R	4	0	Dhruba Jyoti Bordoloi	Dhruba Jyoti Bordoloi	djb	22	1	0	/mech/staff/djb/	668		0				0	0					668	Dhruba	Jyoti	Bordoloi	djb@iitg.ac.in		10	2019-07-21					
+110	110	000100010006000S	4	0	Nip  Borah	Nip  Borah	nip	22	1	0	/mech/staff/nip/	669		0				0	0					669	Nip		Borah	nip@iitg.ac.in		10	2019-07-21					
+111	111	000100010006000T	4	0	Jiten  Basumatary	Jiten  Basumatary	jitenb	22	1	0	/mech/staff/jitenb/	670		0				0	0					670	Jiten		Basumatary	jitenb@iitg.ac.in		10	2019-07-21					
+112	112	000100010006000U	4	0	Gwmchar  Baro	Gwmchar  Baro	gwms90	22	1	0	/mech/staff/gwms90/	671		0				0	0					671	Gwmchar		Baro	gwms90@iitg.ac.in		10	2019-07-21					
+113	113	000100010006000V	4	0	Chandan  Banikya	Chandan  Banikya	banikyachandan	22	1	0	/mech/staff/banikyachandan/	672		0				0	0					672	Chandan		Banikya	banikya.chandan@iitg.ac.in		10	2019-07-21					
+114	114	000100010006000W	4	0	Monoj Kr. Baishya	Monoj Kr. Baishya	mbaishya	22	1	0	/mech/staff/mbaishya/	673		0				0	0					673	Monoj	Kr.	Baishya	m.baishya@iitg.ac.in		10	2019-07-21					
+115	115	000100010006000X	4	0	Saiffuddin  Ahmed	Saiffuddin  Ahmed	saifuddin	22	1	0	/mech/staff/saifuddin/	674		0				0	0					674	Saiffuddin		Ahmed	saifuddin@iitg.ac.in		10	2019-07-21					
