@@ -61,13 +61,13 @@ interestcateogryhome = CategoriesHome(
 )
 home.add_child(instance=interestcateogryhome)
 home.save()
-interestcateogry0=Categories(
-	title='Other',
-	slug='others',
-	category='0'
-)
-interestcateogryhome.add_child(instance=interestcateogry0)
-interestcateogryhome.save()
+# interestcateogry0=Categories(
+# 	title='Other',
+# 	slug='others',
+# 	category='0'
+# )
+# interestcateogryhome.add_child(instance=interestcateogry0)
+# interestcateogryhome.save()
 interestcateogry1=Categories(
 	title='Machine Design Engineering',
 	slug='machine_design',
@@ -91,34 +91,6 @@ interestcateogryhome.add_child(instance=interestcateogry3)
 interestcateogryhome.save()
 
 # main pages after homepage:
-faculty_home_page = FacultyHomePage(
-	title='Faculty',
-	slug='faculty',
-	seo_title="Faculty | Mechanical Engineering  · IITG",
-)
-home.add_child(instance=faculty_home_page)
-home.save()
-student_home_page = StudentHomePage(
-	title='Students',
-	slug='students',
-	seo_title="Students | Mechanical Engineering · IITG",
-)
-home.add_child(instance=student_home_page)
-home.save()
-staff_home_page = StaffHomePage(
-	title='Staff',
-	slug='staff',
-	seo_title="Staff | Mechanical Engineering · IITG",
-)
-home.add_child(instance=staff_home_page)
-home.save()
-alumni_home_page = AlumniHomePage(
-	title='Alumni',
-	slug='alumni',
-	seo_title="Alumni | Mechanical Engineering · IITG",
-)
-home.add_child(instance=alumni_home_page)
-home.save()
 academics_home_page = CourseStructure(
 	title='Academics',
 	slug='academics',
@@ -174,6 +146,35 @@ project_home_page = ProjectHomePage(
 )
 research_home_page.add_child(instance=project_home_page)
 research_home_page.save()
+faculty_home_page = FacultyHomePage(
+	title='Faculty',
+	slug='faculty',
+	seo_title="Faculty | Mechanical Engineering  · IITG",
+)
+home.add_child(instance=faculty_home_page)
+home.save()
+student_home_page = StudentHomePage(
+	title='Students',
+	slug='students',
+	seo_title="Students | Mechanical Engineering · IITG",
+)
+home.add_child(instance=student_home_page)
+home.save()
+staff_home_page = StaffHomePage(
+	title='Staff',
+	slug='staff',
+	seo_title="Staff | Mechanical Engineering · IITG",
+)
+home.add_child(instance=staff_home_page)
+home.save()
+# alumni_home_page = AlumniHomePage(
+# 	title='Alumni',
+# 	slug='alumni',
+# 	seo_title="Alumni | Mechanical Engineering · IITG",
+# )
+# home.add_child(instance=alumni_home_page)
+# home.save()
+
 award_home_page = AwardHomePage(
 	title='Awards',
 	slug='awards',
