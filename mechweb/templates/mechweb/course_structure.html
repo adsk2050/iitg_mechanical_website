@@ -3,18 +3,6 @@
 <h1 class="text-center">{{ page.title }}</h1>
 <div>{{ page.intro|richtext }}</div>
 
-<!-- <div class="container-fluid  text-center" >
-<div class="row padding">
-<div class="btn-toolbar demoPadder" role="toolbar">
-<div class="btn-group">
-<li class="col-4"><a href="{{ page.url }}?prog=0"><button type="button" class="btn btn-default btn-block" aria-label="Btech">Btech</button></li>
-<li class="col-4"><a href="{{ page.url }}?prog=1"><button type="button" class="btn btn-default btn-block" aria-label="Mtech">Mtech</button></li>
-<li class="col-4"><a href="{{ page.url }}?prog=2"><button type="button" class="btn btn-default btn-block" aria-label="Phd">Phd</button></li>
-</div>
-</div>
-</div>
-</div> -->
-
 <div class="container-fluid">
     <div class="row ">
         <div class="col-xs-4 col-sm-4 col-md-4 active">
@@ -63,48 +51,6 @@
 </div>
 
 <div class="layoutcard">
-    {% if prog == '0' or prog == '1' %}
-    {% if prog == '1' %}
-    <hr>
-    <div class="container-fluid">
-        <div class="row ">
-            <div class="col-xs-4  col-md-1">
-
-            </div>
-            <div class="col-xs-4 col-sm-6 col-md-2">
-                <a href="#1" class="btn btn-lg btn-block cour">
-                    <i class="fa fa-check-square-o visible-xs"></i>
-                    <span class="hidden-xs">Aerodynamics & Propulsion</span>
-                </a>
-            </div>
-            <div class="col-xs-4 col-sm-6 col-md-2">
-                <a href="#2" class="btn btn-lg btn-block">
-                    <i class="fa fa-check-square-o visible-xs"></i>
-                    <span class="hidden-xs">Manufacturing Science and Engineering</span>
-                </a>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-2">
-                <a href="#3" class="btn btn-lg btn-block">
-                    <i class="fa fa-check-square-o visible-xs"></i>
-                    <span class="hidden-xs">Computational Mechanics</span>
-                </a>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-2">
-                <a href="#4" class="btn btn-lg btn-block">
-                    <i class="fa fa-check-square-o visible-xs"></i>
-                    <span class="hidden-xs">Fluids and Thermal</span>
-                </a>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-2">
-                <a href="#5" class="btn btn-lg btn-block">
-                    <i class="fa fa-check-square-o visible-xs"></i>
-                    <span class="hidden-xs">Machine Design</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <hr>
-    {% endif %}
     {% for prog_sem in structure %}
         {% if prog_sem|length != 0 %}
         <h2 class="text-center" style="font-weight:bolder;">Semester {{ forloop.counter }}</h2>
@@ -136,22 +82,12 @@
         <hr>
         {% endif %}
     {% endfor %}
-    {% elif prog == '2' %}
-    <h2 class="text-center" style="font-weight:bolder;">PhD Course Structure</h2>
-        <ul class="cards">
-            {% for course in course_list %}
-            <li class="cards_item">
-                <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
-                {% image course.specific.photo width-300 style="width:100%" %}
-            </li>
-            {% endfor %}
-        </ul>
-    <hr>
 
-    <!--       {#% elif prog == '2' %#}
-<h2 class="text-center">PhD Course Structure</h2> -->
-    {% else %}
-    <h2>All courses</h2>
+
+{% if prog == '6' %}
+<h2 class="text-center">PhD Course Structure</h2>
+{% endif %}
+<h2>All courses</h2>
     <table>
         <tr>
             <th>Course code</th>
@@ -179,7 +115,6 @@
 
         {% endfor %}
     </table>
-
     {% if featured_courses %}
     <!-- List of featured courses here -->
     <ul class="cards">
@@ -202,7 +137,7 @@
         {% endfor %}
     </ul>
     {% endif %}
-    {% endif %}
 </div>
 
 {% endblock %}
+
