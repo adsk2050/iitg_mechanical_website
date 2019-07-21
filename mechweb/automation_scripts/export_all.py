@@ -48,80 +48,80 @@ with open('mechweb/automation_scripts/tsvs/FacultyPage.tsv', mode='w') as tsv_fi
 
 with open('mechweb/automation_scripts/tsvs/StudentHomePage.tsv', mode='w') as tsv_file:
 	StudentHomePage = StudentHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()StudentHomePage
+	tsv_file.write("{0}".format(StudentHomePage.tsv))
+tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/StudentPage.tsv', mode='w') as tsv_file:
 	StudentPage = StudentPageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()StudentPage
+	tsv_file.write("{0}".format(StudentPage.tsv))
+tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/StaffHomePage.tsv', mode='w') as tsv_file:
 	StaffHomePage = StaffHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()StaffHomePage
+	tsv_file.write("{0}".format(StaffHomePage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/StaffPage.tsv', mode='w') as tsv_file:
 	StaffPage = StaffPageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()StaffPage
+	tsv_file.write("{0}".format(StaffPage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/AlumniHomePage.tsv', mode='w') as tsv_file:
 	AlumniHomePage = AlumniHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()AlumniHomePage
+	tsv_file.write("{0}".format(AlumniHomePage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/AlumnusPage.tsv', mode='w') as tsv_file:
 	AlumnusPage = AlumnusPageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()AlumnusPage
+	tsv_file.write("{0}".format(AlumnusPage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/ResearchHomePage.tsv', mode='w') as tsv_file:
 	ResearchHomePage = ResearchHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()ResearchHomePage
+	tsv_file.write("{0}".format(ResearchHomePage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/ResearchLabHomePage.tsv', mode='w') as tsv_file:
 	ResearchLabHomePage = ResearchLabHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()ResearchLabHomePage
+	tsv_file.write("{0}".format(ResearchLabHomePage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/ResearchLabPage.tsv', mode='w') as tsv_file:
 	ResearchLabPage = ResearchLabPageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()ResearchLabPage
+	tsv_file.write("{0}".format(ResearchLabPage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/PublicationHomePage.tsv', mode='w') as tsv_file:
 	PublicationHomePage = PublicationHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()PublicationHomePage
+	tsv_file.write("{0}".format(PublicationHomePage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/PublicationPage.tsv', mode='w') as tsv_file:
 	PublicationPage = PublicationPageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()PublicationPage
+	tsv_file.write("{0}".format(PublicationPage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/ProjectHomePage.tsv', mode='w') as tsv_file:
 	ProjectHomePage = ProjectHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()ProjectHomePage
+	tsv_file.write("{0}".format(ProjectHomePage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/ProjectPage.tsv', mode='w') as tsv_file:
 	ProjectPage = ProjectPageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()ProjectPage
+	tsv_file.write("{0}".format(ProjectPage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/CourseStructure.tsv', mode='w') as tsv_file:
 	CourseStructure = CourseStructureResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()CourseStructure
+	tsv_file.write("{0}".format(CourseStructure.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/CoursePage.tsv', mode='w') as tsv_file:
 	CoursePage = CoursePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()CoursePage
+	tsv_file.write("{0}".format(CoursePage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/AwardHomePage.tsv', mode='w') as tsv_file:
 	AwardHomePage = AwardHomePageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-tsv_file.close()AwardHomePage
+	tsv_file.write("{0}".format(AwardHomePage.tsv))
+	tsv_file.close()
