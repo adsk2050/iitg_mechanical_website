@@ -104,10 +104,10 @@ WSGI_APPLICATION = 'iitg_mechanical_website.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-DBNAME = 'mechweb'
-DBHOST = 'mechwebiitgpsql.postgres.database.azure.com'
-DBUSER = 'manager@mechwebiitgpsql'
-DBPASS = 'mechweb19ad'
+# DBNAME = 'mechweb'
+# DBHOST = 'mechwebiitgpsql.postgres.database.azure.com'
+# DBUSER = 'manager@mechwebiitgpsql'
+# DBPASS = 'mechweb19ad'
 
 DATABASES = {
     'default': {
