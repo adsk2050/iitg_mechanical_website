@@ -21,6 +21,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -103,11 +104,18 @@ WSGI_APPLICATION = 'iitg_mechanical_website.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+DBNAME = 'mechweb'
+DBHOST = 'mechwebiitgpsql.postgres.database.azure.com'
+DBUSER = 'manager@mechwebiitgpsql'
+DBPASS = 'mechweb19ad'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DBNAME'],
+        'HOST': os.environ['DBHOST'],
+        'USER': os.environ['DBUSER'],
+        'PASSWORD': os.environ['DBPASS']
     }
 }
 
