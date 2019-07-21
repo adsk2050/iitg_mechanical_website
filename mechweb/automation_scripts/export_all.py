@@ -43,8 +43,8 @@ with open('mechweb/automation_scripts/tsvs/FacultyHomePage.tsv', mode='w') as ts
 
 with open('mechweb/automation_scripts/tsvs/FacultyPage.tsv', mode='w') as tsv_file:
 	FacultyPage = FacultyPageResource().export()
-	tsv_file.write("{0}".format(.tsv))
-	tsv_file.close()FacultyPage
+	tsv_file.write("{0}".format(FacultyPage.tsv))
+	tsv_file.close()
 
 with open('mechweb/automation_scripts/tsvs/StudentHomePage.tsv', mode='w') as tsv_file:
 	StudentHomePage = StudentHomePageResource().export()
