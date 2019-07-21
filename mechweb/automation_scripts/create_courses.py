@@ -2,7 +2,8 @@ import csv
 import datetime
 
 from mechweb import wagtail_hooks
-from mechweb.models import CoursePage, CourseStructure, CourseProgrammes, CourseSpecializations
+from mechweb.models import CoursePage, CourseStructure
+# , CourseProgrammes, CourseSpecializations
 
 from django.utils.text import slugify
 

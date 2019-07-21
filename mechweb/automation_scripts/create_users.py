@@ -157,3 +157,11 @@ with open('mechweb/automation_scripts/users.tsv', mode='r') as tsv_file:
 #         pass
 #     else:
 #         user.delete()
+
+
+# delete all users except admin
+# for c in CustomUser.objects.all().exclude(username='mechadmin'):
+#     n = c.username
+#     print("deleting: ", n)
+#     c.delete()
+#     print("deleted: ", n)
