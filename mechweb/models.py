@@ -126,15 +126,15 @@ class MechHomePage(Page):
 		context = super().get_context(request)
 		navlist = self.get_children().live().order_by('-first_published_at')
 		hod_name = "Head of Department"
-		hod_image_url = "0"
+		hod_image = "0"
 		hod_url = "0"
 		hod_contact = "0"
 		try:
 			hod = FacultyPage.objects.filter(additional_roles='1')
-			if hod.count==1:
+			if hod.count()==1:
 				hod = hod[0]
 				hod_name = hod.name
-				hod_image_url = hod.photo.url
+				hod_image = hod.photo
 				hod_url = hod.url
 				hod_contact = "<p>Office:" + hod.office_address_line_1 + ",<br> Contact: "+ hod.office_contact_number+",<br> Email: "+hod.email_id+"</p>"
 				
@@ -148,7 +148,7 @@ class MechHomePage(Page):
 		# context['navlist'] = navlist
 		context['categories'] = categories
 		context['hod_name'] = hod_name
-		context['hod_image_url'] = hod_image_url
+		context['hod_image'] = hod_image_url
 		context['hod_url'] = hod_url
 		context['hod_contact'] = hod_contact
 		context['new_events'] = new_events
@@ -333,8 +333,10 @@ class CategoriesHome(Page):
 class Categories(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0', unique=True)
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 	content_panels = Page.content_panels + [
 			FieldPanel('intro'),
+			ImageChooserPanel('photo'),
 			FieldPanel('category'),
 		]
 	parent_page_types=['CategoriesHome']
