@@ -310,26 +310,30 @@
  <!-- end of research categories row -->
 
 
+
+
  <!-- hod message and donate card -->
  <div class="container-fluid padding messagebox">
    <div class="row  text-center">
      <div class="col-xs-12 col-sm-12 col-md-4 picbox">
-         <img height="300px" width="300px"
-             src="{% static "images/img1.jpg" %}">
+         {% if hod_image_url != '0' %}
+            <img src="{{ hod_image_url }}" style='width:100%; height:100%; object-fit: cover' alt="HOD Image" class="" />
+          {% else %}
+            <img src="{% static "images/profile.jpg" %}" style='width:100%; height:100%; object-fit: cover' alt="HOD Image" class="" />
+          {% endif %}
      </div>
      <div class="col-xs-12 col-sm-12 col-md-4 hodmsg">
        <div class="sidebar-box">
          <h3 class="text-center" >FROM HOD's DESK</h3><br>
          <p>{{ page.HOD_message|richtext }}</p><br>
-
-                <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
-                  fa fa-long-arrow-right"></i>
-                </a>
-                </p>
-
-           <strong>Santosha K Dwivedy</strong><br>
-          <strong>HOD,Mechanical Department</strong>       </div>
-
+        <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
+          fa fa-long-arrow-right"></i>
+        </a>
+        </p>
+        <strong>{{ hod_name }}</strong><br>
+        {% if hod_contact != 0 %}
+        <strong>{{ hod_contact }}</strong>
+        {% endif %}
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 donatecard">
          <div class="cardbox">
@@ -340,22 +344,16 @@
                   <div class="card-img-overlay">
                     <div class="card-body">
                       <h5 class="card-title" style="font-weight:bolder; color:#000000"><strong>Let's Grow Together</strong></h5>
-                      <p class="card-text" style="text-align: left; color:#000000;">The support of alumni remains instrumental to our continued success. Thank you for your ongoing partnership and commitment to IIT Guwahati.</p>
+                      <p class="card-text" style="text-align: left; color:#000000;">
+                        {{ page.donate_message|truncatechars:100 }}
+                      </p>
                       <a href="#" class="btn-area">Read more.. <i class="
                         fa fa-long-arrow-right"></i>
                       </a>
                     </div>
                     <div class="card-body">
                       <button type="button" class="btn btn-primary btn-lg" name="button">
-                        {% for child in navlist %}
-                         {% with page_type=child.content_type.name %}
-                          {% if page_type == 'aboutiitgmech' %}
-                          <a href="{{ child.url }}" class="card-link" style="color: #fff;">Contribute</a></button>
-                          {% endif %}
-                         {% endwith %}
-                        {% endfor %}
-
-
+                        <a href="{{ page.donation_link }}" class="card-link" style="color: #fff;">Contribute</a></button>
                     </div>
                   </div>
                 </div>

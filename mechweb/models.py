@@ -91,14 +91,19 @@ class MechHomePage(Page):
 	intro = models.CharField(blank=True, max_length=500)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-
+	donation_link = models.URLField(max_length=250)
+	donate_image = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	donate_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	# intro = RichTextField(blank=True)
 	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		FieldPanel('body', classname="full"),
-		InlinePanel('gallery_images', label="Gallery Images"),
+		InlinePanel('gallery_images', label="Gallery Images", , max_num=10),
 		FieldPanel('HOD_message'),
+		FieldPanel('donate_message'),
+		FieldPanel('donation_link'),
+		ImageChooserPanel('donate_image'),
 	]
 
 	notification_tab_panels = [
@@ -120,16 +125,32 @@ class MechHomePage(Page):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
 		navlist = self.get_children().live().order_by('-first_published_at')
+		hod_name = "Head of Department"
+		hod_image_url = "0"
+		hod_url = "0"
+		hod_contact = "0"
 		try:
-			hod_image_url = FacultyPage.objects.get(additional_roles='1').photo.url
+			hod = FacultyPage.objects.filter(additional_roles='1')
+			if hod.count==1:
+				hod = hod[0]
+				hod_name = hod.name
+				hod_image_url = hod.photo.url
+				hod_url = hod.url
+				hod_contact = "<p>Office:" + hod.office_address_line_1 + ",<br> Contact: "+ hod.office_contact_number+",<br> Email: "+hod.email_id+"</p>"
+				
+				
 		except:
-			hod_image_url = "{% static 'images/hod.jpg' %}"
+			pass
+			#how to raise error in console ?
 
 		categories = get_categories()
 		new_events = get_new_events()
 		# context['navlist'] = navlist
 		context['categories'] = categories
+		context['hod_name'] = hod_name
 		context['hod_image_url'] = hod_image_url
+		context['hod_url'] = hod_url
+		context['hod_contact'] = hod_contact
 		context['new_events'] = new_events
 
 		return context
@@ -176,9 +197,9 @@ class MechHomePageGalleryImage(Orderable):
 
 #############################################
 class Aboutiitgmech(Page):
-	vision = models.CharField(blank=True, max_length=500)
-	history = models.CharField(blank=True, max_length=500)
-	about = models.CharField(blank=True, max_length=500)
+	vision = models.CharField(blank=True, max_length=2000)
+	history = models.CharField(blank=True, max_length=2000)
+	about = models.CharField(blank=True, max_length=2000)
 	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 
 
