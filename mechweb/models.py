@@ -92,7 +92,7 @@ class MechHomePage(Page):
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	donation_link = models.URLField(max_length=250)
-	donate_image = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	donate_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 	donate_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	# intro = RichTextField(blank=True)
 	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
