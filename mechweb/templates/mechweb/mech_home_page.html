@@ -240,9 +240,6 @@
 
 <!-- split screen code ends -->
 
-
-
-
 <!-- /* table for research area showcase */ -->
   <div class="container" style="margin-bottom: 30px;">
     <div class="row">
@@ -254,16 +251,15 @@
     </div>
     <div class="row">
       <!-- <div class="testimonial-slider"> -->
+      {% for category in categories %}
       <div class=" col-xs-12 col-sm-12 col-md-4 ">
         <div class="single-service">
           <div class="service-bg service-bg-1">
-            <h2>Thermal And Fluids Engineering</h2>
+            <h2>{{ category.title }}</h2>
           </div>
 
           <div class="service-text sidebar-box">
-            <p> The courses in this area of specialization deal with a wide range of applications of the fluid mechanics and thermodynamics principles, with emphasis on topics of industrial significance such as aerodynamics, internal flows with heat and mass transfer and turbomachinery.</p>
-
-
+            <p>{{ category.intro }}</p>
           </div>
           <!-- <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
@@ -271,8 +267,8 @@
           </p> -->
         </div>
       </div>
-
-      <div class=" col-xs-12 col-sm-12 col-md-4">
+      {% endfor %}
+<!--       <div class=" col-xs-12 col-sm-12 col-md-4">
         <div class="single-service">
           <div class="service-bg service-bg-1">
             <h2>Machine Design Engineering</h2>
@@ -282,10 +278,10 @@
             <p>The lectures in this field of expertise includes providing mathematical and physical foundations to real-life problems. The topics covered are: mechanics (including vibrations); elasticity, plasticity and fracture concepts; machine design and optimization of design.</p>
 
           </div>
-          <!-- <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
+          <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
           </a>
-          </p> -->
+          </p>
         </div>
       </div>
 
@@ -299,12 +295,13 @@
             <p> This area of specialization consists of a comprehensive series of courses in metallurgy, including heat treatment, casting, welding, cold and hot forming.</p>
 
           </div>
-          <!-- <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
+          <p class="read-more"> <a href="#" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
           </a>
-          </p> -->
+          </p>
         </div>
-      </div>
+      </div> -->
+
     </div>
   </div>
  <!-- end of research categories row -->
