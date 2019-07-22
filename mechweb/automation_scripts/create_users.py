@@ -52,6 +52,10 @@ with open('mechweb/automation_scripts/users.tsv', mode='r') as tsv_file:
         line_count += 1
     logf.close()
 
+# for user in CustomUser.objects.all().exclude(username='mechadmin'):
+#     user.set_password(user.password)
+#     user.save()
+
 # for user in CustomUser.objects.all():
 #     if user.email == 'mechadmin@iitg.ac.in':
 #         pass
@@ -136,30 +140,12 @@ with open('mechweb/automation_scripts/users.tsv', mode='r') as tsv_file:
 #         user.groups.add(x.id)
 #         user.save()
 
-# Delete all users
+# delete all users except admin
 # import csv
 # from mechweb import wagtail_hooks
 # from mechweb.models import CustomUser
 # from django.contrib.auth.models import Group, Permission
 # from django.utils.text import slugify
-
-# user_type_choices = {
-#     '0':'Faculty',
-#     '1':'Student',
-#     '2':'Alumni',
-#     '3':'Staff',
-#     '4':'Others',
-# }
-
-
-# for user in CustomUser.objects.all():
-#     if user.email == 'mechadmin@iitg.ac.in':
-#         pass
-#     else:
-#         user.delete()
-
-
-# delete all users except admin
 # for c in CustomUser.objects.all().exclude(username='mechadmin'):
 #     n = c.username
 #     print("deleting: ", n)
