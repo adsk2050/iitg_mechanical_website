@@ -91,9 +91,10 @@ class MechHomePage(Page):
 	intro = models.CharField(blank=True, max_length=500)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	HOD_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 	donation_link = models.URLField(max_length=250)
 	donate_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
-	donate_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	donate_message = models.CharField(blank=True, max_length=250)
 	# intro = RichTextField(blank=True)
 	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
@@ -103,6 +104,7 @@ class MechHomePage(Page):
 		FieldPanel('HOD_message'),
 		FieldPanel('donate_message'),
 		FieldPanel('donation_link'),
+		ImageChooserPanel('HOD_image'),
 		ImageChooserPanel('donate_image'),
 	]
 

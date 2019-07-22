@@ -313,8 +313,8 @@
  <div class="container-fluid padding messagebox">
    <div class="row  text-center">
      <div class="col-xs-12 col-sm-12 col-md-4 picbox">
-          {% if hod_image %}
-            {% image hod_image original as photo %}
+          {% if page.HOD_image %}
+            {% image HOD_image original as photo %}
             <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
           {% else %}
               {% with '/media/images/placeholder.jpg' as image_static %}
