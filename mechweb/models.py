@@ -99,7 +99,7 @@ class MechHomePage(Page):
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		FieldPanel('body', classname="full"),
-		InlinePanel('gallery_images', label="Gallery Images", , max_num=10),
+		InlinePanel('gallery_images', label="Gallery Images", max_num=10),
 		FieldPanel('HOD_message'),
 		FieldPanel('donate_message'),
 		FieldPanel('donation_link'),
@@ -1817,10 +1817,10 @@ class FeaturedCourse(Orderable):
 		AutocompletePanel('featured_course', target_model='mechweb.CoursePage'),
 	]
 
-def get_prog_course(cat):
-	return CourseProgrammes.objects.all().get(category=cat).courses.all()
-def get_spec_course(cat):
-	return CourseSpecializations.objects.all().get(category=cat).courses.all()
+# def get_prog_course(cat):
+# 	return CourseProgrammes.objects.all().get(category=cat).courses.all()
+# def get_spec_course(cat):
+# 	return CourseSpecializations.objects.all().get(category=cat).courses.all()
 ######################################################
 class AwardHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
