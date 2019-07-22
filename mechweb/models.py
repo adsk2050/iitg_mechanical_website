@@ -684,7 +684,7 @@ class StudentHomePage(AbstractStudentHomePage):
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
 
-		paginator = Paginator(student_list, 10) # Show 10 students per page
+		paginator = Paginator(student_list, 50) # Show 50 students per page
 		page_no = request.GET.get('page_no')
 		student_list = paginator.get_page(page_no)
 
