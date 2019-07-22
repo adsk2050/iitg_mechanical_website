@@ -148,7 +148,7 @@ class MechHomePage(Page):
 		# context['navlist'] = navlist
 		context['categories'] = categories
 		context['hod_name'] = hod_name
-		context['hod_image'] = hod_image_url
+		context['hod_image'] = hod_image
 		context['hod_url'] = hod_url
 		context['hod_contact'] = hod_contact
 		context['new_events'] = new_events
