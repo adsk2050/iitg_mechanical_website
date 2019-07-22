@@ -313,10 +313,13 @@
  <div class="container-fluid padding messagebox">
    <div class="row  text-center">
      <div class="col-xs-12 col-sm-12 col-md-4 picbox">
-         {% if hod_image_url != '0' %}
-            <img src="{{ hod_image_url }}" style='width:100%; height:100%; object-fit: cover' alt="HOD Image" class="" />
+          {% if hod_image %}
+            {% image hod_image original as photo %}
+            <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
           {% else %}
-            <img src="{% static "images/profile.jpg" %}" style='width:100%; height:100%; object-fit: cover' alt="HOD Image" class="" />
+              {% with '/media/images/placeholder.jpg' as image_static %}
+                  <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="HoD Image" class="" />
+              {% endwith %}
           {% endif %}
      </div>
      <div class="col-xs-12 col-sm-12 col-md-4 hodmsg">
