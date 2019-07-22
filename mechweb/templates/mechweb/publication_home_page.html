@@ -21,8 +21,40 @@
   <hr>
 </div>
 
+<ul class="nav nav-tabs nav-justified pubtabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ page.url }}?pub_type=5"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Published posters</span></a>
+          </li>
 
-<ul>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ page.url }}?pub_type=1" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Conference Publications</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ page.url }}?pub_type=2"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Journal Publications</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ page.url }}?pub_type=0"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Patent</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ page.url }}?pub_type=3"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Books</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ page.url }}?pub_type=4"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs">Book Chapters</span></a>
+          </li>
+
+</ul>
+
+<!-- <ul>
     <li >
       <a href="{{ page.url }}?pub_type=0" >
       <span class="hidden-xs">Patent</span></a>
@@ -48,18 +80,21 @@
       <span class="hidden-xs">Poster</span></a>
     </li>
 
-</ul>
+</ul> -->
 
 <ul >
-   {% for year in year_list %}
-   <li>
-     <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
+  {% for year in year_list %}
+  {% if year >= 2010 %}
+   <li class="nav-item">
+     <button class=" nav-link {% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
    </li>
-<!--     <li >
-      <a href="#abc{{ year }}" >
-      <span class="hidden-xs">{{ year }}</span></a>
-    </li> -->
-    {% endfor %}
+  {% endif %}
+  {% endfor %}
+
+  <li class="nav-item">
+    <button class=" nav-link {% if current_year %}class='active'{% endif %}" onclick="filterSelection('all')">ALL</button>
+  </li>
+
     <li>
       <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('all')">All</button>
     </li>
