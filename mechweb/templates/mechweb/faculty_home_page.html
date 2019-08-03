@@ -77,7 +77,8 @@
                 <div class="col-xs-4 col-sm-12 col-md-3 image">
                   <a href="{{ faculty.url }}">
                     {% if faculty.specific.photo %}
-                      {% image faculty.specific.photo original %}
+                        {% image faculty.specific.photo max-180x180 as tmp_photo %}
+                        <img src="{{ tmp_photo.url }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
                     {% else %}
                       {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
                             <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
