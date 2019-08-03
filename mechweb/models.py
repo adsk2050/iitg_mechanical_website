@@ -1312,27 +1312,27 @@ class PublicationHomePage(Page):
 		for i in  range(year, 1996, -1):
 			year_list.append(i)
 
-		year = request.GET.get('year')
-		if year:
-			pub_list = pub_list.filter(publicationpage__pub_year__year=year)
-		else: year = timezone.now().year
+		# year = request.GET.get('year')
+		# if year:
+		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		# else: year = timezone.now().year
 
-		# pub_type = request.GET.get('pub_type')
-		# if pub_type:
-		# 	pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
+		pub_type = request.GET.get('pub_type')
+		if pub_type:
+			pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
 		# elif year is 0:
 		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
 
-		paginator = Paginator(pub_list, 50)
-		page_no = request.GET.get('page_no')
-		pub_list = paginator.get_page(page_no)
+		# paginator = Paginator(pub_list, 50)
+		# page_no = request.GET.get('page_no')
+		# pub_list = paginator.get_page(page_no)
 
 		return render(request, self.template, {
 			'page': self,
 			'pub_list': pub_list,
 			# 'year':year,
-			'page_no':page_no,
-			# 'pub_type':pub_type,
+			# 'page_no':page_no,
+			'pub_type':pub_type,
 			'year_list':year_list,
 		})
 
@@ -1358,7 +1358,7 @@ class PublicationPage(Page):
 	page_start = models.CharField(max_length=50, blank=True)
 	page_end = models.CharField(max_length=50, blank=True)
 	citations = models.CharField(max_length=10, blank=True)
-	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
+	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Add the exact sequence of names as in the publication")
 	# pub_conference =
 	# pub_patent_number =
 	# pub_
@@ -1398,6 +1398,9 @@ class PublicationPage(Page):
 
 	parent_page_types=['PublicationHomePage']
 	subpage_types=[ ]
+
+	def __str__(self):
+		return self.alt_people_text+', "'+self.name+'", '+self.pub_journal+", vol. "+self.pub_vol+" : "+self.pub_issue+", pp. "+self.page_start+"-"+self.page_end+", "+self.pub_year.year
 
 	class Meta:
 		verbose_name = "Publication"
@@ -1459,7 +1462,6 @@ class ProjectHomePage(Page):
 		verbose_name = "Project Home"
 
 class ProjectPage(Page):
-	principal_investigator = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	name = models.CharField(max_length=500)
 	start_date = models.DateField(default=timezone.now)
@@ -1492,9 +1494,9 @@ class ProjectPage(Page):
 	]
 
 	people_panels = [
-		AutocompletePanel('principal_investigator', target_model='mechweb.FacultyPage'),
-		InlinePanel('faculty', label="Faculty"),
-		InlinePanel('students', label="Students"),
+		InlinePanel('faculty_pi', label="Principal Investigator"),
+		InlinePanel('faculty_copi', label="Co Investigator"),
+		InlinePanel('oi', label="Other Investigators"),
 		FieldPanel('alt_PI_text')
 	]
 
@@ -1512,22 +1514,31 @@ class ProjectPage(Page):
 		verbose_name = "Project"
 		verbose_name_plural = "Projects"
 
-class ProjectPageFaculty(Orderable):
-	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty')
-	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
+class ProjectPageFacultyPI(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty_pi')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='pi')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
 		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('project_statement'),
 	]
 
-class ProjectPageStudent(Orderable):
-	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='students')
-	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
+class ProjectPageFacultyCoPI(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty_copi')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='copi')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('student', target_model='mechweb.FacultyPage'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('project_statement'),
+	]
+
+class ProjectPageOtherInvestigator(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='oi')
+	name = models.CharField(max_length=100)
+	organization = models.CharField(max_length=100, blank=True)
+	panels = [
+		FieldPanel('name'),
+		FieldPanel('organization'),
 	]
 
 class ProjectPageLink(Orderable):

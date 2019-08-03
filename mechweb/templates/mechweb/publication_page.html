@@ -6,12 +6,10 @@
 
 {% block body_style %}padding-top: 110px; {% endblock %}
 
-
+<!-- Center the content and add faculty details here -->
 {% block content %}
-    {{ page.title }}
-    <h1>{{page.specific.name }}</h1>
+    <h1>{{ page }}</h1>
     <h3>[{{page.specific.get_pub_type_display }}]</h3>
-
     <hr>
 	<h2>Abstract</h2>
 	<div>{{ page.specific.abstract|richtext }}</div>
@@ -44,7 +42,7 @@
         <div> Citations: {{ page.specific.citations }}</div>
     {% endif %}
 
-    {% if not page.alt_people_text %}
+    {% if page.faculty.all|length != 0 or page.other_authors.all|length != 0 or page.students.all|length != 0 %}
         {% if page.faculty.all|length != 0 %}
             <h2>Faculty</h2>
             <ul>
@@ -79,8 +77,10 @@
             {% endfor %}
             </ul>
         {% endif %}
-    {% else %}
+    {% elif page.alt_people_text %}
         {{ page.alt_people_text }}
+    {% else %}
+        
     {% endif %}
 
 

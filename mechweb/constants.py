@@ -58,7 +58,7 @@ STAFF_DESIGNATION = (
 )
 
 PROJECT_TYPES=(
-	('1','Academic'),
+	('1','Sponsored'),
 	('0','Consultancy'),
 )
 
