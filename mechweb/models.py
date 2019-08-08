@@ -1399,8 +1399,23 @@ class PublicationPage(Page):
 	parent_page_types=['PublicationHomePage']
 	subpage_types=[ ]
 
-	def __str__(self):
-		return self.alt_people_text+', "'+self.name+'", '+self.pub_journal+", vol. "+self.pub_vol+" : "+self.pub_issue+", pp. "+self.page_start+"-"+self.page_end+", "+self.pub_year.year
+	# def __str__(self):
+	# 	l = ""
+	# 	if self.alt_people_text != "":
+	# 		l = l+self.alt_people_text
+	# 	if self.name != "":
+	# 		l = l+', "'+self.name+'"'
+	# 	if self.pub_journal != "":
+	# 		l = l+", "+self.pub_journal
+	# 	if pub.vol != "":
+	# 		l = l+", vol. "+self.pub_vol
+	# 	if self.pub_issue != "":
+	# 		l = l+" : "+self.pub_issue
+	# 	if self.page_start != "" && self.page_end != "":
+	# 		l = l+", pp. "+self.page_start+"-"+self.page_end
+	# 	if self.pub_year:
+	# 		l = l+", "+str(self.pub_year.year)
+	# 	return l
 
 	class Meta:
 		verbose_name = "Publication"
