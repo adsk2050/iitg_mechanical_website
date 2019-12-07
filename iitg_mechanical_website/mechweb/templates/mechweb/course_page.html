@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-event-page{% endblock %}
+
+{% block content %}
+
+
+<div class="w3-content w3-margin-top" style="max-width:1400px; padding-top:100px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-grey w3-card-4">
+        <div class="w3-display-container">
+
+          {% if page.specific.photo %}{
+            {% image page.specific.photo width-300 style="width:100%" %}
+            <img src="{{ image.url }}" width="{{ image.width }}"
+                    height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+          }
+
+          {% else %}
+              <img src="{% static "images/placeholdercourse.jpg" %}" width="450"
+                      height="400" alt="{{ image.alt }}" class="" style="object-fit:cover;" />
+          {% endif %}
+
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+            <h1>	{{ page.title}} </h1>
+          </div>
+        </div>
+        <div class="w3-container">
+          <h4><a href="{{ page.url }}">{{ page.specific.name }}</h4><hr></a>
+          {% if page.specific.code %}
+              <li>
+                  <h4>Course code </h4>
+                  <p>{{ page.specific.code }}</p>
+              </li>
+          {% endif %}
+          {% if page.specific.lectures %}
+              <li>
+                  <h4>L-T-P-C </h4>
+                  <p>{{ page.specific.lectures }}-{{ page.specific.tutorials }}-{{ page.specific.practicals }}-{{ page.specific.credits }}</p>
+              </li>
+          {% endif %}
+
+          {% if page.specific.document.url %}
+              <li>
+                  <h4>Syllabus</h4>
+                  <p><a href="{{ page.specific.document.url }}">Download</a></p>
+             </li>
+         {% endif %}
+         {% if page.specific.semester %}
+             <li>
+                 <h4>Semester</h4>
+                 <p>{{ page.specific.semester }}</p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.get_eligible_programmes_display %}
+             <li>
+                 <h4>Eligible Programmes</h4>
+                 <p>{{ page.specific.get_eligible_programmes_display }}</p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.course_page_link %}
+             <li>
+                 <h4>Course Page</h4>
+                 <p><a href="{{ page.specific.course_page_link }}">{{ page.specific.code }}</a></a></p>
+             </li>
+         {% endif %}
+
+
+          <hr>
+
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>{{ page.specific.name }}</h2>
+        {% if page.specific.course_instructor.all|length > 0 %}
+          <h4 class="w3-text-grey w3-padding-16">Course Instructor{% if page.specific.course_instructor.all|length > 1 %}s{% endif %}  [Current]</h4>
+        {% endif %}
+
+        <p>{{ page.specific.description|richtext }}</p>
+
+        <div class="w3-container">
+          {% for faculty in page.specific.course_instructor.all %}
+          <ul>
+          <h5 class="w3-opacity"><b>{{ pic.caption }}</b></h5>
+          {% image pic.image fill-500x500 %}
+          <li><h6 class="w3-text-teal"><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</h6>
+          <p>{{ faculty.introduction|richtext }}</p></li>
+          <hr>
+        </ul>
+          {% endfor %}
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+
+{% endblock %}

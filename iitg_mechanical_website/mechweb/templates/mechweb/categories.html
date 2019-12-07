@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-aboutiitgmech-page{% endblock %}
+	
+{% block content %}
+{{ page.title }}
+<ul>
+{% for faculty in faculty_list %}
+	<a href="{{ faculty.url }}">{{ faculty }}</a>
+{% endfor %}
+</ul>
+
+{% endblock %}

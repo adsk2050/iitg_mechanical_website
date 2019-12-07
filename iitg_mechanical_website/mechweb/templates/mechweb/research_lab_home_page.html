@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-research-homepage{% endblock %}
+
+
+
+{% block content %}
+
+    <h1 class="text-center">{{ page.title }}</h1>
+    <!-- Intro -->
+    <div class="intro">{{ page.intro|richtext }}</div>
+
+    <hr>
+
+                <div class="row ">
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <a href="{{ page.url }}?ugpg=0" class="btn btn-lg btn-block ">
+                      <i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">UG Lab</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <a href="{{ page.url }}?ugpg=1" class="btn btn-lg btn-block">
+                      <i class="fa fa-check-square-o visible-xs"></i>
+                      <span class="hidden-xs">PG Lab</span>
+                    </a>
+                  </div>
+                </div>
+
+
+      <hr>
+
+
+
+
+
+
+      {% if lab_list %}
+      <h2 class="text-center">Lab Types</h2>
+
+          <ul>
+              {% for lab in lab_list %}
+                  <li>
+                      <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
+                  </li>
+              {% endfor %}
+          </ul>
+      {% endif %}
+
+
+{% endblock %}

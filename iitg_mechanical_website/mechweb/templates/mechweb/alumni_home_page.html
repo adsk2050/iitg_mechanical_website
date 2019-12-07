@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-alumni-homepage{% endblock %}
+
+
+
+{% block content %}
+
+  <div class="container-fluid">
+      <!-- <h1>Staff</h1> -->
+      <div class="container-fluid">
+          <div class="row padding">
+              <div class="col-md-12 text-center">
+                  <h1>{{ page.title }}</h1>
+                  <p>{{ page.intro|richtext }}</p><hr>
+              </div>
+          </div>
+      </div>
+
+      {% if tag %}
+        <h2>Results for {{ tag }}</h2>
+      {% elif alumni_list.number == 1 %}
+      <div class="container-fluid">
+        <h2 >Distinguished Alumni </h2>
+          <div class="row bread-list">
+            {% for alumnus in page.distinguished_alumni.all %}
+              <div class="col-xs-11 col-md-5 bread-list-item">
+                  <div class="row padding">
+                      <div class="col-xs-4 col-sm-4 image">
+                        <a href="{{ alumnus.distinguished_alumnus.url }}">
+                          {% image alumnus.distinguished_alumnus.photo fill-180x200 %}                              <img src="{{ image.url }}" width="{{ image.width }}"
+                                  height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                          </a>
+                      </div>
+                      <div class="col-xs-8 col-sm-8">
+                          <a href="{{ alumnus.distinguished_alumnus.url }}">
+                              <h2>{{ alumnus.distinguished_alumnus }}</h2>
+                          </a>
+                          <ul class="bread-meta">
+                              <li><strong>{{ alumnus.distinguished_alumnus.get_programme_display }}</strong></li>
+                              {% if alumnus.distinguished_alumnus.enrolment_year %}
+                                  <li><span>Enrolment year</span>{{ alumnus.distinguished_alumnus.enrolment_year }}</li>
+                              {% endif %}
+                              <li><div>{{ alumnus.about|richtext }}</div></li>
+
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div><hr>
+
+
+<h4 > Other Alumni </h4>
+          <div class="row bread-list">
+
+            {% for alumnus in alumni_list %}
+
+            {% if alumnus in page.distinguished_alumni.all %}
+            {% else %}
+              <div class="col-xs-11 col-md-5 bread-list-item">
+                  <div class="row padding">
+                      <div class="col-xs-4 col-sm-5 image">
+                        <a href="{{ alumnus.specific.url }}">
+                          {% image alumnus.specific.photo fill-180x250 %}                              <img src="{{ image.url }}" width="{{ image.width }}"
+                                  height="{{ image.height }}" alt="{{ image.alt }}" class="" />
+                          </a>
+                      </div>
+                      <div class="col-xs-8 col-sm-8">
+                          <a href="{{ alumnus.specific.url }}">
+                              <h2>{{ alumnus }}</h2>
+                          </a>
+                          <ul class="bread-meta">
+                              <li><strong>{{ alumnus.specific.get_programme_display }}</strong></li>
+                              {% if alumnus.specific.enrolment_year %}
+                                  <li><span>Enrolment year</span>{{ alumnus.specific.enrolment_year }}</li>
+                              {% endif %}
+                              <li><div>{{ alumnus.about|richtext }}</div></li>
+
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              {% endif %}
+
+          {% endfor %}
+          </div>
+      </div>
+
+
+      {% endif %}
+
+
+</div>
+
+<div class="pagination">
+  <nav aria-label="Page navigation example">
+    <div class="row">
+      <div class="step-links">
+        {% if alumni_list.has_previous %}
+            <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}">&laquo; first</a>
+            <a href="?page_no={{ alumni_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ alumni_list.number }} of {{ alumni_list.paginator.num_pages }}.
+        </span>
+
+        {% if alumni_list.has_next %}
+            <a href="?page_no={{ alumni_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}">next</a>
+            <a href="?page_no={{ alumni_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}">last &raquo;</a>
+        {% endif %}
+    </div>
+  </div>
+  </nav>
+</div>
+
+
+<div class="container-fluid">
+  <div class="styletags">
+   Interests:
+   {% for tag in all_interests %}
+     <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> |
+   {% endfor %}
+ </div>
+</div>
+
+{% endblock content %}

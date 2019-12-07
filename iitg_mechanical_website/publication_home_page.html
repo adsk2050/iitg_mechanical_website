@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-publication-homepage{% endblock %}
+
+{% block body_style %}padding-top: 105px; {% endblock %}
+
+
+{% block content %}
+
+<!-- work on giving the page ability to sort using date, topic, faculty, etc -->
+
+    <h1>{{ page.title }}</h1><hr>
+    <!-- Intro -->
+
+    <h3>Posters Published:</h3><br>
+    <ul>
+      {% for publication in page.get_children.specific %}
+        {% if publication.pub_type == '0' %}
+        <li>
+  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
+  	    	<h3>Team</h3>
+  	    	<ul>
+  		    	{% for faculty in publication.faculty.all %}
+  			        <li>
+  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+  			        </li>
+  		    	{% endfor %}
+  		    	{% for student in publication.students.all %}
+  			        <li>
+  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
+  			        </li>
+  		    	{% endfor %}
+  	    	</ul>
+  	    </li>
+        {% endif %}
+  	    {% endfor %}
+
+    </ul>
+
+    <h3>Conference Publication:</h3><br>
+    <ul>
+      {% for publication in page.get_children.specific %}
+        {% if publication.pub_type == '1' %}
+        <li>
+  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
+  	    	<h3>Team</h3>
+  	    	<ul>
+  		    	{% for faculty in publication.faculty.all %}
+  			        <li>
+  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+  			        </li>
+  		    	{% endfor %}
+  		    	{% for student in publication.students.all %}
+  			        <li>
+  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
+  			        </li>
+  		    	{% endfor %}
+  	    	</ul>
+  	    </li>
+        {% endif %}
+  	    {% endfor %}
+
+    </ul>
+
+
+
+    <h3>Journal Publications:</h3><br>
+    <ul>
+      {% for publication in page.get_children.specific %}
+        {% if publication.pub_type == '2' %}
+        <li>
+  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
+  	    	<h3>Team</h3>
+  	    	<ul>
+  		    	{% for faculty in publication.faculty.all %}
+  			        <li>
+  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+  			        </li>
+  		    	{% endfor %}
+  		    	{% for student in publication.students.all %}
+  			        <li>
+  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
+  			        </li>
+  		    	{% endfor %}
+  	    	</ul>
+  	    </li>
+        {% endif %}
+  	    {% endfor %}
+
+    </ul>
+
+
+
+    <h3>Patents:</h3><br>
+    <ul>
+      {% for publication in page.get_children.specific %}
+        {% if publication.pub_type == '3' %}
+        <li>
+  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
+  	    	<h3>Team</h3>
+  	    	<ul>
+  		    	{% for faculty in publication.faculty.all %}
+  			        <li>
+  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+  			        </li>
+  		    	{% endfor %}
+  		    	{% for student in publication.students.all %}
+  			        <li>
+  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
+  			        </li>
+  		    	{% endfor %}
+  	    	</ul>
+  	    </li>
+        {% endif %}
+  	    {% endfor %}
+
+    </ul>
+
+
+
+
+    <h3>Book Chapters:</h3><br>
+    <ul>
+      {% for publication in page.get_children.specific %}
+        {% if publication.pub_type == '5' %}
+        <li>
+  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
+  	    	<h3>Team</h3>
+  	    	<ul>
+  		    	{% for faculty in publication.faculty.all %}
+  			        <li>
+  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+  			        </li>
+  		    	{% endfor %}
+  		    	{% for student in publication.students.all %}
+  			        <li>
+  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
+  			        </li>
+  		    	{% endfor %}
+  	    	</ul>
+  	    </li>
+        {% endif %}
+  	    {% endfor %}
+
+    </ul>
+
+
+
+
+    <h3>Books:</h3><br>
+    <ul>
+      {% for publication in page.get_children.specific %}
+        {% if publication.pub_type == '4' %}
+        <li>
+  	    	<h2><a href="{{ publication.url }}">{{ publication.name }}</a></h2>
+  	    	<h3>Team</h3>
+  	    	<ul>
+  		    	{% for faculty in publication.faculty.all %}
+  			        <li>
+  			            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+  			        </li>
+  		    	{% endfor %}
+  		    	{% for student in publication.students.all %}
+  			        <li>
+  			            <a href="{{ student.student.url }}">{{ student.student }}</a>
+  			        </li>
+  		    	{% endfor %}
+  	    	</ul>
+  	    </li>
+        {% endif %}
+  	    {% endfor %}
+
+    </ul>
+
+
+<div class="pub_table">
+      <ul class="nav nav-tabs ">
+        <li class="" id="p"><a href="#poster0" data-toggle="tab">Published posters</a></li>
+        <li class=""><a href="#conf1" data-toggle="tab">Conference Publications</a></li>
+        <li class=""><a href="#journal2" data-toggle="tab">Journal Publications</a></li>
+        <li class=""><a href="#patent3" data-toggle="tab">Patent</a></li>
+        <li class=""><a href="#books4" data-toggle="tab">Books</a></li>
+        <li class=""><a href="#chap5" data-toggle="tab">Book Chapters</a></li>
+      </ul>
+
+
+      <ul class="nav nav-tabs" id="poster0" >
+        <li class="" id=""><a href="#2019" data-toggle="tab">In press</a></li>
+        <li class=""><a href="#2018" data-toggle="tab">2018</a></li>
+        <li class=""><a href="#2017" data-toggle="tab">2017</a></li>
+        <li class=""><a href="#2016" data-toggle="tab">2016</a></li>
+        <li class=""><a href="#2015" data-toggle="tab">2015</a></li>
+        <li class=""><a href="#2014" data-toggle="tab">2014</a></li>
+        <li class=""><a href="#past" data-toggle="tab">2013 and earlier</a></li>
+      </ul>
+      <ul class="nav nav-tabs" id="conf1" >
+        <li class=""><a href="#2019" data-toggle="tab">In press</a></li>
+        <li class=""><a href="#2018" data-toggle="tab">2018</a></li>
+        <li class=""><a href="#2017" data-toggle="tab">2017</a></li>
+        <li class=""><a href="#2016" data-toggle="tab">2016</a></li>
+        <li class=""><a href="#2015" data-toggle="tab">2015</a></li>
+        <li class=""><a href="#2014" data-toggle="tab">2014</a></li>
+        <li class=""><a href="#past" data-toggle="tab">2013 and earlier</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="2018" class="tab-pane active">
+          <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                <tr>
+                    <th>Authors</th>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Journal</th>
+                    <th>Volume(Issue)</th>
+                    <th>Pages</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for publication in page.get_children.specific %}
+                  {% if publication.pub_type == '0' %}
+                <tr>
+                    <td>{{ publication.Authors }}</td>
+                    <td>{{ publication.name }}</td>
+                    <td>{{ publication.pub_year }}</td>
+                    <td>{{ publication.pub_journal }}</td>
+                    <td>{{ publication.vol_issue }}</td>
+                    <td>{{ publication.pages }}</td>
+                </tr>
+                  {% endif %}
+                  {% endfor %}
+                <tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+    <h2>Responsive Table</h2>
+      <div class="table-wrapper">
+          <table class="fl-table">
+              <thead>
+              <tr>
+                  <th>Authors</th>
+                  <th>Title</th>
+                  <th>Year</th>
+                  <th>Journal</th>
+                  <th>Volume(Issue)</th>
+                  <th>Pages</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for publication in page.get_children.specific %}
+              <tr>
+                  <td>{{ publication.Authors }}</td>
+                  <td>{{ publication.name }}</td>
+                  <td>{{ publication.pub_year }}</td>
+                  <td>{{ publication.pub_journal }}</td>
+                  <td>{{ publication.vol_issue }}</td>
+                  <td>{{ publication.pages }}</td>
+              </tr>
+                {% endfor %}
+
+              <tbody>
+          </table>
+      </div>
+
+
+
+
+{% endblock %}
+
+
+{% block extra_script %}
+<script>
+  $(document).click(function () {
+        var
+          $("#toggle").click(function () {
+              $("div").toggleClass("hidden unhidden");
+          });
+      });
+</script>
+
+
+<script>
+  $(document).ready(function(){
+	   $(".test").click(function(evt){
+	        alert($(this).attr("id"));
+
+	   });
+     });
+</script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "wagtailadmin/home.html" %}
+{% load wagtailadmin_tags static i18n %}
+{% block titletag %}{% trans "Editor" %}{% endblock %}
+
+{% block content %}
+    <header class="merged nice-padding" role="banner">
+        <div class="row row-flush">
+            <div class="col1">
+                <div class="avatar"><img src="{% avatar_url user %}" alt="" /></div>
+            </div>
+            <div class="col9">
+            	<h2>Hello, {{ user.get_full_name|default:user.get_username }}!</h2>
+                <h1>{% block branding_welcome %}{% blocktrans %}Welcome to the {{ site_name }} {% endblocktrans %}{% endblock %}</h1>
+                
+            </div>
+        </div>
+    </header>
+
+    {% if panels %}
+        {% for panel in panels %}
+            {{ panel.render }}
+        {% endfor %}
+    {% else %}
+        <p>{% trans "This is your dashboard on which helpful information about content you've created will be displayed." %}</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-faculty-page{% endblock %}
+
+{% block content %}
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;  padding-top:110px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-grey w3-card-4">
+        <div class="w3-display-container">
+          {% if page.specific.photo %}
+            {% image page.specific.photo original as photo %}
+            <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
+          {% else %}
+              {% with '/media/images/faculty/'|add:page.slug|add:'.jpg' as image_static %}
+                  <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
+              {% endwith %}
+          {% endif %}
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+            <h1>{{ page }}</h1>
+          </div>
+        </div>
+        <div class="w3-container">
+          <h4>{{ page.specific.get_designation_display }}</h4><hr>
+          {% if page.specific.office_address_line_1 %}
+              <li>
+                  <h4>Office Address</h4>
+                  <p>{{ page.specific.office_address_line_1 }}</p>
+              </li>
+          {% endif %}
+          {% if page.specific.office_contact_number %}
+              <li>
+                  <h4>Office contact number</h4>
+                  <p>{{ page.specific.office_contact_number }}</p>
+              </li>
+          {% endif %}
+
+          {% if page.specific.home_address_line_1 %}
+              <li>
+                  <h4>Home address</h4>
+                  <p>{{ page.specific.home_address_line_1 }}</p>
+             </li>
+         {% endif %}
+         {% if page.specific.home_contact_number %}
+             <li>
+                 <h4>Home contact Number</h4>
+                 <p>{{ page.specific.home_contact_number }}</p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.email_id %}
+             <li>
+                 <h4>Mail ID</h4>
+                 <p>{{ page.specific.email_id }}</p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.website %}
+             <li>
+                 <h4>Personal Website</h4>
+                 <p><a href="{{ page.specific.website }}">{{ page.specific.website }}</a></p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.joining_date %}
+             <li>
+                 <h4>Joining Date</h4>
+                 <p>{{ page.specific.joining_date }}</p>
+             </li>
+         {% endif %}
+
+         {% if page.specific.research_interests %}
+             <li>
+                 <h4>Research Interests :</h4>
+                 <p>{% for tag in page.specific.research_interests.all %} <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}</p>
+             </li>
+         {% endif %}
+
+
+
+          <hr>
+
+          <div class="w3-container">
+            <h3 class="w3-large w3-text-theme text-center"><b><i class="fa fa-notification fa-fw w3-margin-right w3-text-teal"></i>Announcements</b></h3>
+
+            {% with announcements=page.faculty_announcement.all %}
+              {% if announcements %}
+
+                      {% for announcement in announcements %}
+                      <div class="w3-container">
+                        <h5>{{ announcement.title }}</h5>
+                        <p>{{ announcement.date }}</p>
+                        <p>{{ announcement.message|richtext }}</p>
+                        <a href="{{ announcement.link }}">Link</a>
+                        <div>
+                          <div>{{ announcement.document|truncatechars:25 }}</div>
+                          <a href="{{ announcement.document.url }}">Download pdf</a>
+                        </div>
+                      </div>
+                      {% endfor %}
+
+                {% else %}<p>No new Announcments</p>
+              {% endif %}
+            {% endwith %}
+          </div>
+
+
+
+
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+      <div class="w3-container w3-card w3-white  w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>About faculty</h2>
+        <div class="w3-container">
+        </div>
+      </div>
+
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Awards and Achievements</h2>
+        <div class="w3-container">
+          {% for award in page.fac_award.all %}
+          <h5 class="w3-opacity"><b>{{ pic.caption }}</b></h5>
+          {% image pic.image fill-500x500 %}
+          {% endfor %}
+        </div>
+
+      </div>
+
+
+
+      {% if lab_list %}
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Labs</h2>
+        {% for lab in lab_list %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ lab.url }}">{{ lab.specific.name }}</a></b></h5>
+          <p>{{ lab.specific.get_lab_type_display }}</p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+
+
+
+      {% if pub_list %}
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Publications</h2>
+        {% for pub in pub_list %}
+        {% if forloop.counter < 11 %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ pub.url }}">{{ pub }}</a></p>
+          <hr>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+
+
+      {% if project_list %}
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Projects</h2>
+        {% for project in project_list %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ project.url }}">{{ project.specific.name }}</a></b></h5>
+          <p>{{ project.specific.get_project_type_display }}</p>
+          <p>>From: {{ project.specific.start_date }} to {{ project.specific.end_date }}</p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+
+      {% if course_list %}
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Courses taught</h2>
+        {% for project in project_list %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b><a href="{{ course.url }}">[ {{ course.specific.code }} ]{{ course.specific.name }}</a></b></h5>
+          <p>{{ project.specific.get_project_type_display }}</p>
+          <p>>{{ course.specific.get_course_type_display }} for {{ course.specific.eligible_programmes }} in {{ course.specific.semester }} semester</p>
+          <p></p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="w3-container w3-card w3-white  w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Administrative responsibilities</h2>
+        <div class="w3-container">
+          <ul>
+          {% if page.specific.get_additional_roles_display != "Not Applicable" %}
+          <li><h5 class="w3-opacity">Additional Role: {{ page.specific.get_additional_roles_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_laboratory_in_charge_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Laboratory in charge: {{ page.specific.get_laboratory_in_charge_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_faculty_in_charge_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Faculty in charge: {{ page.specific.get_faculty_in_charge_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_dupc_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">DUPC: {{ page.specific.get_dupc_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_dppc_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">DPPC: {{ page.specific.get_dppc_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_disciplinary_committee_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Disciplinary committee: {{ page.specific.get_disciplinary_committee_display }}</h5></li>
+          {% endif %}
+
+          {% if page.specific.get_disposal_committee_display != "Not Applicable" %}
+            <li><h5 class="w3-opacity">Disposal committee: {{ page.specific.get_disposal_committee_display }}</h5></li>
+          {% endif %}
+
+
+          </ul>
+        </div>
+
+      </div>
+
+
+
+      <div>
+        {% for pic in page.gallery_images.all %}
+          <div >
+            <h3>{{ pic.caption }}</h3>
+            <div>{% image pic.image fill-500x500 %}</div>
+          </div>
+        {% endfor %}
+      </div>
+
+
+
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+
+
+
+{% endblock %}
