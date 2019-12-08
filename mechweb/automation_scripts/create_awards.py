@@ -40,8 +40,8 @@ with open('mechweb/automation_scripts/awards.tsv', mode='r') as tsv_file:
             award_home.save()
             print("Created!")
         except Exception as e:
-            logf.write("{0}\n".format(str(e)))
-            # logf.write("Failed to add award. no. {0} | {1}:{2} due to {3}\n".format(line_count, publication_types[int(row["pub_type"])], str(row["name"]), str(e)))
+            #logf.write("{0}\n".format(str(e)))
+            logf.write("Failed to add award. no. {0} | {1} due to {2}\n".format(line_count], str(row["name"]), str(e)))
         line_count += 1
     logf.close()
 
