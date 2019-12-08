@@ -130,7 +130,7 @@
                   <div class="row">
                       <a href="{{ faculty.url }}">
                           <h2>{{ faculty }}</h2>
-                          <strong>{{ faculty.specific.get_designation_display }}</strong>
+                          <strong>{{ faculty.specific.get_designation_display }}{% if faculty.on_lien %} on lien{% endif %} </strong>
                       </a>
                   </div>
                 <div class="row">
