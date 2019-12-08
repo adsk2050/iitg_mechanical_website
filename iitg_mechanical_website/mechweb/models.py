@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, date
 
 from django.db import models
 from django import forms
@@ -371,7 +371,7 @@ class FacultyHomePage(Page):
 	# def list_common_interests(self):
 
 	def serve(self, request):
-		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__middle_name', 'facultypage__last_name')
+		faculty_list = FacultyPage.objects.all().order_by('first_name', 'middle_name', 'last_name')
 
 		all_research_interests = faculty_interests()
 		all_categories = get_categories()
@@ -382,7 +382,20 @@ class FacultyHomePage(Page):
 			faculty_list = get_cat_fac(cat)
 		tag = request.GET.get('tag')
 		if tag:
-			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
+			faculty_list = faculty_list.filter(research_interests__name=tag)
+		current_faculty_list=[]
+		past_faculty_list = []
+		today = date.today()
+		for fac in faculty_list:
+			try:
+				if fac.leaving_date>today:
+					current_faculty_list.append(fac)
+				else:
+					if fac.on_lien:
+						current_faculty_list.append(fac)
+					past_faculty_list.append(fac)
+			except TypeError:
+				current_faculty_list.append(fac)
 				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
 		paginator = Paginator(faculty_list, 50) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
@@ -390,7 +403,8 @@ class FacultyHomePage(Page):
 
 		return render(request, self.template, {
 			'page': self,
-			'faculty_list': faculty_list,
+			'current_faculty_list': current_faculty_list,
+			'past_faculty_list': past_faculty_list,
 			'all_research_interests': all_research_interests,
 			'all_categories': all_categories,
 			'cat':cat,
@@ -411,7 +425,7 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, blank=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=50)
 	middle_name = models.CharField(max_length=50, blank=True)
 	last_name = models.CharField(max_length=50)
@@ -426,7 +440,8 @@ class FacultyPage(Page):
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
 	fac_research_categories = ParentalManyToManyField('mechweb.Categories', blank=True, related_name='faculty')
 	joining_date = models.DateField(default=timezone.now)
-	leaving_date = models.DateField(blank=True, null=True)
+	leaving_date = models.DateField(blank=True)
+	on_lien = models.BooleanField(default=False)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
 	website = models.URLField(max_length=250, blank=True)
 	abbreviation = models.CharField(max_length=10, blank=True)
@@ -451,7 +466,9 @@ class FacultyPage(Page):
 		FieldPanel('email_id'),
 		######################################################
 		FieldPanel('designation'),
+		FieldPanel('on_lien'),
 		FieldPanel('joining_date'),
+		FieldPanel('leaving_date'),
 		FieldPanel('website'),
 		FieldPanel('abbreviation'),
 		MultiFieldPanel([
@@ -470,7 +487,6 @@ class FacultyPage(Page):
 		FieldPanel('fac_research_categories', widget=forms.CheckboxSelectMultiple),
 		FieldPanel('research_interests'),
 		InlinePanel('gallery_images', label="Gallery images", max_num=10),
-		FieldPanel('leaving_date'),
 		InlinePanel('faculty_prev_work', label="Previous Work")
 	]
 	# Creating custom tabs
@@ -497,7 +513,6 @@ class FacultyPage(Page):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
-
 	def __str__(self):
 		if self.middle_name == '':
 			return self.first_name+" "+self.last_name
