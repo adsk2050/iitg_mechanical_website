@@ -731,7 +731,7 @@ $(".sidebar-box .button").click(function() {
 
               <li class="nav-item">
                 <div class="dropdown show">
-                <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:  #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                <a class="nav-link dropbtn"  role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false" style="color:  #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <ul>
                           <li><a class="dropdown-item" href="{{ child.url }}?prog=0">B. Tech</a></li>
@@ -747,7 +747,7 @@ $(".sidebar-box .button").click(function() {
 
               <li class="nav-item">
                 <div class="dropdown show">
-                <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                <a class="nav-link dropbtn"  role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false" style="color: #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <ul>
                           {% for children in child.get_children %}
@@ -764,7 +764,7 @@ $(".sidebar-box .button").click(function() {
 
               <li class="nav-item">
                 <div class="dropdown show">
-                <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                <a class="nav-link dropbtn"  role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false" style="color: #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <ul>
                       <li><a class="dropdown-item"href="{{ child.url }}?prog=0">Bachelors</a></li>
@@ -783,6 +783,9 @@ $(".sidebar-box .button").click(function() {
                       <div class="dropdown-divider"></div>
                       <li><a class="dropdown-item" href="{{ child.url }}?prog=3">All Courses</a></li>
                     </ul>
+                  </div>
+                </div>
+              </li>
               {% endif %}
 
               {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' %}
@@ -990,6 +993,14 @@ $(".sidebar-box .button").click(function() {
  <div class="container-fluid padding messagebox">
    <div class="row  text-center">
      <div class="col-xs-12 col-sm-12 col-md-4 picbox">
+       {% if page.specific.HOD_image %}
+         {% image page.specific.HOD_image max-300x300 as hodpic %}
+         <img class="card-img-top" src="{{ hodpic.url }}" style='width:300px; height:300px; object-fit: cover' alt="Card image" class="" />
+
+       {% endif %}
+         <!-- <img height="300px" width="300px"
+             src="{% static "images/img1.jpg" %}"> -->
+          ---------------------
           {% if page.HOD_image %}
             {% image HOD_image original as photo %}
             <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
@@ -998,6 +1009,7 @@ $(".sidebar-box .button").click(function() {
                   <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="HoD Image" class="" />
               {% endwith %}
           {% endif %}
+          ----------------------
      </div>
      <div class="col-xs-12 col-sm-12 col-md-4 hodmsg">
        <div class="sidebar-box">
@@ -1012,6 +1024,8 @@ $(".sidebar-box .button").click(function() {
         <strong>{{ hod_contact }}</strong>
         {% endif %}
     </div>
+
+
     <div class="col-xs-12 col-sm-12 col-md-4 donatecard">
          <div class="cardbox">
              <div class="card" style="width: 300px; height: 300px; background-color:#000000;">
@@ -1071,7 +1085,7 @@ $(".sidebar-box .button").click(function() {
           </a>
         </div>
         <div class="ml-1 font-weight-light">
-          Developed by Dhiraj Mittal and Anmol Deep
+          Developed by Anmol Deep and Dhiraj Mittal 
         </div>
 
       </div>

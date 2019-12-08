@@ -1630,6 +1630,7 @@ class CourseStructure(Page):
 		  sem3 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=3)
 		  structure.append(sem3)
 		  sem4 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=4)
+		  structure.append(sem4)
 		elif prog=='2':
 		  sem1 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=1)
 		  structure.append(sem1)

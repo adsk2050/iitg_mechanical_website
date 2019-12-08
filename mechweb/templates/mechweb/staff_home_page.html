@@ -185,7 +185,7 @@
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4">
-          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('13')" name="button">
+          <button type="button" class="btn btn-lg btn-block" onclick="filterSelection('13')" name="button">
             <i class="fa fa-check-square-o visible-xs"></i>
             <span class="hidden-xs"><li>Other</li></span>
           </button>
@@ -207,7 +207,8 @@
                       <div class="col-xs-4 col-sm-4 image">
                         <a href="{% pageurl staff %}">
                           {% if staff.specific.photo %}{
-                            {% image staff.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
+                            {% image staff.specific.photo max-180x180 as tmp_photo %}
+                            <img src="{{ tmp_photo.url }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
                           {% else %}
                               {% with '/media/images/staff/'|add:staff.slug|add:'.jpg' as image_static %}
                               <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
@@ -258,7 +259,6 @@
 
 
     <script>
-    filterSelection("all")
       function filterSelection(c) {
       var input, filter, ul, li, a, i, txtValue, integ;
       ul = document.getElementById("myUL");
