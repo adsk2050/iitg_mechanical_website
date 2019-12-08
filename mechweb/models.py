@@ -1,0 +1,1905 @@
+from datetime import datetime
+
+from django.db import models
+from django import forms
+from django.shortcuts import render
+from django.utils import timezone
+from django.core.paginator import Paginator
+from django.utils.translation import gettext_lazy as _
+from django.http import Http404
+
+
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.base_user import BaseUserManager
+######################################################
+from wagtail.search import index
+
+from wagtailautocomplete.edit_handlers import AutocompletePanel
+
+from wagtail.core.models import Page, Orderable
+from wagtail.core.fields import RichTextField
+from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
+######################################################
+
+from wagtail.documents.models import Document, AbstractDocument
+from wagtail.documents.edit_handlers import DocumentChooserPanel
+
+######################################################
+from wagtail.images.models import Image, AbstractImage, AbstractRendition
+from wagtail.images.edit_handlers import ImageChooserPanel
+
+######################################################
+# for tagging
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase, Tag
+######################################################
+# Importing constants and settings
+from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT, AUTH_USER_MODEL
+
+from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, USER_TYPES, MESA, SAE, INTEREST_CATEGORIES
+# NAV_ORDER
+
+from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, DISCIPLINARY_COMMITTEE, DUPC, DPPC,FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES, FAC_PREV_WORK_TYPES
+# from social_django.strategy import DjangoStrategy
+
+######################################################
+
+######################################################
+
+# when makemigrations are happening this does not show as change in the db
+# class CustomUserManager(BaseUserManager):
+# 	def has_perm(self, perm, obj=None):
+# 		""" Does this user have a specific permission"""
+# 		#Simplest possible answer - always true
+# 		return True
+
+# 	def has_module_perm(self, app_label):
+# 		"""Does the user have the permissions to view the app "app_label"? """
+# 		# simplest answer - yes always
+# 		return True
+
+# 	@property
+# 	def is_staff(self):
+# 			"""Is the user a member of staff?"""
+# 			#simplest answer - All admins are staff
+# 			return self.is_staff
+
+class CustomUser(AbstractUser):
+	first_name = models.CharField(_('first name'), max_length=50)
+	middle_name = models.CharField(_('middle name'), max_length=50, blank=True)
+	last_name = models.CharField(_('last name'), max_length=50)
+	is_staff = models.BooleanField(
+		_('staff status'),
+		default=True,
+		help_text=_('Designates whether the user can log into this admin site.'),
+	)
+	email = models.EmailField(
+		_('email address'),
+		unique=True,
+		error_messages={
+            'unique': _("A user with that email already exists."),
+        },
+	)
+	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
+	uid = models.CharField(max_length=10, default='000000000', verbose_name='Roll Number/Employee Number', help_text='Only students required to provide their roll no. Others may leave "000000000" but not blank')
+	USERNAME_FIELD = 'email' # Its default is username
+	REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid']
+######################################################
+class MechHomePage(Page):
+	intro = models.CharField(blank=True, max_length=500)
+	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+	# intro = RichTextField(blank=True)
+	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
+	content_panels = Page.content_panels + [
+		FieldPanel('intro', classname="full"),
+		FieldPanel('body', classname="full"),
+		InlinePanel('gallery_images', label="Gallery Images"),
+		FieldPanel('HOD_message'),
+	]
+
+	notification_tab_panels = [
+		InlinePanel('text_panels', label="Mini Articles"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(notification_tab_panels, heading="News & Notifications"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech', 'CategoriesHome']
+
+	max_count = 1
+
+	def get_context(self, request):
+		# Update context to include only published posts, ordered by reverse-chron
+		context = super().get_context(request)
+		navlist = self.get_children().live().order_by('-first_published_at')
+		try:
+			hod_image_url = FacultyPage.objects.get(additional_roles='1').photo.url
+		except:
+			hod_image_url = "{% static 'images/hod.jpg' %}"
+
+		categories = get_categories()
+		new_events = get_new_events()
+		# context['navlist'] = navlist
+		context['categories'] = categories
+		context['hod_image_url'] = hod_image_url
+		context['new_events'] = new_events
+
+		return context
+
+	class Meta:
+		verbose_name = "Home"
+
+class HomeTextPanel(Orderable):
+	page = ParentalKey(MechHomePage, on_delete=models.CASCADE, related_name='text_panels')
+	title = models.CharField(blank=True, max_length=50)
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	# You are trying to change the nullable field 'photo' on hometextpanel to non-nullable without a default; we can't do that (the database needs something to populate existing rows).
+	# Please select a fix:
+	# 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+	# 2) Ignore for now, and let me handle existing rows with NULL myself (e.g. because you added a RunPython or RunSQL operation to handle NULL values in a previous data migration)
+	# 3) Quit, and let me add a default in models.py
+	# Select an option: 2
+	description = models.CharField(blank=True, max_length=500)
+	date = models.DateTimeField()
+	#change the below content_type code to manage css accordingly
+	content_type=models.CharField(
+		default="0",
+		choices=TEXT_PANEL_CONTENT_TYPES,
+		max_length=50
+	)
+	panels = [
+		FieldPanel('title'),
+		FieldPanel('description'),
+		FieldPanel('date'),
+		FieldPanel('content_type'),
+		ImageChooserPanel('photo'),
+	]
+
+class MechHomePageGalleryImage(Orderable):
+	page = ParentalKey(MechHomePage, on_delete=models.CASCADE, related_name='gallery_images')
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('photo'),
+			FieldPanel('caption'),
+		]),
+	]
+
+#############################################
+class Aboutiitgmech(Page):
+	vision = models.CharField(blank=True, max_length=500)
+	history = models.CharField(blank=True, max_length=500)
+	about = models.CharField(blank=True, max_length=500)
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+
+
+	content_panels = Page.content_panels + [
+		FieldPanel('vision', classname="full"),
+		FieldPanel('history', classname="full"),
+		FieldPanel('about', classname="full"),
+		ImageChooserPanel('photo'),
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=[]
+	max_count = 1
+
+######################################################
+class EventHomePage(Page):
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
+	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
+	featured_event = models.ForeignKey(
+		'EventPage',
+		null=True,
+		blank=True,
+		on_delete=models.SET_NULL,
+		related_name='featured_event'
+	)
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+	content_panels = Page.content_panels + [
+			FieldPanel('intro'),
+			AutocompletePanel('featured_event', target_model='mechweb.EventPage'),
+			#InlinePanel('event_page', label="New Event"),
+		]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['EventPage']
+	max_count = 1
+
+	def get_context(self, request):
+		# Update context to include only published posts, ordered by reverse-chron
+		context = super().get_context(request)
+		event_list = self.get_children().live().order_by('-first_published_at')
+		paginator = Paginator(event_list, 1) # Show 1 events per page
+		page = request.GET.get('page')
+		event_list = paginator.get_page(page)
+		context['event_list'] = event_list
+		return context
+
+	class Meta:
+		verbose_name = "Event Home"
+
+class EventPage(Page):
+	# user = models.ForeignKey('CustomUser', related_name='event_manager', null=True, on_delete=models.SET_NULL)
+	event_name = models.CharField(blank=True, max_length=50)
+	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	start_date = models.DateTimeField(default=timezone.now)
+	end_date = models.DateTimeField()
+	venue = models.CharField(blank=True, max_length=50, choices=LOCATIONS, default='0')
+	poster = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	document = models.ForeignKey(
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
+		related_name='+'
+	)
+	event_type = models.CharField(max_length=50, choices=EVENTS, default='0')
+	content_panels = Page.content_panels + [
+		FieldPanel('event_type'),
+		FieldPanel('event_name'),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('start_date'),
+				FieldPanel('end_date'),
+			]),
+		],  heading="Timings"),
+		FieldPanel('venue'),
+		FieldPanel('description'),
+		FieldRowPanel([
+			ImageChooserPanel('poster'),
+			DocumentChooserPanel('document'),
+		]),
+		InlinePanel('gallery_images', label="Gallery Images", max_num=2),
+		InlinePanel('links', label="Related Links", max_num=10),
+	]
+
+	# promote_panels=[]
+	# settings_panels=[]
+
+	parent_page_types=['EventHomePage']
+	subpage_types=[]
+	class Meta:
+		verbose_name = "Event"
+		verbose_name_plural = "Events"
+
+class EventPageGalleryImage(Orderable):
+	page = ParentalKey(EventPage, on_delete=models.CASCADE, related_name='gallery_images')
+	image = models.ForeignKey(
+		'wagtailimages.Image',
+		on_delete=models.CASCADE,
+		related_name='+'
+	)
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
+	]
+
+class EventPageLink(Orderable):
+	page = ParentalKey(EventPage, on_delete=models.CASCADE, related_name='links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+def get_new_events():
+	return EventPage.objects.all().live().order_by('-first_published_at')[0:10]
+######################################################
+# Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
+######################################################
+class CategoriesHome(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	content_panels = Page.content_panels + [
+			FieldPanel('intro'),
+		]
+	parent_page_types=['MechHomePage']
+	subpage_types=['Categories']
+	# , 'CourseProgrammes', 'CourseSpecializations']
+	max_count = 1
+
+class Categories(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0', unique=True)
+	content_panels = Page.content_panels + [
+			FieldPanel('intro'),
+			FieldPanel('category'),
+		]
+	parent_page_types=['CategoriesHome']
+	max_count = 4
+
+	def serve(self, request):
+		faculty_list = self.faculty.all()
+		return render(request, self.template, {
+			'page': self,
+			'faculty_list': faculty_list,
+		})
+
+def get_categories():
+	return Categories.objects.all().live().order_by('-category')
+
+def get_cat_fac(cat):
+	return Categories.objects.all().get(category=cat).faculty.all()
+######################################################
+######################################################
+
+class FacultyHomePage(Page):
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[1])
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+	content_panels = Page.content_panels + [
+			FieldPanel('intro'),
+		]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['FacultyPage']
+	max_count = 1
+
+	# This function is not working here
+	# def list_common_interests(self):
+
+	def serve(self, request):
+		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__middle_name', 'facultypage__last_name')
+
+		all_research_interests = faculty_interests()
+		all_categories = get_categories()
+		cat = request.GET.get('cat')
+		cat_name = ''
+		if cat:
+			cat_name = INTEREST_CATEGORIES[int(cat)][1]
+			faculty_list = get_cat_fac(cat)
+		tag = request.GET.get('tag')
+		if tag:
+			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
+				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
+		paginator = Paginator(faculty_list, 50) # Show 10 faculty per page
+		page_no = request.GET.get('page_no')
+		faculty_list = paginator.get_page(page_no)
+
+		return render(request, self.template, {
+			'page': self,
+			'faculty_list': faculty_list,
+			'all_research_interests': all_research_interests,
+			'all_categories': all_categories,
+			'cat':cat,
+			'cat_name':cat_name,
+			'tag':tag,
+			'page_no':page_no,
+		})
+
+		class Meta:
+			verbose_name = "Faculty Home"
+
+class FacultyResearchInterestTag(TaggedItemBase):
+	content_object = ParentalKey(
+		'FacultyPage',
+		related_name='tagged_items',
+		on_delete=models.CASCADE )
+	# This function is working here only in shell but not during rendering
+	# def list_common_interests(self):
+
+class FacultyPage(Page):
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, on_delete=models.SET_NULL)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
+	office_contact_number = models.CharField(max_length=20, blank=True)
+	home_contact_number = models.CharField(max_length=20, blank=True)
+	office_address_line_1 = models.CharField(max_length=25, blank=True)
+	home_address_line_1 = models.CharField(max_length=25, blank=True)
+	email_id = models.EmailField(unique=True)
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	intro = models.CharField(max_length=250, blank=True)
+	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
+	fac_research_categories = ParentalManyToManyField('mechweb.Categories', blank=True, related_name='faculty')
+	joining_date = models.DateField(default=timezone.now)
+	leaving_date = models.DateField(blank=True, null=True)
+	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
+	website = models.URLField(max_length=250, blank=True)
+	abbreviation = models.CharField(max_length=10, blank=True)
+	#################################################################
+	additional_roles = models.CharField(max_length=2, choices=FACULTY_ROLES, default='2')
+	disposal_committee = models.CharField(max_length=2, choices=DISPOSAL_COMMITTEE, default='4')
+	laboratory_in_charge = models.CharField(max_length=2, choices=LABORATORY_IN_CHARGE, default='14')
+	faculty_in_charge = models.CharField(max_length=2, choices=FACULTY_IN_CHARGE, default='11')
+	disciplinary_committee = models.CharField(max_length=2, choices=DISCIPLINARY_COMMITTEE, default='4')
+	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
+	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
+	mesa = models.CharField(max_length=2, choices=MESA, default='5')
+	sae = models.CharField(max_length=2, choices=SAE, default='3')
+	#################################################################
+	content_panels = Page.content_panels + [
+		######################################################
+		# The user should not be able to change these things from here
+		FieldPanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
+		FieldPanel('last_name'),
+		FieldPanel('email_id'),
+		######################################################
+		FieldPanel('designation'),
+		FieldPanel('joining_date'),
+		FieldPanel('website'),
+		FieldPanel('abbreviation'),
+		MultiFieldPanel([
+			FieldPanel('office_address_line_1'),
+			FieldPanel('office_contact_number'),
+
+		], heading="Office Address"),
+		MultiFieldPanel([
+			FieldPanel('home_address_line_1'),
+			FieldPanel('home_contact_number'),
+		], heading="Residence Address"),
+
+		ImageChooserPanel('photo'),
+		FieldPanel('intro'),
+		FieldPanel('body'),
+		FieldPanel('fac_research_categories', widget=forms.CheckboxSelectMultiple),
+		FieldPanel('research_interests'),
+		InlinePanel('gallery_images', label="Gallery images", max_num=10),
+		FieldPanel('leaving_date'),
+		InlinePanel('faculty_prev_work', label="Previous Work")
+	]
+	# Creating custom tabs
+	custom_tab_panels = [
+		FieldPanel('additional_roles'),
+		FieldPanel('laboratory_in_charge'),
+		FieldPanel('faculty_in_charge'),
+		FieldPanel('dupc'),
+		FieldPanel('dppc'),
+		FieldPanel('disciplinary_committee'),
+		FieldPanel('disposal_committee'),
+		FieldPanel('mesa'),
+		FieldPanel('sae'),
+	]
+
+	announcement_tab_panels = [
+		InlinePanel('faculty_announcement', label="Announcement", max_num=10),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(custom_tab_panels, heading="Administration"),
+		ObjectList(announcement_tab_panels, heading="Announcement"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	def __str__(self):
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
+
+	def get_context(self, request):
+		lab_relation_list = self.faculty_lab.all()
+		lab_incharge = self.faculty_incharge.all()
+		lab_list = []
+		for lab in lab_incharge:
+			lab_list.append(lab)
+		for lab_relation in lab_relation_list:
+			lab = lab_relation.page
+			lab_list.append(lab)
+
+		pub_relation_list = self.faculty_pub.all()
+		pub_list = []
+		for pub_relation in pub_relation_list:
+			pub = pub_relation.page
+			pub_list.append(pub)
+
+		project_relation_list = self.faculty_co_investigator.all()
+		project_pi =  self.principal_investigator.all()
+		project_list = []
+		for project in project_pi:
+			project_list.append(lab)
+		for project_relation in project_relation_list:
+			project = project_relation.page
+			project_list.append(project)
+
+		course_relation_list = self.course_instructor.all()
+		course_list = []
+		for course_relation in course_relation_list:
+			course = course_relation.page
+			course_list.append(course)
+
+		context = super().get_context(request)
+		context['lab_list'] = lab_list
+		context['pub_list'] = pub_list
+		context['project_list'] = project_list
+		context['course_list'] = course_list
+		return context
+
+
+	parent_page_types=['FacultyHomePage']
+	subpage_types=[]
+
+	class Meta:
+		verbose_name = "Faculty"
+		verbose_name_plural = "Faculty"
+
+class FacultyAnnouncement(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='faculty_announcement')
+	link = models.URLField(max_length=250)
+	document = models.ForeignKey(
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
+		related_name='+'
+	)
+	message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	title = models.CharField(blank=True, max_length=50)
+	date = models.DateTimeField(blank=True, default=timezone.now)
+	panels = [
+		FieldPanel('title'),
+		FieldPanel('message'),
+		FieldPanel('date'),
+		DocumentChooserPanel('document'),
+		FieldPanel('link'),
+	]
+
+class FacultyPreviousWork(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='faculty_prev_work')
+	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	title = models.CharField(blank=True, max_length=50)
+	work_type = models.CharField(max_length=2, choices=FAC_PREV_WORK_TYPES, default='0')
+	start_date = models.DateTimeField(blank=True, default=timezone.now)
+	end_date = models.DateTimeField(blank=True, default=timezone.now)
+	panels = [
+		FieldPanel('title'),
+		FieldPanel('about'),
+		FieldPanel('start_date'),
+		FieldPanel('end_date'),
+	]
+
+class FacultyPageGalleryImage(Orderable):
+	page = ParentalKey(FacultyPage, on_delete=models.CASCADE, related_name='gallery_images')
+	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
+	]
+
+def faculty_interests():
+	live_tags = FacultyResearchInterestTag.objects.all()
+	common_tags = []
+	for tag in live_tags:
+		tag2 = tag.__str__().split('tagged with ', 1)
+		tag3 = tag2.pop()
+		if tag3 not in common_tags:
+			common_tags.append(tag3)
+	return common_tags
+
+######################################################
+######################################################
+
+class AbstractStudentHomePage(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['StudentPage']
+	max_count = 1
+
+	class Meta:
+		abstract = True
+
+class AbstractStudentPage(Page):
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
+	email_id = models.EmailField(unique=True)
+	roll_no = models.IntegerField(blank=True)
+	enrolment_year = models.DateField(default=timezone.now)
+	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
+	is_exchange = models.BooleanField(default=False, verbose_name="International Student")
+	contact_number = models.CharField(max_length=20, blank=True)
+	hostel_address = models.CharField(max_length=25, blank=True)
+	specialization = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', help_text="Not Applicable - for B.Tech, PhD and PostDocs")
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	intro = models.CharField(max_length=250, blank=True)
+	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	website = models.URLField(max_length=250, blank=True)
+	#################################################################
+
+	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
+	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
+	mesa = models.CharField(max_length=2, choices=MESA, default='5')
+	sae = models.CharField(max_length=2, choices=SAE, default='3')
+
+	#################################################################
+	def __str__(self):
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
+
+	def get_roll_value(self):
+		return self.roll_no
+
+	# def get_enrolment_year(self):
+	# 	roll_no_str = str(self.roll_no)
+	# 	enrl_yr = datetime.strptime('Aug 1 20'+roll_no[0:2]+' 12:00PM', '%b %d %Y %I:%M%p')
+	# 	return enrl_yr
+
+
+
+	parent_page_types=['StudentHomePage']
+	subpage_types=[]
+
+	def __str__(self):
+		return self.first_name+""+self.middle_name+" "+self.last_name
+
+	class Meta:
+		abstract = True
+
+######################################################
+class StudentHomePage(AbstractStudentHomePage):
+	def serve(self, request):
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
+
+		# Filter by programme
+		prog = request.GET.get('prog')
+		if prog in ['0','1', '2', '3']:
+			student_list = student_list.filter(studentpage__programme=prog)
+
+		# Filter by tag
+		tag = request.GET.get('tag')
+		if tag:
+			student_list = student_list.filter(studentpage__research_interests__name=tag)
+
+		paginator = Paginator(student_list, 10) # Show 10 students per page
+		page_no = request.GET.get('page_no')
+		student_list = paginator.get_page(page_no)
+
+		all_research_interests = student_interests()
+		return render(request, self.template, {
+			'page': self,
+			'student_list': student_list,
+			'all_research_interests': all_research_interests,
+			'tag':tag,
+			'page_no':page_no,
+			'prog':prog,
+		})
+
+	class Meta:
+		verbose_name = "Student Home"
+
+class StudentResearchInterestTag(TaggedItemBase):
+	content_object = ParentalKey(
+		'StudentPage',
+		related_name='tagged_items',
+		on_delete=models.CASCADE
+	)
+
+class StudentPage(AbstractStudentPage):
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='student', null=True, on_delete=models.SET_NULL)
+	faculty_advisor = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_advisor')
+	research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True, verbose_name='Research Interests')
+
+	content_panels = Page.content_panels + [
+		######################################################
+		# The user should not be able to change these things from here
+		FieldPanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
+		FieldPanel('last_name'),
+		FieldPanel('email_id'),
+		FieldPanel('roll_no'),
+		FieldPanel('enrolment_year'),
+		FieldPanel('programme'),
+		######################################################
+		FieldPanel('specialization'),
+		FieldPanel('is_exchange'),
+		FieldPanel('website'),
+		FieldPanel('contact_number'),
+		FieldPanel('hostel_address'),
+
+		ImageChooserPanel('photo'),
+		FieldPanel('intro'),
+		FieldPanel('body'),
+
+		AutocompletePanel('faculty_advisor', target_model='mechweb.FacultyPage'),#shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
+		FieldPanel('research_interests'),
+		InlinePanel('stud_gallery_images', label="Gallery images", max_num=2),
+		InlinePanel('stud_links', label="Related Links", max_num=10),
+	]
+
+	custom_tab_panels = [
+		FieldPanel('dupc'),
+		FieldPanel('dppc'),
+		FieldPanel('mesa'),
+		FieldPanel('sae'),
+	]
+
+	project_tab_panels = [
+		InlinePanel('projects', label="Projects"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(project_tab_panels, heading="Projects"),
+		ObjectList(custom_tab_panels, heading="Administration"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	search_fields = Page.search_fields + [
+		index.SearchField('first_name'),
+		index.FilterField('enrolment_year'),
+	]
+
+	def get_context(self, request):
+		lab_relation_list = self.student_lab.all()
+		lab_list = []
+		for lab_relation in lab_relation_list:
+			lab = lab_relation.page
+			lab_list.append(lab)
+
+		pub_relation_list = self.student_pub.all()
+		pub_list = []
+		for pub_relation in pub_relation_list:
+			pub = pub_relation.page
+			pub_list.append(pub)
+		# return lab_list
+		context = super().get_context(request)
+		context['lab_list'] = lab_list
+		context['pub_list'] = pub_list
+		return context
+
+	class Meta:
+		verbose_name = "Student"
+		verbose_name_plural = "Students"
+
+class StudentProject(Orderable):
+	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='projects')
+	title = models.CharField(blank=True, max_length=50)
+	guide = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='guide')
+	co_guide = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='co_guide')
+	document = models.ForeignKey('wagtaildocs.Document', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo_1 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo_2 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo_3 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	link = models.URLField(max_length=250, blank=True)
+	panels = [
+		FieldPanel('title'),
+		AutocompletePanel('guide', target_model='mechweb.FacultyPage'),
+		AutocompletePanel('co_guide', target_model='mechweb.FacultyPage'),
+		DocumentChooserPanel('document'),
+		FieldPanel('abstract'),
+		FieldPanel('link'),
+		MultiFieldPanel([
+			ImageChooserPanel('photo_1'),
+			ImageChooserPanel('photo_2'),
+			ImageChooserPanel('photo_3'),
+		], heading ="Featured Photos")
+
+	]
+
+class StudentPageLink(Orderable):
+	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='stud_links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+class StudentPageGalleryImage(Orderable):
+	page = ParentalKey(StudentPage, on_delete=models.CASCADE, related_name='stud_gallery_images')
+	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
+	]
+
+def student_interests():
+	live_tags = StudentResearchInterestTag.objects.all()
+	common_tags = []
+	for tag in live_tags:
+		tag2 = tag.__str__().split('tagged with ', 1)
+		tag3 = tag2.pop()
+		if tag3 not in common_tags:
+			common_tags.append(tag3)
+	return common_tags
+
+######################################################
+class StaffHomePage(Page):
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[4])
+	# use_other_template = models.IntegerField(default = 3)#Find a way to remove this shit without deleting the original entry - had to delete original entry - but not because i specifically wanted to remove it, but because i had to implement user model
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+		# FieldPanel('use_other_template')
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['StaffPage']
+	max_count = 1
+
+	def serve(self, request):
+		staff_list = self.get_children().live().order_by('-first_published_at', 'staffpage__first_name', 'staffpage__middle_name', 'staffpage__last_name')
+
+		# Filter by designation
+		desig = request.GET.get('desig')
+		if desig in ['0','1', '2', '3']:
+			staff_list = staff_list.filter(staffpage__designation=desig)
+
+		# Filter by skills tag
+		tag = request.GET.get('tag')
+		if tag:
+			staff_list = staff_list.filter(staffpage__skills__name=tag)
+
+		paginator = Paginator(staff_list, 50) # Show 10 faculty per page
+		page_no = request.GET.get('page_no')
+		staff_list = paginator.get_page(page_no)
+
+		all_staff_skills = staff_skills()
+		return render(request, self.template, {
+			'page': self,
+			'staff_list': staff_list,
+			'all_staff_skills':all_staff_skills,
+			'tag':tag,
+			'page_no':page_no,
+			'desig':desig,
+		})
+
+	# and this too
+	# def get_template(self,request):
+	# 	return 'mechweb/staff_home_page.html'
+
+	class Meta:
+		verbose_name = "Staff Home"
+
+class StaffSkillag(TaggedItemBase):
+	content_object = ParentalKey(
+		'StaffPage',
+		related_name='tagged_items',
+		on_delete=models.CASCADE
+	)
+
+class StaffPage(Page):
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='staff', null=True, on_delete=models.SET_NULL)
+	first_name = models.CharField(max_length=50)
+	middle_name = models.CharField(max_length=50, blank=True)
+	last_name = models.CharField(max_length=50)
+	email_id = models.EmailField()
+	responsibilities = models.CharField(max_length=500,null=True, blank=True)
+
+	designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='10')
+	joining_year = models.DateField(default=timezone.now)
+	contact_number = models.CharField(max_length=20, blank=True)
+	address = models.CharField(max_length=100, blank=True)
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	intro = models.CharField(max_length=250, blank=True)
+	skills = ClusterTaggableManager(through=StaffSkillag, blank=True, verbose_name='Skills')
+
+	#if lab staff:
+	# lab = models.ForeignKey('ResearchLabPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='lab')
+
+	content_panels = Page.content_panels + [
+	######################################################
+		# The user should not be able to change these things from here
+		FieldPanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
+		FieldPanel('last_name'),
+		FieldPanel('email_id'),
+	######################################################
+		# The user should not be able to change these things from here
+		FieldPanel('designation'),
+		FieldPanel('joining_year'),
+		FieldPanel('contact_number'),
+		FieldPanel('address'),
+		FieldPanel('intro'),
+		ImageChooserPanel('photo'),
+		FieldPanel('skills'),
+	]
+
+	parent_page_types=['StaffHomePage']
+	subpage_types=[]
+
+	def __str__(self):
+		if self.middle_name == '':
+			return self.first_name+" "+self.last_name
+		return self.first_name+" "+self.middle_name+" "+self.last_name
+
+	class Meta:
+		verbose_name = "Staff"
+		verbose_name_plural = "Staff"
+
+def staff_skills():
+	live_tags = StaffSkillag.objects.all()
+	common_tags = []
+	for tag in live_tags:
+		tag2 = tag.__str__().split('tagged with ', 1)
+		tag3 = tag2.pop()
+		if tag3 not in common_tags:
+			common_tags.append(tag3)
+	return common_tags
+
+######################################################
+class AlumniHomePage(AbstractStudentHomePage):
+	content_panels = AbstractStudentHomePage.content_panels + [
+		InlinePanel('distinguished_alumni', label="Distinguished Alumni", max_num=10),
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['AlumnusPage']
+	max_count = 1
+
+	def serve(self, request):
+		alumni_list = self.get_children().live().order_by('alumnuspage__programme', 'alumnuspage__enrolment_year')
+
+		all_interests = alumni_interests()
+		# Filter by tag
+		tag = request.GET.get('tag')
+		if tag:
+			alumni_list = alumni_list.filter(alumnuspage__interests__name=tag)
+		paginator = Paginator(alumni_list, 10) # Show 10 alum per page
+		page_no = request.GET.get('page_no')
+		alumni_list = paginator.get_page(page_no)
+
+		return render(request, self.template, {
+			'page': self,
+			'alumni_list': alumni_list,
+			'all_interests':all_interests,
+			'tag':tag,
+			'page_no':page_no,
+		})
+
+	class Meta:
+		verbose_name = "Alumni Home"
+
+class AlumniInterestTag(TaggedItemBase):
+	content_object = ParentalKey(
+		'AlumnusPage',
+		related_name='alumni_tagged_items',
+		on_delete=models.CASCADE
+	)
+
+class AlumnusPage(AbstractStudentPage):
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='alumnus', null=True, on_delete=models.SET_NULL)
+	contact_number_2 = models.CharField(max_length=20, blank=True)
+	email_id_2 = models.EmailField(blank=True)
+	address_line_1 = models.CharField(max_length=100, blank=True)
+	address_line_2 = models.CharField(max_length=50, blank=True)
+	address_line_3 = models.CharField(max_length=25, blank=True)
+	interests = ClusterTaggableManager(through=AlumniInterestTag, blank=True, verbose_name='Interests')
+
+	content_panels = Page.content_panels + [
+		######################################################
+		# The user should not be able to change these things from here
+		FieldPanel('user'),
+		FieldPanel('first_name'),
+		FieldPanel('middle_name'),
+		FieldPanel('last_name'),
+		FieldPanel('programme'),
+		FieldPanel('roll_no'),
+		FieldPanel('enrolment_year'),
+		FieldPanel('email_id'),
+		######################################################
+		FieldPanel('specialization'),
+		FieldPanel('is_exchange'),
+		FieldPanel('website'),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('contact_number'),
+				FieldPanel('contact_number_2'),
+			]),
+		],  heading="Contact Numbers"),
+		MultiFieldPanel([
+			FieldPanel('address_line_1'),
+			FieldPanel('address_line_2'),
+			FieldPanel('address_line_3'),
+		], heading="Current Address"),
+		FieldPanel('hostel_address'),
+
+		ImageChooserPanel('photo'),
+		FieldPanel('intro'),
+		FieldPanel('body'),
+		FieldPanel('email_id_2'),
+		InlinePanel('alum_gallery_images', label="Gallery images", max_num=5),
+		InlinePanel('alum_links', label="Related Links", max_num=10),
+		FieldPanel('interests'),
+	]
+
+	job_tab_panels = [
+		InlinePanel('job_details', label="Job Details", max_num=3),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(job_tab_panels, heading="Job Details"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	parent_page_types=['AlumniHomePage']
+	subpage_types=[]
+
+	class Meta:
+		verbose_name = "Alumnus"
+		verbose_name_plural = "Alumni"
+
+class AlumnusPageJobDetail(Orderable):
+	page = ParentalKey(AlumnusPage, on_delete=models.CASCADE, related_name='job_details')
+	title = models.CharField(max_length=20)
+	company = models.CharField(max_length=20, blank=True)
+	work_details = models.CharField(max_length=500, blank=True)
+	link = models.URLField(max_length=250, blank=True)
+	panels = [
+		FieldPanel('title'),
+		FieldPanel('company'),
+		FieldPanel('work_details'),
+		FieldPanel('link'),
+	]
+
+class AlumnusPageLink(Orderable):
+	page = ParentalKey(AlumnusPage, on_delete=models.CASCADE, related_name='alum_links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+class AlumnusPageGalleryImage(Orderable):
+	page = ParentalKey(AlumnusPage, on_delete=models.CASCADE, related_name='alum_gallery_images')
+	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
+	]
+
+class DistinguishedAlumni(Orderable):
+	page = ParentalKey(AlumniHomePage, on_delete=models.CASCADE, related_name='distinguished_alumni')
+	distinguished_alumnus = models.ForeignKey('AlumnusPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='distinguished_alumnus')
+	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('distinguished_alumnus', target_model='mechweb.AlumnusPage'),
+		FieldPanel('about'),
+	]
+
+def alumni_interests():
+	live_tags = AlumniInterestTag.objects.all()
+	common_tags = []
+	for tag in live_tags:
+		tag2 = tag.__str__().split('tagged with ', 1)
+		tag3 = tag2.pop()
+		if tag3 not in common_tags:
+			common_tags.append(tag3)
+	return common_tags
+
+# # How to make this function, student_interests() and faculty_interests() into one?
+######################################################
+# def get_categories():
+# 	return CategoriesHome.objects.all()[0].get_children().live().order_by('-categories__category')
+######################################################
+
+class ResearchHomePage(Page):
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[5])
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+		InlinePanel('featured_research', label="Featured Research", max_num=10),
+	]
+
+	parent_page_types=['MechHomePage']
+	subpage_types=['ResearchLabHomePage', 'PublicationHomePage', 'ProjectHomePage']
+	max_count = 1
+
+	class Meta:
+		verbose_name = "Research Home"
+
+class FeaturedResearch(Orderable):
+	page = ParentalKey(ResearchHomePage, on_delete=models.CASCADE, related_name='featured_research')
+	featured_research = models.ForeignKey('PublicationPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_research')
+	panels = [
+		AutocompletePanel('featured_research', target_model='mechweb.PublicationPage'),
+	]
+#------------------------------------------
+class ResearchLabHomePage(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+	]
+
+	parent_page_types=['ResearchHomePage']
+	subpage_types=['ResearchLabPage']
+	max_count = 1
+
+	def serve(self, request):
+		lab_list = self.get_children().live().order_by('researchlabpage__lab_type', 'researchlabpage__name')
+
+		# Filter by research area
+
+		ugpg = request.GET.get('ugpg')
+		if ugpg in ['0','1']:
+			lab_list = lab_list.filter(researchlabpage__lab_type=ugpg)
+
+		return render(request, self.template, {
+			'page': self,
+			'lab_list': lab_list,
+			'ugpg':ugpg,
+		})
+
+	class Meta:
+		verbose_name = "Lab Home"
+
+class ResearchLabPage(Page):
+	name = models.CharField(max_length=100)
+	lab_type = models.CharField(max_length=2, choices=LAB_TYPES, default='0')
+	# When already defined in faculty model who is lab incharge... then do we need it here?
+	faculty_incharge = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_incharge')
+	intro = models.CharField(max_length=500, blank=True)
+	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	contact_number = models.CharField(max_length=20, blank=True)
+	address = models.CharField(max_length=100, blank=True)
+	photo_1 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo_2 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	photo_3 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+
+	content_panels = Page.content_panels + [
+		FieldPanel('name'),
+		FieldPanel('lab_type'),
+		FieldPanel('contact_number'),
+		FieldPanel('address'),
+		FieldPanel('intro'),
+		FieldPanel('body'),
+		MultiFieldPanel([
+			FieldRowPanel([
+				ImageChooserPanel('photo_1'),
+				ImageChooserPanel('photo_2'),
+				ImageChooserPanel('photo_3'),
+			]),
+		],  heading="Featured Photos"),
+		InlinePanel('links', label="Related Links", max_num=10),
+	]
+
+	lab_equipment_panels = [
+		InlinePanel('equipment', label="Lab Equipments"),
+	]
+
+	people_panels = [
+		AutocompletePanel('faculty_incharge', target_model='mechweb.FacultyPage'),
+		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('postdocs', label="Postdocs"),
+		InlinePanel('students', label="Students"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(people_panels, heading="People"),
+		ObjectList(lab_equipment_panels, heading="Equipments"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	parent_page_types=['ResearchLabHomePage']
+	subpage_types=[]
+
+	class Meta:
+		verbose_name = "Lab"
+		verbose_name_plural = "Labs"
+
+class LabEquipment(Orderable):
+	company = models.CharField(max_length=50, blank=True)
+	name = models.CharField(max_length=25, blank=True)
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='equipment')
+	operator = models.ForeignKey('StaffPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='operator')
+	document = models.ForeignKey(
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
+		related_name='+'
+	)
+	specifications = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	cost = models.FloatField(blank=True)
+	date_of_procurement = models.DateField(blank=True)
+	link = models.URLField(max_length=250, blank=True)
+	photo_1 = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	funding_agency = models.CharField(max_length=50, blank=True)
+	funding_agency_link = models.URLField(max_length=250, blank=True)
+	panels = [
+		FieldPanel('name'),
+		FieldPanel('company'),
+		AutocompletePanel('operator', target_model='mechweb.StaffPage'),
+		DocumentChooserPanel('document'),
+		FieldPanel('specifications'),
+		FieldPanel('link'),
+		FieldPanel('cost'),
+		FieldPanel('date_of_procurement'),
+		ImageChooserPanel('photo_1'),
+		MultiFieldPanel([
+			FieldPanel('funding_agency'),
+			FieldPanel('funding_agency_link'),
+
+		], heading="Funding Agency"),
+	]
+
+class ResearchLabPageLink(Orderable):
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+class ResearchLabFaculty(Orderable):
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='faculty')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_lab')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+		FieldPanel('research_statement'),
+	]
+
+class ResearchLabStudents(Orderable):
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='students')
+	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_lab')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('student', target_model='mechweb.StudentPage'),
+		FieldPanel('research_statement'),
+	]
+
+class ResearchLabPostdocs(Orderable):
+	page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='postdocs')
+	postdoc = models.ForeignKey('StaffPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='postdoc_lab')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('postdoc', target_model='mechweb.StaffPage'),
+		FieldPanel('research_statement'),
+	]
+#------------------------------------------
+class PublicationHomePage(Page):
+	# Add featured publications
+	parent_page_types=['ResearchHomePage']
+	subpage_types=['PublicationPage']
+	max_count = 1
+
+	def serve(self, request):
+		pub_list = self.get_children().live().order_by('publicationpage__pub_year', 'publicationpage__pub_type', 'publicationpage__citations')
+
+		year_list = []
+		year = timezone.now().year
+		for i in  range(year, 1996, -1):
+			year_list.append(i)
+
+		year = request.GET.get('year')
+		if year:
+			pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		else: year = timezone.now().year
+
+		# pub_type = request.GET.get('pub_type')
+		# if pub_type:
+		# 	pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
+		# elif year is 0:
+		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+
+		paginator = Paginator(pub_list, 50)
+		page_no = request.GET.get('page_no')
+		pub_list = paginator.get_page(page_no)
+
+		return render(request, self.template, {
+			'page': self,
+			'pub_list': pub_list,
+			# 'year':year,
+			'page_no':page_no,
+			# 'pub_type':pub_type,
+			'year_list':year_list,
+		})
+
+	class Meta:
+		verbose_name = "Publication Home"
+
+class PublicationPage(Page):
+	#page = ParentalKey(PublicationHomePage, on_delete=models.PROTECT, related_name='publication')
+	document = models.ForeignKey(
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
+		related_name='+'
+	)
+	name = models.CharField(max_length=500)
+	abstract = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	pub_type = models.CharField(max_length=2, choices=PUBLICATION_TYPES, default='0')
+	download_link = models.URLField(blank=True, max_length=100)
+	pub_issue = models.CharField(max_length=100,null=True, blank=True)
+	pub_year = models.DateField(default=timezone.now)
+	pub_journal = models.CharField(max_length=300, blank=True)
+	pub_vol = models.CharField(max_length=200, blank=True)
+	page_start = models.CharField(max_length=50, blank=True)
+	page_end = models.CharField(max_length=50, blank=True)
+	citations = models.CharField(max_length=10, blank=True)
+	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
+	# pub_conference =
+	# pub_patent_number =
+	# pub_
+
+
+	content_panels =  Page.content_panels + [
+		DocumentChooserPanel('document'),
+		FieldPanel('name'),
+		FieldPanel('pub_type'),
+		FieldPanel('pub_year'),
+		FieldPanel('pub_journal'),
+		FieldPanel('pub_vol'),
+		FieldPanel('pub_issue'),
+		FieldPanel('page_start'),
+		FieldPanel('page_end'),
+		FieldPanel('citations'),
+		FieldPanel('abstract'),
+		FieldPanel('download_link'),
+		InlinePanel('images', label="Images", max_num=2),
+		InlinePanel('links', label="Links", max_num=10),
+	]
+
+	people_panels = [
+
+		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('other_authors', label="Other Authors"),
+		InlinePanel('students', label="Students"),
+		FieldPanel('alt_people_text'),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(people_panels, heading="People"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	parent_page_types=['PublicationHomePage']
+	subpage_types=[ ]
+
+	class Meta:
+		verbose_name = "Publication"
+		verbose_name_plural = "Publications"
+
+class PublicationPageStudent(Orderable):
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='students')
+	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student_pub')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('student', target_model='mechweb.StudentPage'),
+		FieldPanel('research_statement'),
+	]
+
+class PublicationPageFaculty(Orderable):
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='faculty')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_pub')
+	research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+		FieldPanel('research_statement'),
+	]
+
+class PublicationPageOtherAuthor(Orderable):
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='other_authors')
+	name = models.CharField(max_length=100)
+	organization = models.CharField(max_length=100, blank=True)
+	panels = [
+		FieldPanel('name'),
+		FieldPanel('organization'),
+	]
+
+class PublicationPageGalleryImage(Orderable):
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='images')
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('photo'),
+			FieldPanel('caption'),
+		]),
+	]
+
+#Is this going to be useful?
+class PublicationPageLink(Orderable):
+	page = ParentalKey(PublicationPage, on_delete=models.CASCADE, related_name='links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+#------------------------------------------
+class ProjectHomePage(Page):
+	parent_page_types=['ResearchHomePage']
+	subpage_types=['ProjectPage']
+	max_count = 1
+
+	class Meta:
+		verbose_name = "Project Home"
+
+class ProjectPage(Page):
+	principal_investigator = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
+	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	name = models.CharField(max_length=150)
+	start_date = models.DateField(default=timezone.now)
+	end_date = models.DateField(blank=True)
+	budget = models.CharField(blank=True, max_length=100)
+	funding_agency = models.CharField(blank=True, max_length=100)
+	funding_agency_link = models.URLField(blank=True, max_length=100)
+	project_type = models.CharField(max_length=20, default='1', choices=PROJECT_TYPES)
+	alt_PI_text=models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
+
+	content_panels = Page.content_panels + [
+		FieldPanel('project_type'),
+		FieldPanel('name'),
+		FieldPanel('description'),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('start_date'),
+				FieldPanel('end_date'),
+			]),
+		],  heading="Duration"),
+		MultiFieldPanel([
+			FieldRowPanel([
+				FieldPanel('funding_agency'),
+				FieldPanel('funding_agency_link'),
+				FieldPanel('budget'),
+			]),
+		],  heading="Funding details"),
+		InlinePanel('links', label="Links", max_num=10),
+		InlinePanel('gallery_images', label="Gallery images", max_num=3),
+	]
+
+	people_panels = [
+		AutocompletePanel('principal_investigator', target_model='mechweb.FacultyPage'),
+		InlinePanel('faculty', label="Faculty"),
+		InlinePanel('students', label="Students"),
+		FieldPanel('alt_PI_text')
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(people_panels, heading="People"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	parent_page_types=['ProjectHomePage']
+	subpage_types=[ ]
+
+	class Meta:
+		verbose_name = "Project"
+		verbose_name_plural = "Projects"
+
+class ProjectPageFaculty(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
+	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+		FieldPanel('project_statement'),
+	]
+
+class ProjectPageStudent(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='students')
+	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
+	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('student', target_model='mechweb.FacultyPage'),
+		FieldPanel('project_statement'),
+	]
+
+class ProjectPageLink(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+class ProjectPageGalleryImage(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='gallery_images')
+	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
+	]
+
+#####################################################
+class CourseStructure(Page):
+	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
+
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+		InlinePanel('featured_courses', label="Featured Courses", max_num=10),
+	]
+	parent_page_types=['MechHomePage']
+	subpage_types=['CoursePage']
+	max_count = 1
+
+	def serve(self, request):
+		course_list = self.get_children().live().order_by('coursepage__name')
+		# Filter by programme
+		prog = request.GET.get('prog')
+		structure = []
+		if prog=='0':
+		  sem1 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=4)
+		  structure.append(sem4)
+		  sem5 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=5)
+		  structure.append(sem5)
+		  sem6 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=6)
+		  structure.append(sem6)
+		  sem7 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=7)
+		  structure.append(sem7)
+		  sem8 = course_list.filter(coursepage__zero='1').filter(coursepage__zero_sem=8)
+		  structure.append(sem8)
+		elif prog=='1':
+		  sem1 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__one='1').filter(coursepage__one_sem=4)
+		elif prog=='2':
+		  sem1 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__two='1').filter(coursepage__two_sem=4)
+		  structure.append(sem4)
+		elif prog=='3':
+		  sem1 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__three='1').filter(coursepage__three_sem=4)
+		  structure.append(sem4)
+		elif prog=='4':
+		  sem1 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__four='1').filter(coursepage__four_sem=4)
+		  structure.append(sem4)
+		elif prog=='5':
+		  sem1 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=1)
+		  structure.append(sem1)
+		  sem2 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=2)
+		  structure.append(sem2)
+		  sem3 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=3)
+		  structure.append(sem3)
+		  sem4 = course_list.filter(coursepage__five='1').filter(coursepage__five_sem=4)
+		  structure.append(sem4)
+		elif prog=='6':
+		  sem1 = course_list.filter(coursepage__six='1').filter(coursepage__six_sem=1)
+		  structure.append(sem1)
+		else:
+		  pass
+
+		return render(request, self.template, {
+			'page': self,
+			'course_list': course_list,
+			'prog':prog,
+			'structure':structure,
+		})
+
+	class Meta:
+		verbose_name = "Course Structure"
+		verbose_name_plural = "CourseStructure"
+
+# class CourseProgrammes(Page):
+# 	category = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0', unique=True)
+# 	content_panels = Page.content_panels + [
+# 			FieldPanel('category'),
+# 		]
+# 	parent_page_types=['CategoriesHome']
+# 	max_count = 4
+
+# 	def serve(self, request):
+# 		course_list = self.courses.all()
+# 		return render(request, self.template, {
+# 			'page': self,
+# 			'course_list': course_list,
+# 		})
+
+# class CourseSpecializations(Page):
+# 	category = models.CharField(max_length=2, choices=MASTERS_SPECIALIZATION, default='0', unique=True)
+# 	# semester = models.CharField(max_length=2, default='1')
+# 	content_panels = Page.content_panels + [
+# 			FieldPanel('category'),
+# 			# FieldPanel('semester'),# check if this category is checked - if yes, then filling this field should be mandatory
+# 		]
+# 	parent_page_types=['CategoriesHome']
+# 	max_count = 6
+
+	# def serve(self, request):
+	# 	course_list = self.courses.all()
+	# 	return render(request, self.template, {
+	# 		'page': self,
+	# 		'course_list': course_list,
+	# 	})
+
+class CoursePage(Page):
+	name = models.CharField(max_length=50)
+	code = models.CharField(max_length=10)
+	photo = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	lectures = models.IntegerField(verbose_name="L")
+	tutorials = models.IntegerField(verbose_name="T")
+	practicals = models.IntegerField(verbose_name="P")
+	credits = models.IntegerField(verbose_name="C")
+	# semester = models.IntegerField()
+
+	eligible_programmes = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0')
+	course_type = models.CharField(max_length=2, choices=COURSE_TYPES, default='0')
+	zero = models.BooleanField(default=True, verbose_name="B. Tech")
+	zero_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	one = models.BooleanField(default=False, verbose_name="M.Tech: Aerodynamics & Propulsion ")
+	one_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	two = models.BooleanField(default=False, verbose_name="M.Tech: Manufacturing Science and Engineering")
+	two_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	three = models.BooleanField(default=False, verbose_name="M.Tech: Computational Mechanics")
+	three_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	four = models.BooleanField(default=False, verbose_name="M.Tech: Fluids and Thermal")
+	four_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	five = models.BooleanField(default=False, verbose_name="M.Tech: Machine Design")
+	five_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	six = models.BooleanField(default=False, verbose_name="PhD")
+	six_sem = models.IntegerField(blank=True, verbose_name="Semester")
+
+	# eligible_programmes = ParentalManyToManyField('mechweb.CourseProgrammes', blank=True, related_name='courses')
+	# eligible_specializations = ParentalManyToManyField('mechweb.CourseSpecializations', blank=True, related_name='courses')
+	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	course_page_link = models.URLField(blank=True)
+	document = models.ForeignKey(
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
+		related_name='+',
+		verbose_name='Syllabus',
+	)	#if can add function to add multiple students at once, then and only then add this.
+	# list_of_students =
+
+	content_panels =  Page.content_panels + [
+		FieldPanel('name'),
+		MultiFieldPanel([
+			FieldPanel('code'),
+			FieldPanel('course_type'),
+			FieldPanel('eligible_programmes'),
+			# FieldPanel('eligible_programmes',widget=forms.CheckboxSelectMultiple),
+			# FieldPanel('eligible_specializations', widget=forms.CheckboxSelectMultiple),
+			DocumentChooserPanel('document'),
+			FieldPanel('course_page_link'),
+		], heading="Course Details"),
+		FieldPanel('description'),
+		ImageChooserPanel('photo'),
+		InlinePanel('course_instructor', label="Course Instructor"),
+	]
+
+	eligibility_and_sem_panels = [
+			FieldRowPanel([
+				FieldPanel('zero'),
+				FieldPanel('zero_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('one'),
+				FieldPanel('one_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('two'),
+				FieldPanel('two_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('three'),
+				FieldPanel('three_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('four'),
+				FieldPanel('four_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('five'),
+				FieldPanel('five_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('six'),
+				FieldPanel('six_sem'),
+			]),
+
+			FieldRowPanel([
+				FieldPanel('lectures'),
+				FieldPanel('tutorials'),
+				FieldPanel('practicals'),
+				FieldPanel('credits'),
+			]),
+	]
+
+	announcement_tab_panels = [
+		InlinePanel('course_announcements', label="Announcement"),
+	]
+
+	edit_handler = TabbedInterface([
+		ObjectList(content_panels, heading="Content"),
+		ObjectList(eligibility_and_sem_panels, heading="Eligibility and Semester"),
+		ObjectList(announcement_tab_panels, heading="Announcements"),
+		ObjectList(Page.promote_panels, heading="Promote"),
+		ObjectList(Page.settings_panels, heading="Settings"),
+	])
+
+	parent_page_types=['CourseStructure']
+	subpage_types=[ ]
+
+	class Meta:
+		verbose_name = "Course"
+		verbose_name_plural = "Courses"
+
+class CoursePageFaculty(Orderable):
+	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_instructor')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='course_instructor')
+	session = models.DateField(verbose_name="Instruction start date", default=timezone.now)
+	introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	panels = [
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+		FieldPanel('introduction'),
+		FieldPanel('session'),
+	]
+
+class CourseAnnouncementPage(Orderable):
+	page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_announcements')
+	announcement = RichTextField(max_length=250, blank=True, features=CUSTOM_RICHTEXT)
+	document = models.ForeignKey(
+		'wagtaildocs.Document',
+		null=True, blank=True,
+		on_delete=models.SET_NULL,
+		related_name='+'
+	)
+	panels = [
+		FieldPanel('announcement'),
+		DocumentChooserPanel('document'),
+	]
+
+class FeaturedCourse(Orderable):
+	page = ParentalKey(CourseStructure, on_delete=models.CASCADE, related_name='featured_courses')
+	featured_course = models.ForeignKey('CoursePage', null=True,blank=True, on_delete=models.SET_NULL, related_name='featured_course')
+	panels = [
+		AutocompletePanel('featured_course', target_model='mechweb.CoursePage'),
+	]
+
+def get_prog_course(cat):
+	return CourseProgrammes.objects.all().get(category=cat).courses.all()
+def get_spec_course(cat):
+	return CourseSpecializations.objects.all().get(category=cat).courses.all()
+######################################################
+class AwardHomePage(Page):
+	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	content_panels = Page.content_panels + [
+		FieldPanel('intro'),
+		InlinePanel('awards', label="Awards"),
+			# , widget=),
+	]
+	parent_page_types=['MechHomePage']
+	subpage_types=[]
+	max_count = 1
+
+	# def serve(self, request):
+	# 	award_list = Award.objects.all()
+	#
+	# 	# Filter by research area
+	# 	award_type = request.GET.get('award_type')
+	# 	if award_type in ['0','1', '2']:
+	# 		award_list = award_list.filter(award_type=award_type)
+	#
+	# 	return render(request, self.template, {
+	# 		'page': self,
+	# 		'award_list': award_list,
+	# 		'award_type':award_type,
+	# 	})
+
+	def serve(self, request):
+		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
+
+		# Filter by programme
+		prog = request.GET.get('prog')
+		if prog in ['0','1', '2', '3']:
+			student_list = student_list.filter(studentpage__programme=prog)
+
+		# Filter by tag
+		tag = request.GET.get('tag')
+		if tag:
+			student_list = student_list.filter(studentpage__research_interests__name=tag)
+
+		paginator = Paginator(student_list, 10) # Show 10 students per page
+		page_no = request.GET.get('page_no')
+		student_list = paginator.get_page(page_no)
+
+		all_research_interests = student_interests()
+		return render(request, self.template, {
+			'page': self,
+			'student_list': student_list,
+			'all_research_interests': all_research_interests,
+			'tag':tag,
+			'page_no':page_no,
+			'prog':prog,
+		})
+	class Meta:
+		verbose_name = "Awards Home"
+
+class Award(Orderable):
+	page = ParentalKey(AwardHomePage, null=True, on_delete=models.SET_NULL, related_name='awards')
+	faculty =  models.ForeignKey( 'FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,related_name='award_fac')
+	other_recipients = models.CharField(max_length=100, blank=True)
+	award_title = models.CharField(max_length=500)
+	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
+	award_time = models.CharField(max_length=100, blank=True)
+	conferrer = models.CharField(max_length=100)
+	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+	link = models.URLField(max_length=250, blank=True)
+	alt_recipient_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty")
+
+
+	panels = [
+		FieldPanel('award_title'),
+		FieldPanel('award_description'),
+		FieldPanel('award_type'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+		FieldPanel('other_recipients'),
+		ImageChooserPanel('image'),
+		FieldPanel('award_time'),
+		FieldPanel('conferrer'),
+		FieldPanel('conferrer_description'),
+		FieldPanel('link'),
+		FieldPanel('alt_recipient_text'),
+	]
+
+	class Meta:
+		ordering = ['-award_time']
+
+
+
+# def set_date(year):
+# 	return enrolment_year = datetime.strptime('Jan 1 '+year+' 12:00PM', '%b %d %Y %I:%M%p')
+
+# Not working in sending year list to publication
+# raises error:
+# local variable 'year_list' referenced before assignment django
+# def year_list():
+# 	year_list = []
+# 	year = timezone.now().year
+# 	for i in  range(1996, year):
+# 		year_list.append(i)
+# 	return year_list
+
+ # from mechweb.models import CourseProgrammes, CourseSpecializations, CourseTypes

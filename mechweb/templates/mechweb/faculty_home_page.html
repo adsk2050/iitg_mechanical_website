@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-faculty-homepage mt-5{% endblock %}
+
+
+{% block content %}
+
+
+  <div class="container-fluid text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>{{ page.title }}</h1>
+            {% if tag or cat %}
+                <h2>Results for {% if cat %}{{ cat_name }}{% endif %}{% if tag and cat %} with {% endif %}{% if tag %}{{ tag }}{% endif %}</h2>
+
+            {% else %}
+                {% if faculty_list.number == 1 %}
+                    <!-- <h2>Intro:</h2> -->
+                    <div class="intro">{{ page.intro|richtext }}</div>
+                {% endif %}
+            {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if all_categories %}
+  <!-- <h2>Fields:</h2> -->
+
+
+  <ul>
+    <div class="row ">
+
+      {% for category in all_categories %}
+      <div class="col-xs-6 col-sm-6 col-md-4">
+        <a href="{{ page.url }}?cat={{ category.specific.category }}" class="btn btn-lg btn-block ">
+          <i class="fa fa-check-square-o visible-xs"></i>
+          <span class="hidden-xs"><li>{{ category.specific.get_category_display }}</li></span>
+        </a>
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </ul>
+  {% endif %}
+
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-6 col-md-7">
+        <!-- <h3>All Faculties</h3> -->
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4" style="text-align:center">
+         <i class="fa fa-search fa-2x"></i>
+         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for faculty..">
+      </div>
+    </div>
+  </div>
+
+
+
+    <!-- Faculty List -->
+    <div class="container-fluid facultyhome">
+    <div class="row bread-list" id="myUL">
+      {% for faculty in faculty_list %}
+
+        <div class="col-md-12 bread-list-item" >
+          <span style="display:none">{{ faculty }}</span>
+
+            <div class="row">
+                <div class="col-xs-4 col-sm-12 col-md-3 image">
+                  <a href="{{ faculty.url }}">
+                    {% if faculty.specific.photo %}
+                      {% image faculty.specific.photo original %}
+                    {% else %}
+                      {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
+                            <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
+                      {% endwith %}
+                    {% endif %}
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">
+                  <div class="row">
+                    {% if faculty.specific.get_additional_roles_display == "HoD" %}
+                        <h3>Head of Department</h3>
+                    {% endif %}
+                      <a href="{{ faculty.url }}">
+                          <h2>{{ faculty }}</h2>
+                          <strong>{{ faculty.specific.get_designation_display }}</strong>
+                      </a>
+                  </div>
+                <div class="row">
+                  <ul class="bread-meta">
+                  {% if faculty.specific.office_address_line_1 %}
+                      <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
+                  {% endif %}
+                  {% if faculty.specific.office_contact_number %}
+                      <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
+                  {% endif %}
+                  {% if faculty.specific.email_id %}
+                      <li><span>Email</span> {{ faculty.specific.email_id }}</li>
+                  {% endif %}
+                  {% if faculty.specific.website %}
+                      <li><span>Webpage</span> <a href="{{ faculty.specific.website}}">{{ faculty.specific.name }}</a></li>
+                  {% endif %}
+
+
+
+                  </ul>
+
+                </div>
+
+                </div>
+                <div class=" col-sm-12 col-md-4 researchbox">
+                  {% if faculty.specific.research_interests %}
+                      <span><h5>Research Interests:</h5></span>
+                          {% for tag in faculty.specific.research_interests.all %} <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}
+
+                  {% endif %}
+                </div>
+            </div>
+
+
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+
+
+
+
+{% if all_research_interests %}
+    <h2>Department research focus</h2>
+    <div class="styletags">
+        {% for research_interest in all_research_interests %}
+            <a href="{{ page.url }}?tag={{ research_interest }}">{{ research_interest }}</a> |
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if faculty_list.has_previous %}
+                <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">&laquo; first</a>
+                <a href="?page_no={{ faculty_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ faculty_list.number }} of {{ faculty_list.paginator.num_pages }}.
+            </span>
+
+            {% if faculty_list.has_next %}
+                <a href="?page_no={{ faculty_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">next</a>
+                <a href="?page_no={{ faculty_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+{% endblock %}
+
+
+{% block extra_script %}
+    <script>
+    function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByClassName("bread-list-item");
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("span")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+    }
+    </script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,192 @@
+Using tabs to create a cleaner admin interface
+____________________________________________________________________
+https://www.youtube.com/watch?v=uZc0aZrHtQw&list=PLY8A6V6_4EmNcA47HXnauZ66c3lXjh6Pb&index=3
+
+Content tab, Promote tab, Settings tab are by default... If you want to add more tabs, then watch it...
+
+
+
+******* Organising Images and Documents using Wagtail Collections
+
+_____________________________________________________________________
+https://www.youtube.com/watch?v=HGXHtFpLDCA&list=PLY8A6V6_4EmNcA47HXnauZ66c3lXjh6Pb&index=4
+
+Very important bro!!! Watch whole video and research about it as well as implement it
+
+Very VERY importanttttttttttttt
+
+_____________________________________________________________________
+https://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits/11593308
+
+git checkout --patch mittal /path/to/file
+
+doesn't work if the file is not already there in master branch
+
+_____________________________________________________________________
+ USE django-import-export 
+
+ https://django-import-export.readthedocs.io/en/latest/getting_started.html#importing
+
+_____________________________________________________________________
+Context processor makes all data publicly available whatever is declared in it
+
+https://stackoverflow.com/questions/17901341/django-how-to-make-a-variable-available-to-all-templates
+ 
+can also see this: https://stackoverflow.com/questions/47894252/django-send-context-to-base-html?rq=1
+
+https://stackoverflow.com/questions/22267977/no-template-context-processors-in-django (settings me keyword change kar diya hai)
+
+_____________________________________________________________________
+How to use image tags in templates important info -  used it to bring images to mechhomepage carousal
+
+https://docs.wagtail.io/en/v1.7/topics/images.html
+
+_____________________________________________________________________
+Customising listing view
+read this and implement so that we are able to sort the students automatically on student home page as well as on faculty, publication and lab etc
+https://docs.wagtail.io/en/v2.5.1/reference/contrib/modeladmin/indexview.html
+
+_____________________________________________________________________
+How to display currrent date in django template:
+
+https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#now 
+https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#std:templatefilter-date
+
+_____________________________________________________________________
+
+Following relationships backward
+
+https://docs.djangoproject.com/en/2.2/topics/db/queries/#following-relationships-backward
+
+https://stackoverflow.com/questions/15306897/django-reverse-lookup-of-foreign-keys
+
+eg list of all  ResearchLabFaculty objects for a given FacultyPage object
+
+f = FacultyPage.objects.all()[1] ---- gives FacultyPage object
+g = f.faculty_lab.all()[0] ---- gives ResearchLabFacultyPage object
+lab = g.page ----- gives ResearchLabPage object
+_____________________________________________________________________
+ParentalKey reverse lookup no need --- directly get parent by accessing link
+_____________________________________________________________________
+
+passing class name as argument to function?
+
+https://stackoverflow.com/questions/28885018/passing-class-name-as-argument-to-function
+_____________________________________________________________________
+UnboundLocalError: local variable 'getBottles' referenced before assignment
+
+https://stackoverflow.com/questions/52999994/unboundlocalerror-local-variable-getbottles-referenced-before-assignment
+_____________________________________________________________________
+Django querying models
+
+# Get faculty page models https://docs.wagtail.io/en/v2.2.2/reference/pages/model_recipes.html#tagging
+# Used the same method in student and alumni home pages
+_____________________________________________________________________
+For faster page loading
+
+http://docs.wagtail.io/en/v2.5.1/advanced_topics/performance.html
+
+The overhead from reading and compiling templates can add up. In some cases a significant performance improvement can be gained by using Django's cached template loader:
+
+https://docs.djangoproject.com/en/2.2/ref/templates/api/#django.template.loaders.cached.Loader
+_____________________________________________________________________
+Wagtail searching 
+
+http://docs.wagtail.io/en/v2.5.1/topics/search/index.html
+
+search_fields = Page.search_fields + [ 
+		# Inherit search_fields from Page
+        index.SearchField('description'),
+        index.FilterField('date'),
+        
+
+        index.SearchField('title'),
+        index.FilterField('published_date'),
+
+        index.RelatedFields('author', [
+            index.SearchField('name'),
+            index.FilterField('date_of_birth'),
+        ]),
+    ]
+
+_____________________________________________________________________
+Last edits page type dikhana hai
+<div class="human-readable-date" title="{{ revision.created_at|date:"d M Y H:i" }}">{% blocktrans with time_period=revision.created_at|timesince %}{{ time_period }} ago{% endblocktrans %}</div>
+_____________________________________________________________________
+How to nest tuples for choices
+
+https://stackoverflow.com/questions/28949232/how-deep-can-be-nesting-tuple-for-choices-in-django
+_____________________________________________________________________
+Convert string to datetime
+
+https://stackoverflow.com/questions/466345/converting-string-into-datetime
+
+_____________________________________________________________________
+How to create custom models in wagtail in shell 
+
+https://stackoverflow.com/questions/55409667/creating-page-object-programmatically-got-error-validationerror-path-and-depth-f
+_____________________________________________________________________
+IITG Roll number decoding
+
+http://intranet.iitg.ernet.in/acad/pdf/help.pdf
+
+_____________________________________________________________________
+Widgets
+
+https://docs.djangoproject.com/en/2.2/ref/forms/widgets/#django.forms.Widget.attrs
+_____________________________________________________________________
+_____________________________________________________________________
+
+Implement custom user model
+
+http://docs.wagtail.io/en/v2.0/advanced_topics/customisation/custom_user_models.html
+
+https://docs.djangoproject.com/en/2.2/ref/forms/fields/#choicefield
+
+https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
+
+https://simpleisbetterthancomplex.com/tutorial/2018/01/18/how-to-implement-multiple-user-types-with-django.html
+_____________________________________________________________________
+Permissions
+
+https://micropyramid.com/blog/understanding-django-permissions-and-groups/
+_____________________________________________________________________
+_____________________________________________________________________
+
+Methods have a model() function in django used to create new model instances
+
+https://stackoverflow.com/questions/51163088/self-model-in-django-custom-usermanager
+_____________________________________________________________________
+
+Django signals
+
+https://docs.djangoproject.com/en/2.2/topics/signals/
+
+https://simpleisbetterthancomplex.com/tutorial/2016/07/28/how-to-create-django-signals.html
+
+https://github.com/django/django/blob/master/django/db/models/manager.py#L165
+
+_____________________________________________________________________
+
+Database transactions
+
+eg. @transaction.atomic_requests
+
+iske neeche ka code saara compile hone ke baad ek saath database me entry hota hai
+
+https://docs.djangoproject.com/en/2.2/topics/db/transactions/
+
+_____________________________________________________________________
+
+replaced pagechooser with autocomplete
+
+https://wagtail-autocomplete.readthedocs.io/en/latest/index.html
+
+
+_____________________________________________________________________
+Your content_panels definition is using the wrong panel type for description and image - InlinePanel is only used for child object relations such as your greek_bios. You probably want this instead:
+
+https://stackoverflow.com/questions/48690081/attributeerror-deferredattribute-object-has-no-attribute-rel
+_____________________________________________________________________
+
+https://stackoverflow.com/questions/28057512/django-form-with-many-to-many-relationship-does-not-save

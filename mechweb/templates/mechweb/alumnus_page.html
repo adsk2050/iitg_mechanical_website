@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-event-page{% endblock %}
+
+{% block content %}
+
+
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+      {{ page.title }}
+
+      <div class="w3-white w3-text-grey w3-card-4">
+        <div class="w3-display-container">
+          {% image page.specific.photo width-300 style="width:100%"%}
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+            <h1><a href="{{ page.specific.url }}">{{ page }}</a></h1>
+          </div>
+        </div>
+        <div class="w3-container">
+          <h4><a href="{{ page.url }}">{{ page.specific.name }}</h4><hr>
+          {% if page.specific.enrolment_year %}
+              <li>
+                  <h4>Enrollment Year</h4>
+                  <p>{{ page.specific.enrolment_year }}</p>
+              </li>
+          {% endif %}
+          {% if page.specific.get_programme_display %}
+              <li>
+                  <h4>Programme</h4>
+                  <p>page.specific.get_programme_display</p>
+              </li>
+          {% endif %}
+
+
+           {% if page.specific.roll_no %}
+               <li>
+                 <h4>Roll Number</h4>
+                   <p>{{ page.specific.roll_no }}</p>
+               </li>
+           {% endif %}
+
+          {% if page.specific.email_id %}
+              <li>
+                  <h4>Email ID</h4>
+                  <p>{{ page.specific.email_id }}</p>
+                  {% if page.specific.email_id_2 %}
+              			<p>{{ page.specific.email_id_2 }}</p>
+              		{% endif %}
+             </li>
+         {% endif %}
+         {% if page.specific.contact_number %}
+             <li>
+                 <h4>Contact Number</h4>
+                 <p>{{ page.specific.semester }}</p>
+                 {% if page.specific.contact_number_2 %}
+             			<p>{{ page.specific.contact_number_2}}</p>
+             		{% endif %}
+             </li>
+         {% endif %}
+
+         {% if page.specific.address_line_1 %}
+             <li>
+                 <h4>Address</h4>
+                 <p>{{ page.specific.address_line_1 }}</p>
+                 {% if page.specific.address_line_2 %}
+             			<p>{{ page.specific.address_line_2}},</p>
+             		   {% endif %}
+             		    {% if page.specific.address_line_3 %}
+             		 	<p>{{ page.specific.address_line_3}}</p>
+             		   {% endif %}
+             </li>
+         {% endif %}
+
+                  <hr>
+
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>{{ page.specific.name }}</h2>
+        <p>{{ page.specific.description|richtext }}</p>
+
+
+      </div>
+
+
+
+      {% with jobs=page.specific.job_details.all  %}
+
+      {% if jobs %}
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Job details</h2>
+        {% for job in jobs %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>{{ job.title }} at <a href="{{ job.link }}">{{ job.company }}</a></b></h5>
+          <p>{{ job.work_details }} </p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+
+      <div class="w3-container">
+        <div>
+        {% with images=page.specific.gallery_images.all  %}
+            {% if images %}
+                <h3>Images</h3>
+                <ul>
+                    {% for pic in images %}
+                        <li>{% image pic.image fill-100x100 %}</li>
+                    {% endfor %}
+                </ul>
+                <br>
+            {% endif %}
+        {% endwith %}
+        </div>
+      </div>
+
+
+            <div class="w3-container">
+              <div>
+              {% with links=page.specific.links.all  %}
+                  {% if links %}
+                      <h3>Links</h3>
+                      <ul>
+                          {% for link in links %}
+                              <li><a href="{{ link }}">{{ link|truncatechars:10 }}</a></li>
+                          {% endfor %}
+                      </ul>
+                      <br>
+                  {% endif %}
+              {% endwith %}
+              </div>
+            </div>
+
+
+
+                  <div class="w3-container">
+                    <div>
+
+                            <h3>Intrests</h3>
+                            <ul>
+                              {% for tag in page.specific.interests.all %}
+                                  <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> |
+                                {% endfor %}
+                            </ul>
+                            <br>
+                      
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+
+{% endblock %}

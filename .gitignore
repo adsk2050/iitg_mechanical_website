@@ -1,0 +1,8 @@
+__pycache__/
+iitg_mechanical_website/__pycache__/
+iitg_mechanical_website/settings/__pycache__/
+mechweb/__pycache__/
+mechweb/migrations/__pycache__/
+search/__pycache__/
+*.pyc
+
