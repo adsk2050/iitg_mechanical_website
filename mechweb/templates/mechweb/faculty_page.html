@@ -21,8 +21,7 @@
         <div class="w3-display-container">
           {% if page.specific.photo %}
             {% image page.specific.photo original as photo %}
-            <img src="{{ photo.url }}" width=100%
-                    height=100% alt="{{ photo.alt }}" class="" />
+            <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
           {% else %}
               {% with '/media/images/faculty/'|add:page.slug|add:'.jpg' as image_static %}
                   <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
@@ -33,7 +32,7 @@
           </div>
         </div>
         <div class="w3-container">
-          <h4>{{ page.specific.get_designation_display }}</h4><hr>
+          <h4>{{ page.specific.get_designation_display }}{% if page.specific.on_lien %} on lien{% endif %} </h4><hr>
           {% if page.specific.office_address_line_1 %}
               <li>
                   <h4>Office Address</h4>
@@ -67,7 +66,7 @@
              </li>
          {% endif %}
 
-         {% if page.specific.office_contact_number %}
+         {% if page.specific.website %}
              <li>
                  <h4>Personal Website</h4>
                  <p><a href="{{ page.specific.website }}">{{ page.specific.website }}</a></p>
@@ -169,8 +168,7 @@
         {% for pub in pub_list %}
         {% if forloop.counter < 11 %}
         <div class="w3-container">
-          <h5 class="w3-opacity"><b><a href="{{ pub.url }}">{{ pub.specific.name }}</a></b></h5>
-          <p>{{ pub.specific.get_pub_type_display }}</p>
+          <h5 class="w3-opacity"><b><a href="{{ pub.url }}">{{ pub }}</a></p>
           <hr>
         </div>
         {% endif %}

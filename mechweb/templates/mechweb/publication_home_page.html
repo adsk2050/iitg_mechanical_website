@@ -69,26 +69,7 @@
 <ul id="myInputpub">
   {% for publication in pub_list %}
     <li class="filterDiv" id="year_{{ publication.specific.pub_year|date:'Y' }}">
-      <h2> {{ publication.specific.pub_type }}<a href="{{ publication.url }}">{{ publication.specific.name }}</a></h2>
-      {% if publication.specific.faculty.all.count > 0 or publication.specific.students.all.count > 0 or publication.specific.other_authors.all.count > 0  %}
-        <h3>Team </h3>
-
-        <ul>
-          {% for faculty in publication.specific.faculty.all %}
-            <li>
-            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-            </li>
-          {% endfor %}
-          {% for student in publication.specific.students.all %}
-            <li>
-            <a href="{{ student.student.url }}">{{ student.student }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% elif publication.specific.alt_people_text  %}
-        <h3>Team</h3>
-        <div>{{ publication.specific.alt_people_text }}</div>
-      {% endif %}
+      <h2><a href="{{ publication.url }}">{{ publication }}</a></h2>
     </li>
   {% endfor %}
 </ul>

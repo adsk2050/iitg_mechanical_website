@@ -22,8 +22,7 @@
         <div class="w3-display-container">
           {% if page.specific.photo %}
             {% image page.specific.photo original as photo %}
-            <img src="{{ photo.url }}" width="{{ photo.width }}"
-                    height="{{ photo.height }}" alt="{{ photo.alt }}" class="" />
+            <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
           {% else %}
               {% with '/media/images/phd/'|add:page.slug|add:'.jpg' as image_static %}
                     <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />

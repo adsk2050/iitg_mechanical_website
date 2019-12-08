@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, date
 
 from django.db import models
 from django import forms
@@ -91,14 +91,21 @@ class MechHomePage(Page):
 	intro = models.CharField(blank=True, max_length=500)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-
+	HOD_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+	donation_link = models.URLField(max_length=250)
+	donate_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+	donate_message = models.CharField(blank=True, max_length=250)
 	# intro = RichTextField(blank=True)
 	# user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 	content_panels = Page.content_panels + [
 		FieldPanel('intro', classname="full"),
 		FieldPanel('body', classname="full"),
-		InlinePanel('gallery_images', label="Gallery Images"),
+		InlinePanel('gallery_images', label="Gallery Images", max_num=10),
 		FieldPanel('HOD_message'),
+		FieldPanel('donate_message'),
+		FieldPanel('donation_link'),
+		ImageChooserPanel('HOD_image'),
+		ImageChooserPanel('donate_image'),
 	]
 
 	notification_tab_panels = [
@@ -120,16 +127,28 @@ class MechHomePage(Page):
 		# Update context to include only published posts, ordered by reverse-chron
 		context = super().get_context(request)
 		navlist = self.get_children().live().order_by('-first_published_at')
+		hod_name = "Head of Department"
+		hod_image = "0"
+		hod_url = "0"
+		hod_contact = "0"
 		try:
-			hod_image_url = FacultyPage.objects.get(additional_roles='1').photo.url
+			hod = get_hod()
+			if hod.count()==1:
+				hod = hod[0]
+				hod_name = hod.__str__()
+				hod_url = hod.url
+				hod_contact = "<p>Office:" + hod.office_address_line_1 + ",<br> Contact: "+ hod.office_contact_number+",<br> Email: "+hod.email_id+"</p>"				
 		except:
-			hod_image_url = "{% static 'images/hod.jpg' %}"
+			pass
+			#how to raise error in console ?
 
 		categories = get_categories()
 		new_events = get_new_events()
 		# context['navlist'] = navlist
 		context['categories'] = categories
-		context['hod_image_url'] = hod_image_url
+		context['hod_name'] = hod_name
+		context['hod_url'] = hod_url
+		context['hod_contact'] = hod_contact
 		context['new_events'] = new_events
 
 		return context
@@ -176,9 +195,9 @@ class MechHomePageGalleryImage(Orderable):
 
 #############################################
 class Aboutiitgmech(Page):
-	vision = models.CharField(blank=True, max_length=500)
-	history = models.CharField(blank=True, max_length=500)
-	about = models.CharField(blank=True, max_length=500)
+	vision = models.CharField(blank=True, max_length=2000)
+	history = models.CharField(blank=True, max_length=2000)
+	about = models.CharField(blank=True, max_length=2000)
 	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 
 
@@ -312,8 +331,10 @@ class CategoriesHome(Page):
 class Categories(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	category = models.CharField(max_length=2, choices=INTEREST_CATEGORIES, default='0', unique=True)
+	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 	content_panels = Page.content_panels + [
 			FieldPanel('intro'),
+			ImageChooserPanel('photo'),
 			FieldPanel('category'),
 		]
 	parent_page_types=['CategoriesHome']
@@ -350,7 +371,7 @@ class FacultyHomePage(Page):
 	# def list_common_interests(self):
 
 	def serve(self, request):
-		faculty_list = self.get_children().live().order_by('facultypage__first_name', 'facultypage__middle_name', 'facultypage__last_name')
+		faculty_list = FacultyPage.objects.all().order_by('first_name', 'middle_name', 'last_name')
 
 		all_research_interests = faculty_interests()
 		all_categories = get_categories()
@@ -361,7 +382,20 @@ class FacultyHomePage(Page):
 			faculty_list = get_cat_fac(cat)
 		tag = request.GET.get('tag')
 		if tag:
-			faculty_list = faculty_list.filter(facultypage__research_interests__name=tag)
+			faculty_list = faculty_list.filter(research_interests__name=tag)
+		current_faculty_list=[]
+		past_faculty_list = []
+		today = date.today()
+		for fac in faculty_list:
+			try:
+				if fac.leaving_date>today:
+					current_faculty_list.append(fac)
+				else:
+					if fac.on_lien:
+						current_faculty_list.append(fac)
+					past_faculty_list.append(fac)
+			except TypeError:
+				current_faculty_list.append(fac)
 				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
 		paginator = Paginator(faculty_list, 50) # Show 10 faculty per page
 		page_no = request.GET.get('page_no')
@@ -369,7 +403,8 @@ class FacultyHomePage(Page):
 
 		return render(request, self.template, {
 			'page': self,
-			'faculty_list': faculty_list,
+			'current_faculty_list': current_faculty_list,
+			'past_faculty_list': past_faculty_list,
 			'all_research_interests': all_research_interests,
 			'all_categories': all_categories,
 			'cat':cat,
@@ -390,7 +425,7 @@ class FacultyResearchInterestTag(TaggedItemBase):
 	# def list_common_interests(self):
 
 class FacultyPage(Page):
-	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, on_delete=models.SET_NULL)
+	user = models.OneToOneField(AUTH_USER_MODEL,related_name='faculty', null=True, blank=True, on_delete=models.SET_NULL)
 	first_name = models.CharField(max_length=50)
 	middle_name = models.CharField(max_length=50, blank=True)
 	last_name = models.CharField(max_length=50)
@@ -405,7 +440,8 @@ class FacultyPage(Page):
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
 	fac_research_categories = ParentalManyToManyField('mechweb.Categories', blank=True, related_name='faculty')
 	joining_date = models.DateField(default=timezone.now)
-	leaving_date = models.DateField(blank=True, null=True)
+	leaving_date = models.DateField(blank=True)
+	on_lien = models.BooleanField(default=False)
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
 	website = models.URLField(max_length=250, blank=True)
 	abbreviation = models.CharField(max_length=10, blank=True)
@@ -430,7 +466,9 @@ class FacultyPage(Page):
 		FieldPanel('email_id'),
 		######################################################
 		FieldPanel('designation'),
+		FieldPanel('on_lien'),
 		FieldPanel('joining_date'),
+		FieldPanel('leaving_date'),
 		FieldPanel('website'),
 		FieldPanel('abbreviation'),
 		MultiFieldPanel([
@@ -449,7 +487,6 @@ class FacultyPage(Page):
 		FieldPanel('fac_research_categories', widget=forms.CheckboxSelectMultiple),
 		FieldPanel('research_interests'),
 		InlinePanel('gallery_images', label="Gallery images", max_num=10),
-		FieldPanel('leaving_date'),
 		InlinePanel('faculty_prev_work', label="Previous Work")
 	]
 	# Creating custom tabs
@@ -476,7 +513,6 @@ class FacultyPage(Page):
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
-
 	def __str__(self):
 		if self.middle_name == '':
 			return self.first_name+" "+self.last_name
@@ -498,13 +534,12 @@ class FacultyPage(Page):
 			pub = pub_relation.page
 			pub_list.append(pub)
 
-		project_relation_list = self.faculty_co_investigator.all()
-		project_pi =  self.principal_investigator.all()
+		project_pi = self.pi.all()
+		project_copi =  self.copi.all()
 		project_list = []
 		for project in project_pi:
-			project_list.append(lab)
-		for project_relation in project_relation_list:
-			project = project_relation.page
+			project_list.append(project)
+		for project in project_copi:
 			project_list.append(project)
 
 		course_relation_list = self.course_instructor.all()
@@ -582,6 +617,9 @@ def faculty_interests():
 		if tag3 not in common_tags:
 			common_tags.append(tag3)
 	return common_tags
+
+def get_hod():
+	return FacultyPage.objects.filter(additional_roles='1')
 
 ######################################################
 ######################################################
@@ -663,7 +701,7 @@ class StudentHomePage(AbstractStudentHomePage):
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
 
-		paginator = Paginator(student_list, 10) # Show 10 students per page
+		paginator = Paginator(student_list, 50) # Show 50 students per page
 		page_no = request.GET.get('page_no')
 		student_list = paginator.get_page(page_no)
 
@@ -1287,27 +1325,27 @@ class PublicationHomePage(Page):
 		for i in  range(year, 1996, -1):
 			year_list.append(i)
 
-		year = request.GET.get('year')
-		if year:
-			pub_list = pub_list.filter(publicationpage__pub_year__year=year)
-		else: year = timezone.now().year
+		# year = request.GET.get('year')
+		# if year:
+		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
+		# else: year = timezone.now().year
 
-		# pub_type = request.GET.get('pub_type')
-		# if pub_type:
-		# 	pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
+		pub_type = request.GET.get('pub_type')
+		if pub_type:
+			pub_list = pub_list.filter(publicationpage__pub_type=pub_type)
 		# elif year is 0:
 		# 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
 
-		paginator = Paginator(pub_list, 50)
-		page_no = request.GET.get('page_no')
-		pub_list = paginator.get_page(page_no)
+		# paginator = Paginator(pub_list, 50)
+		# page_no = request.GET.get('page_no')
+		# pub_list = paginator.get_page(page_no)
 
 		return render(request, self.template, {
 			'page': self,
 			'pub_list': pub_list,
 			# 'year':year,
-			'page_no':page_no,
-			# 'pub_type':pub_type,
+			# 'page_no':page_no,
+			'pub_type':pub_type,
 			'year_list':year_list,
 		})
 
@@ -1333,7 +1371,7 @@ class PublicationPage(Page):
 	page_start = models.CharField(max_length=50, blank=True)
 	page_end = models.CharField(max_length=50, blank=True)
 	citations = models.CharField(max_length=10, blank=True)
-	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Use this only if you can't add faculty and other authors above")
+	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Add the exact sequence of names as in the publication")
 	# pub_conference =
 	# pub_patent_number =
 	# pub_
@@ -1373,6 +1411,24 @@ class PublicationPage(Page):
 
 	parent_page_types=['PublicationHomePage']
 	subpage_types=[ ]
+
+	# def __str__(self):
+	# 	l = ""
+	# 	if self.alt_people_text != "":
+	# 		l = l+self.alt_people_text
+	# 	if self.name != "":
+	# 		l = l+', "'+self.name+'"'
+	# 	if self.pub_journal != "":
+	# 		l = l+", "+self.pub_journal
+	# 	if pub.vol != "":
+	# 		l = l+", vol. "+self.pub_vol
+	# 	if self.pub_issue != "":
+	# 		l = l+" : "+self.pub_issue
+	# 	if self.page_start != "" && self.page_end != "":
+	# 		l = l+", pp. "+self.page_start+"-"+self.page_end
+	# 	if self.pub_year:
+	# 		l = l+", "+str(self.pub_year.year)
+	# 	return l
 
 	class Meta:
 		verbose_name = "Publication"
@@ -1434,9 +1490,8 @@ class ProjectHomePage(Page):
 		verbose_name = "Project Home"
 
 class ProjectPage(Page):
-	principal_investigator = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='principal_investigator')
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-	name = models.CharField(max_length=150)
+	name = models.CharField(max_length=500)
 	start_date = models.DateField(default=timezone.now)
 	end_date = models.DateField(blank=True)
 	budget = models.CharField(blank=True, max_length=100)
@@ -1467,9 +1522,9 @@ class ProjectPage(Page):
 	]
 
 	people_panels = [
-		AutocompletePanel('principal_investigator', target_model='mechweb.FacultyPage'),
-		InlinePanel('faculty', label="Faculty"),
-		InlinePanel('students', label="Students"),
+		InlinePanel('faculty_pi', label="Principal Investigator"),
+		InlinePanel('faculty_copi', label="Co Investigator"),
+		InlinePanel('oi', label="Other Investigators"),
 		FieldPanel('alt_PI_text')
 	]
 
@@ -1487,22 +1542,31 @@ class ProjectPage(Page):
 		verbose_name = "Project"
 		verbose_name_plural = "Projects"
 
-class ProjectPageFaculty(Orderable):
-	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty')
-	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
+class ProjectPageFacultyPI(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty_pi')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='pi')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
 		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('project_statement'),
 	]
 
-class ProjectPageStudent(Orderable):
-	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='students')
-	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty_co_investigator')
+class ProjectPageFacultyCoPI(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='faculty_copi')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='copi')
 	project_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	panels = [
-		AutocompletePanel('student', target_model='mechweb.FacultyPage'),
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
 		FieldPanel('project_statement'),
+	]
+
+class ProjectPageOtherInvestigator(Orderable):
+	page = ParentalKey(ProjectPage, on_delete=models.CASCADE, related_name='oi')
+	name = models.CharField(max_length=100)
+	organization = models.CharField(max_length=100, blank=True)
+	panels = [
+		FieldPanel('name'),
+		FieldPanel('organization'),
 	]
 
 class ProjectPageLink(Orderable):
@@ -1796,10 +1860,10 @@ class FeaturedCourse(Orderable):
 		AutocompletePanel('featured_course', target_model='mechweb.CoursePage'),
 	]
 
-def get_prog_course(cat):
-	return CourseProgrammes.objects.all().get(category=cat).courses.all()
-def get_spec_course(cat):
-	return CourseSpecializations.objects.all().get(category=cat).courses.all()
+# def get_prog_course(cat):
+# 	return CourseProgrammes.objects.all().get(category=cat).courses.all()
+# def get_spec_course(cat):
+# 	return CourseSpecializations.objects.all().get(category=cat).courses.all()
 ######################################################
 class AwardHomePage(Page):
 	intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
@@ -1903,3 +1967,51 @@ class Award(Orderable):
 # 	return year_list
 
  # from mechweb.models import CourseProgrammes, CourseSpecializations, CourseTypes
+
+# class Committees(Page):
+# 	dispoc_external = models.CharField(max_length=300, blank=True) 
+# 	dupc_external = models.CharField(max_length=300, blank=True) 
+# 	dppc_external = models.CharField(max_length=300, blank=True) 
+
+# 	def serve(self, request):
+# 		fac_fic = FacultyPage.objects.all().exclude(faculty_in_charge="11").order_by('faculty_in_charge')
+# 		fac_dispoc = FacultyPage.objects.all().exclude(disposal_committee="4").order_by('disposal_committee')
+
+# 		fac_dupc = FacultyPage.objects.all().filter(dupc__in=["1", "2"]).order_by('dupc')
+# 		stud_dupc = StudentPage.objects.all().filter(dupc__in=["4", "5"]).order_by('dupc')
+		
+# 		fac_dppc = FacultyPage.objects.all().filter(dppc__in=["1", "2"].order_by('dppc')
+# 		stud_dppc = StudentPage.objects.all().filter(dppc__in=["5", "4"].order_by('dppc')
+		
+		
+# 		fac_mesa = FacultyPage.objects.all().filter(mesa="5").order_by('mesa')
+# 		stud_mesa = StudentPage.objects.all().exclude(mesa__in=["5", "6"]).order_by('mesa')
+		
+# 		fac_sae = FacultyPage.objects.all().filter(sae="2").order_by('mesa')
+# 		stud_sae = StudentPage.objects.all().filter(sae__in=["1", "0"]).order_by('sae')
+		
+# 		fac_disco = FacultyPage.objects.all().exclude(disciplinary_committee__in=["3", "4"]).order_by('disciplinary_committee')
+# 		stud_disco = StudentPage.objects.all().filter(disciplinary_committee="3").order_by('disciplinary_committee')
+# 		return render(request, self.template, {
+# 			'page': self,
+# 			'student_list': student_list,
+# 			'all_research_interests': all_research_interests,
+# 			'tag':tag,
+# 			'page_no':page_no,
+# 			'prog':prog,
+# 			fac_fic = 
+# 			fac_dispoc = 
+# 			fac_dupc = 
+# 			stud_dupc = 
+# 			fac_dppc = 
+# 			stud_dppc = 
+# 			fac_mesa = 
+# 			stud_mesa = 
+# 			fac_sae = 
+# 			stud_sae = 
+# 			fac_disco = 
+# 			stud_disco = 
+# 		})
+
+# 	class Meta:
+# 		verbose_name = "Awards Home"
