@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="w3-container">
-          <h4>{{ page.specific.get_designation_display }}{% if page.specific.on_lien %} on lien{% endif %} </h4><hr>
+          {% if page.specific.on_visit %}<h4>Visiting  {{ page.specific.get_designation_display }} </h4><h6>from {{ page.specific.on_insti }}<h6>{% elif page.specific.on_lien %}<h4>{{ page.specific.get_designation_display }}</h4><h6> on lien to {{ page.specific.on_insti }} </h6>{% endif %}<hr>
           {% if page.specific.office_address_line_1 %}
               <li>
                   <h4>Office Address</h4>

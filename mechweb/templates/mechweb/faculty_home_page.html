@@ -74,7 +74,7 @@
                           {% if faculty.specific.get_additional_roles_display == "HoD" %}
                         <h5>Head of Department</h5>
                     {% endif %}
-                          <strong>{{ faculty.specific.get_designation_display }} {% if faculty.on_lien %}on lien{% endif %}</strong>
+                          <strong>{% if faculty.on_visit %}Visiting {% endif %} {{ faculty.specific.get_designation_display }} {% if faculty.on_lien %}on lien{% endif %}</strong>
                       </a>
                   </div>
                 <div class="row">

@@ -442,6 +442,8 @@ class FacultyPage(Page):
 	joining_date = models.DateField(default=timezone.now)
 	leaving_date = models.DateField(blank=True)
 	on_lien = models.BooleanField(default=False)
+	on_visit = models.BooleanField(default=False)
+	on_insti = models.CharField(max_length=500, blank=True, verbose_name="Visiting from/On lien to", help_text="Institute name")
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
 	website = models.URLField(max_length=250, blank=True)
 	abbreviation = models.CharField(max_length=10, blank=True)
@@ -466,7 +468,12 @@ class FacultyPage(Page):
 		FieldPanel('email_id'),
 		######################################################
 		FieldPanel('designation'),
-		FieldPanel('on_lien'),
+		MultiFieldPanel([
+			FieldPanel('on_lien'),
+			FieldPanel('on_visit'),
+			FieldPanel('on_insti')
+
+		], heading="Visiting/On Lien"),
 		FieldPanel('joining_date'),
 		FieldPanel('leaving_date'),
 		FieldPanel('website'),
