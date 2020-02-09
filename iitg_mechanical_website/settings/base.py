@@ -216,22 +216,26 @@ WAGTAIL_USER_CUSTOM_FIELDS = ['middle_name', 'user_type', 'uid']
 # WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'
 # WAGTAILDOCS_DOCUMENT_MODEL = 'mechweb.CustomDocument'
 
-# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'middle_name', 'last_name', 'email', 'user_type']
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = '324f5b70-da2a-4342-a8fb-ed16f5c72f2c'
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = 'm7=3bPSgnX@[XXx/XstUKeE0mzdwAGk7'
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
-SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
-
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
     'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
-    'social_core.pipeline.social_auth.associate_by_email',
-
+    # New pipeline item.
+    # 'project.users.pipeline.make_intranet_user',
 )
+
+SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = '69a38f7a-bc5b-4740-9c55-20bb44d2af2b'
+SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = '/cS8JVth/cF?3:asmhpqChhYfLw17qX='
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
+SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email']
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+# WAGTAIL_FRONTEND_LOGIN_TEMPLATE = ''
+# WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL

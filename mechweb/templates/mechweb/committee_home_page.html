@@ -22,32 +22,7 @@
 
 
 {% for committee in com_list %}
-    <table>
-    <tr>
-     <th><a href="{{ committee.url }}">{{ committee }}</a></th>
-    </tr>
-    {% for fac_mem in committee.faculty.all %}
-    <tr>
-      <td>Jill</td>
-      <td>Smith</td>
-      <td>50</td>
-    </tr>
-    {% endfor %}
-    {% for stud_mem in committee.student.all %}
-    <tr>
-      <td>{{ stud_mem }}</td>
-      <td>Jackson</td>
-      <td>94</td>
-    </tr>
-    {% endfor %}
-    {% for other in committee.faculty.all %}
-    <tr>
-      <td>Eve</td>
-      <td>Jackson</td>
-      <td>94</td>
-    </tr>
-    {% endfor %}
-    </table>
+<div><a href="{{ committee.url }}">{{ committee.specific.name }} </a>{{committee.specific.about|richtext}}</div>
 {% endfor %}
 
 

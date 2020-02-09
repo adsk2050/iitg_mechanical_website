@@ -67,14 +67,12 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 # 			return self.is_staff
 
 class CustomUser(AbstractUser):
-	first_name = models.CharField(_('first name'), max_length=50)
+	username = models.CharField(
+        _('username'),
+        max_length=150,
+        help_text=_('Put your webmail ID without @iitg.ac.in'),
+    )
 	middle_name = models.CharField(_('middle name'), max_length=50, blank=True)
-	last_name = models.CharField(_('last name'), max_length=50)
-	is_staff = models.BooleanField(
-		_('staff status'),
-		default=True,
-		help_text=_('Designates whether the user can log into this admin site.'),
-	)
 	email = models.EmailField(
 		_('email address'),
 		unique=True,
@@ -85,7 +83,7 @@ class CustomUser(AbstractUser):
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
 	uid = models.CharField(max_length=10, default='000000000', verbose_name='Roll Number/Employee Number', help_text='Only students required to provide their roll no. Others may leave "000000000" but not blank')
 	USERNAME_FIELD = 'email' # Its default is username
-	REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid']
+	REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid', 'is_staff']
 ######################################################
 class MechHomePage(Page):
 	intro = models.CharField(blank=True, max_length=500)
@@ -449,15 +447,8 @@ class FacultyPage(Page):
 	abbreviation = models.CharField(max_length=10, blank=True)
 	#################################################################
 	additional_roles = models.CharField(max_length=2, choices=FACULTY_ROLES, default='2')
-	disposal_committee = models.CharField(max_length=2, choices=DISPOSAL_COMMITTEE, default='4')
 	laboratory_in_charge = models.CharField(max_length=2, choices=LABORATORY_IN_CHARGE, default='14')
 	faculty_in_charge = models.CharField(max_length=2, choices=FACULTY_IN_CHARGE, default='11')
-	disciplinary_committee = models.CharField(max_length=2, choices=DISCIPLINARY_COMMITTEE, default='4')
-	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
-	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
-	mesa = models.CharField(max_length=2, choices=MESA, default='5')
-	sae = models.CharField(max_length=2, choices=SAE, default='3')
-	#################################################################
 	content_panels = Page.content_panels + [
 		######################################################
 		# The user should not be able to change these things from here
@@ -501,12 +492,6 @@ class FacultyPage(Page):
 		FieldPanel('additional_roles'),
 		FieldPanel('laboratory_in_charge'),
 		FieldPanel('faculty_in_charge'),
-		FieldPanel('dupc'),
-		FieldPanel('dppc'),
-		FieldPanel('disciplinary_committee'),
-		FieldPanel('disposal_committee'),
-		FieldPanel('mesa'),
-		FieldPanel('sae'),
 	]
 
 	announcement_tab_panels = [
@@ -652,7 +637,7 @@ class AbstractStudentPage(Page):
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(blank=True)
 	enrolment_year = models.DateField(default=timezone.now)
-
+	leaving_year = models.DateField(default=timezone.now()+timedelta(days=365*4))
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
 	is_exchange = models.BooleanField(default=False, verbose_name="International Student")
 	contact_number = models.CharField(max_length=20, blank=True)
@@ -662,14 +647,7 @@ class AbstractStudentPage(Page):
 	intro = models.CharField(max_length=250, blank=True)
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	website = models.URLField(max_length=250, blank=True)
-	#################################################################
 
-	dupc = models.CharField(max_length=2, choices=DUPC, default='6')
-	dppc = models.CharField(max_length=2, choices=DPPC, default='6')
-	mesa = models.CharField(max_length=2, choices=MESA, default='5')
-	sae = models.CharField(max_length=2, choices=SAE, default='3')
-
-	#################################################################
 	def __str__(self):
 		if self.middle_name == '':
 			return self.first_name+" "+self.last_name
@@ -748,6 +726,7 @@ class StudentPage(AbstractStudentPage):
 		FieldPanel('email_id'),
 		FieldPanel('roll_no'),
 		FieldPanel('enrolment_year'),
+		FieldPanel('leaving_year'),
 		FieldPanel('programme'),
 		######################################################
 		FieldPanel('specialization'),
@@ -766,13 +745,6 @@ class StudentPage(AbstractStudentPage):
 		InlinePanel('stud_links', label="Related Links", max_num=10),
 	]
 
-	custom_tab_panels = [
-		FieldPanel('dupc'),
-		FieldPanel('dppc'),
-		FieldPanel('mesa'),
-		FieldPanel('sae'),
-	]
-
 	project_tab_panels = [
 		InlinePanel('projects', label="Projects"),
 	]
@@ -780,7 +752,6 @@ class StudentPage(AbstractStudentPage):
 	edit_handler = TabbedInterface([
 		ObjectList(content_panels, heading="Content"),
 		ObjectList(project_tab_panels, heading="Projects"),
-		ObjectList(custom_tab_panels, heading="Administration"),
 		ObjectList(Page.promote_panels, heading="Promote"),
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
@@ -1494,6 +1465,27 @@ class ProjectHomePage(Page):
 	subpage_types=['ProjectPage']
 	max_count = 1
 
+	def serve(self, request):
+		project_list = ProjectPage.objects.all().order_by('start_date', 'budget', 'project_type')
+
+		current_project_list=[]
+		past_project_list = []
+		today = date.today()
+		for proj in project_list:
+			try:
+				if proj.end_date>=today:
+					current_project_list.append(proj)
+				else:
+					past_project_list.append(proj)
+			except TypeError:
+				current_faculty_list.append(proj)
+
+		return render(request, self.template, {
+			'page': self,
+			'current_project_list': current_project_list,
+			'past_project_list': past_project_list,
+		})
+
 	class Meta:
 		verbose_name = "Project Home"
 
@@ -1596,6 +1588,12 @@ class ProjectPageGalleryImage(Orderable):
 	]
 
 #####################################################
+def total_credits(sem):
+	tc=0
+	for course in sem:
+		tc+=course.credits
+	return tc
+
 class CourseStructure(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
 
@@ -1680,12 +1678,16 @@ class CourseStructure(Page):
 		  structure.append(sem1)
 		else:
 		  pass
-
+		credits = []
+		for sem in structure:
+			credits.append(total_credits(sem))
+		credits.append(sum(credits))
 		return render(request, self.template, {
 			'page': self,
 			'course_list': course_list,
 			'prog':prog,
 			'structure':structure,
+			'credits':credits,
 		})
 
 	class Meta:

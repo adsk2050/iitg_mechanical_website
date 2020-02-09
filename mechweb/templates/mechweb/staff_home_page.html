@@ -133,7 +133,7 @@
         a = li[i].getElementsByTagName("span")[0];
         txtValue = a.textContent || a.innerText;
         integ = parseInt(txtValue);
-        if (integ < c && integ >= c-4) {
+        if (c==4 && integ<5)||(c==9 && 4<integ && integ<10) {
           li[i].style.display = "block";
         } else {
           li[i].style.display = "none";

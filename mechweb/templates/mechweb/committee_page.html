@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-publication-homepage{% endblock %}
+
+{% block body_style %}padding-top: 105px; {% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid pubcont">
+  <h1 class="text-center">{{ page.title }}</h1>
+  <!-- Intro -->
+  <div class="about">{{ page.about|richtext }}</div>
+  <hr>
+</div>
+
+
+
+
+    <table>
+     {% for fac_mem in page.specific.faculty.all %}
+    <tr>
+      <td>{{ fac_mem.specific.designation }}</td>
+      <td>{{ fac_mem..faculty.specific.name }}</td>
+    </tr>
+    {% endfor %}
+    {% for stud_mem in page.specific.student.all %}
+    <tr>
+      <td>{{ stud_mem.specific.designation }}</td>
+      <td>{{ stud_mem..student.specific.name }}</td>
+    </tr>
+    {% endfor %}
+    {% for other in page.specific.com_other.all %}
+    <tr>
+      <td>{{ other.specific.designation }}</td>
+      <td>{{ other.specific.name }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+
+
+
+
+
+
+
+
+
+<script>
+  function filterSelection(year) {
+  var input, filter, ul, li, a, i, txtValue, integ, substraa, substrbb, yearint;
+  ul = document.getElementById("myInputpub");
+  list = ul.getElementsByClassName("filterDiv");
+  yearint = parseInt(year);
+  ;  // for (i = 0; i < li.length; i++) {
+  //       li[i].style.display = "none";
+  //   }
+
+  // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+  for (i = 0; i < list.length; i++) {
+    a = list[i].id;
+    substraa = a.substring(0,4);
+    substrbb = a.substring(5,9);
+    integ = parseInt(substrbb);
+    if ( integ === yearint) {
+      list[i].style.display = "block";
+    } else {
+      list[i].style.display = "none";
+    }
+  }
+
+  }
+</script>
+
+
+
+{% endblock %}
+
+
+{% block extra_script %}
+
+{% endblock %}
