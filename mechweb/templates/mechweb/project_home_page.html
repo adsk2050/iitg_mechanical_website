@@ -4,19 +4,20 @@
 
 {% block body_class %}template-project-homepage{% endblock %}
 
+
 {% block content %}
  <br><br>
-    <div class="container-fluid" >
+    <!-- <div class="container-fluid" >
       <div class="row justify-content-md-center" >
 
-        
+
 
         <div class="col-xs-12 col-sm-6 col-md-5" style="margin-left: 25%">
            <i class="fa fa-search " style="margin-right: 7px"></i>
            <input type="text" id="myInput" onkeyup="myFunction()" placeholder=" Search for PI..">
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- work on giving the page ability to sort using date, topic, faculty, etc -->
     <!-- <ul>
@@ -35,40 +36,114 @@
 	    {% endfor %}
 	</ul> -->
 
-  <div class="table-wrapper">
-    <table class="fl-table">
-          <thead>
-            <tr>
 
-            <th>Project Title</th>
-            <th>Principal Investigator</th>
-            <th>Project type</th>
-            <th>Budget(lacs)</th>
-            <th>Timeline</th>
+  <div class="w3-container">
+      <h2 style="text-align:center">Projects</h2>
 
-          </tr>
 
-          </thead>
+    <div class="w3-row">
+      <a id="modal" href="javascript:void(0)" onclick="openCity(event, 'Consultancy');">
+        <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Consultancy Projects</div>
+      </a>
+      <a href="javascript:void(0)" onclick="openCity(event, 'Sponsored');">
+        <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Sponsored Projects</div>
+      </a>
 
-          <tbody  id="myUL">
-            {% for project in page.get_children.specific %}
-            <tr>
-                <td><a href="{{ project.url }}">{{ project.name|truncatechars:25 }}</a></td>
-                <td>{% if project.principal_investigator  %}
-        	    		<a href="{{ project.principal_investigator.url }}">{{ project.principal_investigator }}</a>
-        	  		{% elif  project.specific.alt_PI_text %}
-            			{{ project.specific.alt_PI_text }}
-            		{% endif %}</td>
-                <td>{{ project.get_project_type_display }}</td>
-                <td>{{ project.budget }}</td>
-                <td>{{ project.start_date }}-{{ project.end_date }}</td>
-            </tr>
+    </div>
 
-            {% endfor %}
-          </tbody>
+    <div id="Consultancy" class="w3-container city" style="display:none">
+      <div>
 
-    </table>
+          <div class="table-wrapper">
+            <table class="fl-table">
+                  <thead>
+                    <tr>
+
+                    <th>Project Title</th>
+                    <th>Principal Investigator</th>
+                    <th>Project type</th>
+                    <th>Budget(lacs)</th>
+                    <th>Timeline</th>
+
+                  </tr>
+
+                  </thead>
+
+                  <tbody  id="myUL" >
+                    {% for project in page.get_children.specific %}
+                    {% if project.project_type == '0' %}
+                    <tr>
+                        <td><a href="{{ project.url }}">{{ project.name|truncatechars:25 }}</a></td>
+                        <td>{% if project.principal_investigator  %}
+                          <a href="{{ project.principal_investigator.url }}">{{ project.principal_investigator }}</a>
+                        {% elif  project.specific.alt_PI_text %}
+                          {{ project.specific.alt_PI_text }}
+                        {% endif %}</td>
+                        <td>{{ project.get_project_type_display }}</td>
+                        <td>{{ project.budget }}</td>
+                        <td>{{ project.start_date }}-{{ project.end_date }}</td>
+                    </tr>
+
+                    {% endif %}
+                  {% endfor %}
+
+                  </tbody>
+
+            </table>
+          </div>
+
+
+      </div>
+    </div>
+
+    <div id="Sponsored" class="w3-container city" style="display:none">
+      <div>
+
+          <div class="table-wrapper">
+            <table class="fl-table">
+                  <thead>
+                    <tr>
+
+                    <th>Project Title</th>
+                    <th>Principal Investigator</th>
+                    <th>Project type</th>
+                    <th>Budget(lacs)</th>
+                    <th>Timeline</th>
+
+                  </tr>
+
+                  </thead>
+
+                  <tbody  id="myUL">
+                    {% for project in page.get_children.specific %}
+                      {% if project.project_type == '1' %}
+                    <tr>
+                        <td><a href="{{ project.url }}">{{ project.name|truncatechars:35 }}</a></td>
+                        <td>{% if project.principal_investigator  %}
+                          <a href="{{ project.principal_investigator.url }}">{{ project.principal_investigator }}</a>
+                        {% elif  project.specific.alt_PI_text %}
+                          {{ project.specific.alt_PI_text }}
+                        {% endif %}</td>
+                        <td>{{ project.get_project_type_display }}</td>
+                        <td>{{ project.budget }}</td>
+                        <td>{{ project.start_date }}-{{ project.end_date }}</td>
+                    </tr>
+                    {% endif %}
+                  {% endfor %}
+
+                  </tbody>
+
+            </table>
+          </div>
+
+
+    </div>
+    </div>
+
   </div>
+
+
+
 {% endblock %}
 
 {% block extra_script %}
@@ -93,6 +168,33 @@
     }
     }
     </script>
+
+    <script>
+
+    // var x = document.getElementsByClassName("city");    this js code is used to make a tab active on load of page
+    //     x[0].style.display = "block";
+
+
+      function openCity(evt, cityName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" w3-border-blue-grey", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-border-blue-grey";
+      }
+    </script>
+
+    <script>
+jQuery(function(){
+   jQuery('#modal').click();
+});
+</script>
 
 
 {% endblock %}

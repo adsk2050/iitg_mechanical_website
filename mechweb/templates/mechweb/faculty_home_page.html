@@ -6,7 +6,13 @@
 
 {% block body_class %}template-faculty-homepage mt-5{% endblock %}
 
+{% block extra_css %}
 
+.show-read-more .more-text{
+        display: none;
+    }
+
+{% endblock %}
 {% block content %}
 
 
@@ -243,10 +249,13 @@
 
 {% if all_research_interests %}
     <h2>Department research focus</h2>
+    To get to know about the about the faculties specialized in different dedicated fields, click here..
     <div class="styletags" id="research_interests">
+      <p class="show-read-more" style="display:none">
         {% for research_interest in all_research_interests %}
             <a class="research_interest" href="{{ page.url }}?tag={{ research_interest }}">{{ research_interest }} |</a>
         {% endfor %}
+      </p>
     </div>
 {% endif %}
 
@@ -314,6 +323,26 @@
       }
     }
   }
+
+
+  /* read more for research interest thing*/
+  $(document).ready(function(){
+    var maxLength = 500;
+    $(".show-read-more").each(function(){
+        var myStr = $(this).text();
+        if($.trim(myStr).length > maxLength){
+            var newStr = myStr.substring(0, maxLength);
+            var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
+            $(this).empty().html(newStr);
+            $(this).append(' <a href="javascript:void(0);" class="read-more">read more...</a>');
+            $(this).append('<span class="more-text">' + removedStr + '</span>');
+        }
+    });
+    $(".read-more").click(function(){
+        $(this).siblings(".more-text").contents().unwrap();
+        $(this).remove();
+    });
+});
     </script>
 
 

@@ -23,7 +23,7 @@
     {% else %}
         {% if featured_courses %}
         <h2>Featured Courses</h2>
-        
+
         <!-- List of featured courses here -->
         <div class="layoutcard">
             <ul class="cards">
@@ -50,12 +50,12 @@
     {% endif %}
 
 
-    
+
         {% for prog_sem in structure %}
             {% if prog_sem|length != 0 %}
             <h2 class="text-center" style="font-weight:bolder;">Semester {{ forloop.counter }}</h2>
-            
-                <table class="table table-striped" style="width: 80%; margin: auto ">
+
+                <table class="table table-striped" style="width: 80%; margin: auto ; font-size: 1.5em">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col">Course No.</th>
@@ -64,13 +64,13 @@
                             <th scope="col">T</th>
                             <th scope="col">P</th>
                             <th scope="col" style="text-align: center">Total Credits</th>
-                            
+
                         </tr>
                         </thead>
                     <tbody>
                         {% for course in prog_sem %}
                             <tr>
-                                
+
                                 <td>{{ course.specific.code }}</td>
                                 <td>{{ course.specific.name }}</td>
                                 <td>{{ course.specific.lectures }}</td>
@@ -91,13 +91,13 @@
                               </button>
                             </h5>
                           </div>
-                          
+
                           <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                             <div class="card-body">
                                     <div class="layoutcard">
-                                            
+
                                                 {% if prog_sem|length != 0 %}
-                                                
+
                                                 <ul class="cards">
                                                     {% for course in prog_sem %}
                                                     <li class="cards_item">
@@ -120,23 +120,23 @@
                                                             </div>
                                                         </div>
                                                     </li>
-                                    
+
                                                     {% endfor %}
                                                 </ul>
                                                 <hr>
                                                 {% endif %}
-                                            
+
                                         </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <br><br>  
+                      <br><br>
 
                 {% endif %}
         {% endfor %}
 
-    
+
 {% else %}
 <h2>All courses</h2>
 <table>
@@ -169,4 +169,3 @@
 
 
 {% endblock %}
-
