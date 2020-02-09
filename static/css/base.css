@@ -146,6 +146,11 @@ footer div p{
   text-transform: uppercase;
 } */
 
+/* css for read more in faculty research interests */
+.show-read-more .more-text{
+        display: none;
+    }
+
 a:active{
   outline: none;
 }
