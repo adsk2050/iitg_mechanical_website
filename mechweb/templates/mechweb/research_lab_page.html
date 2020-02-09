@@ -21,13 +21,13 @@
       </div>
     </div>
 
-
+      <br>
     <div class="container-fluid">
         <div class="row padding">
             <div class="col">
-                <h1 class="text-center" style="color:#881125; font-weight:bolder;">{{ page.title }}</h1>
+                <h1 class="text-center" style="color:#15218d; font-weight:bolder;">{{ page.title }}</h1>
                 {% if page.specific.lab_type == '0' %}
-                    <p class="text-center" style="color:#4F5345; font-weight:normal;">UG Laboratory</p>
+                    <p class="text-center" style="color:#4F5345; font-weight:bold;">UG Laboratory</p>
                 {% else %}
                     <p class="text-center" style="color:#4F5345; font-weight:normal;">PG Laboratory</p>
                 {% endif %}
@@ -40,32 +40,91 @@
         <div class="col-sm-2 col-md-1"></div>
           <div class="col-xs-12 col-sm-4 col-md-3">
               <div class="lab_faculty">
-                <h4 style="color:#881125; font-weight:bolder;">Laboratory Incharge<br>
+                <h4 style="color:#15218d; font-weight:bolder;">Laboratory Incharge<br>
                     <a style="color:#4F5345; font-weight:normal;" href="{{ page.specific.faculty_incharge.url }}">{{ page.specific.faculty_incharge }}</a>
                 </h4>
               </div>
               <div class="lab_sci_off">
-                <h4 style="color:#881125; font-weight:bolder;"> Scientific Officer <br>
+                <h4 style="color:#15218d; font-weight:bolder;"> Scientific Officer <br>
                   <a style="color:#4F5345; font-weight:normal;" href="{{ page.specific.scientific_officer.url }}">{{ page.specific.scientific_officer }}</a>
                 </h4>
               </div>
               <div class="lab_tech_staff">
-                <h4 style="color:#881125; font-weight:bolder;">Technical Staff
+                <h4 style="color:#15218d; font-weight:bolder;">Technical Staff
                     <a style="color:#4F5345; font-weight:normal;" href="{{ page.specific.technical_staff.url }}">{{ page.specific.technical_staff }}</a>
                 </h4>
               </div>
               <div class="lab_address">
-                <h4  style="color:#881125; font-weight:bolder;">Address<br>
+                <h4  style="color:#15218d; font-weight:bolder;">Address<br>
                   <span  style="color:#4F5345; font-weight:normal;">{{ page.specific.address }}</span>
                 </h4>
               </div>
           </div>
 
         <div class="col-xs-12 col-sm-7 col-md-7 labbox">
-          <h3 class="text-center" style="color:#881125; font-weight:bolder;">LAB Motto</h3>
+          <h3 class="text-center" style="color:#15218d; font-weight:bolder;">About Lab</h3>
           <div class="text-center" style="color:#4F5345; font-weight:normal;"><strong> {{ page.specific.intro | richtext }} </strong></div>
           <div style="color:#4F5345; font-weight:normal; text-align:left;"> {{ page.specific.body | richtext }} </div>
           <!-- <div>Contact Number: {{ page.specific.contact_number }}</div> -->
+
+          {% if page.faculty.all|length != 0 %}
+          <div class="container">
+              <h3>Faculty</h3>
+              <ul>
+              {% for faculty in page.faculty.all %}
+                  <li>
+                      <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
+                  </li>
+                  <li>{{ faculty.research_statement|richtext }}</li>
+              {% endfor %}
+              </ul>
+          {% endif %}
+          </div>
+        
+        
+        <div class="container">
+          {% if page.students.all|length != 0 %}
+              <h3>Students</h3>
+              <ul>
+              {% for student in page.students.all %}
+                  <li>
+                      <a href="{{ student.student.url }}">{{ student.student }}</a>
+                  </li>
+                  <li>{{ student.research_statement|richtext }}</li>
+              {% endfor %}
+              </ul>
+          {% endif %}
+        </div>
+        
+        
+        
+        <div class="container">
+          {% if page.postdocs.all|length != 0 %}
+              <h3>Postdocs</h3>
+              <ul>
+              {% for postdoc in page.postdocs.all %}
+                  <li>
+                      <a href="{{ postdoc.postdoc.url }}">{{ postdoc.postdoc }}</a>
+                  </li>
+                  <li>{{ postdoc.research_statement|richtext }}</li>
+              {% endfor %}
+              </ul>
+          {% endif %}
+        </div>
+        
+        
+        <div class="container">
+            {% if page.links.all|length != 0 %}
+            <h3>Links to refer</h3>
+            <ul >
+            {% for refer_link in page.links.all %}
+                <li>
+                    <a href="{{ refer_link.link }}">{{ refer_link.link }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        </div>
         </div>
       </div>
     </div>
@@ -73,7 +132,7 @@
 
 
     {% if page.equipment.all|length != 0 %}
-        <h2 class="text-center" style="color:#881125; font-weight:bolder;">Lab Equipments</h2>
+        <h2 class="text-center" style="color:#15218d; font-weight:bolder;">Lab Equipments</h2>
         {% for eqpt in page.equipment.all %}
           <div class="row eqptlist">
             <div class="col-2 ">
@@ -87,7 +146,7 @@
                       </div>
                       <div class="col-xs-6 col-sm-7 col-md-9">
                         <a href="{{ eqpt.link }}">
-                          <h3 class="text-center" style="color:#881125; font-weight:bolder;">{{ eqpt.name }}</h3>
+                          <h3 class="text-center" style="color:#15218d; font-weight:bolder;">{{ eqpt.name }}</h3>
                         </a>
                         <ul class="bread-meta">
                           {% if eqpt.company %}
@@ -122,63 +181,8 @@
     {% endfor %}
   {% endif %}
 
-  {% if page.faculty.all|length != 0 %}
-  <div class="container labbox">
-      <h2>Faculty</h2>
-      <ul>
-      {% for faculty in page.faculty.all %}
-          <li>
-              <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-          </li>
-          <li>{{ faculty.research_statement|richtext }}</li>
-      {% endfor %}
-      </ul>
-  {% endif %}
-  </div>
+ 
 
-
-<div class="container">
-  {% if page.students.all|length != 0 %}
-      <h2>Students</h2>
-      <ul>
-      {% for student in page.students.all %}
-          <li>
-              <a href="{{ student.student.url }}">{{ student.student }}</a>
-          </li>
-          <li>{{ student.research_statement|richtext }}</li>
-      {% endfor %}
-      </ul>
-  {% endif %}
-</div>
-
-postdoc
-
-<div class="container">
-  {% if page.postdocs.all|length != 0 %}
-      <h2>Postdocs</h2>
-      <ul>
-      {% for postdoc in page.postdocs.all %}
-          <li>
-              <a href="{{ postdoc.postdoc.url }}">{{ postdoc.postdoc }}</a>
-          </li>
-          <li>{{ postdoc.research_statement|richtext }}</li>
-      {% endfor %}
-      </ul>
-  {% endif %}
-</div>
-
-
-
-{% if page.links.all|length != 0 %}
-    <h2>Links to refer</h2>
-    <ul>
-    {% for refer_link in page.links.all %}
-        <li>
-            <a href="{{ refer_link.link }}">{{ refer_link.link }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-{% endif %}
 
 
 

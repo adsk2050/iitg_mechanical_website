@@ -10,46 +10,77 @@
 
 {% block content %}
 
-    <h1 class="text-center">{{ page.title }}</h1>
+    
     <!-- Intro -->
     <div class="intro">{{ page.intro|richtext }}</div>
 
-    <hr>
+    <br><br>
 
-                <div class="row ">
+                <!-- <div class="row ">
                   <div class="col-xs-6 col-sm-6 col-md-6">
-                    <a href="{{ page.url }}?ugpg=0" class="btn btn-lg btn-block ">
-                      <i class="fa fa-check-square-o visible-xs"></i>
+                    <a href="{{ page.url }}?ugpg=0" class="btn btn-lg btn-block active">
+                      
                       <span class="hidden-xs">UG Lab</span>
                     </a>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <a href="{{ page.url }}?ugpg=1" class="btn btn-lg btn-block">
-                      <i class="fa fa-check-square-o visible-xs"></i>
+                      
                       <span class="hidden-xs">PG Lab</span>
                     </a>
                   </div>
-                </div>
+                </div> -->
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="margin-left: 40%; font-weight: bolder ">
+                    <li class="nav-item">
+                        
+                      <a class="nav-link navbar-brand active" id="ug-tab" data-toggle="pill" href="#ug" role="tab" aria-controls="ug" aria-selected="true" >UG Labs</a>
+                    </li>
+                    <li class="nav-item">
+                        
 
+                      <a class="nav-link navbar-brand" id="pg-tab" data-toggle="pill" href="#pg" role="tab" aria-controls="pg" aria-selected="false" >PG Labs</a>
+                    </li>
+                    
+                  </ul>
+                  <br>
+                  <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active " id="ug" role="tabpanel" aria-labelledby="ug-tab" style="margin-left: 28%; ">
+                        <ul class="list-group  text-center"  style="width: 50%">
+                            {% for lab in lab_list %}
+                            {% if lab.specific.lab_type == '0' %}
+                                <li class="list-group-item">
+                                    <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
+                                </li>
+                              {% endif %}
+                            {% endfor %}
+                        </ul>
 
-      <hr>
+                    </div>
+                    <div class="tab-pane fade" id="pg" role="tabpanel" aria-labelledby="pg-tab" style="margin-left: 28%"%>
+                        <ul class="list-group  text-center"  style="width: 50%">
+                            {% for lab in lab_list %}
+                            {% if lab.specific.lab_type == '1' %}
+                                <li class="list-group-item">
+                                    <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
+                                </li>
+                              {% endif %}
+                            {% endfor %}
+                        </ul>
 
+                    </div>
+                  </div>
 
+      <!-- {% if lab_list %}
+      <h2 class="text-center">List</h2>
 
-
-
-
-      {% if lab_list %}
-      <h2 class="text-center">Lab Types</h2>
-
-          <ul>
+          <ul class="list-group list-group-flush text-center"  >
               {% for lab in lab_list %}
-                  <li>
+                  <li class="list-group-item">
                       <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
                   </li>
               {% endfor %}
           </ul>
-      {% endif %}
+      {% endif %} -->
 
 
 {% endblock %}

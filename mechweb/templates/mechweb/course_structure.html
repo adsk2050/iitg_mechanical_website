@@ -1,28 +1,29 @@
 {% extends "base.html" %} {% load wagtailcore_tags wagtailimages_tags %} {% block body_class %}template-course-structure{% endblock %} {% block content %}
 
-<h1 class="text-center">{{ page.title }}</h1>
+<!-- <h1 class="text-center">{{ page.title }}</h1> -->
 <div>{{ page.intro|richtext }}</div>
 
 
-
+<br><br>
 {% if prog != '7' %}
     {% if prog == '0' %}
-    <h2 class="text-center">Btech</h2>
+    <h2 class="text-center">Bachelor's in Mechanical Engineering</h2>
     {% elif prog == '1' %}
-    <h2 class="text-center">Mtech: Aerodynamics & Propulsion</h2>
+    <h2 class="text-center">Master's in Aerodynamics & Propulsion</h2>
     {% elif prog == '2' %}
-    <h2 class="text-center">Mtech: Manufacturing Science and Engineering</h2>
+    <h2 class="text-center">Master's in Manufacturing Science and Engineering</h2>
     {% elif prog == '3' %}
-    <h2 class="text-center">Mtech: Computational Mechanics</h2>
+    <h2 class="text-center">Master's in Computational Mechanics</h2>
     {% elif prog == '4' %}
-    <h2 class="text-center">Mtech:  Fluids and Thermal</h2>
+    <h2 class="text-center">Master's in Fluids and Thermal</h2>
     {% elif prog == '5' %}
-    <h2 class="text-center">Mtech: Machine Design</h2>
+    <h2 class="text-center">Master's in Machine Design</h2>
     {% elif prog == '6' %}
-    <h2 class="text-center">PhD Course Structure</h2>
+    <h2 class="text-center">Post Doctorate in Course Structure</h2>
     {% else %}
         {% if featured_courses %}
         <h2>Featured Courses</h2>
+        
         <!-- List of featured courses here -->
         <div class="layoutcard">
             <ul class="cards">
@@ -47,39 +48,95 @@
             {% endif %}
         </div>
     {% endif %}
-    <div class="layoutcard">
+
+
+    
         {% for prog_sem in structure %}
             {% if prog_sem|length != 0 %}
             <h2 class="text-center" style="font-weight:bolder;">Semester {{ forloop.counter }}</h2>
-            <ul class="cards">
-                {% for course in prog_sem %}
-                <li class="cards_item">
-                    <div class="card {{ course.eligible_specializations }}">
-                        <!-- <div class="card_image"><img src="https://picsum.photos/500/300/?image=10"></div> -->
-                        <div class="card_content">
-                            <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
-                            <hr>
-                            <ul>
-                                <li><span>Course code</span> {{ course.specific.code }}</li>
-                                <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
-                                <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
-                                <li>Semester : {{ course.specific.semester }}</li>
-                                <li>Course Type : {{ course.specific.get_course_type_display }}</li>
-                                {% if prog == '1' %}
-                                <li>Eligible Specializations : {{ course.get_eligible_specializations_display }}</li>
-                                {% endif %}
-                                <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
+            
+                <table class="table table-striped" style="width: 80%; margin: auto ">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Course No.</th>
+                            <th scope="col">Course Name</th>
+                            <th scope="col">L</th>
+                            <th scope="col">T</th>
+                            <th scope="col">P</th>
+                            <th scope="col" style="text-align: center">Total Credits</th>
+                            
+                        </tr>
+                        </thead>
+                    <tbody>
+                        {% for course in prog_sem %}
+                            <tr>
+                                
+                                <td>{{ course.specific.code }}</td>
+                                <td>{{ course.specific.name }}</td>
+                                <td>{{ course.specific.lectures }}</td>
+                                <td>{{ course.specific.tutorials }}</td>
+                                <td>{{ course.specific.practicals }}</td>
+                                <td style="text-align: center">{{ course.specific.credits }}</td>
 
-                {% endfor %}
-            </ul>
-            <hr>
-            {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="accordion" id="accordionExample" >
+                        <div class="card" >
+                          <div class="card-header" id="headingOne" style="background-color: #fff">
+                            <h5 class="mb-0" style="text-align: center" >
+                              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne" >
+                                More
+                              </button>
+                            </h5>
+                          </div>
+                          
+                          <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                    <div class="layoutcard">
+                                            
+                                                {% if prog_sem|length != 0 %}
+                                                
+                                                <ul class="cards">
+                                                    {% for course in prog_sem %}
+                                                    <li class="cards_item">
+                                                        <div class="card {{ course.eligible_specializations }}">
+                                                            <!-- <div class="card_image"><img src="https://picsum.photos/500/300/?image=10"></div> -->
+                                                            <div class="card_content">
+                                                                <h2 class="card_title"><a href="{{ course.url }}">{{ course.specific.name }}</a></h2>
+                                                                <hr>
+                                                                <ul>
+                                                                    <li><span>Course code</span> {{ course.specific.code }}</li>
+                                                                    <li>L:T:P:C::{{ course.specific.lectures }}:{{ course.specific.tutorials }}:{{ course.specific.practicals }}:{{ course.specific.credits }}</li>
+                                                                    <li>Syllabus : <a href="{{ course.specific.document.url }}">Download</a></li>
+                                                                    <li>Semester : {{ course.specific.semester }}</li>
+                                                                    <li>Course Type : {{ course.specific.get_course_type_display }}</li>
+                                                                    {% if prog == '1' %}
+                                                                    <li>Eligible Specializations : {{ course.get_eligible_specializations_display }}</li>
+                                                                    {% endif %}
+                                                                    <li>Eligible Programmes : {{ course.specific.get_eligible_programmes_display }}</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                    
+                                                    {% endfor %}
+                                                </ul>
+                                                <hr>
+                                                {% endif %}
+                                            
+                                        </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br><br>  
+
+                {% endif %}
         {% endfor %}
-    </div>
+
+    
 {% else %}
 <h2>All courses</h2>
 <table>

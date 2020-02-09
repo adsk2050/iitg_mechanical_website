@@ -9,13 +9,13 @@
 
 
 {% block content %}
-
+  <br>
   <div class="container-fluid">
       <!-- <h1>Staff</h1> -->
       <div class="container-fluid">
           <div class="row padding">
               <div class="col-md-12 text-center">
-                  <h1>{{ page.title }}</h1>
+                  
                   {% if student_list.number == 1 %}
                   <p>{{ page.intro|richtext }}</p>
 
@@ -25,20 +25,20 @@
       </div>
 
       <div class="container-fluid">
-        <div class="row">
-
-          <div class="col-xs-12 col-sm-6 col-md-7">
-            <!-- <h3>All Faculties</h3> -->
-          </div>
-
-          <div class="col-xs-12 col-sm-6 col-md-4" style="text-align:center">
-             <i class="fa fa-search fa-2x"></i>
-             <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for student..">
-          </div>
-        </div>
+          <div class="container-fluid" >
+              <div class="row justify-content-md-center" >
+        
+                
+        
+                <div class="col-xs-12 col-sm-6 col-md-5" style="margin-left: 25%">
+                   <i class="fa fa-search " style="margin-right: 7px"></i>
+                   <input type="text" id="myInput" onkeyup="myFunction()" placeholder=" Search for Students..">
+                </div>
+              </div>
+            </div>
       </div>
 
-<hr>
+
       {% if tag %}
         <h2>Results for {{ tag }}</h2>
           {% else %}
@@ -66,6 +66,13 @@
             {% endif %}
           {% endif %}
   <hr>
+  
+    
+                
+<br><br>  
+
+                
+  
   <div class="container-fluid">
     <div class="row bread-list" id="myUL">
       {% for student in student_list %}
