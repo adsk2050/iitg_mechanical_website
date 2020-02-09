@@ -30,57 +30,77 @@
                     </a>
                   </div>
                 </div> -->
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="margin-left: 40%; font-weight: bolder ">
-                    <li class="nav-item">
-                        
-                      <a class="nav-link navbar-brand active" id="ug-tab" data-toggle="pill" href="#ug" role="tab" aria-controls="ug" aria-selected="true" >UG Labs</a>
-                    </li>
-                    <li class="nav-item">
-                        
 
-                      <a class="nav-link navbar-brand" id="pg-tab" data-toggle="pill" href="#pg" role="tab" aria-controls="pg" aria-selected="false" >PG Labs</a>
-                    </li>
+                <div class="w3-container">
+                  
+                    <div class="w3-row">
+                      <a id="modal" href="javascript:void(0)" onclick="openCity(event, 'ug_lab');">
+                        <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">UG Labs</div>
+                      </a>
+                      <a href="javascript:void(0)" onclick="openCity(event, 'pg_lab');">
+                        <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">PG Labs</div>
+                      </a>
+
+                    </div>
+                    <br>
+                    <div >
+                        <div id="ug_lab" class="w3-container city" >
+                            <ul class="list-group  text-center"  style="width: 50%; margin: auto">
+                                {% for lab in lab_list %}
+                                {% if lab.specific.lab_type == '0' %}
+                                    <li class="list-group-item">
+                                        <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
+                                    </li>
+                                  {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                      
+                        <div id="pg_lab" class="w3-container city" >
+                            <ul class="list-group  text-center"  style="width: 50%; margin: auto">
+                                {% for lab in lab_list %}
+                                {% if lab.specific.lab_type == '1' %}
+                                    <li class="list-group-item">
+                                        <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
+                                    </li>
+                                  {% endif %}
+                                {% endfor %}
+                            </ul>
+    
+                        </div>
+                    </div>
                     
-                  </ul>
-                  <br>
-                  <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active " id="ug" role="tabpanel" aria-labelledby="ug-tab" style="margin-left: 28%; ">
-                        <ul class="list-group  text-center"  style="width: 50%">
-                            {% for lab in lab_list %}
-                            {% if lab.specific.lab_type == '0' %}
-                                <li class="list-group-item">
-                                    <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
-                                </li>
-                              {% endif %}
-                            {% endfor %}
-                        </ul>
-
-                    </div>
-                    <div class="tab-pane fade" id="pg" role="tabpanel" aria-labelledby="pg-tab" style="margin-left: 28%"%>
-                        <ul class="list-group  text-center"  style="width: 50%">
-                            {% for lab in lab_list %}
-                            {% if lab.specific.lab_type == '1' %}
-                                <li class="list-group-item">
-                                    <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
-                                </li>
-                              {% endif %}
-                            {% endfor %}
-                        </ul>
-
-                    </div>
+                
                   </div>
+              <br><br>
 
-      <!-- {% if lab_list %}
-      <h2 class="text-center">List</h2>
+{% endblock %}
+{% block extra_script %}
 
-          <ul class="list-group list-group-flush text-center"  >
-              {% for lab in lab_list %}
-                  <li class="list-group-item">
-                      <a href="{{ lab.url }}"><h4>{{ lab.specific.name }}</h4></a>
-                  </li>
-              {% endfor %}
-          </ul>
-      {% endif %} -->
+<script>
+
+    // var x = document.getElementsByClassName("city");    this js code is used to make a tab active on load of page
+    //     x[0].style.display = "block";
 
 
+      function openCity(evt, cityName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" w3-border-blue-grey", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-border-blue-grey";
+      }
+    </script>
+
+    <script>
+jQuery(function(){
+   jQuery('#modal').click();
+});
+</script>
 {% endblock %}

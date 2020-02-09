@@ -10,8 +10,8 @@
 
 {% block content %}
   <br>
-  <div class="container-fluid">
-      <!-- <h1>Staff</h1> -->
+  <!-- <div class="container-fluid">
+      
       <div class="container-fluid">
           <div class="row padding">
               <div class="col-md-12 text-center">
@@ -31,7 +31,9 @@
                 
         
                 <div class="col-xs-12 col-sm-6 col-md-5" style="margin-left: 25%">
-                   <i class="fa fa-search " style="margin-right: 7px"></i>
+                    <button class="btn btn-secondary" type="button">
+                        <i class="fa fa-search"></i>
+                      </button>
                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder=" Search for Students..">
                 </div>
               </div>
@@ -39,34 +41,7 @@
       </div>
 
 
-<!-- <hr>
-      {% if tag %}
-        <h2>Results for {{ tag }}</h2>
-          {% else %}
-          {% if student_list.number == 1 %}
-            <div class="row ">
-              <div class="col-xs-12 col-sm-2 col-md-4">
-                <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block">
-                  <i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Bachelors</span>
-                </a>
-              </div>
-              <div class="col-xs-12 col-sm-2 col-md-4">
-                <a href="{{ page.url }}?prog=1" class="btn btn-lg btn-block">
-                  <i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Masters</span>
-                </a>
-              </div>
-              <div class="col-xs-12 col-sm-2 col-md-4">
-                <a href="{{ page.url }}?prog=2" class="btn btn-lg btn-block">
-                  <i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Research Scholars</span>
-                </a>
-              </div>
-            </div>
-            {% endif %}
-          {% endif %}
-  <hr> -->
+
   <div class="container-fluid">
     <div class="row bread-list" id="myUL">
       {% for student in student_list %}
@@ -127,7 +102,6 @@
           {% endif %}
       </span>
 
-            <!-- <a class="btn" href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">&laquo; first</a> -->
 
           <div class="current" style="text-align: center">
               Page {{ student_list.number }} of {{ student_list.paginator.num_pages }}.
@@ -143,13 +117,7 @@
 
   </div>
 
-  <!-- <div id="myDIV">
-    <button class="btn">1</button>
-    <button class="btn active">2</button>
-    <button class="btn">3</button>
-    <button class="btn">4</button>
-    <button class="btn">5</button>
-  </div> -->
+  
 
 
 {% if all_research_interests %}
@@ -162,6 +130,149 @@
   </div>
   </div>
 {% endif %}
+ -->
+
+{% if prog == '0' %}
+<div class="container-fluid text-center" style="font-size: 1.7em">
+  <h2>B.Tech Students and Faculty Advisors</h2>
+  <hr>
+  <p><a href="/media/documents/btech/btech18.pdf" class="btn btn-primary btn-lg" role="button">2018 Batch</a></p>
+  <p><a href="/media/documents/btech/btech17.pdf" class="btn btn-primary btn-lg" role="button">2017 Batch</a></p>
+  <p><a href="/media/documents/btech/btech16.pdf" class="btn btn-primary btn-lg" role="button">2016 Batch</a></p>
+  <p><a href="/media/documents/btech/btech15.pdf" class="btn btn-primary btn-lg" role="button">2015 Batch</a></p>
+  <p><a href="/media/documents/btech/btech14.pdf" class="btn btn-primary btn-lg" role="button">2014 Batch</a></p>
+  <p><a href="/media/documents/btech/btech13.pdf" class="btn btn-primary btn-lg" role="button">2013 Batch</a></p>
+  <p><a href="/media/documents/btech/btech12.pdf" class="btn btn-primary btn-lg" role="button">2012 Batch</a></p>
+  <p><a href="/media/documents/btech/btech11.pdf" class="btn btn-primary btn-lg" role="button">2011 Batch</a></p>
+  <p><a href="/media/documents/btech/btech10.pdf" class="btn btn-primary btn-lg" role="button">2010 Batch</a></p>
+  <p><a href="/media/documents/btech/btechearly.pdf" >Earlier batches...</a></p>
+
+</div>
+{% elif prog == '1' %}
+<div class="container-fluid text-center">
+  <h2>M.Tech Students and Faculty Advisors</h2>
+  <hr>
+    
+  <p><a href="/media/documents/mtech/mtech2018.pdf" class="btn btn-primary btn-lg" role="button">2018 Batch</a></p>
+  <p><a href="/media/documents/mtech/mtech2017.pdf" class="btn btn-primary btn-lg" role="button">2017 Batch</a></p>
+  <p><a href="/media/documents/mtech/mtech16.pdf" class="btn btn-primary btn-lg" role="button">2016 Batch</a></p>
+  <p><a href="/media/documents/mtech/mtech2015.pdf" class="btn btn-primary btn-lg" role="button">2015 Batch</a></p>
+  <p><a href="/media/documents/mtech/mtech2014.pdf" class="btn btn-primary btn-lg" role="button">2014 Batch</a></p>
+  <p><a href="/media/documents/mtech/mtech2013.pdf" class="btn btn-primary btn-lg" role="button">2013 Batch</a></p>
+  <p><a href="/media/documents/mtech/mtech2012.pdf" class="btn btn-primary btn-lg" role="button">2012 Batch</a></p>
+  
+  
+</div>
+{% elif prog == '2' %}
+<div class="container-fluid">
+    <div class="container-fluid" >
+        <div class="row " >
+  
+          
+  
+          <div class="col-xs-12 col-sm-6 col-md-5" >
+              <button class="btn btn-secondary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+             <input type="text" id="myInput" onkeyup="myFunction()" placeholder=" Search for Students..">
+          </div>
+        </div>
+      </div>
+</div>
+
+
+
+<div class="container-fluid">
+<div class="row bread-list" id="myUL">
+{% for student in student_list %}
+  <div class="col-xs-11 col-md-5 bread-list-item">
+    <span style="display:none">{{ student }}</span>
+
+      <div class="row">
+          <div class="col-xs-4 col-sm-5 image">
+            <a href="{{ student.specific.url }}">
+              {% if student.specific.photo %}
+                {% image student.specific.photo original style='width:100%; height:100%' %}
+              {% else %}
+                  {% with '/media/images/phd/'|add:student.slug|add:'.jpg' as image_static %}
+                      <img src="{{ image_static }}" style='width:100%; height:100%' alt="{{ photo.alt }}" class="" />
+                {% endwith %}
+              {% endif %}
+              </a>
+          </div>
+          <div class="col-xs-8 col-sm-8">
+              <a href="{{ student.specific.url }}">
+                  <h2>{{ student }}</h2>
+              </a>
+              <ul class="bread-meta">
+                  <li><strong>{{ student.specific.get_programme_display }}</strong></li>
+                  {% if student.specific.enrolment_year %}
+                      <li><span>Enrolment year</span>{{ student.specific.enrolment_year }}</li>
+                  {% endif %}
+                  {% if student.specific.email_id %}
+                      <li><span>Email</span>{{ student.specific.email_id }}</li>
+                  {% endif %}
+                  {% if student.specific.roll_no %}
+                      <li><span>Enrolment NO.</span>{{ student.specific.roll_no }}</li>
+                  {% endif %}
+                  {% if student.specific.faculty_advisor %}
+                      <li><span>Faculty Advisor</span>{{ student.specific.faculty_advisor }}</li>
+                  {% endif %}
+                  {% if student.specific.hostel_address_line_1 %}
+                      <li><span>Hostel</span>{{ student.specific.hostel_address_line_1 }}</li>
+                  {% endif %}
+
+              </ul>
+          </div>
+      </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+
+  </div>
+
+
+<div class="pagination" id="myDIV">
+<div class="" style="display: inline-block; text-align:center; margin-left:45%">
+<span class="step-links" style=" align-content: center">
+    {% if student_list.has_previous %}
+        <a class="btn" href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">&laquo; first</a>
+        <a class="btn" href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">previous</a>
+    {% endif %}
+</span>
+
+
+    <div class="current" style="text-align: center">
+        Page {{ student_list.number }} of {{ student_list.paginator.num_pages }}.
+    </div>
+
+    <span class="">
+    {% if student_list.has_next %}
+        <a class="btn" href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">next</a>
+        <a class="btn" href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">last &raquo;</a>
+    {% endif %}
+    </span>
+</div>
+
+</div>
+
+
+
+
+{% if all_research_interests %}
+<div class="container-fluid">
+<div class="styletags">
+<strong>Research Interests:</strong>
+{% for interest in all_research_interests %}
+<a href="{{ page.url }}?tag={{ interest }}">{{ interest }}</a> |
+{% endfor %}
+</div>
+</div>
+{% endif %} 
+
+{% endif %} 
+
 {% endblock content %}
 
 
@@ -210,3 +321,33 @@
     </script>
 
 {% endblock %}
+
+
+<!-- <hr>
+      {% if tag %}
+        <h2>Results for {{ tag }}</h2>
+          {% else %}
+          {% if student_list.number == 1 %}
+            <div class="row ">
+              <div class="col-xs-12 col-sm-2 col-md-4">
+                <a href="{{ page.url }}?prog=0" class="btn btn-lg btn-block">
+                  <i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Bachelors</span>
+                </a>
+              </div>
+              <div class="col-xs-12 col-sm-2 col-md-4">
+                <a href="{{ page.url }}?prog=1" class="btn btn-lg btn-block">
+                  <i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Masters</span>
+                </a>
+              </div>
+              <div class="col-xs-12 col-sm-2 col-md-4">
+                <a href="{{ page.url }}?prog=2" class="btn btn-lg btn-block">
+                  <i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Research Scholars</span>
+                </a>
+              </div>
+            </div>
+            {% endif %}
+          {% endif %}
+  <hr> -->

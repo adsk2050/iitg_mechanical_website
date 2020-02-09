@@ -91,20 +91,22 @@
                        <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                            <ul>
-                             <li><a class="dropdown-item"href="{{ child.url }}?prog=0">Bachelors</a></li>
+                             <li><a class="dropdown-item"href="{{ child.url }}?prog=0">UG Courses</a></li>
                              <!-- <li><a class="dropdown-item" href="{{ child.url }}?prog=1">Masters</a></li> -->
                              <ul>
                                  <div class="dropdown-divider"></div>
-                                 <h6 class="dropdown-header text-center" style="color: #fff; font-weight: bold;">Mtech courses</h6>
+                                 <h6 class="dropdown-header text-center" style="color: #fff; font-weight: bold;">M.Tech Courses</h6>
                                <li><a class="dropdown-item" href="{{ child.url }}?prog=1">Aerodynamics & Propulsion</a></li>
-                               <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Manufacturing Science and Engineering</a></li>
                                <li><a class="dropdown-item" href="{{ child.url }}?prog=3">Computational Mechanics</a></li>
                                <li><a class="dropdown-item" href="{{ child.url }}?prog=4">Fluids and Thermal</a></li>
                                <li><a class="dropdown-item" href="{{ child.url }}?prog=5">Machine Design</a></li>
+                               <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Manufacturing Science and Engineering</a></li>
+                               
+                               
                              </ul>
-                             <!-- <div class="dropdown-divider"></div>
-                             <li><a class="dropdown-item" href="{{ child.url }}?prog=6">Doctoral</a></li>
-                             <div class="dropdown-divider"></div> -->
+                              <!-- <div class="dropdown-divider"></div>
+                             <li><a class="dropdown-item" href="{{ child.url }}?prog=6">Doctoral</a></li> -->
+                             <div class="dropdown-divider"></div>
                              <li><a class="dropdown-item" href="{{ child.url }}?prog=7">All Courses</a></li>
                            </ul>
                      {% endif %}
@@ -116,11 +118,20 @@
                       <div class="dropdown show">
                       <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <ul>
-                                <li><a class="dropdown-item" href="{{ child.url }}?prog=0">B. Tech</a></li>
-                                <li><a class="dropdown-item" href="{{ child.url }}?prog=1">M. Tech</a></li>
-                                <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholar</a></li>
-                              </ul>
+                            <ul>
+                                <ul>
+                                  <li><a class="dropdown-item" href="{{ child.url }}?prog=0">B. Tech</a></li>
+                                  <li><a class="dropdown-item" href="{{ child.url }}?prog=1">M. Tech</a></li>
+                                  <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholar</a></li>
+                                </ul>
+                                <div class="dropdown-divider"></div>
+                                <ul>
+                                    <h6 class="dropdown-header text-center" style="color: #fff; font-weight: bold;">Student Activities</h6>
+                                    <li><a class="dropdown-item" href="http://www.iitg.ac.in/mesa/">MESA</a></li>
+                                  <li><a class="dropdown-item" href="http://www.iitg.ac.in/saeindia_iitg/AutomobileClub.html">Automobile Club</a></li>
+                                </ul>
+                                  
+                            </ul>
                         </div>
                       </div>
                     </li>
@@ -160,7 +171,7 @@
 
 
 
-                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == 'Awards Home'%}
+                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == 'Awards Home' or page_type == "Committee Home"%}
 
                     {% else %}
                     <li class="nav-item"> <a class="nav-link"  role="button" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
@@ -196,7 +207,7 @@
         {% endblock %}
 
         <!-- Footer -->
-        <footer class="page-footer font-small stylish-color-dark pt-4 "  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif;;">
+        <footer class="page-footer font-small stylish-color-dark pt-4 "  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif; position: relative; bottom: 0; width: 100%">
 
           <!-- Footer Links -->
           <div class="container-fluid text-center text-md-left">
