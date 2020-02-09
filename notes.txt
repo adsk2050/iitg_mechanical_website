@@ -1,3 +1,15 @@
+
+9 Feb '20
+Why does sqlite not enforce data type constraints??
+I am having a tough time migrating the data from db.sqlite3 to postgresql
+I tried sequel, pgloader, loaddata-dumpdata etc but nothing is working.
+
+dumpdata-loaddata has database entries not written in order, so its spitting ProgrammingError and saying that some relation doesn't exist.
+
+django.db.utils.ProgrammingError: Problem installing fixture '/home/webops/iitg_mechanical_website/datadump.json': Could not load mechweb.HomeTextPanel(pk=1): relation "mechweb_hometextpanel" does not exist
+
+____________________________________________________________________
+
 Using tabs to create a cleaner admin interface
 ____________________________________________________________________
 https://www.youtube.com/watch?v=uZc0aZrHtQw&list=PLY8A6V6_4EmNcA47HXnauZ66c3lXjh6Pb&index=3

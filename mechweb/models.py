@@ -92,7 +92,7 @@ class MechHomePage(Page):
 	body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	HOD_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
-	donation_link = models.URLField(max_length=250)
+	donation_link = models.URLField(max_length=250, blank=True)
 	donate_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 	donate_message = models.CharField(blank=True, max_length=250)
 	# intro = RichTextField(blank=True)
@@ -119,7 +119,7 @@ class MechHomePage(Page):
 		ObjectList(Page.settings_panels, heading="Settings"),
 	])
 
-	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech', 'CategoriesHome']
+	subpage_types=['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage', 'CourseStructure', 'AlumniHomePage', 'AwardHomePage','Aboutiitgmech', 'CategoriesHome', 'CommitteeHomePage']
 
 	max_count = 1
 
@@ -397,9 +397,9 @@ class FacultyHomePage(Page):
 			except TypeError:
 				current_faculty_list.append(fac)
 				#check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
-		paginator = Paginator(faculty_list, 50) # Show 10 faculty per page
-		page_no = request.GET.get('page_no')
-		faculty_list = paginator.get_page(page_no)
+		# paginator = Paginator(faculty_list, 50) # Show 10 faculty per page
+		# page_no = request.GET.get('page_no')
+		# faculty_list = paginator.get_page(page_no)
 
 		return render(request, self.template, {
 			'page': self,
@@ -410,7 +410,7 @@ class FacultyHomePage(Page):
 			'cat':cat,
 			'cat_name':cat_name,
 			'tag':tag,
-			'page_no':page_no,
+			# 'page_no':page_no,
 		})
 
 		class Meta:
@@ -440,7 +440,7 @@ class FacultyPage(Page):
 	research_interests = ClusterTaggableManager(through=FacultyResearchInterestTag, blank=True, verbose_name='Research Interests')
 	fac_research_categories = ParentalManyToManyField('mechweb.Categories', blank=True, related_name='faculty')
 	joining_date = models.DateField(default=timezone.now)
-	leaving_date = models.DateField(blank=True)
+	leaving_date = models.DateField(blank=True, null=True)
 	on_lien = models.BooleanField(default=False)
 	on_visit = models.BooleanField(default=False)
 	on_insti = models.CharField(max_length=500, blank=True, verbose_name="Visiting from/On lien to", help_text="Institute name")
@@ -652,6 +652,7 @@ class AbstractStudentPage(Page):
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(blank=True)
 	enrolment_year = models.DateField(default=timezone.now)
+
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
 	is_exchange = models.BooleanField(default=False, verbose_name="International Student")
 	contact_number = models.CharField(max_length=20, blank=True)
@@ -1935,7 +1936,7 @@ class Award(Orderable):
 	award_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	award_type = models.CharField(max_length=2, choices=FACULTY_AWARD_TYPES, default='0')
 	award_time = models.CharField(max_length=100, blank=True)
-	conferrer = models.CharField(max_length=100)
+	conferrer = models.CharField(max_length=200)
 	conferrer_description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	image = models.ForeignKey('wagtailimages.Image',null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 	link = models.URLField(max_length=250, blank=True)
@@ -1959,6 +1960,86 @@ class Award(Orderable):
 	class Meta:
 		ordering = ['-award_time']
 
+#################################################################
+class CommitteeHomePage(Page):
+	# Add featured publications
+	parent_page_types=['MechHomePage']
+	subpage_types=['CommitteePage']
+	max_count = 1
+
+	def serve(self, request):
+		com_list = self.get_children().live().order_by('-committeepage__tenure_end', '-committeepage__tenure_start')
+
+		return render(request, self.template, {
+			'page': self,
+			'com_list': com_list,
+		})
+
+	class Meta:
+		verbose_name = "Committee Home"
+
+class CommitteePage(Page):
+	name = models.CharField(max_length=500)
+	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	tenure_start = models.DateField(default=timezone.now)
+	tenure_end = models.DateField(default=timezone.now()+timedelta(days=365))
+
+
+	content_panels =  Page.content_panels + [
+		FieldPanel('name'),
+		FieldPanel('tenure_start'),
+		FieldPanel('tenure_end'),
+		FieldPanel('about'),
+		InlinePanel('links', label="Links", max_num=10),
+		InlinePanel('faculty', label="Faculty Member"),
+		InlinePanel('com_other', label="Other Mmebers"),
+		InlinePanel('students', label="Student Member"),
+	]
+
+	parent_page_types=['CommitteeHomePage']
+	subpage_types=[ ]
+
+	class Meta:
+		verbose_name = "Committee"
+		verbose_name_plural = "Committees"
+
+class CommitteePageStudent(Orderable):
+	page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='students')
+	student = models.ForeignKey('StudentPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='student')
+	designation = models.CharField(max_length=100, blank=True)
+	panels = [
+		AutocompletePanel('student', target_model='mechweb.StudentPage'),
+		FieldPanel('designation'),
+	]
+
+class CommitteePageFaculty(Orderable):
+	page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='faculty')
+	faculty = models.ForeignKey('FacultyPage', null=True,blank=True, on_delete=models.SET_NULL, related_name='faculty')
+	designation = models.CharField(max_length=100, blank=True)
+	panels = [
+		AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+		FieldPanel('designation'),
+	]
+
+class CommitteePageOtherMmeber(Orderable):
+	page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='com_other')
+	name = models.CharField(max_length=100)
+	designation = models.CharField(max_length=100, blank=True)
+	panels = [
+		FieldPanel('name'),
+		FieldPanel('designation'),
+	]
+
+#Is this going to be useful?
+class CommitteePageLink(Orderable):
+	page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='links')
+	link = models.URLField(max_length=250)
+	panels = [
+		FieldPanel('link'),
+	]
+
+#------------------------------------------
+#################################################################
 
 
 # def set_date(year):

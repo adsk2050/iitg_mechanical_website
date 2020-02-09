@@ -9,7 +9,7 @@ from django.dispatch import receiver
 
 from wagtail.core import hooks
 
-from .models import CustomUser, FacultyHomePage, FacultyPage, StudentHomePage, StudentPage, AlumniHomePage, AlumnusPage, StaffHomePage, StaffPage
+from .models import CustomUser, FacultyHomePage, FacultyPage, StudentHomePage, StudentPage, AlumniHomePage, AlumnusPage, StaffHomePage, StaffPage, MechHomePage
 
 ######################################################
 
@@ -17,7 +17,20 @@ from .models import CustomUser, FacultyHomePage, FacultyPage, StudentHomePage, S
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
 		if instance.user_type == '0':
-			home = FacultyHomePage.objects.all()[0]  # Now be careful here as if there will be more than one facultyHomePage then there will be a problem
+			try:
+				home = FacultyHomePage.objects.all()[0]  # Now be careful here as if there will be more than one facultyHomePage then there will be a problem
+			except IndexError:
+				# try:
+				# 	mech_home = MechHomePage.objects.all()[0]
+				# 	home = FacultyPage(
+				# 		title='Faculty',
+				# 		slug='faculty',
+				# 		intro='Faculty Home Page',
+				# 	)
+				# 	mech_home.add_child(instance=mech_home)
+				# except IndexError:
+				print("First create FacultyHomePage.. User profile not created")
+				return 
 			if instance.middle_name == '':
 				base_title = instance.first_name+" "+instance.last_name
 			base_title = instance.first_name+" "+instance.middle_name+" "+instance.last_name
