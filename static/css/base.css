@@ -182,13 +182,13 @@ nav{
   font-size: 25px;
 }
 
-.fixed-top.scrolled {
-  /* background-color: #62A8E0 !important; */
-  color: #fff !important;
+.fixed-top .scrolled {  /*.fixed-top.scrolled*/
+ background-color: # !important;
+color: #fff !important;
   background: #222546 !important;
 
-  transition: background-color 200ms linear;
-}
+/*  transition: background-color 200ms linear;
+*/}
 
 .nav-link.colourchange{
   color: #fff !important;
@@ -197,10 +197,9 @@ nav{
 
 .mechbrand{
   color: #0E0A11;
-  line-height:1.2;
-  font-family: 'Source Sans Pro', sans-serif;;
+  line-height:2;
+  font-family: 'Source Sans Pro', sans-serif;
 }
-
 
 
 .mechbrand.mechbrandscroll{
@@ -256,7 +255,7 @@ nav{
   bottom: 270px;
 
 }
-s
+
 .carousel-caption h5{
   font-size: 45px;
   text-transform: uppercase;
@@ -277,7 +276,19 @@ s
   display: block;
 }
 
+.btn {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
 
+/* Style the active class (and buttons on mouse-over) */
+.active, .btn:hover {
+  background-color: #222546;
+  color: white;
+}
 
 /* custom css for research box */
 
@@ -665,6 +676,12 @@ header{
   padding: 50px;
 }
 
+.messagebox .picbox {
+	width: 100px;
+	height: 100px;
+}
+
+
 .picbox{
   padding: 50px;
 }
@@ -676,7 +693,8 @@ header{
 
 .cardbox{
   text-align: center;
-
+  width: 50%;
+  height: 50%;
   display: block;
   border-color: #fff;
 }

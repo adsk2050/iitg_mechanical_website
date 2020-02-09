@@ -38,7 +38,7 @@
         </div>
       </div>
 
-<hr>
+<!-- <hr>
       {% if tag %}
         <h2>Results for {{ tag }}</h2>
           {% else %}
@@ -65,7 +65,7 @@
             </div>
             {% endif %}
           {% endif %}
-  <hr>
+  <hr> -->
   <div class="container-fluid">
     <div class="row bread-list" id="myUL">
       {% for student in student_list %}
@@ -76,10 +76,10 @@
                 <div class="col-xs-4 col-sm-5 image">
                   <a href="{{ student.specific.url }}">
                     {% if student.specific.photo %}
-                      {{% image student.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
+                      {% image student.specific.photo original style='width:100%; height:100%' %}
                     {% else %}
                         {% with '/media/images/phd/'|add:student.slug|add:'.jpg' as image_static %}
-                            <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
+                            <img src="{{ image_static }}" style='width:100%; height:100%' alt="{{ photo.alt }}" class="" />
                       {% endwith %}
                     {% endif %}
                     </a>
@@ -117,23 +117,40 @@
         </div>
 
 
-  <div class="pagination">
-      <span class="step-links">
+  <div class="pagination" id="myDIV">
+    <div class="" style="display: inline-block; text-align:center; margin-left:45%">
+      <span class="step-links" style=" align-content: center">
           {% if student_list.has_previous %}
-              <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">&laquo; first</a>
-              <a href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">previous</a>
-          {% endif %}
-
-          <span class="current">
-              Page {{ student_list.number }} of {{ student_list.paginator.num_pages }}.
-          </span>
-
-          {% if student_list.has_next %}
-              <a href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">next</a>
-              <a href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">last &raquo;</a>
+              <a class="btn" href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">&laquo; first</a>
+              <a class="btn" href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">previous</a>
           {% endif %}
       </span>
+
+            <!-- <a class="btn" href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">&laquo; first</a> -->
+
+          <div class="current" style="text-align: center">
+              Page {{ student_list.number }} of {{ student_list.paginator.num_pages }}.
+          </div>
+
+          <span class="">
+          {% if student_list.has_next %}
+              <a class="btn" href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">next</a>
+              <a class="btn" href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">last &raquo;</a>
+          {% endif %}
+          </span>
+    </div>
+
   </div>
+
+  <!-- <div id="myDIV">
+    <button class="btn">1</button>
+    <button class="btn active">2</button>
+    <button class="btn">3</button>
+    <button class="btn">4</button>
+    <button class="btn">5</button>
+  </div> -->
+
+
 {% if all_research_interests %}
   <div class="container-fluid">
  <div class="styletags">
@@ -168,6 +185,26 @@
         li[i].style.display = "none";
       }
     }
+    }
+/*pagination button js*/
+    var btnContainer = document.getElementById("myDIV");
+
+    // Get all buttons with class="btn" inside the container
+    var btns = btnContainer.getElementsByClassName("btn");
+
+    // Loop through the buttons and add the active class to the current/clicked button
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+
+        // If there's no active class
+        if (current.length > 0) {
+          current[0].className = current[0].className.replace(" active", "");
+        }
+
+        // Add the active class to the current/clicked button
+        this.className += " active";
+      });
     }
     </script>
 

@@ -142,9 +142,25 @@
                     </li>
                     {% endif %}
 
+                    {% if page_type == 'Awards Home' %}
+
+                    <li class="nav-item">
+                      <div class="dropdown show">
+                      <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <ul>
+                                <li><a class="dropdown-item" href="{{ child.url }}?prog=0">Faculty Honours</a></li>
+                                <li><a class="dropdown-item" href="{{ child.url }}?prog=1">Best Paper</a></li>
+                              </ul>
+                        </div>
+                      </div>
+                    </li>
+                    {% endif %}
 
 
-                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home'%}
+
+
+                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == 'Awards Home'%}
 
                     {% else %}
                     <li class="nav-item"> <a class="nav-link"  role="button" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
@@ -208,7 +224,7 @@
                   </a>
                 </div>
                 <div class="ml-1 font-weight-light">
-                  Developed by Anmol Deep and Dhiraj Mittal 
+                  Developed by Anmol Deep and Dhiraj Mittal
                 </div>
 
               </div>
