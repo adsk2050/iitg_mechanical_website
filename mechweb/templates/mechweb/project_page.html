@@ -6,21 +6,108 @@
 
 
 
-gallery_images
-
-
 
 {% block content %}
-    {{ page.title }}
-	<h1><a href="{{ page.specific.url }}">{{ page.specific.name }}</a></h1>
+
+    <!-- {{ page.title }} -->
+<br><br>
+    <div class="container-fluid">
+        <div class="row padding">
+            <div class="col">
+                <h1 class="text-center" style="color:#222546; font-weight:bolder;">{{ page.specific.name }}</h1>
+                {% if page.specific.principal_investigator %}
+                    <h3 class="text-center" style="color:#222546; font-weight:bolder;"><a href="{{ page.specific.principal_investigator.url }}">Principal Investigator: {{ page.specific.principal_investigator }}</h3>
+                {% elif page.specific.alt_PI_text %}
+                    <h4 class="text-center" style="color:#222546; font-weight:bolder;">{{ page.specific.alt_PI_text }}</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row padding">
+        <div class="col-sm-2 col-md-1"></div>
+          <div class="col-xs-12 col-sm-4 col-md-3">
+              <div class="lab_faculty">
+                <h4 style="color:#222546; font-weight:bolder;">Funding agency<br>
+                    <a style="color:#4F5345; font-weight:normal;" href="{{ page.specific.funding_agency_link }}">{{ page.specific.funding_agency }}</a>
+                </h4>
+              </div>
+              <div class="lab_sci_off">
+                <h4 style="color:#222546; font-weight:bolder;"> Project type <br>
+                  <h6 style="color:#4F5345; font-weight:normal;">{{ page.specific.get_project_type_display }}</h6>
+                </h4>
+              </div>
+              <div class="lab_tech_staff">
+                <h4 style="color:#222546; font-weight:bolder;">Budget <br>
+                    <h6 style="color:#4F5345; font-weight:normal;">{{ page.specific.budget }}</h6>
+                </h4>
+              </div>
+              <div class="lab_address">
+                <h4  style="color:#222546; font-weight:bolder;">Timeline<br>
+                  <h6 style="color:#4F5345; font-weight:normal;">From: {{ page.specific.start_date }} | To : {{ page.specific.end_date }}</h6>
+                </h4>
+              </div>
+          </div>
+
+        <div class="col-xs-12 col-sm-7 col-md-7 labbox">
+          <h3 class="text-center" style="color:#222546; font-weight:bolder;">Description</h3>
+          <!-- <div class="text-center" style="color:#4F5345; font-weight:normal;"><strong> {{ page.specific.intro | richtext }} </strong></div> -->
+          <div style=" font-weight:normal; text-align:left;"> {{ page.specific.description|richtext }} </div>
+          <!-- <div>Contact Number: {{ page.specific.contact_number }}</div> -->
+
+
+
+          <div style="color:#4F5345; font-weight:normal; text-align:left;">
+
+              {% if page.faculty.all %}
+                <h3>Faculty</h3>
+                  <ul>
+                  {% for faculty in page.faculty.all %}
+                      <li>
+                          <h4><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a></h4>
+                      	<div>{{ faculty.faculty.project_statement|richtext }}</div>
+                      </li>
+                  {% endfor %}
+                  </ul>
+              {% endif %}
+
+              {% if page.students.all %}
+                <h3>Students</h3>
+                <ul>
+                {% for student in page.students.all %}
+                	<li>
+                        <h4><a href="{{ student.student.url }}">{{ student.student }}</a></h4>
+                    	<div>{{ student.student.project_statement|richtext }}</div>
+                    </li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+
+              {% if page.links.all %}
+                <h3>Links Useful</h3>
+                <ul>
+                {% for ref_link in page.links.all %}
+                    <li>
+                        <a href="{{ ref_link.link }}">{{ ref_link.link }}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+	<!-- <h1><a href="{{ page.specific.url }}">{{ page.specific.name }}</a></h1>
     {% if page.specific.principal_investigator %}
         <h2>Principal Investigator : <a href="{{ page.specific.principal_investigator.url }}">{{ page.specific.principal_investigator }}</a></h2>
     {% elif page.specific.alt_PI_text %}
         <h2>Principal Investigator : {{ page.specific.alt_PI_text }}</h2>
-    {% endif %}
-	
-	<h4>Funding agency: <a href="{{ page.specific.funding_agency_link }}">{{ page.specific.funding_agency }}</a></h4>
-	<hr>
+    {% endif %} -->
+
 	<!-- Images for carousal -->
     <ul>
     {% for pic in page.gallery_images.all %}
@@ -30,41 +117,14 @@ gallery_images
         </li>
     {% endfor %}
     </ul>
-	<hr>
+	<!-- <hr>
 	<h3>Description:</h3>
 	<div>{{ page.specific.description|richtext }}</div>
 	<hr>
 	<div>Project type : {{ page.specific.get_project_type_display }}</div>
 	<div>Budget : {{ page.specific.budget }}</div>
-	<div>From: {{ page.specific.start_date }} | To : {{ page.specific.end_date }}</div>
+	<div>From: {{ page.specific.start_date }} | To : {{ page.specific.end_date }}</div> -->
 
 
-	<h2>Faculty</h2>
-    <ul>
-    {% for faculty in page.faculty.all %}
-        <li>
-            <h4><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a></h4>
-        	<div>{{ faculty.faculty.project_statement|richtext }}</div>
-        </li>
-    {% endfor %}
-    </ul>
 
-    <h2>Students</h2>
-    <ul>
-    {% for student in page.students.all %}
-    	<li>
-            <h4><a href="{{ student.student.url }}">{{ student.student }}</a></h4>
-        	<div>{{ student.student.project_statement|richtext }}</div>
-        </li>
-    {% endfor %}
-    </ul>
-
-    <h2>Links</h2>
-    <ul>
-    {% for ref_link in page.links.all %}
-        <li>
-            <a href="{{ ref_link.link }}">{{ ref_link.link }}</a>
-        </li>
-    {% endfor %}
-    </ul>
 {% endblock %}

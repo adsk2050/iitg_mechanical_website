@@ -43,127 +43,177 @@
     </div>
   </div>
 
+<br>
+<br><br><br>
+  <div class="container-fluid facultyhome">
+    <ul class="nav nav-tabs nav-justified awardstab">
+
+                <li class="nav-item">
+                  <a class="nav-link active" href="#faculty"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Faculty</span></a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#visiting" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Visiting Faculty</span></a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#past" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
+                  <span class="hidden-xs">Past Faculty</span></a>
+                </li>
+
+        </ul>
+
+        <br><br><br>
 
 
+      <div class="tab-content awardtabcontent">
+
+        <div id="faculty" class="tab-pane active">
+          <div class="container-fluid facultyhome">
+          <div class="row bread-list" id="myUL">
+            {% for faculty in current_faculty_list %}
+
+              <div class="col-md-12 bread-list-item" >
+                <span style="display:none">{{ faculty }}</span>
+
+                  <div class="row">
+                      <div class="col-xs-4 col-sm-12 col-md-3 image">
+                        <a href="{{ faculty.url }}">
+                          {% if faculty.specific.photo %}
+                            {% image faculty.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
+                          {% else %}
+                            {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
+                                  <img src="{{ image_static }}" style='width:100%; height:100%' alt="{{ photo.alt }}" class="" />
+                            {% endwith %}
+                          {% endif %}
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">
+                        <div class="row">
+
+                            <a href="{{ faculty.url }}">
+                                <h2>{{ faculty }}</h2>
+                                {% if faculty.specific.get_additional_roles_display == "HoD" %}
+                              <h5>Head of Department</h5>
+                          {% endif %}
+                                <strong>{% if faculty.on_visit %}Visiting {% endif %} {{ faculty.specific.get_designation_display }} {% if faculty.on_lien %}on lien{% endif %}</strong>
+                            </a>
+                        </div>
+                      <div class="row">
+                        <ul class="bread-meta">
+                        {% if faculty.specific.office_address_line_1 %}
+                            <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
+                        {% endif %}
+                        {% if faculty.specific.office_contact_number %}
+                            <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
+                        {% endif %}
+                        {% if faculty.specific.email_id %}
+                            <li><span>Email</span> {{ faculty.specific.email_id }}</li>
+                        {% endif %}
+
+
+
+                        </ul>
+
+                      </div>
+
+                      </div>
+                      <div class=" col-sm-12 col-md-4 researchbox">
+                        {% if faculty.specific.research_interests %}
+                            <span><h5>Research Interests:</h5></span>
+                                {% for tag in faculty.specific.research_interests.all %} <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}
+
+                        {% endif %}
+                      </div>
+                  </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+
+        </div>
+
+        <div id="visiting"class="tab-pane fade">
+
+          <h3 style="text-align:center"> No Visiting Faculty</h3>
+
+
+        </div>
+
+        <div id="past" class="tab-pane fade">
+
+            {% if past_faculty_list  %}
+            <h3 style="text-align:center">Past faculty</h3>
+            {% else %}
+            <h3>No Faculty left</h3>
+            {% endif %}
+            {% for faculty in past_faculty_list %}
+            <div class="container-fluid facultyhome">
+              <div class="row bread-list" id="myUL">
+                <div class="col-md-12 bread-list-item" >
+                  <span style="display:none">{{ faculty }}</span>
+
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-12 col-md-3 image">
+                          <a href="{{ faculty.url }}">
+                            {% if faculty.specific.photo %}
+                              {% image faculty.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
+                            {% else %}
+                              {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
+                                    <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
+                              {% endwith %}
+                            {% endif %}
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">
+                          <div class="row">
+                              <a href="{{ faculty.url }}">
+                                  <h2>{{ faculty }}</h2>
+                                  <strong>{{ faculty.specific.get_designation_display }}{% if faculty.on_lien %} on lien{% endif %} </strong>
+                              </a>
+                          </div>
+                        <div class="row">
+                          <ul class="bread-meta">
+                          {% if faculty.specific.office_address_line_1 %}
+                              <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
+                          {% endif %}
+                          {% if faculty.specific.office_contact_number %}
+                              <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
+                          {% endif %}
+                          {% if faculty.specific.email_id %}
+                              <li><span>Email</span> {{ faculty.specific.email_id }}</li>
+                          {% endif %}
+
+
+
+                          </ul>
+
+                        </div>
+
+                        </div>
+                        <div class="col-sm-12 col-md-4 researchbox">
+                          {% if faculty.specific.research_interests %}
+                              <span><h5>Research Interests:</h5></span>
+                                  {% for tag in faculty.specific.research_interests.all %} <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}
+
+                          {% endif %}
+                        </div>
+                    </div>
+            </div>
+          </div>
+        </div>
+            {% endfor %}
+        </div>
+      </div>
+
+
+    </div>
 
     <!-- Faculty List -->
-    <div class="container-fluid facultyhome">
-    <div class="row bread-list" id="myUL">
-      {% for faculty in current_faculty_list %}
 
-        <div class="col-md-12 bread-list-item" >
-          <span style="display:none">{{ faculty }}</span>
-
-            <div class="row">
-                <div class="col-xs-4 col-sm-12 col-md-3 image">
-                  <a href="{{ faculty.url }}">
-                    {% if faculty.specific.photo %}
-                      {% image faculty.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
-                    {% else %}
-                      {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
-                            <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
-                      {% endwith %}
-                    {% endif %}
-                    </a>
-                </div>
-                <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">
-                  <div class="row">
-                    
-                      <a href="{{ faculty.url }}">
-                          <h2>{{ faculty }}</h2>
-                          {% if faculty.specific.get_additional_roles_display == "HoD" %}
-                        <h5>Head of Department</h5>
-                    {% endif %}
-                          <strong>{% if faculty.on_visit %}Visiting {% endif %} {{ faculty.specific.get_designation_display }} {% if faculty.on_lien %}on lien{% endif %}</strong>
-                      </a>
-                  </div>
-                <div class="row">
-                  <ul class="bread-meta">
-                  {% if faculty.specific.office_address_line_1 %}
-                      <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
-                  {% endif %}
-                  {% if faculty.specific.office_contact_number %}
-                      <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
-                  {% endif %}
-                  {% if faculty.specific.email_id %}
-                      <li><span>Email</span> {{ faculty.specific.email_id }}</li>
-                  {% endif %}
-
-
-
-                  </ul>
-
-                </div>
-
-                </div>
-                <div class=" col-sm-12 col-md-4 researchbox">
-                  {% if faculty.specific.research_interests %}
-                      <span><h5>Research Interests:</h5></span>
-                          {% for tag in faculty.specific.research_interests.all %} <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}
-
-                  {% endif %}
-                </div>
-            </div>
-    </div>
-    {% endfor %}
-    {% if past_faculty_list  %}
-    <h3>Past faculty</h3>
-    {% endif %}
-    {% for faculty in past_faculty_list %}
-
-        <div class="col-md-12 bread-list-item" >
-          <span style="display:none">{{ faculty }}</span>
-
-            <div class="row">
-                <div class="col-xs-4 col-sm-12 col-md-3 image">
-                  <a href="{{ faculty.url }}">
-                    {% if faculty.specific.photo %}
-                      {% image faculty.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
-                    {% else %}
-                      {% with '/media/images/faculty/'|add:faculty.slug|add:'.jpg' as image_static %}
-                            <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
-                      {% endwith %}
-                    {% endif %}
-                    </a>
-                </div>
-                <div class="col-xs-6 col-sm-12 col-md-5 faculty_detail">
-                  <div class="row">
-                      <a href="{{ faculty.url }}">
-                          <h2>{{ faculty }}</h2>
-                          <strong>{{ faculty.specific.get_designation_display }}{% if faculty.on_lien %} on lien{% endif %} </strong>
-                      </a>
-                  </div>
-                <div class="row">
-                  <ul class="bread-meta">
-                  {% if faculty.specific.office_address_line_1 %}
-                      <li><span>Office</span> {{ faculty.specific.office_address_line_1}}</li>
-                  {% endif %}
-                  {% if faculty.specific.office_contact_number %}
-                      <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
-                  {% endif %}
-                  {% if faculty.specific.email_id %}
-                      <li><span>Email</span> {{ faculty.specific.email_id }}</li>
-                  {% endif %}
-
-
-
-                  </ul>
-
-                </div>
-
-                </div>
-                <div class="col-sm-12 col-md-4 researchbox">
-                  {% if faculty.specific.research_interests %}
-                      <span><h5>Research Interests:</h5></span>
-                          {% for tag in faculty.specific.research_interests.all %} <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}
-
-                  {% endif %}
-                </div>
-            </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
 
 
  {% if all_categories %}
@@ -183,7 +233,7 @@
       </div>
       {% endif %}
       {% endfor %}
-      
+
     </div>
 
   </ul>
@@ -195,7 +245,7 @@
     <h2>Department research focus</h2>
     <div class="styletags" id="research_interests">
         {% for research_interest in all_research_interests %}
-            <a class="research_interest" href="{{ page.url }}?tag={{ research_interest }}">{{ research_interest }} |</a> 
+            <a class="research_interest" href="{{ page.url }}?tag={{ research_interest }}">{{ research_interest }} |</a>
         {% endfor %}
     </div>
 {% endif %}
