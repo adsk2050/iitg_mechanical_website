@@ -165,25 +165,33 @@
 </div>
 {% elif prog == '2' %}
 <div class="container-fluid">
-    <div class="container-fluid" >
-        <div class="row " >
-  
-          
-  
-          <div class="col-xs-12 col-sm-6 col-md-5" >
-              <button class="btn btn-secondary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-             <input type="text" id="myInput" onkeyup="myFunction()" placeholder=" Search for Students..">
-          </div>
-        </div>
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-6 col-md-9">
+        
       </div>
-</div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3" >
+          <button class="btn btn-secondary" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+         <input type="text" id="myInput" style="text-align:center" onkeyup="myFunction()" placeholder="Search for Students">
+      </div>
+    </div>
+  </div>
+  <!-- <div class="container-fluid">
+      <div class="col-xs-12 col-sm-6 col-md-3" style="margin-right: 0px">
+          <button class="btn btn-secondary" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+         <input type="text" id="myInput" style="text-align:center" onkeyup="myFunction()" placeholder="Search for Students">
+      </div>
+  </div> -->
 
 
 
-<div class="container-fluid">
-<div class="row bread-list" id="myUL">
+<div class="container-fluid" >
+<div class="row bread-list justify-content-md-center" id="myUL" >
 {% for student in student_list %}
   <div class="col-xs-11 col-md-5 bread-list-item">
     <span style="display:none">{{ student }}</span>
