@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% load wagtailcore_tags wagtailimages_tags %} {% block body_class %}template-course-structure{% endblock %} {% block content %}
 
 
-<div>{{ page.intro|richtext }}</div>
+<!-- <div>{{ page.intro|richtext }}</div> -->
 
 
 <br><br>
@@ -9,19 +9,19 @@
     {% if prog == '0' %}
     <h2 class="text-center">Undergraduate Course Curriculum</h2>
     <p style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center" >
-            <i>The Bachelor's program in Mechanical Engineering Department is one of the oldest programs in IITG. 
-               It started in year 1995, since then the undergraduate curriculum has been updated periodically 
-               to make it relevant for the industrial needs and academic research works. The current curriculum 
-               is diverse including the SA courses and the HSS courses. Students now can choose electives starting 
-               from 6th semester and offers lot of flexibilty for those who want to pursue research  
-               career instate-of-the-art field. 
+            <i>The Bachelor's program in Mechanical Engineering Department is one of the oldest programs in IITG.
+               It started in year 1995, since then the undergraduate curriculum has been updated periodically
+               to make it relevant for the industrial needs and academic research works. The current curriculum
+               is diverse including the SA courses and the HSS courses. Students now can choose electives starting
+               from 6th semester and this offers lot of flexibilty for those who want to pursue research
+               career in allied state-of-the-art field.
                </i>
        </p>
        <hr>
     {% elif prog == '1' %}
     <h2 class="text-center">Master's in Aerodynamics & Propulsion</h2>
     <p style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center" >
-            <i>Aerodynamics and propulsion are probably the most important elements in aircraft design. Aerodynamics is mainly used to shape the aircraft so that it can fulfil all the mission requirements with minimum drag penalty. The aim of the propulsion system is to provide the required amount of thrust to the aircraft under all conditions. The understanding of aerodynamics is vital for the design of efficient, capable and competitive aircraft and the department offers core courses that gives the students a platform to explore the opportunities in this field. Core courses include Advanced Engineering Mathematics, Aircraft Propulsion, Aerodynamics, Gas Dynamics, Rocket Propulsion as compulsory. Also, students have to choose elective courses for each semester according to their interest. The past students of this specialization were placed in HAL, Fluidyn, Honda R&D, L&T etc. 
+            <i>Aerodynamics and propulsion are probably the most important elements in aircraft design. Aerodynamics is mainly used to shape the aircraft so that it can fulfil all the mission requirements with minimum drag penalty. The aim of the propulsion system is to provide the required amount of thrust to the aircraft under all conditions. The understanding of aerodynamics is vital for the design of efficient, capable and competitive aircraft and the department offers core courses that gives the students a platform to explore the opportunities in this field. Core courses include Advanced Engineering Mathematics, Aircraft Propulsion, Aerodynamics, Gas Dynamics, Rocket Propulsion as compulsory. Also, students have to choose elective courses for each semester according to their interest. The past students of this specialization were placed in HAL, Fluidyn, Honda R&D, L&T etc.
                </i>
        </p>
        <hr>
@@ -35,7 +35,7 @@
     {% elif prog == '3' %}
     <h2 class="text-center">Master's in Computational Mechanics</h2>
     <p style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center" >
-            <i>Computational Mechanics is a recent discipline inducted in Mechanical Engineering department. With the advent of sophisticated computational resources, the PG students in Computational mechanics background learn to find the solution of mechanical engineering problems through intensive simulations. The core courses in this discipline include Finite element method, Numerical analysis, Continuum Mechanics, Computational Fluid Dynamics, Advanced Engineering Mathematics. Further students can opt to choose elective courses from machine design, fluid and thermal or manufacturing science and technology according to their interest. The past computational mechanics specialized students were able to get placed in companies such as ANSYS, Robert Bosch, Siemens, etc.    
+            <i>Computational Mechanics is a recent discipline inducted in Mechanical Engineering department. With the advent of sophisticated computational resources, the PG students in Computational mechanics background learn to find the solution of mechanical engineering problems through intensive simulations. The core courses in this discipline include Finite element method, Numerical analysis, Continuum Mechanics, Computational Fluid Dynamics, Advanced Engineering Mathematics. Further students can opt to choose elective courses from machine design, fluid and thermal or manufacturing science and technology according to their interest. The past computational mechanics specialized students were able to get placed in companies such as ANSYS, Robert Bosch, Siemens, etc.
             </i>
                 </p>
                 <hr>
@@ -84,12 +84,12 @@
         </div>
     {% endif %}
 
-    
+
         {% for prog_sem in structure %}
             {% if prog_sem|length != 0 %}
             <h2 class="text-center" style="font-weight:bolder;">Semester {{ forloop.counter }}</h2>
-            
-            
+
+
                 <table class="table table-striped" style="width: 80%; margin: auto; font-size: 1.5em ">
                         <thead class="thead-dark">
                         <tr>
@@ -99,8 +99,8 @@
                             <th scope="col">T</th>
                             <th scope="col">P</th>
                             <th scope="col" style="text-align: center">Credits</th>
-                            
-                            
+
+
                         </tr>
                         </thead>
                     <tbody>
@@ -121,7 +121,7 @@
                                     Total Credits
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                             </tr> -->
                         {% endfor %}
