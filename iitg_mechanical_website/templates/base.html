@@ -61,7 +61,7 @@
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
-            <a class="navbar-brand" href="http://172.16.72.8:8000">
+            <a class="navbar-brand" href="/">
               <img height="85px" width="85px"
                   src="{% static "images/logo.png" %}"></a>
             </div>
@@ -79,7 +79,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="nav navbar-nav ml-auto basenavheads">
                 <li class="nav-item active">
-                  <a class="nav-link" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="http://172.16.72.8:8000">Home <span class="sr-only"></span></a>
+                  <a class="nav-link" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="/">Home <span class="sr-only"></span></a>
                 </li>
                 {% for child in navlist %}
                    {% with page_type=child.content_type.name %}
@@ -107,7 +107,9 @@
                               <!-- <div class="dropdown-divider"></div>
                              <li><a class="dropdown-item" href="{{ child.url }}?prog=6">Doctoral</a></li> -->
                              <div class="dropdown-divider"></div>
-                             <li><a class="dropdown-item" href="{{ child.url }}?prog=7">All Courses</a></li>
+                      <li><a class="dropdown-item" href="{{ child.url }}?prog=7">PG Electives</a></li>
+                             <div class="dropdown-divider"></div>
+                             <li><a class="dropdown-item" href="{{ child.url }}?prog=8">All Courses</a></li>
                            </ul>
                      {% endif %}
 

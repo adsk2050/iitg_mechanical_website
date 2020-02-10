@@ -9,7 +9,7 @@
 
 
 {% block content %}
-  <br>
+
   <!-- <div class="container-fluid">
       
       <div class="container-fluid">
@@ -67,7 +67,7 @@
                     <ul class="bread-meta">
                         <li><strong>{{ student.specific.get_programme_display }}</strong></li>
                         {% if student.specific.enrolment_year %}
-                            <li><span>Enrolment year</span>{{ student.specific.enrolment_year }}</li>
+                            <li><span>Enrolment year</span>{{ student.specific.enrolment_year|date:"Y" }}</li>
                         {% endif %}
                         {% if student.specific.email_id %}
                             <li><span>Email</span>{{ student.specific.email_id }}</li>
@@ -164,6 +164,21 @@
   
 </div>
 {% elif prog == '2' %}
+<div>Filter by joining year
+<a href="?prog=2&year=2020">2020</a>
+<a href="?prog=2&year=2019">2019</a>
+<a href="?prog=2&year=2018">2018</a>
+<a href="?prog=2&year=2017">2017</a>
+<a href="?prog=2&year=2016">2016</a>
+<a href="?prog=2&year=2015">2015</a>
+<a href="?prog=2&year=2014">2014</a>
+<a href="?prog=2&year=2013">2013</a>
+<a href="?prog=2&year=2012">2012</a>
+<a href="?prog=2&year=2011">2011</a>
+<a href="?prog=2&year=2010">2010</a>
+<a href="?prog=2&year=2009">2009</a>
+</div>
+  <hr>
 <div class="container-fluid">
     <div class="container-fluid" >
         <div class="row " >
@@ -207,7 +222,7 @@
               <ul class="bread-meta">
                   <li><strong>{{ student.specific.get_programme_display }}</strong></li>
                   {% if student.specific.enrolment_year %}
-                      <li><span>Enrolment year</span>{{ student.specific.enrolment_year }}</li>
+                      <li><span>Enrolment year</span>{{ student.specific.enrolment_year|date:"Y" }}</li>
                   {% endif %}
                   {% if student.specific.email_id %}
                       <li><span>Email</span>{{ student.specific.email_id }}</li>
@@ -237,8 +252,8 @@
 <div class="" style="display: inline-block; text-align:center; margin-left:45%">
 <span class="step-links" style=" align-content: center">
     {% if student_list.has_previous %}
-        <a class="btn" href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">&laquo; first</a>
-        <a class="btn" href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">previous</a>
+        <a class="btn" href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}{% if year %}{{ year }}{% endif %}">&laquo; first</a>
+        <a class="btn" href="?page_no={{ student_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}{% if year %}{{ year }}{% endif %}">previous</a>
     {% endif %}
 </span>
 
@@ -249,8 +264,8 @@
 
     <span class="">
     {% if student_list.has_next %}
-        <a class="btn" href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">next</a>
-        <a class="btn" href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}">last &raquo;</a>
+        <a class="btn" href="?page_no={{ student_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}{% if year %}&{{ year }}{% endif %}">next</a>
+        <a class="btn" href="?page_no={{ student_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if prog %}&{{ prog }}{% endif %}{% if year %}{{ year }}{% endif %}">last &raquo;</a>
     {% endif %}
     </span>
 </div>

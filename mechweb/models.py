@@ -17,10 +17,14 @@ from wagtail.search import index
 from wagtailautocomplete.edit_handlers import AutocompletePanel
 
 from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
-from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core import blocks
+from wagtail.admin.edit_handlers import FieldPanel, FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, TabbedInterface, ObjectList
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.contrib.table_block.blocks import TableBlock
+
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
+
 ######################################################
 
 from wagtail.documents.models import Document, AbstractDocument
@@ -142,12 +146,14 @@ class MechHomePage(Page):
 
 		categories = get_categories()
 		new_events = get_new_events()
+		top_awards = get_new_awards()
 		# context['navlist'] = navlist
 		context['categories'] = categories
 		context['hod_name'] = hod_name
 		context['hod_url'] = hod_url
 		context['hod_contact'] = hod_contact
 		context['new_events'] = new_events
+		context['top_awards'] = top_awards
 
 		return context
 
@@ -164,7 +170,7 @@ class HomeTextPanel(Orderable):
 	# 2) Ignore for now, and let me handle existing rows with NULL myself (e.g. because you added a RunPython or RunSQL operation to handle NULL values in a previous data migration)
 	# 3) Quit, and let me add a default in models.py
 	# Select an option: 2
-	description = models.CharField(blank=True, max_length=500)
+	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	date = models.DateTimeField()
 	#change the below content_type code to manage css accordingly
 	content_type=models.CharField(
@@ -193,9 +199,9 @@ class MechHomePageGalleryImage(Orderable):
 
 #############################################
 class Aboutiitgmech(Page):
-	vision = models.CharField(blank=True, max_length=2000)
-	history = models.CharField(blank=True, max_length=2000)
-	about = models.CharField(blank=True, max_length=2000)
+	vision = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	history = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	photo = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 
 
@@ -312,7 +318,10 @@ class EventPageLink(Orderable):
 	]
 
 def get_new_events():
-	return EventPage.objects.all().live().order_by('-first_published_at')[0:10]
+	a=EventPage.objects.all().live().order_by('-first_published_at')
+	if len(a)>=10:
+		a = a[0:10]
+	return a
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
 ######################################################
@@ -675,7 +684,7 @@ class AbstractStudentPage(Page):
 ######################################################
 class StudentHomePage(AbstractStudentHomePage):
 	def serve(self, request):
-		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
+		student_list = self.get_children().live().order_by('-studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
 
 		# Filter by programme
 		prog = request.GET.get('prog')
@@ -686,6 +695,10 @@ class StudentHomePage(AbstractStudentHomePage):
 		tag = request.GET.get('tag')
 		if tag:
 			student_list = student_list.filter(studentpage__research_interests__name=tag)
+		year = request.GET.get('year')
+		if year:
+			student_list = student_list.filter(studentpage__enrolment_year__year=year)
+
 
 		paginator = Paginator(student_list, 50) # Show 50 students per page
 		page_no = request.GET.get('page_no')
@@ -699,6 +712,7 @@ class StudentHomePage(AbstractStudentHomePage):
 			'tag':tag,
 			'page_no':page_no,
 			'prog':prog,
+			'year':year,
 		})
 
 	class Meta:
@@ -1141,6 +1155,7 @@ class ResearchLabHomePage(Page):
 
 	content_panels = Page.content_panels + [
 		FieldPanel('intro'),
+		InlinePanel('lab_home_gallery_images', label="Gallery images", max_num=3),
 	]
 
 	parent_page_types=['ResearchHomePage']
@@ -1164,6 +1179,17 @@ class ResearchLabHomePage(Page):
 
 	class Meta:
 		verbose_name = "Lab Home"
+
+class ResearchPageGalleryImage(Orderable):
+	page = ParentalKey(ResearchLabHomePage, on_delete=models.CASCADE, related_name='lab_home_gallery_images')
+	image = models.ForeignKey( 'wagtailimages.Image', on_delete=models.CASCADE, related_name='+' )
+	caption = models.CharField(blank=True, max_length=250)
+	panels = [
+		FieldRowPanel([
+			ImageChooserPanel('image'),
+			FieldPanel('caption'),
+		]),
+	]
 
 class ResearchLabPage(Page):
 	name = models.CharField(max_length=100)
@@ -1493,7 +1519,7 @@ class ProjectPage(Page):
 	description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	name = models.CharField(max_length=500)
 	start_date = models.DateField(default=timezone.now)
-	end_date = models.DateField(blank=True)
+	end_date = models.DateField(blank=True, null=True)
 	budget = models.CharField(blank=True, max_length=100)
 	funding_agency = models.CharField(blank=True, max_length=100)
 	funding_agency_link = models.URLField(blank=True, max_length=100)
@@ -1522,7 +1548,7 @@ class ProjectPage(Page):
 	]
 
 	people_panels = [
-		InlinePanel('faculty_pi', label="Principal Investigator"),
+		InlinePanel('faculty_pi', label="Principal Investigator", max_num=1),
 		InlinePanel('faculty_copi', label="Co Investigator"),
 		InlinePanel('oi', label="Other Investigators"),
 		FieldPanel('alt_PI_text')
@@ -1588,11 +1614,11 @@ class ProjectPageGalleryImage(Orderable):
 	]
 
 #####################################################
-def total_credits(sem):
-	tc=0
-	for course in sem:
-		tc+=course.credits
-	return tc
+# def total_credits(sem):
+# 	tc=0
+# 	for course in sem:
+# 		tc+=course.specific.credits
+# 	return tc
 
 class CourseStructure(Page):
 	#nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
@@ -1676,18 +1702,21 @@ class CourseStructure(Page):
 		elif prog=='6':
 		  sem1 = course_list.filter(coursepage__six='1').filter(coursepage__six_sem=1)
 		  structure.append(sem1)
+		elif prog=='7':
+		  course_list = course_list.filter(coursepage__seven='1')
+		  structure+=course_list
 		else:
-		  pass
-		credits = []
-		for sem in structure:
-			credits.append(total_credits(sem))
-		credits.append(sum(credits))
+		  structure+=course_list
+		# credits = []
+		# for sem in structure:
+		# 	credits.append(total_credits(sem))
+		# credits.append(sum(credits))
 		return render(request, self.template, {
 			'page': self,
-			'course_list': course_list,
+			# 'course_list': course_list,
 			'prog':prog,
 			'structure':structure,
-			'credits':credits,
+			# 'credits':credits,
 		})
 
 	class Meta:
@@ -1719,12 +1748,12 @@ class CourseStructure(Page):
 # 	parent_page_types=['CategoriesHome']
 # 	max_count = 6
 
-	# def serve(self, request):
-	# 	course_list = self.courses.all()
-	# 	return render(request, self.template, {
-	# 		'page': self,
-	# 		'course_list': course_list,
-	# 	})
+# def serve(self, request):
+# 	course_list = self.courses.all()
+# 	return render(request, self.template, {
+# 		'page': self,
+# 		'course_list': course_list,
+# 	})
 
 class CoursePage(Page):
 	name = models.CharField(max_length=50)
@@ -1739,19 +1768,21 @@ class CoursePage(Page):
 	eligible_programmes = models.CharField(max_length=2, choices=STUDENT_PROGRAMME, default='0')
 	course_type = models.CharField(max_length=2, choices=COURSE_TYPES, default='0')
 	zero = models.BooleanField(default=True, verbose_name="B. Tech")
-	zero_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	zero_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
 	one = models.BooleanField(default=False, verbose_name="M.Tech: Aerodynamics & Propulsion ")
-	one_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	one_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
 	two = models.BooleanField(default=False, verbose_name="M.Tech: Manufacturing Science and Engineering")
-	two_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	two_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
 	three = models.BooleanField(default=False, verbose_name="M.Tech: Computational Mechanics")
-	three_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	three_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
 	four = models.BooleanField(default=False, verbose_name="M.Tech: Fluids and Thermal")
-	four_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	four_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
 	five = models.BooleanField(default=False, verbose_name="M.Tech: Machine Design")
-	five_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	five_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
 	six = models.BooleanField(default=False, verbose_name="PhD")
-	six_sem = models.IntegerField(blank=True, verbose_name="Semester")
+	six_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
+	seven = models.BooleanField(default=False, verbose_name="PG Electives")
+	seven_sem = models.IntegerField(blank=True, null=True, verbose_name="Semester")
 
 	# eligible_programmes = ParentalManyToManyField('mechweb.CourseProgrammes', blank=True, related_name='courses')
 	# eligible_specializations = ParentalManyToManyField('mechweb.CourseSpecializations', blank=True, related_name='courses')
@@ -1810,6 +1841,10 @@ class CoursePage(Page):
 			FieldRowPanel([
 				FieldPanel('six'),
 				FieldPanel('six_sem'),
+			]),
+			FieldRowPanel([
+				FieldPanel('seven'),
+				FieldPanel('seven_sem'),
 			]),
 
 			FieldRowPanel([
@@ -1887,46 +1922,6 @@ class AwardHomePage(Page):
 	subpage_types=[]
 	max_count = 1
 
-	# def serve(self, request):
-	# 	award_list = Award.objects.all()
-	#
-	# 	# Filter by research area
-	# 	award_type = request.GET.get('award_type')
-	# 	if award_type in ['0','1', '2']:
-	# 		award_list = award_list.filter(award_type=award_type)
-	#
-	# 	return render(request, self.template, {
-	# 		'page': self,
-	# 		'award_list': award_list,
-	# 		'award_type':award_type,
-	# 	})
-
-	def serve(self, request):
-		student_list = self.get_children().live().order_by('studentpage__enrolment_year', 'studentpage__first_name', 'studentpage__middle_name', 'studentpage__last_name')
-
-		# Filter by programme
-		prog = request.GET.get('prog')
-		if prog in ['0','1', '2', '3']:
-			student_list = student_list.filter(studentpage__programme=prog)
-
-		# Filter by tag
-		tag = request.GET.get('tag')
-		if tag:
-			student_list = student_list.filter(studentpage__research_interests__name=tag)
-
-		paginator = Paginator(student_list, 10) # Show 10 students per page
-		page_no = request.GET.get('page_no')
-		student_list = paginator.get_page(page_no)
-
-		all_research_interests = student_interests()
-		return render(request, self.template, {
-			'page': self,
-			'student_list': student_list,
-			'all_research_interests': all_research_interests,
-			'tag':tag,
-			'page_no':page_no,
-			'prog':prog,
-		})
 	class Meta:
 		verbose_name = "Awards Home"
 
@@ -1962,6 +1957,11 @@ class Award(Orderable):
 	class Meta:
 		ordering = ['-award_time']
 
+def get_new_awards():
+	a = Award.objects.all().order_by('sort_order')
+	if len(a)>=5:
+		a = a[0:5]
+	return a
 #################################################################
 class CommitteeHomePage(Page):
 	# Add featured publications

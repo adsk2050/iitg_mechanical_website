@@ -9,12 +9,28 @@
 
 
 {% block content %}
+    <div id="carouselExampleSlidesOnly" class="carousel slide labpage" data-ride="carousel">
+      <div class="carousel-inner">
+        {% with images=page.specific.lab_home_gallery_images.all  %}
+            {% if images %}
+              {% for pic in images %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  {% image pic.image max-2000x2000 class="d-block w-100" %}
+                </div>                    
+                {% endfor %}
+              {% endif %}
+        {% endwith %}
 
+        
+
+      </div>
+    </div>
     
     <!-- Intro -->
     <div class="intro">{{ page.intro|richtext }}</div>
 
     <br><br>
+
 
                 <!-- <div class="row ">
                   <div class="col-xs-6 col-sm-6 col-md-6">

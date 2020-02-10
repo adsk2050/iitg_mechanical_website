@@ -118,7 +118,9 @@
                       <!-- <div class="dropdown-divider"></div>
                       <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Doctoral</a></li> -->
                       <div class="dropdown-divider"></div>
-                      <li><a class="dropdown-item" href="{{ child.url }}?prog=3">All Courses</a></li>
+                      <li><a class="dropdown-item" href="{{ child.url }}?prog=7">PG Electives</a></li>
+                      <div class="dropdown-divider"></div>
+                      <li><a class="dropdown-item" href="{{ child.url }}?prog=8">All Courses</a></li>
                     </ul>
               {% endif %}
 
@@ -227,13 +229,30 @@
                 <div class="card-block">
                   <h4 class="card-title text-center">{{ notification.title }}</h4>
                   <p class="card-text">Date:{{ notification.date }}<br>
-                  {{ notification.description|truncatechars:25 }}</p>
+                  {{ notification.description|richtext }}</p>
                   <!-- <a href="#" class="btn btn-primary">Read More</a> -->
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="card-img-bottom">
                   {% image notification.photo fill-90x90 %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% for award in top_awards %}
+       <div id="Announcements" class="tabcontent">
+        <div class="container">
+          <div class="card" style="margin: 5px 0;">
+            <div class="row">
+              <div class="col-md-10" style="padding:2px 25px;">
+                <div class="card-block">
+                  <h4 class="card-title text-center">Achievement!</h4>
+                  <p>{{ award.award_title }}({{ award.get_award_type_display }}) awarded to { award.faculty }} by {{ award.conferrer }}
+                  {{ award.title }}</p>
                 </div>
               </div>
             </div>
@@ -412,7 +431,7 @@
                     </div>
                   </div>
                 </div>
-           <!-- <img src="{% static "images/img1.jpg" %}" class="card-img-top" alt="..."> -->
+           <!-- <img src="{ % static "images/img1.jpg" % }" class="card-img-top" alt="..."> -->
 
         </div>
        </div>
@@ -634,6 +653,9 @@
 
 </footer>
 <!-- Footer -->
+
+
+
 
 
 
