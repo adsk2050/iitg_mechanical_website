@@ -7,154 +7,117 @@
 
 {% block content %}
  <br><br>
-    <!-- <div class="container-fluid" >
-      <div class="row justify-content-md-center" >
-
-
-
-        <div class="col-xs-12 col-sm-6 col-md-5" style="margin-left: 25%">
-           <i class="fa fa-search " style="margin-right: 7px"></i>
-           <input type="text" id="myInput" onkeyup="myFunction()" placeholder=" Search for PI..">
-        </div>
-      </div>
-    </div> -->
-
-    <!-- work on giving the page ability to sort using date, topic, faculty, etc -->
-    <!-- <ul>
-	    {% for project in page.get_children.specific %}
-	    <li>
-	    	<h2><a href="{{ project.url }}">{{ project.name }}</a></h2>
-	    	{% if project.principal_investigator  %}
-	    		<h2>Principal Investigator : <a href="{{ project.principal_investigator.url }}">{{ project.principal_investigator }}</a></h2>
-	  		{% elif  project.specific.alt_PI_text %}
-    			<h2>Principal Investigator : {{ project.specific.alt_PI_text }}</h2>
-    		{% endif %}
-	    	<div>Project type : {{ project.get_project_type_display }}</div>
-	    	<div>Budget : {{ project.budget }}</div>
-	    	<div>From: {{ project.start_date|date:"Y" }} | To : {{ project.end_date|date:"Y" }}</div>
-	    </li>
-	    {% endfor %}
-	</ul> -->
-
 
   <div class="w3-container">
       <h2 style="text-align:center">Projects</h2>
 
 
     <div class="w3-row">
-      <a id="modal" href="javascript:void(0)" onclick="openCity(event, 'Consultancy');">
-        <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Consultancy Projects</div>
-      </a>
-      <a href="javascript:void(0)" onclick="openCity(event, 'Sponsored');">
+      <a id="modal" href="javascript:void(0)" onclick="openCity(event, 'Sponsored');">
         <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Sponsored Projects</div>
+      </a>
+      <a href="javascript:void(0)" onclick="openCity(event, 'Consultancy');">
+        <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Consultancy Projects</div>
       </a>
 
     </div>
 
     <div id="Consultancy" class="w3-container city" style="display:none">
-      <div>
 
-          <div class="table-wrapper">
-            <table class="fl-table">
-                  <thead>
-                    <tr>
+      <table class="table table-hover">
+        <thead>
+          <tr>
 
-                    <th>Project Title</th>
-                    <th>Principal Investigator</th>
-                    <th>Co PIs</th>
-                    <th>Budget(lacs)</th>
-                    <th>Timeline</th>
+            <th style="word-wrap: break-word;max-width: 500px">Project Title</th>
+            <th style="word-wrap: break-word;max-width: 200px">Principal Investigator</th>
+            <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Co PIs</th>
+            <th style="word-wrap: break-word;max-width: 100px;min-width:50px">Budget(lacs)</th>
+            <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Timeline</th>
 
-                  </tr>
+          </tr>
 
-                  </thead>
-
-                  <tbody  id="myUL" >
-                    {% for project in page.get_children.specific %}
-                    {% if project.project_type == '0' %}
-                    <tr>
-                        <td><a href="{{ project.url }}">{{ project.name }}</a></td>
-                        <td>
-{% with pis=project.specific.faculty_pi.all  %}
-  {% if pis %}
-    {% for pi in pis %}
-    <a href="{{ pi.faculty.url }}">{{ pi.faculty }},</a>
-    {% endfor %}
-  {% elif  project.specific.alt_PI_text %}
-    {{ project.specific.alt_PI_text }}
-  {% endif %}
-{% endwith %} </td>
-                        <td>
-                  {% with copis=project.specific.faculty_copi.all  %}
-                      {% if copis %}
-                        {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }},</a>{% endfor %}
-                      {% endif %}
-                  {% endwith %}
-                </td>
-                        <td>{{ project.budget }}</td>
-                        <td>{{ project.start_date|date:"Y" }}-{{ project.end_date|date:"Y" }}</td>
-                    </tr>
-
+        </thead>
+        <tbody  id="myUL" >
+          {% for project in page.get_children.specific %}
+          {% if project.project_type == '0' %}
+          <tr>
+              <td style="word-wrap: break-word;max-width: 500px"><a href="{{ project.url }}">{{ project.name }}</a></td>
+              <td style="word-wrap: break-word;max-width: 200px">
+                  {% with pis=project.specific.faculty_pi.all  %}
+                    {% if pis %}
+                      {% for pi in pis %}
+                      <a href="{{ pi.faculty.url }}">{{ pi.faculty }},</a>
+                      {% endfor %}
+                    {% elif  project.specific.alt_PI_text %}
+                      {{ project.specific.alt_PI_text }}
                     {% endif %}
-                  {% endfor %}
+                  {% endwith %}
+              </td>
+              <td style="word-wrap: break-word;max-width: 250px;min-width:50px">
+                {% with copis=project.specific.faculty_copi.all  %}
+                    {% if copis %}
+                      {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }},</a>{% endfor %}
+                    {% endif %}
+                {% endwith %}
+              </td>
+              <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ project.budget }}</td>
+              <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ project.start_date|date:"Y" }}-{{ project.end_date|date:"Y" }}</td>
+          </tr>
 
-                  </tbody>
+          {% endif %}
+        {% endfor %}
 
-            </table>
-          </div>
+        </tbody>
+        </table>
 
-
-      </div>
     </div>
 
     <div id="Sponsored" class="w3-container city" style="display:none">
-      <div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
 
-          <div class="table-wrapper">
-            <table class="fl-table">
-                  <thead>
-                    <tr>
+            <th style="word-wrap: break-word;max-width: 500px">Project Title</th>
+            <th style="word-wrap: break-word;max-width: 200px">Principal Investigator</th>
+            <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Co PIs</th>
+            <th style="word-wrap: break-word;max-width: 100px;min-width:50px">Budget(lacs)</th>
+            <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Timeline</th>
 
-                    <th>Project Title</th>
-                    <th>Principal Investigator</th>
-                    <th>Co PIs</th>
-                    <th>Budget(lacs)</th>
-                    <th>Timeline</th>
+          </tr>
 
-                  </tr>
-
-                  </thead>
-
-                  <tbody  id="myUL">
-                    {% for project in page.get_children.specific %}
-                      {% if project.project_type == '1' %}
-                    <tr>
-                        <td><a href="{{ project.url }}">{{ project.name }}</a></td>
-                        <td>{% if project.principal_investigator  %}
-                          <a href="{{ project.principal_investigator.url }}">{{ project.principal_investigator }}</a>
-                        {% elif  project.specific.alt_PI_text %}
-                          {{ project.specific.alt_PI_text }}
-                        {% endif %}</td>
-                        <td>
-                  {% with copis=project.specific.faculty_copi.all  %}
-                      {% if copis %}
-                        {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }},</a>{% endfor %}
-                      {% endif %}
-                  {% endwith %}
-                </td>
-                        <td>{{ project.budget }}</td>
-                        <td>{{ project.start_date|date:"Y" }}-{{ project.end_date|date:"Y" }}</td>
-                    </tr>
+        </thead>
+        <tbody  id="myUL" >
+          {% for project in page.get_children.specific %}
+          {% if project.project_type == '1' %}
+          <tr>
+              <td style="word-wrap: break-word;max-width: 500px"><a href="{{ project.url }}">{{ project.name }}</a></td>
+              <td style="word-wrap: break-word;max-width: 200px">
+                  {% with pis=project.specific.faculty_pi.all  %}
+                    {% if pis %}
+                      {% for pi in pis %}
+                      <a href="{{ pi.faculty.url }}">{{ pi.faculty }},</a>
+                      {% endfor %}
+                    {% elif  project.specific.alt_PI_text %}
+                      {{ project.specific.alt_PI_text }}
                     {% endif %}
-                  {% endfor %}
+                  {% endwith %}
+              </td>
+              <td style="word-wrap: break-word;max-width: 250px;min-width:50px">
+                {% with copis=project.specific.faculty_copi.all  %}
+                    {% if copis %}
+                      {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }},</a>{% endfor %}
+                    {% endif %}
+                {% endwith %}
+              </td>
+              <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ project.budget }}</td>
+              <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ project.start_date|date:"Y" }}-{{ project.end_date|date:"Y" }}</td>
+          </tr>
 
-                  </tbody>
+          {% endif %}
+        {% endfor %}
 
-            </table>
-          </div>
-
-
-    </div>
+        </tbody>
+        </table>
     </div>
 
   </div>
