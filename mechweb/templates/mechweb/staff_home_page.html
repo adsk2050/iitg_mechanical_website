@@ -10,7 +10,8 @@
 
 {% block content %}
 
-  <div class="container-fluid">
+<br><br>
+  <div class="w3-container-fluid">
       <!-- <h1>Staff</h1> -->
       <div class="container-fluid">
           <div class="row padding">
@@ -22,35 +23,32 @@
       </div>
 
 
-      <div class="row ">
+      <!-- <div class="row ">
 
-
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <button type="button" class="btn btn-lg btn-block " id="modal" onclick="filterSelection('9')" name="button">
-            <i class="fa fa-check-square-o visible-xs" ><span class="hidden-xs">  Officer</span></i>
-
-          </button>
-
-        </div>
-
-
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('5')" name="button">
-            <i class="fa fa-check-square-o visible-xs"><span class="hidden-xs">  Staff</span></i>
-
-          </button>
-
-        </div>
-
-
-
-        <!-- <div class="col-xs-12 col-sm-4 col-md-4">
-          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('13')" name="button">
+        <div class="col-xs-12 col-sm-4 col-md-4">
+          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('officer')" name="button">
             <i class="fa fa-check-square-o visible-xs"></i>
-            <span class="hidden-xs"><li>Other</li></span>
+            <span class="hidden-xs"><li>Officer</li></span>
           </button>
 
-        </div> -->
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4">
+          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('staff')" name="button">
+            <i class="fa fa-check-square-o visible-xs"></i>
+            <span class="hidden-xs"><li>Staff</li></span>
+          </button>
+
+        </div>
+      </div> -->
+
+      <div class="w3-row">
+        <a id="linkid" href="javascript:void(0)" onclick="openCity(event, 'faculty_awards');">
+          <div id="left_tab" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-blue-grey" style="text-align:center; font-size:1.2em; color: #222546 !important">Technical Officers</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'best_papers');">
+          <div id="right_tab" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding " style="text-align:center; font-size:1.2em; color: #222546 !important">Staff</div>
+        </a>
 
       </div>
 
@@ -118,6 +116,7 @@
 
 
     <script>
+
     filterSelection("all")
       function filterSelection(c) {
       var input, filter, ul, li, a, i, txtValue, integ;
@@ -133,20 +132,41 @@
         a = li[i].getElementsByTagName("span")[0];
         txtValue = a.textContent || a.innerText;
         integ = parseInt(txtValue);
-        if (c==4 && integ<5)||(c==9 && 4<integ && integ<10) {
-          li[i].style.display = "block";
-        } else {
-          li[i].style.display = "none";
+        if (c == "officer"){
+          if (integ < 10 && integ > 4) {
+            li[i].style.display = "block";
+          } else {
+            li[i].style.display = "none";
+          }
         }
+        else if (c == "staff"){
+          if (integ < 5 && integ > -1) {
+            li[i].style.display = "block";
+          } else {
+            li[i].style.display = "none";
+          }
+        }
+        
       }
 
       }
+
+    function openCity(evt, cityName) {
+    if(cityName==='faculty_awards'){
+      filterSelection('officer');
+      var element = document.getElementById("right_tab");
+      element.classList.remove("w3-border-blue-grey");
+      var element = document.getElementById("left_tab");
+      element.classList.add("w3-border-blue-grey");
+    }
+    if(cityName==='best_papers'){
+      filterSelection('staff');
+      var element = document.getElementById("left_tab");
+      element.classList.remove("w3-border-blue-grey");
+      var element = document.getElementById("right_tab");
+      element.classList.add("w3-border-blue-grey");
+    }
+    }
     </script>
-
-    <script>
-    jQuery(function(){
-      jQuery('#modal').click();
-    });
-</script>
 
 {% endblock %}
