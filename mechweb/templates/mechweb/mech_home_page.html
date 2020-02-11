@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="shortcut icon" href="{% static "images/iitg_sml.gif" %}" type="image/x-icon">
+
 {% endblock %}
 
 <!-- {% block body_class %}template-mech-homepage{% endblock %} -->
@@ -35,22 +36,25 @@
               <span class="navbar-toggler-icon"></span>
             </button>
         </div>
+        
       </div>
-
-
-
       <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs mechname" style="font-family:'Source Sans Pro', sans-serif;">
 
-          <div class="row">
-              <span ><h4 class="mechbrand" style="margin-bottom: 0px">Department of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></span>
+        <div class="row">
+            <span ><h4 class="mechbrand" style="margin-bottom: 0px">Department of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4></span>
 
 
-            <span><h3 class="mechbrand" style="font-size: 30px; margin-top: 0px"> Mechanical Engineering</h3></span>
+          <span><h3 class="mechbrand" style="font-size: 30px; margin-top: 0px; margin-bottom: 0px"> Mechanical Engineering&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h3></span>
+          <span><h3 class="mechbrand" style="font-size: 15px; margin-top: 0px;font-weight:bold"> Indian Institute of Technology, Guwahati</h3></span>
 
-          </div>
+
+        </div>  
 
 
-      </div>
+    </div>
+
+
+      
 
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto ">
@@ -237,31 +241,29 @@
 
 
     <div class="col-sm-12 col-xs-12 col-md-7 newsbox">
-        <div class="tab">
-         <button class="tablinks text-center "  onclick="openCity(event, 'News')">News</button>
-         <button class="tablinks text-center "  onclick="openCity(event, 'Announcements')">Announcements</button>
-         <button class="tablinks text-center "  onclick="openCity(event, 'Events')">Events</button>
-         <!-- <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button> -->
+        <div class="tab myDIV">
+         <button class="tablinks text-center btn active"  onclick="openCity(event, 'News')">News</button>
+         <button class="tablinks text-center btn"  onclick="openCity(event, 'Announcements')">Announcements</button>
+         <button class="tablinks text-center btn"  onclick="openCity(event, 'Events')">Events</button>
        </div>
-
+       
 
        {% for notification in page.text_panels.all %}
        <div id="{{ notification.get_content_type_display }}" class="tabcontent">
         <div class="container">
           <div class="card" style="margin: 5px 0;">
             <div class="row">
-              <div class="col-md-10" style="padding:2px 25px;">
-                <div class="card-block">
-                  <h4 class="card-title text-center">{{ notification.title }}</h4>
+              <div class="col-md-12" style="padding:2px 25px;">
+                <div class="card-block text-center">
+                  <h4 class="card-title "style="font-size: 1.2em">{{ notification.title }}</h4>
                   <p class="card-text">Date:{{ notification.date }}<br>
                   {{ notification.description|richtext }}</p>
-                  <!-- <a href="#" class="btn btn-primary">Read More</a> -->
                 </div>
               </div>
               <div class="col-md-2">
-                <div class="card-img-bottom">
-                  {% image notification.photo fill-90x90 %}
-                </div>
+                <!-- <div class="card-img-bottom">
+                  
+                </div> -->
               </div>
             </div>
           </div>
@@ -273,9 +275,9 @@
         <div class="container">
           <div class="card" style="margin: 5px 0;">
             <div class="row">
-              <div class="col-md-10" style="padding:2px 25px;">
-                <div class="card-block">
-                  <h4 class="card-title text-center">Achievement!</h4>
+              <div class="col-md-12" style="padding:2px 25px;">
+                <div class="card-block text-center">
+                  <!-- <h4 class="card-title "style="font-size: 1.2em">Achievement!</h4> -->
                   <p>{{ award.award_title }}({{ award.get_award_type_display }}) awarded to { award.faculty }} by {{ award.conferrer }}
                   {{ award.title }}</p>
                 </div>
@@ -290,17 +292,16 @@
         <div class="container"><a href="{{ event.url }}">
           <div class="card" style="margin: 5px 0;">
             <div class="row">
-              <div class="col-md-10" style="padding:2px 25px;">
-                <div class="card-block">
-                  <h4 class="card-title text-center">{{ event.event_name }} [{{ event.get_event_type_display }}]</h4>
+              <div class="col-md-12" style="padding:2px 25px;">
+                <div class="card-block text-center">
+                  <h4 class="card-title " style="font-size: 1.2em">{{ event.event_name }} [{{ event.get_event_type_display }}]</h4>
                   <p class="card-text">From:{{ event.start_date }} To: {{ event.end_date }} at {{ event.get_venue_display }}</p>
-                  <!-- <a href="#" class="btn btn-primary">Read More</a> -->
                 </div>
               </div>
               <div class="col-md-2">
-                <div class="card-img-bottom">
-                  {% image event.poster fill-90x90 %}
-                </div>
+                <!-- <div class="card-img-bottom">
+                  
+                </div> -->
               </div>
             </div>
           </div>
@@ -313,7 +314,7 @@
 
 <div class="w3-row w3-center w3-padding-16" style="background: linear-gradient(190deg, #222546 0%,#5085A5 100%);">
   <div class="w3-quarter w3-section" style="color: #fff">
-    <span class="w3-xlarge">85+</span><br>
+    <span class="w3-xlarge">45+</span><br>
     <span class="w3-xlarge">Faculty</span>
   </div>
   <div class="w3-quarter w3-section" style="color: #fff">
@@ -724,7 +725,7 @@ function openCity(evt, cityName) {
 //fading research area content JavaScript
 var $el, $ps, $up, totalHeight;
 
-$(".sidebar-box .button").click(function() {
+$(".sidebar-box ").click(function() {
 
   totalHeight = 0
 
@@ -760,7 +761,18 @@ $(".sidebar-box .button").click(function() {
 
 </script>
  <!-- button colour change -->
-
+<script>
+// Add active class to the current button (highlight it)
+var header = document.getElementById("myDIV");
+var btns = header.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+  var current = document.getElementsByClassName("active");
+  current[0].className = current[0].className.replace(" active", "");
+  this.className += " active";
+  });
+}
+</script>
 
 
 {% endblock %}

@@ -15,7 +15,7 @@
       <div class="container-fluid">
           <div class="row padding">
               <div class="col-md-12 text-center">
-                  <h1>{{ page.title }}</h1>
+                  <!-- <h1>{{ page.title }}</h1> -->
                   <p>{{ page.intro|richtext }}</p>
               </div>
           </div>
@@ -58,7 +58,7 @@
 
 
       <div class="container-fluid staffhome">
-          <div class="row bread-list" id="myUL">
+          <div class="row bread-list justify-content-md-center" id="myUL">
             {% for staff in staff_list %}
               <div class="col-xs-11 col-md-5 bread-list-item">
                 <span style="display:none">{{ staff.specific.designation }}</span>

@@ -41,44 +41,58 @@
 
               {% if  page.specific.download_link %}
               <div class="lab_sci_off">
-                <h4 style="color:#15218d; font-weight:bolder;"> Year of Publication <br>
-                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_year|date:'Y' }}</h5>
+                <h4 style="color:#15218d; font-weight:bolder;"> External Download link: <br>
+                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.download_link }}</h5>
                 </h4>
               </div>
               {% endif %}
 
-              {% if  page.specific.pub_year %}
+              {% if  page.specific.pub_journal %}
               <div class="lab_sci_off">
-                <h4 style="color:#15218d; font-weight:bolder;"> Year of Publication <br>
-                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_year|date:'Y' }}</h5>
+                <h4 style="color:#15218d; font-weight:bolder;"> Journal: <br>
+                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_journal }}</h5>
                 </h4>
               </div>
               {% endif %}
 
-              {% if  page.specific.pub_year %}
+              {% if  page.specific.pub_vol %}
               <div class="lab_sci_off">
-                <h4 style="color:#15218d; font-weight:bolder;"> Year of Publication <br>
-                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_year|date:'Y' }}</h5>
+                <h4 style="color:#15218d; font-weight:bolder;"> Volume: <br>
+                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_vol }}</h5>
                 </h4>
               </div>
               {% endif %}
 
-              {% if  page.specific.pub_year %}
+              {% if  page.specific.pub_issue %}
               <div class="lab_sci_off">
-                <h4 style="color:#15218d; font-weight:bolder;"> Year of Publication <br>
-                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_year|date:'Y' }}</h5>
+                <h4 style="color:#15218d; font-weight:bolder;"> Issue: <br>
+                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_issue }}</h5>
                 </h4>
               </div>
               {% endif %}
 
-              {% if  page.specific.pub_year %}
+              {% if  page.specific.page_start %}
               <div class="lab_sci_off">
-                <h4 style="color:#15218d; font-weight:bolder;"> Year of Publication <br>
-                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.pub_year|date:'Y' }}</h5>
+                <h4 style="color:#15218d; font-weight:bolder;"> Start: <br>
+                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.page_start }}</h5>
+                </h4>
+              </div>
+              {% endif %}
+              {% if  page.specific.page_end %}
+              <div class="lab_sci_off">
+                <h4 style="color:#15218d; font-weight:bolder;"> End: <br>
+                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.page_end }}</h5>
                 </h4>
               </div>
               {% endif %}
 
+              {% if  page.specific.citations %}
+              <div class="lab_sci_off">
+                <h4 style="color:#15218d; font-weight:bolder;"> Citations: <br>
+                  <h5 style="color:#4F5345; font-weight:normal;">{{ page.specific.citations }}</h5>
+                </h4>
+              </div>
+              {% endif %}
 
               <div class="lab_tech_staff">
                 <h4 style="color:#15218d; font-weight:bolder;">Technical Staff
