@@ -58,7 +58,7 @@
     <div class="w3-row">
 
       <a id="modal" href="javascript:void(0)" onclick="openCity(event, 'faculty');">
-        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Faculty</div>
+        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Current Faculty</div>
       </a>
       <a href="javascript:void(0)" onclick="openCity(event, 'visit');">
         <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">Visiting Faculty</div>
@@ -119,8 +119,8 @@
                               <a href="{{ faculty.url }}">
                                   <h2>{{ faculty }}</h2>
                                   {% if faculty.specific.get_additional_roles_display == "HoD" %}
-                                <h5>Head of Department</h5>
-                            {% endif %}
+                                    <h5>Head of Department</h5>
+                                    {% endif %}
                                   <strong>{% if faculty.on_visit %}Visiting {% endif %} {{ faculty.specific.get_designation_display }} {% if faculty.on_lien %}on lien{% endif %}</strong>
                               </a>
                           </div>
@@ -238,7 +238,7 @@
 
     <!-- Faculty List -->
 
-
+<br><br><br>
 
  {% if all_categories %}
   <!-- <h2>Fields:</h2> -->
@@ -249,11 +249,13 @@
 
       {% for category in all_categories %}
       {% if category.specific.category != '0' %}
-      <div class="col-xs-6 col-sm-6 col-md-4 btn">
-        <a href="{{ page.url }}?cat={{ category.specific.category }}" class="btn btn-lg btn-block">
-          <!-- <i class="fa fa-check-square-o visible-xs"></i> -->
-          <span class="hidden-xs"><li>{{ category.specific.get_category_display }}</li></span>
-        </a>
+      <div class="col-xs-6 col-sm-6 col-md-4 btn" >
+        <button type="button" name="button" class="button button4">
+          <a href="{{ page.url }}?cat={{ category.specific.category }}" >
+            <!-- <i class="fa fa-check-square-o visible-xs"></i> -->
+            <span class="hidden-xs"><li>{{ category.specific.get_category_display }}</li></span>
+          </a></button>
+
       </div>
       {% endif %}
       {% endfor %}
@@ -264,12 +266,12 @@
   {% endif %}
 <hr>
 
-<br><br><br><br>
+<!-- <br><br><br><br> -->
 
-<div class="container">
+<div class="container" style="display:block; text-align:center">
   {% if all_research_interests %}
       <h2>Faculty Research Interests</h2>
-      <h5>To get to know about the about the faculties specialized in different dedicated fields, click here...</h5>
+      <h5>To get to know all the research interests of the current faculty, click here...</h5>
 
         <div class="comment">
 

@@ -124,7 +124,7 @@
                                 <ul>
                                   <li><a class="dropdown-item" href="{{ child.url }}?prog=0">B. Tech</a></li>
                                   <li><a class="dropdown-item" href="{{ child.url }}?prog=1">M. Tech</a></li>
-                                  <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholar</a></li>
+                                  <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholars</a></li>
                                 </ul>
                                 <div class="dropdown-divider"></div>
                                 <ul>
@@ -145,33 +145,36 @@
                       <div class="dropdown show">
                       <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul>
+                            {% for children in child.get_children %}
+                            {% if children.title == "Publications"%}
+
+                            {% else %}
+                            <li><a  class="dropdown-item" href="{{ children.url }}">{{ children.title }}</a></li>
+
+                            {% endif %}
+                            {% endfor %}
+
+                            <div class="dropdown-divider"></div>
+
+                            {% for children in child.get_children %}
+                            {% if children.title == "Publications"%}
                             <ul>
-                                {% for children in child.get_children %}
-                                {% if children.title == "Publications"%}
-                                <ul>
 
-                                  <h6 class="dropdown-header text-center" style="color: #fff; font-weight: bold;">{{ children.title }}</h6>
-                                    <li><a  class="dropdown-item" href="{{ children.url }}?pub_type=0">Patent</a></li>
-                                    <li><a class="dropdown-item" href="{{ children.url }}?pub_type=1">Conference Publication</a></li>
-                                    <li><a class="dropdown-item" href="{{ children.url }}?pub_type=2">Journal Publication</a></li>
-                                    <li><a class="dropdown-item" href="{{ children.url }}?pub_type=3">Books</a></li>
-                                    <li><a class="dropdown-item" href="{{ children.url }}?pub_type=4">Book Chapters</a></li>
-                                    <li><a class="dropdown-item" href="{{ children.url }}?pub_type=5">Poster</a></li>
-                                  </ul>
-
-                                {% endif %}
-                                {% endfor %}
-
-                              <div class="dropdown-divider"></div>
-                              {% for children in child.get_children %}
-                              {% if children.title == "Publications"%}
-
-                              {% else %}
-                              <li><a  class="dropdown-item" href="{{ children.url }}">{{ children.title }}</a></li>
-
-                              {% endif %}
-                              {% endfor %}
+                            <h6 class="dropdown-header text-center" style="color: #fff; font-weight: bold;">{{ children.title }}</h6>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=3">Books</a></li>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=4">Book Chapters</a></li>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=1">Conference Publications</a></li>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=2">Journal Publications</a></li>
+                              <li><a  class="dropdown-item" href="{{ children.url }}?pub_type=0">Patents</a></li>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=5">Posters</a></li>
                             </ul>
+
+                            {% endif %}
+                            {% endfor %}
+
+
+                        </ul>
                       </div>
                       </div>
                     </li>
@@ -231,7 +234,7 @@
         {% endblock %}
 
         <!-- Footer -->
-        <footer class="page-footer font-small stylish-color-dark pt-4 footer"  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif; position: relative; bottom: 0; width: 100%">
+        <footer class="page-footer font-small stylish-color-dark pt-4"  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif; position: relative; bottom: 0; width: 100%">
 
           <!-- Footer Links -->
           <div class="container-fluid text-center text-md-left">
@@ -377,7 +380,7 @@
           <hr>
 
           <!-- Social buttons -->
-          <ul class="list-unstyled list-inline text-center">
+          <!-- <ul class="list-unstyled list-inline text-center">
             <li class="list-inline-item">
               <a class="btn-floating btn-fb mx-1" style="color: #fff" href="#!">
                 <i class="fa fa-facebook-square fa-2x"></i>      </a>
@@ -402,7 +405,7 @@
                 <i class="fa fa-dribbble fa-2x"> </i>
               </a>
             </li>
-          </ul>
+          </ul> -->
           <!-- Social buttons -->
 
           <!-- Copyright -->
