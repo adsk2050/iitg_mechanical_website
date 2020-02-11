@@ -5,26 +5,37 @@
 {% block body_class %}template-event-page{% endblock %}
 
 {% block content %}
-    <h1><a href="{% pageurl page %}">{{ page.specific.event_name }}</a></h1>
-    <div>{% image page.specific.poster fill-320x240 %}</div>
-    <hr>
-<!-- Carousal -->
-    {% for item in page.gallery_images.all %}
+
+      <br>
+    <div class="container-fluid">
+        <div class="row padding">
+            <div class="col">
+                <h1 class="text-center" style="color:#15218d; font-weight:bolder;">{{ page.specific.event_name }}</h1>
+                <h3 class="text-center" style="color:#15218d; font-weight:bolder;">{{ page.intro|richtext }}</h3>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <div class=" row justify-content-md-center">{% image page.specific.poster fill-320x240 %}</div>
+        <div class=" row justify-content-md-center">{{ item.caption }}</div>
+    </div>
+    <!-- {% for item in page.gallery_images.all %}
         <div>
             {% image item.image fill-320x240 %}
             <div>{{ item.caption }}</div>
         </div>
-    {% endfor %}
-<!-- Intro -->
-    <div>{{ page.intro|richtext }}</div>
-    <hr>
-<!-- Event Details -->
-        <div >
-		    <h2>Event type: {{ page.get_event_type_display }}</h2>
-		    <h4>Starts on : {{ page.start_date }} and  Ends on : {{page.end_date }}</h4>   
-		    <h3>Venue: {{ page.get_venue_display }} </h3>
+    {% endfor %} -->
+        <br>
+    <div class="container-fluid text-center">
+        
+        <h2>Event type: {{ page.get_event_type_display }}</h2>
+        <h4>Starts on : {{ page.start_date }} and  Ends on : {{page.end_date }}</h4>   
+        <h3>Venue: {{ page.get_venue_display }} </h3>
+        <div class="container ">    
+            
+            <h5>{{ page.description|richtext }}</h5>
         </div>
-        <!-- Related Links -->
         <ul>
             {% for item in page.links.all %}
             <div>
@@ -32,5 +43,20 @@
             </div>
         {% endfor %}
         </ul>
+            
+    </div>
+
+    <br><br>
+        
+    </div>
+
+
+
+
+{% endblock content %}
+
+{% block extra_script %}
+
+
 
 {% endblock %}
