@@ -43,7 +43,27 @@
 
 </div>
 {% elif prog == '2' %}
-<div>Filter by joining year
+<span style="font-size: 22px ; margin-left: 20%">Filter by joining year : </span>
+<a href="?prog=2&year=2020"><button type="button" class="btn btn-outline-primary">2020</button></a>
+<a href="?prog=2&year=2019"><button type="button" class="btn btn-outline-primary">2019</button></a>
+<a href="?prog=2&year=2018"><button type="button" class="btn btn-outline-primary">2018</button></a>
+<a href="?prog=2&year=2017"><button type="button" class="btn btn-outline-primary">2017</button></a>
+<a href="?prog=2&year=2016"><button type="button" class="btn btn-outline-primary">2016</button></a>
+<a href="?prog=2&year=2015"><button type="button" class="btn btn-outline-primary">2015</button></a>
+<div class="dropdown">
+  <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Pevious years
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="?prog=2&year=2014">2014</a>
+    <a class="dropdown-item" href="?prog=2&year=2013">2013</a>
+    <a class="dropdown-item" href="?prog=2&year=2012">2012</a>
+    <a class="dropdown-item" href="?prog=2&year=2011">2011</a>
+    <a class="dropdown-item" href="?prog=2&year=2010">2010</a>
+    <a class="dropdown-item" href="?prog=2&year=2009">2009</a>
+  </div>
+</div>
+<!-- <div>Filter by joining year
 <a href="?prog=2&year=2020">2020</a>
 <a href="?prog=2&year=2019">2019</a>
 <a href="?prog=2&year=2018">2018</a>
@@ -56,7 +76,7 @@
 <a href="?prog=2&year=2011">2011</a>
 <a href="?prog=2&year=2010">2010</a>
 <a href="?prog=2&year=2009">2009</a>
-</div>
+</div> -->
   <hr>
 <div class="container-fluid">
     <div class="row">
