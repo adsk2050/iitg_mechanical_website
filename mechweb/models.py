@@ -1504,7 +1504,7 @@ class ProjectHomePage(Page):
 				else:
 					past_project_list.append(proj)
 			except TypeError:
-				current_faculty_list.append(proj)
+				current_project_list.append(proj)
 
 		return render(request, self.template, {
 			'page': self,
@@ -1704,16 +1704,17 @@ class CourseStructure(Page):
 		  structure.append(sem1)
 		elif prog=='7':
 		  course_list = course_list.filter(coursepage__seven='1')
-		  structure+=course_list
+		  # structure+=course_list
 		else:
-		  structure+=course_list
+		  # structure+=course_list
+		  pass
 		# credits = []
 		# for sem in structure:
 		# 	credits.append(total_credits(sem))
 		# credits.append(sum(credits))
 		return render(request, self.template, {
 			'page': self,
-			# 'course_list': course_list,
+			'course_list': course_list,
 			'prog':prog,
 			'structure':structure,
 			# 'credits':credits,
