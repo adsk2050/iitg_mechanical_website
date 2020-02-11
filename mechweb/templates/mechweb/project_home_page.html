@@ -27,7 +27,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
-
+            <th style="word-wrap: break-word;max-width: 500px">S. No</th>
             <th style="word-wrap: break-word;max-width: 500px">Project Title</th>
             <th style="word-wrap: break-word;max-width: 200px">Principal Investigator</th>
             <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Co PIs</th>
@@ -41,6 +41,7 @@
           {% for project in page.get_children.specific %}
           {% if project.project_type == '0' %}
           <tr>
+              <td style="word-wrap: break-word;max-width: 500px">{{ forloop.counter }}</td>
               <td style="word-wrap: break-word;max-width: 500px"><a href="{{ project.url }}">{{ project.name }}</a></td>
               <td style="word-wrap: break-word;max-width: 200px">
                   {% with pis=project.specific.faculty_pi.all  %}
@@ -76,7 +77,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
-
+            <th style="word-wrap: break-word;max-width: 500px">S. No</th>
             <th style="word-wrap: break-word;max-width: 500px">Project Title</th>
             <th style="word-wrap: break-word;max-width: 200px">Principal Investigator</th>
             <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Co PIs</th>
@@ -90,6 +91,7 @@
           {% for project in page.get_children.specific %}
           {% if project.project_type == '1' %}
           <tr>
+            <td style="word-wrap: break-word;max-width: 500px">{{ forloop.counter }}</td>
               <td style="word-wrap: break-word;max-width: 500px"><a href="{{ project.url }}">{{ project.name }}</a></td>
               <td style="word-wrap: break-word;max-width: 200px">
                   {% with pis=project.specific.faculty_pi.all  %}

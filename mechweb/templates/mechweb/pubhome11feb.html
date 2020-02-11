@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-publication-homepage{% endblock %}
+
+{% block body_style %}padding-top: 105px; {% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid pubcont">
+  {% if pub_type == '0' %}
+    <h1 class="text-center">Patents</h1>
+
+  {% elif pub_type == '1' %}
+  <h1 class="text-center">Conference Publications</h1>
+
+  {% elif pub_type == '2' %}
+  <h1 class="text-center">Journal Publications</h1>
+  {% elif pub_type == '3' %}
+  <h1 class="text-center">Books Published</h1>
+  {% elif pub_type == '4' %}
+  <h1 class="text-center">Book Chapters</h1>
+  {% elif pub_type == '5' %}
+  <h1 class="text-center">Posters</h1>
+{% else %}
+<h1 class="text-center">Publications</h1>
+  {% endif %}
+  <!-- Intro -->
+  <div class="intro">{{ page.intro|richtext }}</div>
+  <hr>
+</div>
+
+
+<div class="container-fluid">
+  <ul class="nav nav-tabs">
+     <!-- {% for year in year_list %}
+     <li>
+       <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
+     </li>
+
+      {% endfor %}
+      <li>
+        <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('all')">All</button>
+      </li> -->
+{{ current_year }}
+      {% for year in year_list %}
+      {% if year > 2013 %}
+      <li>
+        <a class="btn btn-lg btn-block {% if current_year %}class='active'{% endif %}" id="{% if current_year %}{{ year }}{% endif %}" href="javascript:void(0)" onclick="filterSelection('{{ year }}')" data-toggle="tab">
+        <span class="hidden-xs">{{year}}</span></a>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+
+      <li>
+        <a class="btn btn-lg btn-block {% if current_year %}class='active'{% endif %}" href="javascript:void(0)" onclick="filterSelection('2013')" data-toggle="tab">
+        <span class="hidden-xs"> 2013 and older</span></a>
+      </li>
+
+
+
+
+  </ul>
+</div>
+<br>
+
+<!--
+<ul id="myInputpub">
+  {% for publication in pub_list %}
+    <li class="filterDiv" id="year_{{ publication.specific.pub_year|date:'Y' }}">
+      <h2><a href="{{ publication.url }}">{{ publication }}</a></h2>
+
+    </li>
+  {% endfor %}
+</ul> -->
+
+
+<div class="container-fluid awardscont">
+
+
+
+
+      <div id="faculty" class="tab-pane active">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+                <th style="word-wrap: break-word;max-width: 200px">Authors</th>
+                <th style="word-wrap: break-word;max-width: 500px">Title</th>
+                <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Journal</th>
+                <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Year</th>
+                <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Volume(Issue)</th>
+                <th style="word-wrap: break-word;max-width: 100px;min-width:50px">Pages</th>
+                <th style="word-wrap: break-word;max-width: 100px;min-width:50px">Other details</th>
+            </tr>
+          </thead>
+
+          <tbody  id="myInputpub" >
+            {% for publication in pub_list %}
+            <tr class="filterd" id="year_{{ publication.specific.pub_year|date:'Y' }}">
+                <td style="word-wrap: break-word;max-width: 200px">{{ publication.specific.get_authors }}</td>
+
+                <td style="word-wrap: break-word;max-width: 500px"><a href="{{ publication.specific.url }}">{{ publication.specific.name }}</a></td>
+
+                <td style="word-wrap: break-word;max-width: 250px;min-width:50px">{{ publication.specific.pub_journal }}</td>
+                <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ publication.specific.pub_year| date:"Y" }}</td>
+                <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ publication.specific.vol_issue }}</td>
+
+                <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ publication.specific.pages }}</td>
+                <td>{{ publication.specific.alt_detail_text }}</td>
+            </tr>
+
+          {% endfor %}
+
+          </tbody>
+          </table>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block extra_script %}
+<script>
+  function filterSelection(year) {
+  var input, filter, ul, li, a, i, txtValue, integ, substraa, substrbb, yearint;
+  ul = document.getElementById("myInputpub");
+  list = ul.getElementsByTagName("tr");
+  yearint = parseInt(year);
+  ;  // for (i = 0; i < li.length; i++) {
+  //       li[i].style.display = "none";
+  //   }
+
+  // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+  if( yearint > 2013 ){
+  for (i = 0; i < list.length; i++) {
+    a = list[i].id;
+    substraa = a.substring(0,4);
+    substrbb = a.substring(5,9);
+    integ = parseInt(substrbb);
+    if ( integ === yearint) {
+      list[i].style.display = "";
+    } else {
+      list[i].style.display = "none";
+    }
+  }
+}
+
+else{
+  for (i = 0; i < list.length; i++) {
+    a = list[i].id;
+    substraa = a.substring(0,4);
+    substrbb = a.substring(5,9);
+    integ = parseInt(substrbb);
+    if ( integ <= yearint) {
+      list[i].style.display = "";
+    } else {
+      list[i].style.display = "none";
+    }
+  }
+}
+
+  }
+</script>
+
+<script type="text/javascript">
+window.onload=function(){
+document.getElementById("2020").click();
+};
+</script>
+
+{% endblock %}

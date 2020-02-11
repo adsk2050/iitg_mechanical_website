@@ -86,6 +86,11 @@ class CustomUser(AbstractUser):
 	)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
 	uid = models.CharField(max_length=10, default='000000000', verbose_name='Roll Number/Employee Number', help_text='Only students required to provide their roll no. Others may leave "000000000" but not blank')
+	is_staff = models.BooleanField(
+        _('staff status'),
+        default=True,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
 	USERNAME_FIELD = 'email' # Its default is username
 	REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid', 'is_staff']
 ######################################################
@@ -348,7 +353,7 @@ class Categories(Page):
 	max_count = 4
 
 	def serve(self, request):
-		faculty_list = self.faculty.all()
+		faculty_list = self.faculty.all().order_by('facultypage__first_name')
 		return render(request, self.template, {
 			'page': self,
 			'faculty_list': faculty_list,
@@ -358,7 +363,7 @@ def get_categories():
 	return Categories.objects.all().live().order_by('-category')
 
 def get_cat_fac(cat):
-	return Categories.objects.all().get(category=cat).faculty.all()
+	return Categories.objects.all().get(category=cat).faculty.all().order_by('first_name')
 ######################################################
 ######################################################
 
@@ -384,7 +389,7 @@ class FacultyHomePage(Page):
 		all_categories = get_categories()
 		cat = request.GET.get('cat')
 		cat_name = ''
-		if cat:
+		if cat and int(cat)<4:
 			cat_name = INTEREST_CATEGORIES[int(cat)][1]
 			faculty_list = get_cat_fac(cat)
 		tag = request.GET.get('tag')
@@ -539,9 +544,9 @@ class FacultyPage(Page):
 		project_copi =  self.copi.all()
 		project_list = []
 		for project in project_pi:
-			project_list.append(project)
+			project_list.append(project.page)
 		for project in project_copi:
-			project_list.append(project)
+			project_list.append(project.page)
 
 		course_relation_list = self.course_instructor.all()
 		course_list = []
@@ -1323,7 +1328,7 @@ class PublicationHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		pub_list = self.get_children().live().order_by('publicationpage__pub_year', 'publicationpage__pub_type', 'publicationpage__citations')
+		pub_list = self.get_children().live().order_by('-publicationpage__pub_year', 'publicationpage__pub_type', '-publicationpage__citations')
 
 		year_list = []
 		year = timezone.now().year
@@ -1376,6 +1381,7 @@ class PublicationPage(Page):
 	page_start = models.CharField(max_length=50, blank=True)
 	page_end = models.CharField(max_length=50, blank=True)
 	citations = models.CharField(max_length=10, blank=True)
+	alt_detail_text = models.CharField(max_length=1000, blank=True, help_text="Add any other type of data, like ISBN number, publisher etc")
 	alt_people_text = models.CharField(max_length=1000, blank=True, help_text="Add the exact sequence of names as in the publication")
 	# pub_conference =
 	# pub_patent_number =
@@ -1387,6 +1393,7 @@ class PublicationPage(Page):
 		FieldPanel('name'),
 		FieldPanel('pub_type'),
 		FieldPanel('pub_year'),
+		FieldPanel('alt_detail_text'),
 		FieldPanel('pub_journal'),
 		FieldPanel('pub_vol'),
 		FieldPanel('pub_issue'),
@@ -1416,6 +1423,20 @@ class PublicationPage(Page):
 
 	parent_page_types=['PublicationHomePage']
 	subpage_types=[ ]
+
+	def get_authors(self):
+		l = ""
+		for fac in self.faculty.select_related().all():
+			l+=fac.faculty.__str__()+", "
+		for other in self.other_authors.select_related().all():
+			l+=other.name+", "
+		for stud in self.students.select_related().all():
+			l+=stud.student.__str__()+", "
+		if l=="":
+			return self.alt_people_text
+		return l[:-2]
+
+
 
 	# def __str__(self):
 	# 	l = ""
@@ -1492,7 +1513,7 @@ class ProjectHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		project_list = ProjectPage.objects.all().order_by('start_date', 'budget', 'project_type')
+		project_list = ProjectPage.objects.all().order_by('start_date', 'budget', '-project_type')
 
 		current_project_list=[]
 		past_project_list = []

@@ -44,15 +44,18 @@ MASTERS_SPECIALIZATION = (
 )
 
 STAFF_DESIGNATION = (
+	# Staff
+	('4', 'Technical Superintendent'),
 	('0', 'Jr. Assistant'),
 	('1', 'Jr. Superintendent'),
 	('2', 'Jr. Technical Superintendent'),
 	('3', 'Jr. Technician'),
+	# Officer
 	('6', 'Technical Officer Gr I'),
 	('5', 'Technical Officer Gr II'),
-	('4', 'Technical Superintendent'),
 	('7', 'Junior Technical Officer'),
 	('8', 'Asst. Workshop Superintendent'),
+	# Others
 	('9', 'PostDoc'),
 	('10', 'Others'),
 )

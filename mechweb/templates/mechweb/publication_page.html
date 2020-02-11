@@ -41,6 +41,9 @@
     {% if  page.specific.citations %}
         <div> Citations: {{ page.specific.citations }}</div>
     {% endif %}
+    {% if  page.specific.alt_detail_text %}
+        <div> Details: {{ page.specific.alt_detail_text }}</div>
+    {% endif %}
 
     {% if page.faculty.all|length != 0 or page.other_authors.all|length != 0 or page.students.all|length != 0 %}
         {% if page.faculty.all|length != 0 %}

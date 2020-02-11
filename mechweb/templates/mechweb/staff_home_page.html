@@ -133,20 +133,24 @@
         a = li[i].getElementsByTagName("span")[0];
         txtValue = a.textContent || a.innerText;
         integ = parseInt(txtValue);
-        if (c==4 && integ<5)||(c==9 && 4<integ && integ<10) {
-          li[i].style.display = "block";
-        } else {
-          li[i].style.display = "none";
+        if (c == "officer"){
+          if (integ < 10 && integ > 4) {
+            li[i].style.display = "block";
+          } else {
+            li[i].style.display = "none";
+          }
         }
+        else if (c == "staff"){
+          if (integ < 5 && integ > -1) {
+            li[i].style.display = "block";
+          } else {
+            li[i].style.display = "none";
+          }
+        }
+        
       }
 
       }
     </script>
-
-    <script>
-    jQuery(function(){
-      jQuery('#modal').click();
-    });
-</script>
 
 {% endblock %}

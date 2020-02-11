@@ -184,9 +184,9 @@
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Projects</h2>
         {% for project in project_list %}
         <div class="w3-container">
-          <h5 class="w3-opacity"><b><a href="{{ project.url }}">{{ project.name }}</a></b></h5>
-          <p>{{ project.get_project_type_display }}</p>
-          <p>>From: {{ project.start_date }} to {{ project.end_date }}</p>
+          <h5 class="w3-opacity"><b><a href="{{ project.url }}">{{ project.specific.name }}</a></b></h5>
+          <p>{{ project.specific.get_project_type_display }}</p>
+          <p>From: {{ project.specific.start_date }} to {{ project.specific.end_date }}</p>
           <hr>
         </div>
         {% endfor %}
@@ -197,11 +197,10 @@
       {% if course_list %}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Courses taught</h2>
-        {% for project in project_list %}
+        {% for course in course_list %}
         <div class="w3-container">
           <h5 class="w3-opacity"><b><a href="{{ course.url }}">[ {{ course.specific.code }} ]{{ course.specific.name }}</a></b></h5>
-          <p>{{ project.specific.get_project_type_display }}</p>
-          <p>>{{ course.specific.get_course_type_display }} for {{ course.specific.eligible_programmes }} in {{ course.specific.semester }} semester</p>
+          <p>{{ course.specific.get_course_type_display }} for {{ course.specific.eligible_programmes }} in {{ course.specific.semester }} semester</p>
           <p></p>
           <hr>
         </div>
