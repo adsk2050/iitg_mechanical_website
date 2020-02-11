@@ -1,7 +1,16 @@
+back to top (fixed waala nahi)
+always there type ka feedback link
+when you click on see more - see less should come where the mouse is
+placeholder image when photo is not there
+
+
+
+____________________________________________________________________
 Add a feature to store visit history of the institute faculty. Also maintian a history of who has visited the institute(even after they leave: which feature is there already) - Give this link in footer - Display visit history of faculty in news/announcements
 
 Faculty should have access to only publication addition, project addition and their own website
 
+____________________________________________________________________
 
 9 Feb '20
 Why does sqlite not enforce data type constraints??

@@ -219,12 +219,6 @@
               <li class="nav-item">
                 <div class="dropdown show">
                 <a class="nav-link dropdown-toggle dropbtn"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:  #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <ul>
-                          <li><a class="dropdown-item" href="{{ child.url }}?prog=0">Faculty Honours</a></li>
-                          <li><a class="dropdown-item" href="{{ child.url }}?prog=1">Best Paper</a></li>
-                        </ul>
-                  </div>
                 </div>
               </li>
               {% endif %}
@@ -309,9 +303,9 @@
          <!-- <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button> -->
        </div>
        
-
+       <div id="News" class="tabcontent">
        {% for notification in page.text_panels.all %}
-       <div id="{{ notification.get_content_type_display }}" class="tabcontent">
+       
         <div class="container">
           <div class="card" style="margin: 5px 0;">
             <div class="row">
@@ -330,10 +324,11 @@
             </div>
           </div>
         </div>
-      </div>
       {% endfor %}
-      {% for award in top_awards %}
+      </div>
+
        <div id="Announcements" class="tabcontent">
+      {% for award in top_awards %}
         <div class="container">
           <div class="card" style="margin: 5px 0;">
             <div class="row">
@@ -347,10 +342,11 @@
             </div>
           </div>
         </div>
-      </div>
       {% endfor %}
-       {% for event in new_events %}
+    </div>
        <div id="Events" class="tabcontent">
+
+       {% for event in new_events %}
         <div class="container"><a href="{{ event.url }}">
           <div class="card" style="margin: 5px 0;">
             <div class="row">
@@ -368,8 +364,9 @@
             </div>
           </div>
         </a></div>
-      </div>
       {% endfor %}
+            </div>
+
     </div>
   </div>
 </div>
@@ -510,7 +507,7 @@
           <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
           <div class="w3-col l8 m6">
           <h1 class="w3-xxlarge" style="color: #ffffff" ><b>From HOD's Desk</b></h1>
-          <p class="w3-xlarge" style="text-align:justify; text-justify:inter-word">{{ page.specific.HOD_message|richtext }}{{ page.specific.HOD_message|richtext }}{{ page.specific.HOD_message|richtext }}</p>
+          <p class="w3-xlarge" style="text-align:justify; text-justify:inter-word">{{ page.specific.HOD_message|richtext }}</p>
 
           <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
@@ -598,6 +595,9 @@
         <ul class="list-unstyled" style="list-style: disc;">
           <li>
             <a href="http://www.iitg.ac.in/">IITG Home</a>
+          </li>
+          <li>
+            <a href="https://www.iitg.ac.in/mech/includes/workshop/index.html">Central Workshop</a>
           </li>
           <li>
             <a href="http://www.iitg.ac.in/phones/">Phone Directory</a>
@@ -701,7 +701,7 @@
   <!-- Social buttons -->
 
   <!-- Copyright -->
-  <div class="copyright text-center py-3">© 2019 Department of ME, IITG:
+  <div class="copyright text-center py-3">© 2020 Department of ME, IITG:
     <a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
   </div>
   <!-- Copyright -->
@@ -771,10 +771,10 @@ function openCity(evt, cityName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  // tabcontent = document.getElementsByClassName("tabcontent");
-  // for (i = 0; i < tabcontent.length; i++) {
-  //   tabcontent[i].style.display = "none";
-  // }
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
 
   // Get all elements with class="tablinks" and remove the class "active"
   tablinks = document.getElementsByClassName("tablinks");
@@ -788,42 +788,6 @@ function openCity(evt, cityName) {
 }
 
 
-//fading research area content JavaScript
-var $el, $ps, $up, totalHeight;
-
-$(".sidebar-box ").click(function() {
-
-  totalHeight = 0
-
-  $el = $(this);
-  $p  = $el.parent();
-  $up = $p.parent();
-  $ps = $up.find("p:not('.read-more')");
-
-  // measure how tall inside should be by adding together heights of all inside paragraphs (except read-more paragraph)
-  $ps.each(function() {
-    // totalHeight += $(this).outerHeight();
-    totalHeight = 1000;
-  });
-
-  $up
-    .css({
-      // Set height to prevent instant jumpdown when max height is removed
-      "height": $up.height(),
-      "max-height": 9999
-    })
-    .animate({
-      "height": totalHeight
-    });
-
-  // fade out read-more
-  $p.fadeOut();
-
-  // prevent jump-down
-  return false;
-
-});
-
 $(window).on('load',function() { //when the document is loaded
   $(".loaderback").delay(1500).fadeOut("slow"); //fade out preloader. You can add your custom effects here too.
 });
@@ -832,7 +796,7 @@ $(window).on('load',function() { //when the document is loaded
 
 </script>
  <!-- button colour change -->
-<script>
+<!-- <script>
 // Add active class to the current button (highlight it)
 var header = document.getElementById("myDIV");
 var btns = header.getElementsByClassName("btn");
@@ -843,7 +807,7 @@ for (var i = 0; i < btns.length; i++) {
   this.className += " active";
   });
 }
-</script>
+</script> -->
 
 
 {% endblock %}
