@@ -6,7 +6,7 @@
 
 {% block body_class %}template-publication-homepage{% endblock %}
 
-{% block body_style %}padding-top: 105px; {% endblock %}
+{% block body_style %}padding-top: 20px; {% endblock %}
 
 
 {% block content %}
@@ -78,7 +78,7 @@
   {% elif pub_type == '2' %}
   <h1 class="text-center">Journal Publications</h1>
   {% elif pub_type == '3' %}
-  <h1 class="text-center">Books Published</h1>
+  <h1 class="text-center">Books</h1>
   {% elif pub_type == '4' %}
   <h1 class="text-center">Book Chapters</h1>
   {% elif pub_type == '5' %}
@@ -92,7 +92,7 @@
 </div>
 
 
-<div class="container-fluid">
+<div class="container-fluid" >
   <ul class="nav nav-tabs">
      <!-- {% for year in year_list %}
      <li>
@@ -105,7 +105,7 @@
       </li> -->
 {{ current_year }}
       {% for year in year_list %}
-      {% if year > 2013 %}
+      {% if year > 2015 %}
       <li>
         <a class="btn btn-lg btn-block {% if current_year %}class='active'{% endif %}" id="{% if current_year %}{{ year }}{% endif %}" href="javascript:void(0)" onclick="filterSelection('{{ year }}')" data-toggle="tab">
         <span class="hidden-xs">{{year}}</span></a>
@@ -115,8 +115,8 @@
 
 
       <li>
-        <a class="btn btn-lg btn-block {% if current_year %}class='active'{% endif %}" href="javascript:void(0)" onclick="filterSelection('2013')" data-toggle="tab">
-        <span class="hidden-xs"> 2013 and older</span></a>
+        <a class="btn btn-lg btn-block {% if current_year %}class='active'{% endif %}" href="javascript:void(0)" onclick="filterSelection('2015')" data-toggle="tab">
+        <span class="hidden-xs"> 2015 and older</span></a>
       </li>
 
 
@@ -147,19 +147,81 @@
           <thead>
             <tr>
                 <th style="word-wrap: break-word;max-width: 80px">Sr. No</th>
-                <th style="word-wrap: break-word;max-width: 200px">Authors</th>
+                <th style="word-wrap: break-word;max-width: 200px">Author(s)</th>
+                {% if pub_type == '1' or pub_type == '5' or pub_type == '2' %}
+                <th style="word-wrap: break-word;max-width: 500px">Paper Title</th>
+                {% endif %}
+                {% if pub_type == '1' or pub_type == '5' %}
+                <th style="word-wrap: break-word;max-width: 500px">Conference</th>
+                {% endif %}
+                {% if pub_type == '2' %}
+                <th style="word-wrap: break-word;max-width: 500px">Journal</th>
+                {% endif %}
+                {% if pub_type == '3'%}
+                <th style="word-wrap: break-word;max-width: 500px">Book</th>
+                {% endif %}
+                {% if pub_type == '4' %}
+                <th style="word-wrap: break-word;max-width: 500px">Chapter and Book</th>
+                {% endif %}
+                {% if pub_type == '0'%}
                 <th style="word-wrap: break-word;max-width: 500px">Title</th>
-                <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Year</th>
-                <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Journal</th>
-                <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Volume(Issue)</th>
+                {% endif %}
+                {% if pub_type == '3' or pub_type == '4' %}
+                <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Publisher</th>
+                {% endif %}
+                {% if pub_type == '4' or pub_type == '2' or pub_type == '3'%}
+                <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Volume</th>
+                {% endif %}
+
+                <!-- <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Journal</th> -->
+                {% if pub_type == '4' or pub_type == '2'%}
                 <th style="word-wrap: break-word;max-width: 100px;min-width:50px">Pages</th>
+                {% endif %}
+                <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Year</th>
+
             </tr>
           </thead>
 
           <tbody  id="myInputpub" >
             {% for publication in pub_list %}
-            <tr class="filterd" id="year_{{ publication.specific.pub_year|date:'Y' }}" style="font-size:1.4em">
-                <td style="word-wrap: break-word;max-width: 200px">{{ forloop.counter }}</td>
+            <tr class="filterd" id="year_{{ publication.specific.pub_year|date:'Y' }}">
+
+              <td style="word-wrap: break-word;max-width: 80px">{{ forloop.counter }}</td>
+              <td style="word-wrap: break-word;max-width: 200px">{{ publication.specific.Authors }} {{ publication.specific.alt_people_text }}</td>
+              {% if pub_type == '1' or pub_type == '5' or pub_type == '2' %}
+              <td style="word-wrap: break-word;max-width: 500px"> <a href="{{ publication.specific.url }}">{{ publication.specific.name }}</a> </td>
+              {% endif %}
+              {% if pub_type == '1' or pub_type == '5' %}
+              <td style="word-wrap: break-word;max-width: 500px">{{ publication.specific.pub_journal }}</td>
+              {% endif %}
+              {% if pub_type == '2' %}
+              <td style="word-wrap: break-word;max-width: 500px">{{ publication.specific.pub_journal }}</td>
+              {% endif %}
+              {% if pub_type == '3' %}
+              <td style="word-wrap: break-word;max-width: 500px">{{ publication.specific.name }}</td>
+              {% endif %}
+              {% if pub_type == '4'%}
+              <td style="word-wrap: break-word;max-width: 500px">{{ publication.specific.name }}</td>
+              {% endif %}
+              {% if pub_type == '0'%}
+              <td style="word-wrap: break-word;max-width: 500px">{{ publication.specific.name }}</td>
+              {% endif %}
+              {% if pub_type == '3' or pub_type == '4' %}
+              <td style="word-wrap: break-word;max-width: 500px">{{ publication.specific.pub_journal }}</td>
+              {% endif %}
+              {% if pub_type == '4' or pub_type == '2' or pub_type == '3'%}
+              <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ publication.specific.pub_vol }}</td>
+              {% endif %}
+
+              <!-- <th style="word-wrap: break-word;max-width: 250px;min-width:100px">Journal</th> -->
+              {% if pub_type == '4' or pub_type == '2'%}
+              <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ publication.specific.page_start }}-{{ publication.specific.page_end }}</td>
+              {% endif %}
+              <td style="word-wrap: break-word;max-width: 250px;min-width:50px">{{ publication.specific.pub_year|date:"Y" }}</td>
+
+              {{ publication.specific.pages }}
+
+                <!-- <td style="word-wrap: break-word;max-width: 200px">{{ forloop.counter }}</td>
                 <td style="word-wrap: break-word;max-width: 200px">{{ publication.specific.Authors }}</td>
 
                 <td style="word-wrap: break-word;max-width: 500px"><a href="{{ publication.specific.url }}">{{ publication.specific.name }}</a></td>
@@ -168,7 +230,7 @@
                 <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ publication.specific.pub_year }}</td>
                 <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ publication.specific.vol_issue }}</td>
 
-                <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ publication.specific.pages }}</td>
+                <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ publication.specific.pages }}</td> -->
             </tr>
 
           {% endfor %}
@@ -205,7 +267,7 @@
   //   }
 
   // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
-  if( yearint > 2013 ){
+  if( yearint > 2015 ){
   for (i = 0; i < list.length; i++) {
     a = list[i].id;
     substraa = a.substring(0,4);

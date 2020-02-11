@@ -127,13 +127,14 @@
     <!-- Right Column -->
     <div class="w3-twothird">
       <div class="w3-container w3-card w3-white  w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>About faculty</h2>
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>About</h2>
         <div class="w3-container">
         </div>
       </div>
 
 
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
+
+      <!-- <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Awards and Achievements</h2>
         <div class="w3-container">
           {% for award in page.award_fac.all %}
@@ -143,7 +144,7 @@
           {% endfor %}
         </div>
 
-      </div>
+      </div> -->
 
 
 
@@ -165,7 +166,7 @@
 
       {% if pub_list %}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Publications</h2>
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Recent Publications</h2>
         {% for pub in pub_list %}
         {% if forloop.counter < 11 %}
         <div class="w3-container">
@@ -181,7 +182,7 @@
 
       {% if project_list %}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Projects</h2>
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Recent Projects</h2>
         {% for project in project_list %}
         <div class="w3-container">
           <h5 class="w3-opacity"><b><a href="{{ project.url }}">{{ project.specific.name }}</a></b></h5>
@@ -208,7 +209,7 @@
       </div>
       {% endif %}
 
-      <div class="w3-container w3-card w3-white  w3-margin-bottom">
+      <!-- <div class="w3-container w3-card w3-white  w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Administrative responsibilities</h2>
         <div class="w3-container">
           <ul>
@@ -226,7 +227,7 @@
           </ul>
         </div>
 
-      </div>
+      </div> -->
 
 
 

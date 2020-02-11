@@ -131,7 +131,7 @@
                         <ul>
                           <li><a class="dropdown-item" href="{{ child.url }}?prog=0">B. Tech</a></li>
                           <li><a class="dropdown-item" href="{{ child.url }}?prog=1">M. Tech</a></li>
-                          <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholar</a></li>
+                          <li><a class="dropdown-item" href="{{ child.url }}?prog=2">Research Scholars</a></li>
                         </ul>
                         <div class="dropdown-divider"></div>
                         <ul>
@@ -155,29 +155,32 @@
                         <ul>
                             {% for children in child.get_children %}
                             {% if children.title == "Publications"%}
+
+                            {% else %}
+                            <li><a  class="dropdown-item" href="{{ children.url }}">{{ children.title }}</a></li>
+
+                            {% endif %}
+                            {% endfor %}
+
+                            <div class="dropdown-divider"></div>
+
+                            {% for children in child.get_children %}
+                            {% if children.title == "Publications"%}
                             <ul>
 
                             <h6 class="dropdown-header text-center" style="color: #fff; font-weight: bold;">{{ children.title }}</h6>
-                              <li><a  class="dropdown-item" href="{{ children.url }}?pub_type=0">Patent</a></li>
-                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=1">Conference Publication</a></li>
-                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=2">Journal Publication</a></li>
                               <li><a class="dropdown-item" href="{{ children.url }}?pub_type=3">Books</a></li>
                               <li><a class="dropdown-item" href="{{ children.url }}?pub_type=4">Book Chapters</a></li>
-                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=5">Poster</a></li>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=1">Conference Publications</a></li>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=2">Journal Publications</a></li>
+                              <li><a  class="dropdown-item" href="{{ children.url }}?pub_type=0">Patents</a></li>
+                              <li><a class="dropdown-item" href="{{ children.url }}?pub_type=5">Posters</a></li>
                             </ul>
 
                             {% endif %}
                             {% endfor %}
 
-                          <div class="dropdown-divider"></div>
-                          {% for children in child.get_children %}
-                          {% if children.title == "Publications"%}
 
-                          {% else %}
-                          <li><a  class="dropdown-item" href="{{ children.url }}">{{ children.title }}</a></li>
-
-                          {% endif %}
-                          {% endfor %}
                         </ul>
                   </div>
                 </div>
@@ -299,10 +302,11 @@
 
 
     <div class="col-sm-12 col-xs-12 col-md-7 newsbox">
-        <div class="tab myDIV">
-         <button class="tablinks text-center btn active"  onclick="openCity(event, 'News')">News</button>
-         <button class="tablinks text-center btn"  onclick="openCity(event, 'Announcements')">Announcements</button>
-         <button class="tablinks text-center btn"  onclick="openCity(event, 'Events')">Events</button>
+        <div class="tab">
+         <button class="tablinks text-center "  onclick="openCity(event, 'News')">News</button>
+         <button class="tablinks text-center "  onclick="openCity(event, 'Announcements')">Announcements</button>
+         <button class="tablinks text-center "  onclick="openCity(event, 'Events')">Events</button>
+         <!-- <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button> -->
        </div>
        
 
@@ -506,20 +510,24 @@
           <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
           <div class="w3-col l8 m6">
           <h1 class="w3-xxlarge" style="color: #ffffff" ><b>From HOD's Desk</b></h1>
-          <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}{{ page.specific.HOD_message|richtext }}{{ page.specific.HOD_message|richtext }}</p>
+          <p class="w3-xlarge" style="text-align:justify; text-justify:inter-word">{{ page.specific.HOD_message|richtext }}{{ page.specific.HOD_message|richtext }}{{ page.specific.HOD_message|richtext }}</p>
 
           <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
           </a>
           </p> -->
-          <strong>{{ hod_name }}</strong><br>
-          <strong>HOD, Department of Mechanical Engineering</strong>
+          <br><br>
+          <div class="" style="display:block; text-align:right">
+            <strong style="text-align: right; padding-right:40px;" >{{ hod_name }}</strong><br>
+            <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical Engineering</strong>
+          </div>
+
         </div>
       </div>
     </div>
 
 <!-- Footer -->
-<footer class="page-footer font-small stylish-color-dark pt-4 footer"  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif;">
+<footer class="page-footer font-small stylish-color-dark pt-4"  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif;">
 
   <!-- Footer Links -->
   <div class="container-fluid text-center text-md-left">
@@ -664,7 +672,7 @@
   <hr>
 
   <!-- Social buttons -->
-  <ul class="list-unstyled list-inline text-center">
+  <!-- <ul class="list-unstyled list-inline text-center">
     <li class="list-inline-item">
       <a class="btn-floating btn-fb mx-1" style="color: #fff" href="#!">
         <i class="fa fa-facebook-square fa-2x"></i>      </a>
@@ -689,7 +697,7 @@
         <i class="fa fa-dribbble fa-2x"> </i>
       </a>
     </li>
-  </ul>
+  </ul> -->
   <!-- Social buttons -->
 
   <!-- Copyright -->

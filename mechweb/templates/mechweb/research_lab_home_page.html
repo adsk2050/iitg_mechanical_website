@@ -16,16 +16,16 @@
               {% for pic in images %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                   {% image pic.image max-2000x2000 class="d-block w-100" %}
-                </div>                    
+                </div>
                 {% endfor %}
               {% endif %}
         {% endwith %}
 
-        
+
 
       </div>
     </div>
-    
+
     <!-- Intro -->
     <div class="intro">{{ page.intro|richtext }}</div>
 
@@ -35,20 +35,20 @@
                 <!-- <div class="row ">
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <a href="{{ page.url }}?ugpg=0" class="btn btn-lg btn-block active">
-                      
+
                       <span class="hidden-xs">UG Lab</span>
                     </a>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <a href="{{ page.url }}?ugpg=1" class="btn btn-lg btn-block">
-                      
+
                       <span class="hidden-xs">PG Lab</span>
                     </a>
                   </div>
                 </div> -->
 
                 <div class="w3-container">
-                  
+
                     <div class="w3-row">
                       <a id="modal" href="javascript:void(0)" onclick="openCity(event, 'ug_lab');">
                         <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" style="text-align:center; font-size:1.2em; color: #222546">UG Labs</div>
@@ -71,7 +71,7 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                      
+
                         <div id="pg_lab" class="w3-container city" >
                             <ul class="list-group  text-center"  style="width: 50%; margin: auto">
                                 {% for lab in lab_list %}
@@ -82,11 +82,11 @@
                                   {% endif %}
                                 {% endfor %}
                             </ul>
-    
+
                         </div>
                     </div>
-                    
-                
+
+
                   </div>
               <br><br>
 
@@ -114,9 +114,9 @@
       }
     </script>
 
-    <script>
-jQuery(function(){
-   jQuery('#modal').click();
-});
-</script>
+    <script type="text/javascript">
+    window.onload=function(){
+    document.getElementById("modal").click();
+    };
+    </script>
 {% endblock %}
