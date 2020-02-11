@@ -9,21 +9,21 @@
 
 <h2 class="text-center">Undergraduate Course Curriculum</h2>
 <p style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
-    <i>The Bachelor's program in Mechanical Engineering Department is one of the oldest programs in IITG. 
-It started in year 1995, since then the undergraduate curriculum has been updated periodically 
-to make it relevant for the industrial needs and academic research works. The current curriculum 
-is diverse including the SA courses and the HSS courses. Students now can choose electives starting 
-from 6th semester and this offers lot of flexibilty for those who want to pursue research  
-career in allied state-of-the-art fields. 
+    <i>The Bachelor's program in Mechanical Engineering Department is one of the oldest programs in IITG.
+It started in year 1995, since then the undergraduate curriculum has been updated periodically
+to make it relevant for the industrial needs and academic research works. The current curriculum
+is diverse including the SA courses and the HSS courses. Students now can choose electives starting
+from 6th semester and this offers lot of flexibilty for those who want to pursue research
+career in allied state-of-the-art fields.
 </i>
 </p>
 <hr> {% elif prog == '1' %}
 <h2 class="text-center">Master's in Aerodynamics & Propulsion</h2>
 <p style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
-    <i>Aerodynamics and propulsion are probably the most important elements in aircraft design. Aerodynamics is mainly used to shape the aircraft so that it can fulfil all the mission requirements with minimum drag penalty. The aim of the propulsion system is to provide the required amount of thrust to the aircraft under all conditions. The understanding of aerodynamics is vital for the design of efficient, capable and competitive aircraft and the department offers core courses that gives the students a platform to explore the opportunities in this field. Core courses include Advanced Engineering Mathematics, Aircraft Propulsion, Aerodynamics, Gas Dynamics, Rocket Propulsion as compulsory. Also, students have to choose elective courses for each semester according to their interest. The past students of this specialization were placed in HAL, Fluidyn, Honda R&D, L&T etc. 
+    <i>Aerodynamics and propulsion are probably the most important elements in aircraft design. Aerodynamics is mainly used to shape the aircraft so that it can fulfil all the mission requirements with minimum drag penalty. The aim of the propulsion system is to provide the required amount of thrust to the aircraft under all conditions. The understanding of aerodynamics is vital for the design of efficient, capable and competitive aircraft and the department offers core courses that gives the students a platform to explore the opportunities in this field. Core courses include Advanced Engineering Mathematics, Aircraft Propulsion, Aerodynamics, Gas Dynamics, Rocket Propulsion as compulsory. Also, students have to choose elective courses for each semester according to their interest. The past students of this specialization were placed in HAL, Fluidyn, Honda R&D, L&T etc.
 </i>
 </p>
-<hr> 
+<hr>
 
 {% elif prog == '2' %}
 
@@ -32,16 +32,16 @@ career in allied state-of-the-art fields.
     <i>Manufacturing science and Technology is predominant area of Mechanical Engineering which has been evolving since the dawn of Human Civilization. Students from Manufacturing Science and Technology work on broad range of topics ranging from Manufacturing and automation to Mechatronics. Students in this specialization are introduced to core courses which includes Advanced Engineering Mathematics, Advanced Materials and Processing, Mechatronics and Manufacturing Automation, Manufacturing Laboratory, Physics of Manufacturing Processes and Computer Integrated Manufacturing. Students can opt for electives courses depending upon their field of interest. The past Manufacturing Science and Technology students were able to get placed in companies like L&T, Tata motors, Robert Bosch, etc.
 </i>
 </p>
-<hr> 
+<hr>
 
 {% elif prog == '3' %}
 
 <h2 class="text-center">Master's in Computational Mechanics</h2>
 <p style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
-    <i>Computational Mechanics is a recent discipline inducted in Mechanical Engineering department. With the advent of sophisticated computational resources, the PG students in Computational mechanics background learn to find the solution of mechanical engineering problems through intensive simulations. The core courses in this discipline include Finite element method, Numerical analysis, Continuum Mechanics, Computational Fluid Dynamics, Advanced Engineering Mathematics. Further students can opt to choose elective courses from machine design, fluid and thermal or manufacturing science and technology according to their interest. The past computational mechanics specialized students were able to get placed in companies such as ANSYS, Robert Bosch, Siemens, etc.    
+    <i>Computational Mechanics is a recent discipline inducted in Mechanical Engineering department. With the advent of sophisticated computational resources, the PG students in Computational mechanics background learn to find the solution of mechanical engineering problems through intensive simulations. The core courses in this discipline include Finite element method, Numerical analysis, Continuum Mechanics, Computational Fluid Dynamics, Advanced Engineering Mathematics. Further students can opt to choose elective courses from machine design, fluid and thermal or manufacturing science and technology according to their interest. The past computational mechanics specialized students were able to get placed in companies such as ANSYS, Robert Bosch, Siemens, etc.
 </i>
 </p>
-<hr> 
+<hr>
 
 {% elif prog == '4' %}
 
@@ -50,7 +50,7 @@ career in allied state-of-the-art fields.
     <i>Any mechanical development is not possible without understanding the principles of fluid flow and heat transfer. This is very crucial in aerospace and automobile applications. PG students from this specialization work on the broad range of topics such as multiphase flow, IC engines, Computational fluid dynamics, Heat transfer, Combustion etc. Core courses in this specialization include Advanced engineering mathematics, Fluid mechanics, Advanced Thermodynamics, Convective heat and mass transfer. Also, students have to choose elective courses for each semester according to their interest. The past Thermal and Fluids students were able to get placed in companies like Mercedes Benz, Robert Bosch, Siemens, etc.
 </i>
 </p>
-<hr> 
+<hr>
 
 {% elif prog == '5' %}
 
@@ -59,15 +59,15 @@ career in allied state-of-the-art fields.
     <i>Machine Design is a prominent discipline in the Mechanical Engineering Department. Design of any mechanical equipment requires a fundamental knowledge of strength of materials and vibration behavior. Students here, learn about design and analysis of mechanical components through experiments and simulations. This specialization is a gateway for Robotics. The core courses in Machine Design specialization include Advance Solid Mechanics, Mechanical Vibration, Finite Element Methods, Advanced Engineering Mathematics. Further students can opt to choose elective classes such as Fracture Fatigue and failure analysis, Rotor Dynamics, Mechatronics, etc. The past Machine Design specialization students were able to get placed in companies such as Mercedes Benz, Siemens, Caterpillar, Tata Motors, etc.
 </i>
 </p>
-<hr> 
+<hr>
 
 {% elif prog == '6' %}
 
-<h2 class="text-center">Post Doctorate  Course Structure</h2> 
+<h2 class="text-center">Post Doctorate  Course Structure</h2>
 
 {% elif prog == '7' %}
 
-<h2>PG Courses & Electives</h2>
+<h2 style="text-align: center; font-weight:bold">PG Courses & Electives</h2>
 
 {% elif prog == '8' %}
 
@@ -99,10 +99,10 @@ career in allied state-of-the-art fields.
         {% endfor %}
     </ul>
 </div>
-{% endif %} 
+{% endif %}
 
 {% if structure|length != 0 %}
-{% for prog_sem in structure %} 
+{% for prog_sem in structure %}
 {% if prog_sem|length != 0 %}
 
 <h2 class="text-center" style="font-weight:bolder;">Semester {{ forloop.counter }}</h2>
@@ -183,8 +183,8 @@ More
     </div>
 </div>
 <br>
-<br> 
-{% endif %} 
+<br>
+{% endif %}
 {% endfor %}
 {% else %}
 {% if course_list %}
@@ -257,7 +257,7 @@ function myFunction() {
       } else {
         tr[i].style.display = "none";
       }
-    }       
+    }
   }
 }
 

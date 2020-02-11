@@ -88,6 +88,7 @@
         <table class="table table-hover">
           <thead>
             <tr>
+                <th style="word-wrap: break-word;max-width: 80px">Sr. No</th>
                 <th style="word-wrap: break-word;max-width: 200px">Authors</th>
                 <th style="word-wrap: break-word;max-width: 500px">Title</th>
                 <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Year</th>
@@ -99,7 +100,8 @@
 
           <tbody  id="myInputpub" >
             {% for publication in pub_list %}
-            <tr class="filterd" id="year_{{ publication.specific.pub_year|date:'Y' }}">
+            <tr class="filterd" id="year_{{ publication.specific.pub_year|date:'Y' }}" style="font-size:1.4em">
+                <td style="word-wrap: break-word;max-width: 200px">{{ forloop.counter }}</td>
                 <td style="word-wrap: break-word;max-width: 200px">{{ publication.specific.Authors }}</td>
 
                 <td style="word-wrap: break-word;max-width: 500px"><a href="{{ publication.specific.url }}">{{ publication.specific.name }}</a></td>
