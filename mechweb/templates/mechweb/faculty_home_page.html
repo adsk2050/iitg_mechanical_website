@@ -253,7 +253,7 @@
     <h2>Department research focus</h2>
     To get to know about the about the faculties specialized in different dedicated fields, click here...
     
-      <div class="comment more">
+      <div class="comment">
 
             {% for research_interest in all_research_interests %}
               <a class="research_interest" href="{{ page.url }}?tag={{ research_interest }}">{{ research_interest }} |</a>
@@ -336,7 +336,7 @@
 $(document).ready(function() {
 	
   $(".comment").shorten({
-	"showChars" : 500,
+	"showChars" : -50,
 	"moreText"	: "See More",
 	"lessText"	: "Less",
 });
