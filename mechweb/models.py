@@ -71,11 +71,11 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 # 			return self.is_staff
 
 class CustomUser(AbstractUser):
-	username = models.CharField(
-        _('username'),
-        max_length=150,
-        help_text=_('Put your webmail ID without @iitg.ac.in'),
-    )
+	# username = models.CharField(
+ #        _('username'),
+ #        max_length=150,
+ #        help_text=_('Put your webmail ID without @iitg.ac.in'),
+ #    )
 	middle_name = models.CharField(_('middle name'), max_length=50, blank=True)
 	email = models.EmailField(
 		_('email address'),
@@ -86,13 +86,14 @@ class CustomUser(AbstractUser):
 	)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
 	uid = models.CharField(max_length=10, default='000000000', verbose_name='Roll Number/Employee Number', help_text='Only students required to provide their roll no. Others may leave "000000000" but not blank')
-	is_staff = models.BooleanField(
-        _('staff status'),
-        default=True,
-        help_text=_('Designates whether the user can log into this admin site.'),
-    )
+	# is_staff = models.BooleanField(
+ #        _('staff status'),
+ #        default=True,
+ #        help_text=_('Designates whether the user can log into this admin site.'),
+ #    )
 	USERNAME_FIELD = 'email' # Its default is username
-	REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid', 'is_staff']
+	REQUIRED_FIELDS = [ 'first_name', 'last_name', 'user_type', 'uid']
+	# REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid', 'is_staff']
 ######################################################
 class MechHomePage(Page):
 	intro = models.CharField(blank=True, max_length=500)
