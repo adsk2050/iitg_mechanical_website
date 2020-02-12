@@ -541,7 +541,9 @@ class FacultyPage(Page):
 		pub_list = []
 		for pub_relation in pub_relation_list:
 			pub = pub_relation.page
-			pub_list.append(pub)
+			if pub.pub_type == "2":
+				pub_list.append(pub)
+		pub_list.sort(key=lambda x: x.pub_year, reverse=True)
 		try:
 			pub_list = pub_list[:10]
 		except:
@@ -550,11 +552,15 @@ class FacultyPage(Page):
 		project_pi = self.pi.all()
 		project_copi =  self.copi.all()
 		project_list = []
+		project_list2 = []
 		for project in project_pi:
 			project_list.append(project.page)
+		project_list.sort(key=lambda x: x.start_date, reverse=True)
 		if len(project_list) <4:	
 			for project in project_copi:
-				project_list.append(project.page)
+				project_list2.append(project.page)
+		project_list+=project_list2
+		project_list.sort(key=lambda x: x.start_date, reverse=True)
 		try:
 			project_list = project_list[:4]
 		except:
