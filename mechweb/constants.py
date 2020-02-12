@@ -145,8 +145,8 @@ FACULTY_ROLES = (
 FACULTY_DESIGNATION = (
 	('0', 'HAG'),
 	('1', 'Professor'),
-	('2', 'Assistant Professor'),
 	('3', 'Associate Professor'),
+	('2', 'Assistant Professor'),
 	('4', 'Visiting Professor'),
 )
 

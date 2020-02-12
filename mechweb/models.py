@@ -71,11 +71,11 @@ from .constants import DISPOSAL_COMMITTEE, LABORATORY_IN_CHARGE, FACULTY_IN_CHAR
 # 			return self.is_staff
 
 class CustomUser(AbstractUser):
-	# username = models.CharField(
- #        _('username'),
- #        max_length=150,
- #        help_text=_('Put your webmail ID without @iitg.ac.in'),
- #    )
+	username = models.CharField(
+        _('username'),
+        max_length=150,
+        help_text=_('Put your webmail ID without @iitg.ac.in'),
+    )
 	middle_name = models.CharField(_('middle name'), max_length=50, blank=True)
 	email = models.EmailField(
 		_('email address'),
@@ -456,7 +456,8 @@ class FacultyPage(Page):
 	leaving_date = models.DateField(blank=True, null=True)
 	on_lien = models.BooleanField(default=False)
 	on_visit = models.BooleanField(default=False)
-	on_insti = models.CharField(max_length=500, blank=True, verbose_name="Visiting from/On lien to", help_text="Institute name")
+	on_depute = models.BooleanField(default=False)
+	on_insti = models.CharField(max_length=500, blank=True, verbose_name="Visiting from/On lien to/On deputation to", help_text="Institute name")
 	designation = models.CharField(max_length=2, choices=FACULTY_DESIGNATION, default='3')
 	website = models.URLField(max_length=250, blank=True)
 	abbreviation = models.CharField(max_length=10, blank=True)
@@ -475,6 +476,7 @@ class FacultyPage(Page):
 		######################################################
 		FieldPanel('designation'),
 		MultiFieldPanel([
+			FieldPanel('on_depute'),
 			FieldPanel('on_lien'),
 			FieldPanel('on_visit'),
 			FieldPanel('on_insti')
@@ -540,14 +542,25 @@ class FacultyPage(Page):
 		for pub_relation in pub_relation_list:
 			pub = pub_relation.page
 			pub_list.append(pub)
+		try:
+			pub_list = pub_list[:10]
+		except:
+			pass
 
 		project_pi = self.pi.all()
 		project_copi =  self.copi.all()
 		project_list = []
 		for project in project_pi:
 			project_list.append(project.page)
-		for project in project_copi:
-			project_list.append(project.page)
+		if len(project_list) <4:	
+			for project in project_copi:
+				project_list.append(project.page)
+		try:
+			project_list = project_list[:4]
+		except:
+			pass
+
+
 
 		course_relation_list = self.course_instructor.all()
 		course_list = []
@@ -873,7 +886,7 @@ class StaffHomePage(Page):
 	max_count = 1
 
 	def serve(self, request):
-		staff_list = self.get_children().live().order_by('-first_published_at', 'staffpage__first_name', 'staffpage__middle_name', 'staffpage__last_name')
+		staff_list = self.get_children().live().order_by('staffpage__first_name', 'staffpage__middle_name', 'staffpage__last_name')
 
 		# Filter by designation
 		desig = request.GET.get('desig')
