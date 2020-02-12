@@ -45,7 +45,7 @@
               </div>
               <div class="lab_address">
                 <h4  style="color:#222546; font-weight:bolder;">Timeline<br>
-                  <h6 style="color:#4F5345; font-weight:normal;">From: {{ page.specific.start_date }} | To : {{ page.specific.end_date }}</h6>
+                  <h6 style="color:#4F5345; font-weight:normal;">From: {{ page.specific.start_date|date:"Y" }} | To : {{ page.specific.end_date|date:"Y" }}</h6>
                 </h4>
               </div>
           </div>
