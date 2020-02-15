@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="/static/css/owl.theme.default.css" type="text/css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="/static/css/owl.carousel.css" type="text/css">
+   
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.2/owl.carousel.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Bitter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -53,7 +55,7 @@
 </head>
 
     <body class="{% block body_class %}{% endblock %}" style="{% block body_style %}{% endblock %}">
-
+      <a href="#" id="back-to-top" title="Back to top">&uarr;</a>
       <!-- <header style="background-color: #3A5157;" class="blog-header py-3 row"> -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color:#222546 ">
           <div class="container-fluid" >
@@ -360,7 +362,29 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script type="text/javascript">
         window.onscroll = function() {scrollFunction()};
-
+        //back-to-top scroll button start
+        if ($('#back-to-top').length) {
+            var scrollTrigger = 100, // px
+                backToTop = function () {
+                    var scrollTop = $(window).scrollTop();
+                    if (scrollTop > scrollTrigger) {
+                        $('#back-to-top').addClass('show');
+                    } else {
+                        $('#back-to-top').removeClass('show');
+                    }
+                };
+            backToTop();
+            $(window).on('scroll', function () {
+                backToTop();
+            });
+            $('#back-to-top').on('click', function (e) {
+                e.preventDefault();
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 700);
+            });
+        }
+        //back-to-top scroll button end
 
 
         </script>

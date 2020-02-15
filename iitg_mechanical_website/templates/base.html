@@ -46,6 +46,42 @@
                 font-size: 3.5rem;
             }
         }
+        
+    #back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 30px;
+    background: #222546;
+    color:#fff;
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color .3s, 
+      opacity .5s, visibility .5s;
+    opacity: 0;
+  }
+  #back-to-top::after {
+    content: "\f077";
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 2em;
+    line-height: 50px;
+    color: #fff;
+  }
+  #back-to-top:hover {
+    cursor: pointer;
+    background: #424cb3;
+  }
+  #back-to-top.show {
+    opacity: 1;
+  }
     </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -54,7 +90,7 @@
 </head>
 
     <body class="{% block body_class %}{% endblock %}" style="{% block body_style %}{% endblock %}">
-
+      <a href="#" id="back-to-top" title="Back to top"></a>
       <!-- <header style="background-color: #3A5157;" class="blog-header py-3 row"> -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color:#222546 ">
           <div class="container-fluid" >
@@ -395,10 +431,10 @@
           <!-- Social buttons -->
 
           <!-- Copyright -->
-          <div class="copyright text-center py-3">© 2019 Department of ME, IITG:
+          <div class="copyright text-center py-3">© 2020 Department of ME, IITG:
             <a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
             <br><br>
-    <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website fedback form</a></span>
+    <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website feedback form</a></span>
           </div>
           <!-- Copyright -->
 
@@ -411,9 +447,29 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script type="text/javascript">
         window.onscroll = function() {scrollFunction()};
-
-
-
+        //back-to-top scroll button start
+        if ($('#back-to-top').length) {
+            var scrollTrigger = 100, // px
+                backToTop = function () {
+                    var scrollTop = $(window).scrollTop();
+                    if (scrollTop > scrollTrigger) {
+                        $('#back-to-top').addClass('show');
+                    } else {
+                        $('#back-to-top').removeClass('show');
+                    }
+                };
+            backToTop();
+            $(window).on('scroll', function () {
+                backToTop();
+            });
+            $('#back-to-top').on('click', function (e) {
+                e.preventDefault();
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 700);
+            });
+        }
+        //back-to-top scroll button end
         </script>
 
         {% block extra_script %}

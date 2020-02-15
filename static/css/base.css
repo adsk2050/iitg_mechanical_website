@@ -41,8 +41,9 @@ body,html {
 }
 
 
+
 .dropdown-toggle::after {
-  display:none !important;  //important is added to overcome basic effect from bootstrap document
+  display:none !important;  
 }
  .dropdown-menu a:hover {background-color: #D5D5D5;}
 
