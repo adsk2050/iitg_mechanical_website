@@ -11,17 +11,17 @@ from search import views as search_views
 
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
 
+from mechweb.views import login_view
 
 urlpatterns = [
     url('', include('social_django.urls', namespace='social')),
+    # path('microsoft/', include('microsoft_auth.urls', namespace='microsoft')),
     url(r'^admin/autocomplete/', include(autocomplete_admin_urls)),
-
     url(r'^django-admin/', admin.site.urls),
-
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
-
     url(r'^search/$', search_views.search, name='search'),
+    path('admin/login/', login_view),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
@@ -50,5 +50,3 @@ if settings.DEBUG:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
 
     ] + urlpatterns
-
-    

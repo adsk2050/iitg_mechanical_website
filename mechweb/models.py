@@ -86,14 +86,14 @@ class CustomUser(AbstractUser):
 	)
 	user_type = models.CharField(max_length=2, choices=USER_TYPES, default='0')
 	uid = models.CharField(max_length=10, default='000000000', verbose_name='Roll Number/Employee Number', help_text='Only students required to provide their roll no. Others may leave "000000000" but not blank')
-	# is_staff = models.BooleanField(
- #        _('staff status'),
- #        default=True,
- #        help_text=_('Designates whether the user can log into this admin site.'),
- #    )
+	is_staff = models.BooleanField(
+        _('staff status'),
+        default=True,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
 	USERNAME_FIELD = 'email' # Its default is username
-	REQUIRED_FIELDS = [ 'first_name', 'last_name', 'user_type', 'uid']
-	# REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid', 'is_staff']
+	# REQUIRED_FIELDS = [ 'first_name', 'last_name', 'user_type', 'uid']
+	REQUIRED_FIELDS = [ 'username', 'first_name', 'last_name', 'user_type', 'uid', 'is_staff']
 ######################################################
 class MechHomePage(Page):
 	intro = models.CharField(blank=True, max_length=500)
@@ -671,7 +671,7 @@ class AbstractStudentPage(Page):
 	email_id = models.EmailField(unique=True)
 	roll_no = models.IntegerField(blank=True)
 	enrolment_year = models.DateField(default=timezone.now)
-	leaving_year = models.DateField(default=timezone.now()+timedelta(days=365*4))
+	leaving_year = models.DateField(default=timezone.now)
 	programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
 	is_exchange = models.BooleanField(default=False, verbose_name="International Student")
 	contact_number = models.CharField(max_length=20, blank=True)
@@ -2026,7 +2026,7 @@ class CommitteePage(Page):
 	name = models.CharField(max_length=500)
 	about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 	tenure_start = models.DateField(default=timezone.now)
-	tenure_end = models.DateField(default=timezone.now()+timedelta(days=365))
+	tenure_end = models.DateField(default=timezone.now)
 
 
 	content_panels =  Page.content_panels + [

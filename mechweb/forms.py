@@ -12,8 +12,8 @@ class CustomUserEditForm(UserEditForm):
 	middle_name = forms.CharField(label=_("Middle Name"), required=False)
 	user_type = forms.ChoiceField(required=True, choices=USER_TYPES, label=_("User Type"))
 	uid = forms.CharField(required=True, label=_("Roll No. / Employee ID"))
-	# is_staff = forms.BooleanField(required=True, label=_("Allow to access admin panel"))
-	# username = forms.CharField(label=_("User Name"), required=True)
+	is_staff = forms.BooleanField(required=True, label=_("Allow to access admin panel"))
+	username = forms.CharField(label=_("User Name"), required=True)
 
 	# def save(self, commit=True):
 	# 	user = super(UserEditForm, self).save(commit=False)
@@ -33,8 +33,8 @@ class CustomUserCreationForm(UserCreationForm):
 	middle_name = forms.CharField(label=_("Middle Name"), required=False)
 	user_type = forms.ChoiceField(required=True, choices=USER_TYPES, label=_("User Type"))
 	uid = forms.CharField(required=True, label=_("Roll No. / Employee ID"))
-	# is_staff = forms.BooleanField(required=True, label=_("Allow to access admin panel"))
-	# username = forms.CharField(label=_("User Name"), required=True)
+	is_staff = forms.BooleanField(required=True, label=_("Allow to access admin panel"))
+	username = forms.CharField(label=_("User Name"), required=True)
     # status = forms.ModelChoiceField(queryset=MembershipStatus.objects, required=True, label=_("Status"))
 # -------------------------------------------------
 

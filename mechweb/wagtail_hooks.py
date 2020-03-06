@@ -212,7 +212,18 @@ def add_another_welcome_panel(request, panels):
 
 # @hooks.register()
 
+# @hooks.register('construct_explorer_page_queryset')
+# def show_my_profile_only(parent_page, pages, request):
+#     # If we're in the 'user-profiles' section, only show the user's own profile
+#     if parent_page.slug == ('faculty' or 'student' or 'staff'):
+#         pages = pages.filter(owner=request.user)
 
+#     return pages
+
+# @hooks.register('construct_main_menu')
+# def show_respective_user_profile(request, menu_items):
+#   if request.user.username == 'frank':
+#     menu_items[:] = [item for item in menu_items if item.name != 'explorer']
 
 # @hooks.register('construct_explorer_page_queryset')
 # def show_my_profile_only(parent_page, pages, request):
@@ -261,3 +272,6 @@ def add_another_welcome_panel(request, panels):
 # 	user.title=base_title
 # 	user.save()
 # 	
+
+
+

@@ -1,3 +1,9 @@
+social-auth-app-django==3.1.0
+____________________________________________________________________
+
+Changes submitted for moderation are overwritten to the latest submission. Say user1(owner) edited a page and submitted for moderation, now what user2 gets to edit is the draft created by user1. We don't want user2 editing profile details of user1
+____________________________________________________________________
+
 back to top (fixed waala nahi)
 always there type ka feedback link
 when you click on see more - see less should come where the mouse is

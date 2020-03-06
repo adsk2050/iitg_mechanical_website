@@ -1,10 +1,69 @@
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin# as BaseUserAdmin
+# from django.contrib.auth.models import Permission
 from .models import CustomUser, MechHomePage, Aboutiitgmech, EventHomePage, EventPage, CategoriesHome, Categories, FacultyHomePage, FacultyPage, StudentHomePage, StudentPage, StaffHomePage, StaffPage, AlumniHomePage, AlumnusPage, ResearchHomePage, ResearchLabHomePage, ResearchLabPage, PublicationHomePage, PublicationPage, ProjectHomePage, ProjectPage, CourseStructure, CoursePage, AwardHomePage
 from import_export import resources
 from .constants import USER_TYPES
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register)
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin, modeladmin_register)
+
+# admin.site.unregister(CustomUser)
+admin.site.register(CustomUser, UserAdmin)
+
+# class PermissionInline(admin.StackedInline):
+#     model = Permission
+#     can_delete = False
+
+class FacultyAdmin(ModelAdmin):
+    model = FacultyPage
+    fields = ['name']
+    menu_label = "My Profile"
+
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     #only show articles from the current user
+    #     return qs.filter(owner=request.user)
+        
+modeladmin_register(FacultyAdmin)
+
+class StudentAdmin(ModelAdmin):
+    model = StudentPage
+    fields = ['name']
+    menu_label = "My Profile"
+
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     #only show articles from the current user
+    #     return qs.filter(owner=request.user)
+        
+modeladmin_register(StudentAdmin)
+
+class StaffAdmin(ModelAdmin):
+    model = StaffPage
+    fields = ['name']
+    menu_label = "My Profile"
+    
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     #only show articles from the current user
+    #     return qs.filter(owner=request.user)
+        
+modeladmin_register(StaffAdmin)
+
+# class PublicationAdmin(ModelAdmin):
+#     model = PublicationPage
+#     fields = ['name']
+
+#     # def get_queryset(self, request):
+#     #     qs = super().get_queryset(request)
+#     #     #only show articles from the current user
+#     #     return qs.filter(owner=request.user)
+        
+# modeladmin_register(PublicationAdmin)
+
 
 # If you use this then comment the code in forms 
 # -------------------------------------------------
@@ -15,7 +74,6 @@ from wagtail.contrib.modeladmin.options import (
 # class UserAdmin(BaseUserAdmin):
 # 	inlines = [CustomUserInline]
 # -------------------------------------------------
-admin.site.register(CustomUser, UserAdmin)
 
 # class StudentPageInline(admin.StackedInline):
 #     model = StudentPage
@@ -49,7 +107,11 @@ class CustomUserResource(resources.ModelResource):
 # from mechweb.admin import CustomUserResource
 # dataset = CustomUserResource().export()
 # print(dataset.csv)
-
+# class PermissionResource( resources.ModelResource):
+#     class Meta:
+#         model= Permission
+#         skip_unchanged = True
+#         report_skipped = False
 
 
 class MechHomePageResource( resources.ModelResource):

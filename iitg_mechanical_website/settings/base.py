@@ -22,12 +22,18 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 
 # Application definition
+# SITE_ID=1
 
 INSTALLED_APPS = [
-    'search',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # 'django.contrib.sites',
+
     'mechweb',
-    'wagtailautocomplete',
-    'import_export',
 
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
@@ -44,17 +50,16 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
 
+    'search',
+    'wagtailautocomplete',
+    'import_export',
     'modelcluster',
     'taggit',
-
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
     'social_django',
+    # 'microsoft_auth',
+
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -68,13 +73,15 @@ MIDDLEWARE = [
 
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'iitg_mechanical_website.urls'
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.azuread_tenant.AzureADTenantOAuth2',
+    # 'microsoft_auth.backends.MicrosoftAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 
@@ -92,6 +99,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mechweb.context_processors.navbar',
+                # 'microsoft_auth.context_processors.microsoft',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
@@ -212,11 +220,23 @@ AUTH_USER_MODEL = 'mechweb.CustomUser'
 
 WAGTAIL_USER_EDIT_FORM = 'mechweb.forms.CustomUserEditForm'
 WAGTAIL_USER_CREATION_FORM = 'mechweb.forms.CustomUserCreationForm'
-WAGTAIL_USER_CUSTOM_FIELDS = ['middle_name', 'user_type', 'uid']
-# WAGTAIL_USER_CUSTOM_FIELDS = ['username', 'is_staff', 'middle_name', 'user_type', 'uid']
+# WAGTAIL_USER_CUSTOM_FIELDS = ['middle_name', 'user_type', 'uid']
+WAGTAIL_USER_CUSTOM_FIELDS = ['username', 'is_staff', 'middle_name', 'user_type', 'uid']
 
 # WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'
 # WAGTAILDOCS_DOCUMENT_MODEL = 'mechweb.CustomDocument'
+
+# # values you got from step 2 from your Mirosoft app
+# MICROSOFT_AUTH_CLIENT_ID = '22883e4c-5fb7-4244-951b-b81f3d04be58'
+# MICROSOFT_AUTH_CLIENT_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
+
+# # pick one MICROSOFT_AUTH_LOGIN_TYPE value
+# # Microsoft authentication
+# # include Microsoft Accounts, Office 365 Enterpirse and Azure AD accounts
+# MICROSOFT_AUTH_LOGIN_TYPE = 'ma'
+
+WAGTAIL_FRONTEND_LOGIN_TEMPLATE = 'mechweb/wagtailadmin/login.html'
+WAGTAIL_FRONTEND_LOGIN_URL = '/admin/login'
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
@@ -232,12 +252,22 @@ SOCIAL_AUTH_PIPELINE = (
     # 'project.users.pipeline.make_intranet_user',
 )
 
-SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = '69a38f7a-bc5b-4740-9c55-20bb44d2af2b'
-SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = '/cS8JVth/cF?3:asmhpqChhYfLw17qX='
+SOCIAL_AUTH_USER_MODEL = 'mechweb.CustomUser'
+#Client ID
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = '22883e4c-5fb7-4244-951b-b81f3d04be58'
+#Client secret
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
+# SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
-SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email']
+# SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
-# WAGTAIL_FRONTEND_LOGIN_TEMPLATE = ''
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/admin/'
+
+DJANGO_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
+SOCIAL_AUTH_RAISE_EXCEPTIONS = True
+RAISE_EXCEPTIONS = True
+
 # WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
+
