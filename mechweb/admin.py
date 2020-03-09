@@ -17,41 +17,41 @@ admin.site.register(CustomUser, UserAdmin)
 #     model = Permission
 #     can_delete = False
 
-class FacultyAdmin(ModelAdmin):
-    model = FacultyPage
-    fields = ['name']
-    menu_label = "My Profile"
+# class FacultyAdmin(ModelAdmin):
+#     model = FacultyPage
+#     fields = ['name']
+#     menu_label = "My Profile"
 
-    # def get_queryset(self, request):
-    #     qs = super().get_queryset(request)
-    #     #only show articles from the current user
-    #     return qs.filter(owner=request.user)
+#     # def get_queryset(self, request):
+#     #     qs = super().get_queryset(request)
+#     #     #only show articles from the current user
+#     #     return qs.filter(owner=request.user)
         
-modeladmin_register(FacultyAdmin)
+# modeladmin_register(FacultyAdmin)
 
-class StudentAdmin(ModelAdmin):
-    model = StudentPage
-    fields = ['name']
-    menu_label = "My Profile"
+# class StudentAdmin(ModelAdmin):
+#     model = StudentPage
+#     fields = ['name']
+#     menu_label = "My Profile"
 
-    # def get_queryset(self, request):
-    #     qs = super().get_queryset(request)
-    #     #only show articles from the current user
-    #     return qs.filter(owner=request.user)
+#     # def get_queryset(self, request):
+#     #     qs = super().get_queryset(request)
+#     #     #only show articles from the current user
+#     #     return qs.filter(owner=request.user)
         
-modeladmin_register(StudentAdmin)
+# modeladmin_register(StudentAdmin)
 
-class StaffAdmin(ModelAdmin):
-    model = StaffPage
-    fields = ['name']
-    menu_label = "My Profile"
+# class StaffAdmin(ModelAdmin):
+#     model = StaffPage
+#     fields = ['name']
+#     menu_label = "My Profile"
     
-    # def get_queryset(self, request):
-    #     qs = super().get_queryset(request)
-    #     #only show articles from the current user
-    #     return qs.filter(owner=request.user)
+#     # def get_queryset(self, request):
+#     #     qs = super().get_queryset(request)
+#     #     #only show articles from the current user
+#     #     return qs.filter(owner=request.user)
         
-modeladmin_register(StaffAdmin)
+# modeladmin_register(StaffAdmin)
 
 # class PublicationAdmin(ModelAdmin):
 #     model = PublicationPage
