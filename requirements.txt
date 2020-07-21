@@ -1,5 +1,5 @@
 Django==2.2.10
-wagtail==2.5.1
+wagtail==2.7.4
 django-debug-toolbar==1.11
 django-import-export==1.2.0 
 wagtail-autocomplete==0.3.1
