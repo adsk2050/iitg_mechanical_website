@@ -51,7 +51,6 @@ INSTALLED_APPS = [
 
     'search',
     'wagtailautocomplete',
-    'import_export',
     'modelcluster',
     'taggit',
     'social_django',
@@ -70,7 +69,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 
-    'wagtail.core.middleware.SiteMiddleware',
+    # 'wagtail.core.middleware.SiteMiddleware', deprecated after wagtail 2.1.1 so removed it
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
@@ -260,7 +259,7 @@ SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
 # SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/admin/'
 
