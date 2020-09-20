@@ -13,7 +13,6 @@ INTERNAL_IPS = ("127.0.0.1, 0.0.0.0")
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
 INSTALLED_APPS = INSTALLED_APPS + [
 	'debug_toolbar',
 ]
@@ -26,3 +25,5 @@ try:
     from .local import *
 except ImportError:
     pass
+
+# BASE_URL = 'http://127.0.0.1:8000'

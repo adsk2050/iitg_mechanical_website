@@ -15,13 +15,12 @@ import os
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
+# BASE_URL = 'https://iitg.ac.in/mech'
+BASE_URL = 'https://127.0.0.1:8000'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-
-# Application definition
-# SITE_ID=1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,7 +29,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
 
     'mechweb',
 
@@ -54,11 +52,11 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'social_django',
-    # 'microsoft_auth',
-
-    
-    
+    'sslserver',
 ]
+
+# # Application definition
+# SITE_ID=1
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -77,9 +75,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'iitg_mechanical_website.urls'
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.azuread_tenant.AzureADTenantOAuth2',
-    # 'microsoft_auth.backends.MicrosoftAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.azuread_tenant.AzureADTenantOAuth2',
 )
 
 
@@ -97,7 +94,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mechweb.context_processors.navbar',
-                # 'microsoft_auth.context_processors.microsoft',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
@@ -106,7 +102,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'iitg_mechanical_website.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -158,9 +153,6 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
@@ -189,15 +181,12 @@ MEDIA_URL = '/media/'
 
 WAGTAIL_SITE_NAME = "iitg_mechanical_website"
 
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
 
 # Dedault Richtext features
 
 RICHTEXT_BLOCKTYPES = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol']
-RICHTEXT_INLINESTYLES = ['bold', 'italic' ]
-RICHTEXT_ENTITIES = ['image', 'embed', 'link', 'document-link' ]
+RICHTEXT_INLINESTYLES = ['bold', 'italic']
+RICHTEXT_ENTITIES = ['image', 'embed', 'link', 'document-link']
 RICHTEXT_MISC = ['hr']
 
 ALL_RICHTEXT_FEATURES = (
@@ -215,7 +204,6 @@ CUSTOM_RICHTEXT = ALL_RICHTEXT_FEATURES
 # )
 
 AUTH_USER_MODEL = 'mechweb.CustomUser'
-
 WAGTAIL_USER_EDIT_FORM = 'mechweb.forms.CustomUserEditForm'
 WAGTAIL_USER_CREATION_FORM = 'mechweb.forms.CustomUserCreationForm'
 # WAGTAIL_USER_CUSTOM_FIELDS = ['middle_name', 'user_type', 'uid']
@@ -223,18 +211,6 @@ WAGTAIL_USER_CUSTOM_FIELDS = ['username', 'is_staff', 'middle_name', 'user_type'
 
 # WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'
 # WAGTAILDOCS_DOCUMENT_MODEL = 'mechweb.CustomDocument'
-
-# # values you got from step 2 from your Mirosoft app
-# MICROSOFT_AUTH_CLIENT_ID = '22883e4c-5fb7-4244-951b-b81f3d04be58'
-# MICROSOFT_AUTH_CLIENT_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
-
-# # pick one MICROSOFT_AUTH_LOGIN_TYPE value
-# # Microsoft authentication
-# # include Microsoft Accounts, Office 365 Enterpirse and Azure AD accounts
-# MICROSOFT_AUTH_LOGIN_TYPE = 'ma'
-
-WAGTAIL_FRONTEND_LOGIN_TEMPLATE = 'mechweb/wagtailadmin/login.html'
-WAGTAIL_FRONTEND_LOGIN_URL = '/admin/login'
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
@@ -252,20 +228,22 @@ SOCIAL_AUTH_PIPELINE = (
 
 SOCIAL_AUTH_USER_MODEL = 'mechweb.CustomUser'
 #Client ID
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = '22883e4c-5fb7-4244-951b-b81f3d04be58'
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = '35a05f10-9389-4f75-ab57-d3afc598a3b0'
 #Client secret
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = '~4.nZ_cS4QXedtlaz6-6BXEbUWUM2x2qz8'
 # SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
 # SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/admin/'
-
+SOCIAL_AUTH_LOGIN_URL = '/admin/login/'
 DJANGO_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 RAISE_EXCEPTIONS = True
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
+WAGTAIL_FRONTEND_LOGIN_TEMPLATE = 'mechweb/wagtailadmin/login.html'
+WAGTAIL_FRONTEND_LOGIN_URL = '/admin/login'
 # WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
-
+# In Azure portal app registration, add this as redirect uri: https://127.0.0.1:8000/complete/azuread-tenant-oauth2/

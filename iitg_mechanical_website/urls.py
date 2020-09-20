@@ -15,7 +15,6 @@ from mechweb.views import login_view
 
 urlpatterns = [
     url('', include('social_django.urls', namespace='social')),
-    # path('microsoft/', include('microsoft_auth.urls', namespace='microsoft')),
     url(r'^admin/autocomplete/', include(autocomplete_admin_urls)),
     url(r'^django-admin/', admin.site.urls),
     url(r'^admin/', include(wagtailadmin_urls)),

@@ -2,7 +2,6 @@ from datetime import datetime
 
 from django.utils.safestring import mark_safe
 
-
 from django.utils.text import slugify
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
@@ -196,9 +195,8 @@ def delete_user_profile(sender, instance, using, **kwargs):
 	else:
 		pass
 
-class WelcomePanel:
+class WelcomePanel():
     order = 50
-
     def render(self):
         return mark_safe("""
         <section class="panel summary nice-padding">
