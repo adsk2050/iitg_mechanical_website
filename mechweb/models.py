@@ -2106,10 +2106,10 @@ def get_new_awards():
 
 #################################################################
 class CommitteeHomePage(Page):
-    # Add featured publications
     parent_page_types = ['MechHomePage']
     subpage_types = ['CommitteePage']
     max_count = 1
+
 
     def serve(self, request):
         com_list = self.get_children().live().order_by('-committeepage__tenure_end', '-committeepage__tenure_start')
@@ -2122,21 +2122,27 @@ class CommitteeHomePage(Page):
     class Meta:
         verbose_name = "Committee Home"
 
-
 class CommitteePage(Page):
     name = models.CharField(max_length=500)
     about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
     tenure_start = models.DateField(default=timezone.now)
     tenure_end = models.DateField(default=timezone.now)
+    minutes_doc = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('name'),
         FieldPanel('tenure_start'),
         FieldPanel('tenure_end'),
         FieldPanel('about'),
+        DocumentChooserPanel('minutes_doc'),
         InlinePanel('links', label="Links", max_num=10),
         InlinePanel('faculty', label="Faculty Member"),
-        InlinePanel('com_other', label="Other Mmebers"),
+        InlinePanel('com_other', label="Other Members"),
         InlinePanel('students', label="Student Member"),
     ]
 
@@ -2147,7 +2153,6 @@ class CommitteePage(Page):
         verbose_name = "Committee"
         verbose_name_plural = "Committees"
 
-
 class CommitteePageStudent(Orderable):
     page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='students')
     student = models.ForeignKey('StudentPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='student')
@@ -2156,7 +2161,6 @@ class CommitteePageStudent(Orderable):
         AutocompletePanel('student', target_model='mechweb.StudentPage'),
         FieldPanel('designation'),
     ]
-
 
 class CommitteePageFaculty(Orderable):
     page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='faculty')
@@ -2167,7 +2171,6 @@ class CommitteePageFaculty(Orderable):
         FieldPanel('designation'),
     ]
 
-
 class CommitteePageOtherMmeber(Orderable):
     page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='com_other')
     name = models.CharField(max_length=100)
@@ -2177,12 +2180,12 @@ class CommitteePageOtherMmeber(Orderable):
         FieldPanel('designation'),
     ]
 
-
-# Is this going to be useful?
 class CommitteePageLink(Orderable):
     page = ParentalKey(CommitteePage, on_delete=models.CASCADE, related_name='links')
     link = models.URLField(max_length=250)
+    link_text = models.CharField(max_length=250)
     panels = [
+        FieldPanel('link_text'),
         FieldPanel('link'),
     ]
 

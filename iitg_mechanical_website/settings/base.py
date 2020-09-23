@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'social_django',
-    'sslserver',
+    # 'django-redis',
 ]
 
 # # Application definition
@@ -115,7 +115,7 @@ DATABASES = {
     #     'ENGINE':'django.db.backends.postgresql_psycopg2',
     #     'NAME':'mechweb',
     #     'USER':'mechadmin',
-    #     'PASSWORD':'mechweb19',
+    #     'PASSWORD':'passworddummy',
     #     'HOST':'127.0.0.1',
     #     # 'HOST':'172.16.72.8'
     # }
@@ -176,7 +176,16 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': '127.0.0.1:6379',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#         "KEY_PREFIX": "mechweb",
+#     }
+# }
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = "iitg_mechanical_website"
