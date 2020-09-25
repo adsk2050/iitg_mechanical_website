@@ -27,9 +27,9 @@
             <div class="col">
                 <h1 class="text-center" style="color:#15218d; font-weight:bolder;">{{ page.title }}</h1>
                 {% if page.specific.lab_type == '0' %}
-                    <p class="text-center" style="color:#4F5345; font-weight:bold;">UG Laboratory</p>
+                    <p class="text-center" style="color:#4F5345; font-weight:bold;">Department Lab</p>
                 {% else %}
-                    <p class="text-center" style="color:#4F5345; font-weight:normal;">PG Laboratory</p>
+                    <p class="text-center" style="color:#4F5345; font-weight:normal;">Department Research Lab</p>
                 {% endif %}
             </div>
         </div>
@@ -80,8 +80,8 @@
               </ul>
           {% endif %}
           </div>
-        
-        
+
+
         <div class="container">
           {% if page.students.all|length != 0 %}
               <h3>Students</h3>
@@ -95,9 +95,9 @@
               </ul>
           {% endif %}
         </div>
-        
-        
-        
+
+
+
         <div class="container">
           {% if page.postdocs.all|length != 0 %}
               <h3>Postdocs</h3>
@@ -111,8 +111,8 @@
               </ul>
           {% endif %}
         </div>
-        
-        
+
+
         <div class="container">
             {% if page.links.all|length != 0 %}
             <h3>Links to refer</h3>
@@ -181,7 +181,7 @@
     {% endfor %}
   {% endif %}
 
- 
+
 
 
 

@@ -88,8 +88,14 @@ body,html {
   /* box-sizing:border-box; */
   margin:0;
   padding:0;
-  list-style:none;
+  list-style: none;
 }
+
+.faclist{
+  list-style: decimal !important;
+}
+
+
 
 h1 {
   font-weight: 300;
@@ -361,7 +367,8 @@ s
   padding: 12px 30px 20px;
   font: 15px;
   font-weight: 400;
-  height: 300px;
+  /* height: 300px; */
+  height: auto;
 }
 
 .service-text p:last-child{
@@ -388,9 +395,9 @@ s
 }
 
 .sidebar-box {
-  max-height: 400px;
+  max-height: 600px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 .sidebar-box .read-more {
   position: absolute;
@@ -638,6 +645,16 @@ header{
 
 }
 
+.clock {
+    padding-top: 2%;
+    text-align: center;
+    position: inherit;
+    color: #17D4FE;
+    font-size: 20px;
+    font-family: Orbitron;
+    letter-spacing: 7px;
+}
+
 /* split screen and news code ends */
 
 .messagebox{
@@ -647,11 +664,12 @@ header{
   padding-top: 2rem;
   color: #fff;
   font-family: 'Source Sans Pro', sans-serif;
+  text-align: justify;
 
 }
 .hodmsg{
   padding: 50px;
-  text-align: left;
+  text-align: justify;
   font-family: 'Source Sans Pro', sans-serif;
 }
 
