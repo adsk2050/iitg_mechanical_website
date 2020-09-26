@@ -1,3 +1,8 @@
+Used this to learn and implement apache deployment info: https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-14-04#prerequisites-and-goals
+Used this to make temporary ssl server https://www.pdxpixel.com/blog/2014/02/04/setting-up-django-site-ssl-apache-mod_wsgi-mod_ssl/
+extrasAD/mechweb.conf for apache configurations
+extrasAD/init_azure.sh for terminal configurations
+____________________________________________________________________
 social-auth-app-django==3.1.0
 ____________________________________________________________________
 
