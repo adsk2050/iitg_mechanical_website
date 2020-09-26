@@ -20,9 +20,11 @@ html5lib==1.1
 idna==2.10
 jdcal==1.4.1
 l18n==2018.5
+mod-wsgi==4.7.1
 oauthlib==3.1.0
 openpyxl==3.0.5
 Pillow==7.2.0
+pkg-resources==0.0.0
 pycparser==2.20
 PyJWT==1.7.1
 python3-openid==3.2.0

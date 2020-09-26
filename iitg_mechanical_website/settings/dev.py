@@ -7,7 +7,7 @@ DEBUG = True
 SECRET_KEY = 'vx6haagw7!j)xp0ppc7vglyo2e$yddhxax*3_-jp=elru432(&'
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['mechweb2.centralindia.cloudapp.azure.com', '52.172.166.108', '127.0.0.1', '0.0.0.0']
 
 INTERNAL_IPS = ("127.0.0.1, 0.0.0.0")
 
@@ -27,4 +27,4 @@ try:
 except ImportError:
     pass
 
-# BASE_URL = 'http://127.0.0.1:8000'
+BASE_URL = 'https://mechweb2.centralindia.cloudapp.azure.com/mech/'

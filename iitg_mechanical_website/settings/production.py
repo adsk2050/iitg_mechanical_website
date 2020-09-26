@@ -8,7 +8,7 @@ DEBUG = False
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = [''] 
+ALLOWED_HOSTS = ['mechweb2.centralindia.cloudapp.azure.com', '52.172.166.108'] 
 
 INTERNAL_IPS = ("127.0.0.1")
 
