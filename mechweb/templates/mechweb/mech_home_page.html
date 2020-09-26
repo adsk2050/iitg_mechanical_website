@@ -82,7 +82,7 @@
                 src="{% static "/images/logo.png" %}" >
     </div>
   </div>
-  
+
 <!-- Preloader End -->
 
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -96,7 +96,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
         </div>
-        
+
       </div>
       <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs mechname" style="font-family:'Source Sans Pro', sans-serif;">
               <div class="row">
@@ -112,7 +112,7 @@
         </div>
 
 
-      
+
 
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto ">
@@ -216,7 +216,7 @@
 
 
 
-              {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == "Committee Home" %}
+              {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == 'Committee Home' %}
 
               {% else %}
               <li class="nav-item"> <a class="nav-link"  role="button" style="color: #0E0A11; font-family:'Source Sans Pro', sans-serif; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
@@ -294,7 +294,7 @@
          <button class="tablinks text-center "  onclick="openCity(event, 'Events')">Events</button>
          <!-- <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button> -->
        </div>
-       
+
        <div id="News" class="tabcontent">
        {% for notification in page.text_panels.all %}
        {% if notification.content_type == "0" %}
@@ -310,7 +310,7 @@
               </div>
               <div class="col-md-2">
                 <!-- <div class="card-img-bottom">
-                  
+
                 </div> -->
               </div>
             </div>
@@ -350,7 +350,7 @@
               </div>
               <div class="col-md-2">
                 <!-- <div class="card-img-bottom">
-                  
+
                 </div> -->
               </div>
             </div>
@@ -375,7 +375,7 @@
               </div>
               <div class="col-md-2">
                 <!-- <div class="card-img-bottom">
-                  
+
                 </div> -->
               </div>
             </div>
@@ -439,70 +439,8 @@
   </div>
  <!-- end of research categories row -->
 
- <!-- hod message and donate card -->
- <!-- <div class="container-fluid padding messagebox">
-   <div class="row  text-center">
-     <div class="col-xs-12 col-sm-12 col-md-4 picbox">
-          {% if page.specific.HOD_image %}
-            {% image page.specific.HOD_image original as photo %}
-            <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
-          {% else %}
-              {% with '/media/images/placeholder.jpg' as image_static %}
-                  <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="HoD Image" class="" />
-              {% endwith %}
-          {% endif %}
-     </div>
-     <div class="col-xs-12 col-sm-12 col-md-4 hodmsg">
-       <div class="sidebar-box">
-         <h3 class="text-center" >FROM HOD's DESK</h3><br>
-         <p>{{ page.specific.HOD_message|richtext }}</p><br>
-        <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
-          fa fa-long-arrow-right"></i>
-        </a>
-        </p>
-        <strong>{{ hod_name }}</strong><br>
-        {% if hod_contact != '0' %}
-        <strong>{{ hod_contact|richtext }}</strong>
-        {% endif %}
-    </div>
-     <div class="col-xs-12 col-sm-12 col-md-4 donatecard">
-         <div class="cardbox">
-             <div class="card" style="width: 300px; height: 300px; background-color:#000000;">
 
-               <div class="card img-fluid" style="width:100%; height:300px;">
-                {% if page.specific.donate_image %}
-                  {% image page.specific.donate_image original as photo %}
-                  <img class="card-img-top" src="{{ photo.url }}" alt="{{ photo.alt }}" style="width:100%; height: 300px; opacity:0.5;">
-                {% else %}
-                    {% with '/media/images/placeholder.jpg' as image_static %}
-                        <img src="{{ image_static }}" alt="placeholder" class="card-img-top" style="width:100%; height: 300px; opacity:0.5;"/>
-                    {% endwith %}
-                {% endif %}
 
-                  <div class="card-img-overlay">
-                    <div class="card-body">
-                      <h5 class="card-title" style="font-weight:bolder; color:#000000"><strong>Let's Grow Together</strong></h5>
-                      <p class="card-text" style="text-align: left; color:#000000;">
-                        {{ page.specific.donate_message|truncatechars:100 }}
-                      </p>
-                      <a href="#" class="btn-area">Read more.. <i class="
-                        fa fa-long-arrow-right"></i>
-                      </a>
-                    </div>
-                    <div class="card-body">
-                      <button type="button" class="btn btn-primary btn-lg" name="button">
-                        <a href="{{ page.specific.donation_link }}" class="card-link" style="color: #fff;">Contribute</a></button>
-                    </div>
-                  </div>
-                </div>
-           <!-- <img src="{ % static "images/img1.jpg" % }" class="card-img-top" alt="..."> -->
-
-        </div>
-       </div>
-    </div>
-  </div>
- </div>
-</div>
 
     <div class="w3-padding-64 messagebox">
       <div class="w3-row-padding">
@@ -524,7 +462,7 @@
           <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
           <div class="w3-col l8 m6">
           <h1 class="w3-xxlarge" style="color: #ffffff" ><b>From HOD's Desk</b></h1>
-          <p class="w3-xlarge" style="text-align:justify; text-justify:inter-word">{{ page.specific.HOD_message|richtext }}</p>
+          <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
 
           <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
@@ -560,17 +498,27 @@
         <div class="ml-1 font-weight-light">
           North Guwahati, Guwahati, Assam 781039
         </div><br>
-        <div class="ml-1 font-weight-light">
-          Website Queries
+        <div class="">
+          <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+            <i class="fa fa-envelope">&nbsp;&nbsp;&nbsp;</i>mechoff@iitg.ac.in
+          </a>
         </div>
         <div class="">
           <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-            <i class="fa fa-envelope"></i>mechadmin@iitg.ac.in
+            <i class="fa fa-phone">&nbsp;&nbsp;&nbsp;</i>  +91 361 2582700
           </a>
         </div>
-        <div class="ml-1 font-weight-light">
-          Developed by Dhiraj Mechanical Website team
+        <div class="">
+          <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+            <i class="fa fa-fax">&nbsp;&nbsp;</i>  +91 361 2582699
+          </a>
         </div>
+        <div class="">
+          <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+            <i class="fa fa-chrome">&nbsp;</i> <a href="http://www.iitg.ac.in/mech"> Mechanical Website</a>
+          </a>
+        </div>
+
 
       </div>
       <!-- Grid column -->
@@ -640,6 +588,17 @@
         <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Departmental Links</h6>
 
         <ul class="list-unstyled" style="list-style: disc;">
+
+          <li>
+          {% for child in navlist %}
+             {% with page_type=child.content_type.name %}
+             {% if page_type == 'Committee Home' %}
+              <a  href="{{ child.url }}">{{ child.title }}</a>
+             {% endif %}
+             {% endwith %}
+          {% endfor %}
+          </li>
+
           <li>
             <a href="http://www.iitg.ac.in/mech/meadmin.php">Departmental Committees</a>
           </li>
@@ -662,6 +621,7 @@
              {% endwith %}
           {% endfor %}
           </li>
+
 
         </ul>
 
@@ -718,12 +678,51 @@
   <!-- Social buttons -->
 
   <!-- Copyright -->
-  <div class="copyright text-center py-3">© 2020 Department of ME, IITG:
-    <a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
-    <br><br>
-    <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website fedback form</a></span>
+  <div class="w3-container">
+    <div class="w3-third">
+      <div class="ml-1 font-weight-light">
+        Website Queries
+      </div>
+      <div class="">
+        <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+          <i class="fa fa-envelope"></i>mechadmin@iitg.ac.in
+        </a>
+      </div>
+      <div class="ml-1 font-weight-light">
+        Developed by Dhiraj Mittal & Anmol Deep
+      </div>
+      <div class="ml-1 font-weight-light">
+        Last Updated: 25/9/2020
+      </div>
+    </div>
+
+    <div class="w3-third">
+      <div class="copyright text-center py-3">© 2020 Department of ME, IITG:
+        <a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
+        <br><br>
+        <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website feedback form</a></span>
+      </div>
+    </div>
+
+
+
+    <!-- Copyright -->
+    <div class="w3-third" >
+      <div class="w3-row" style="padding:10px">
+        <div align='center'><a href='https://www.hit-counts.com/'><img src='http://www.hit-counts.com/counter.php?t=MTQ1MTk1NA==' border='2' alt='logo creation'></a><BR><a href='https://www.glowgraphics.co.uk/'></a></div>
+      </div>
+
+
+      <div class="w3-row">
+          <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+      </div>
+
+    </div>
+
   </div>
-  <!-- Copyright -->
+
+
+
 
 </footer>
 <!-- Footer -->
@@ -743,6 +742,42 @@
 <script>
 
 
+
+/* date time script */
+function showTime(){
+    var date = new Date();
+    var h = date.getHours(); // 0 - 23
+    var m = date.getMinutes(); // 0 - 59
+    var s = date.getSeconds(); // 0 - 59
+    var day = date.getDate();
+    var month = date.getMonth()+1;
+    var year = date.getFullYear();
+    var session = "AM";
+
+    if(h == 0){
+        h = 12;
+    }
+
+    if(h > 12){
+        h = h - 12;
+        session = "PM";
+    }
+
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+
+    var time = day + "/" + month + "/" + year + "     " + h + ":" + m + ":" + s + " " + session;
+    document.getElementById("MyClockDisplay").innerText = time;
+    document.getElementById("MyClockDisplay").textContent = time;
+
+    setTimeout(showTime, 1000);
+
+}
+
+showTime();
+
+/*---------------*/
 
 $(document).ready( function() {
   $('.carousel').carousel();

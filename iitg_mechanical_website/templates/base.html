@@ -220,7 +220,7 @@
         {% endblock %}
 
         <!-- Footer -->
-        <footer class="page-footer font-small stylish-color-dark pt-4"  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif; position: relative; bottom: 0; width: 100%">
+        <footer class="page-footer font-small stylish-color-dark pt-4"  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif;">
 
           <!-- Footer Links -->
           <div class="container-fluid text-center text-md-left">
@@ -239,17 +239,27 @@
                 <div class="ml-1 font-weight-light">
                   North Guwahati, Guwahati, Assam 781039
                 </div><br>
-                <div class="ml-1 font-weight-light">
-                  Website Queries
+                <div class="">
+                  <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+                    <i class="fa fa-envelope">&nbsp;&nbsp;&nbsp;</i>mechoff@iitg.ac.in
+                  </a>
                 </div>
                 <div class="">
                   <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-                    <i class="fas fa-envelope-open-text"></i>mechadmin@iitg.ac.in
+                    <i class="fa fa-phone">&nbsp;&nbsp;&nbsp;</i>  +91 361 2582700
                   </a>
                 </div>
-                <div class="ml-1 font-weight-light">
-                  Developed by Mechanical website team
+                <div class="">
+                  <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+                    <i class="fa fa-fax">&nbsp;&nbsp;</i>  +91 361 2582699
+                  </a>
                 </div>
+                <div class="">
+                  <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+                    <i class="fa fa-chrome">&nbsp;</i> <a href="http://www.iitg.ac.in/mech"> Mechanical Website</a>
+                  </a>
+                </div>
+
 
               </div>
               <!-- Grid column -->
@@ -293,6 +303,9 @@
                     <a href="http://www.iitg.ac.in/">IITG Home</a>
                   </li>
                   <li>
+                    <a href="https://www.iitg.ac.in/mech/includes/workshop/index.html">Central Workshop</a>
+                  </li>
+                  <li>
                     <a href="http://www.iitg.ac.in/phones/">Phone Directory</a>
                   </li>
                   <li>
@@ -301,9 +314,7 @@
                   <li>
                     <a href="https://www.iitg.ac.in/cet/nptel.html">NPTEL</a>
                   </li>
-                  <li>
-                    <a href="/research/facilities/mechanical-workshop/">Mechanical Workshop</a>
-                  </li>
+
                 </ul>
 
               </div>
@@ -340,6 +351,7 @@
                      {% endwith %}
                   {% endfor %}
                   </li>
+
                 </ul>
 
               </div>
@@ -395,12 +407,51 @@
           <!-- Social buttons -->
 
           <!-- Copyright -->
-          <div class="copyright text-center py-3">© 2019 Department of ME, IITG:
-            <a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
-            <br><br>
-    <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website fedback form</a></span>
+          <div class="w3-container">
+            <div class="w3-third">
+              <div class="ml-1 font-weight-light">
+                Website Queries
+              </div>
+              <div class="">
+                <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+                  <i class="fa fa-envelope"></i>mechadmin@iitg.ac.in
+                </a>
+              </div>
+              <div class="ml-1 font-weight-light">
+                Developed by Dhiraj Mittal & Anmol Deep
+              </div>
+              <div class="ml-1 font-weight-light">
+                Last Updated: 25/9/2020
+              </div>
+            </div>
+
+            <div class="w3-third">
+              <div class="copyright text-center py-3">© 2020 Department of ME, IITG:
+                <a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
+                <br><br>
+                <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website feedback form</a></span>
+              </div>
+            </div>
+
+
+
+            <!-- Copyright -->
+            <div class="w3-third" >
+              <div class="w3-row" style="padding:10px">
+                <div align='center'><a href='https://www.hit-counts.com/'><img src='http://www.hit-counts.com/counter.php?t=MTQ1MTk1NA==' border='2' alt='logo creation'></a><BR><a href='https://www.glowgraphics.co.uk/'></a></div>
+              </div>
+
+
+              <div class="w3-row">
+                  <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+              </div>
+
+            </div>
+
           </div>
-          <!-- Copyright -->
+
+
+
 
         </footer>
         <!-- Footer -->
@@ -411,6 +462,42 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script type="text/javascript">
         window.onscroll = function() {scrollFunction()};
+        /* date time script */
+        function showTime(){
+            var date = new Date();
+            var h = date.getHours(); // 0 - 23
+            var m = date.getMinutes(); // 0 - 59
+            var s = date.getSeconds(); // 0 - 59
+            var day = date.getDate();
+            var month = date.getMonth()+1;
+            var year = date.getFullYear();
+            var session = "AM";
+
+            if(h == 0){
+                h = 12;
+            }
+
+            if(h > 12){
+                h = h - 12;
+                session = "PM";
+            }
+
+            h = (h < 10) ? "0" + h : h;
+            m = (m < 10) ? "0" + m : m;
+            s = (s < 10) ? "0" + s : s;
+
+            var time = day + "/" + month + "/" + year + "     " + h + ":" + m + ":" + s + " " + session;
+            document.getElementById("MyClockDisplay").innerText = time;
+            document.getElementById("MyClockDisplay").textContent = time;
+
+            setTimeout(showTime, 1000);
+
+        }
+
+        showTime();
+
+        /*---------------*/
+
 
 
 

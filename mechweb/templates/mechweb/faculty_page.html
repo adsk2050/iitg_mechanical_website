@@ -126,32 +126,50 @@
         </div>
         {% endfor %}
         </div>
-      {% endif %} 
+      {% endif %}
       {% if pub_list %}
         <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Recent Publications</h2> 
-        {% for pub in pub_list %} 
-        {% if forloop.counter < 6 %} <div class="w3-container">
-        <h5 class="w3-opacity"><a href="{{ pub.url }}">{{ pub }}</a></p>
-        <hr>
-        </div>
-        {% endif %}
-        {% endfor %}
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Recent Publications</h2>
+        <ol class="faclist" type="1">
+          {% for pub in pub_list %}
+          {% if forloop.counter < 6 %}
+              <div class="w3-container">
+                <li class="faclist">
+                  <h5 class="w3-opacity"><a href="{{ pub.url }}">{{ pub }}</a></h5>
+              </li>
+
+            <hr>
+            </div>
+          {% endif %}
+          {% endfor %}
+        </ol>
+
       {% endif %}
+
+
+
             </div>
 
       {% if project_list %}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Recent Projects</h2>
-        {% for project in project_list %}
-        <div class="w3-container">
-          <h5 class="w3-opacity"><a href="{{ project.url }}">{{ project.specific.name }}</a></h5>
-                    <p>{{ project.specific.get_project_type_display }}<br>From: {{ project.specific.start_date|date:"Y" }} to {{ project.specific.end_date|date:"Y" }}</p>
-                    <hr>
-            </div>
-            {% endfor %}
+
+<ol class="faclist">
+  {% for project in project_list %}
+    <div class="w3-container">
+      <li class="faclist">
+        <h5 class="w3-opacity"><a href="{{ project.url }}">{{ project.specific.name }}</a></h5>
+          <p>{{ project.specific.get_project_type_display }}<br>From: {{ project.specific.start_date|date:"Y" }} to {{ project.specific.end_date|date:"Y" }}</p>
+          <hr>
+      </li>
+
+      </div>
+  {% endfor %}
+</ol>
         </div>
-        {% endif %} {% if course_list %}
+        {% endif %}
+
+        {% if course_list %}
         <div class="w3-container w3-card w3-white w3-margin-bottom">
             <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Courses taught</h2> {% for course in course_list %}
             <div class="w3-container">
