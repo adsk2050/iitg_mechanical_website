@@ -16,7 +16,9 @@ import os
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 # BASE_URL = 'https://iitg.ac.in/mech'
-
+SECRET_KEY = None
+with open('home/ad/PycharmProjects/iitg_mechanical_website-master/extrasAD/secret_key.txt', 'r') as sc:
+    SECRET_KEY = sc.readline()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -237,8 +239,8 @@ SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b5307
 # SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/mech/admin/'
-SOCIAL_AUTH_LOGIN_URL = '/mech/admin/login/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/admin/'
+SOCIAL_AUTH_LOGIN_URL = '/admin/login/'
 DJANGO_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 RAISE_EXCEPTIONS = True

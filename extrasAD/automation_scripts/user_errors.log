@@ -1,0 +1,897 @@
+----------------------------------
+Adding users on  2019-07-21 21:55:03.225994
+----------------------------------
+Failed to add amaresh due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(amaresh) already exists.
+
+Failed to add anoop due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(anoop) already exists.
+
+Failed to add akd due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(akd) already exists.
+
+Failed to add bsandeepr due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bsandeepr) already exists.
+
+Failed to add dnbasu due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dnbasu) already exists.
+
+Failed to add n.ganesh due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nganesh) already exists.
+
+Failed to add gmadhu due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gmadhu) already exists.
+
+Failed to add manmohan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(manmohan) already exists.
+
+Failed to add shock due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(shock) already exists.
+
+Failed to add pinak due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pinak) already exists.
+
+Failed to add pmkumar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pmkumar) already exists.
+
+Failed to add arupn due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(arupn) already exists.
+
+Failed to add saha due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(saha) already exists.
+
+Failed to add vinayak due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vinayak) already exists.
+
+Failed to add ads due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ads) already exists.
+
+Failed to add atanub due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(atanub) already exists.
+
+Failed to add chakra due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(chakra) already exists.
+
+Failed to add dsharma due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dsharma) already exists.
+
+Failed to add dibakarb due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dibakarb) already exists.
+
+Failed to add ksrkm due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ksrkm) already exists.
+
+Failed to add karuna.kalita due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(karunakalita) already exists.
+
+Failed to add kpmech due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kpmech) already exists.
+
+Failed to add rtiwari due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rtiwari) already exists.
+
+Failed to add ssg due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ssg) already exists.
+
+Failed to add sangu due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sangu) already exists.
+
+Failed to add dwivedy due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dwivedy) already exists.
+
+Failed to add sashin due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sashin) already exists.
+
+Failed to add spanda due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(spanda) already exists.
+
+Failed to add kanagaraj due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kanagaraj) already exists.
+
+Failed to add ssvelan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ssvelan) already exists.
+
+Failed to add uday due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(uday) already exists.
+
+Failed to add manasdas due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(manasdas) already exists.
+
+Failed to add evmrs due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(evmrs) already exists.
+
+Failed to add pankaj.biswas due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pankajbiswas) already exists.
+
+Failed to add psr due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(psr) already exists.
+
+Failed to add ganu due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ganu) already exists.
+
+Failed to add sdk due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sdk) already exists.
+
+Failed to add snj due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(snj) already exists.
+
+Failed to add spal due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(spal) already exists.
+
+Failed to add swarupbag due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(swarupbag) already exists.
+
+Failed to add gtm due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gtm) already exists.
+
+Failed to add bhaskark due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bhaskark) already exists.
+
+Failed to add pranabm due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pranabm) already exists.
+
+Failed to add krishnab due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(krishnab) already exists.
+
+Failed to add pkhanikar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pkhanikar) already exists.
+
+Failed to add sajan.kapil due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sajankapil) already exists.
+
+Failed to add s.m.hazarika due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(smhazarika) already exists.
+
+Failed to add nelsonm due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nelsonm) already exists.
+
+Failed to add raju.talukdar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rajutalukdar) already exists.
+
+Failed to add sanjib.s due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sanjibs) already exists.
+
+Failed to add mrinal_s due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mrinal_s) already exists.
+
+Failed to add joykrishna due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(joykrishna) already exists.
+
+Failed to add nidul_s due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nidul_s) already exists.
+
+Failed to add porag_s due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(porag_s) already exists.
+
+Failed to add rsaikia due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rsaikia) already exists.
+
+Failed to add pranjol due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pranjol) already exists.
+
+Failed to add ganesh81 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ganesh81) already exists.
+
+Failed to add minesh due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(minesh) already exists.
+
+Failed to add medhir58 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(medhir58) already exists.
+
+Failed to add dhani due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dhani) already exists.
+
+Failed to add amal due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(amal) already exists.
+
+Failed to add j.kakati due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jkakati) already exists.
+
+Failed to add ug due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ug) already exists.
+
+Failed to add lng due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(lng) already exists.
+
+Failed to add santoshgogoi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(santoshgogoi) already exists.
+
+Failed to add gautamgogoi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gautamgogoi) already exists.
+
+Failed to add naba due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(naba) already exists.
+
+Failed to add monudh due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(monudh) already exists.
+
+Failed to add dkd due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dkd) already exists.
+
+Failed to add nandan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nandan) already exists.
+
+Failed to add dulumonidas due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dulumonidas) already exists.
+
+Failed to add gakul84 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gakul84) already exists.
+
+Failed to add bijoy.k due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bijoyk) already exists.
+
+Failed to add chetri due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(chetri) already exists.
+
+Failed to add djb due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(djb) already exists.
+
+Failed to add nip due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nip) already exists.
+
+Failed to add jitenb due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jitenb) already exists.
+
+Failed to add gwms90 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gwms90) already exists.
+
+Failed to add banikya.chandan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(banikyachandan) already exists.
+
+Failed to add m.baishya due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mbaishya) already exists.
+
+Failed to add saifuddin due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(saifuddin) already exists.
+
+Failed to add m.baruah due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mbaruah) already exists.
+
+Failed to add p.dutta due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pdutta) already exists.
+
+Failed to add p.sridhar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(psridhar) already exists.
+
+Failed to add p.samir due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(psamir) already exists.
+
+Failed to add shrikant due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(shrikant) already exists.
+
+Failed to add n.siva due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nsiva) already exists.
+
+Failed to add dhiraj.bora due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dhirajbora) already exists.
+
+Failed to add raushan.kumar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(raushankumar) already exists.
+
+Failed to add mukesh.kr due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mukeshkr) already exists.
+
+Failed to add k.dhrubajyoti due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kdhrubajyoti) already exists.
+
+Failed to add mantulal due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mantulal) already exists.
+
+Failed to add ashif.iqbal due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ashifiqbal) already exists.
+
+Failed to add r.saikia due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rsaikia) already exists.
+
+Failed to add s.karmakar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(skarmakar) already exists.
+
+Failed to add pranjolphdnowstaff due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pranjolphdnowstaff) already exists.
+
+Failed to add s.sajith due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ssajith) already exists.
+
+Failed to add j.doley due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jdoley) already exists.
+
+Failed to add das.biplab due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dasbiplab) already exists.
+
+Failed to add r.bhadra due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rbhadra) already exists.
+
+Failed to add a.chanda due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(achanda) already exists.
+
+Failed to add prabhat.2014 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(prabhat2014) already exists.
+
+Failed to add h.akash due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(hakash) already exists.
+
+Failed to add tinu.saju due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(tinusaju) already exists.
+
+Failed to add sambit.majumder due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sambitmajumder) already exists.
+
+Failed to add karthik.a due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(karthika) already exists.
+
+Failed to add p.pardeep due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ppardeep) already exists.
+
+Failed to add j.sunku due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jsunku) already exists.
+
+Failed to add abhijit.2015 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(abhijit2015) already exists.
+
+Failed to add woldetinsay due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(woldetinsay) already exists.
+
+Failed to add sanjaykmohan16 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sanjaykmohan16) already exists.
+
+Failed to add ankanmishra due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ankanmishra) already exists.
+
+Failed to add srivasta due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(srivasta) already exists.
+
+Failed to add biswa176103105 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(biswa176103105) already exists.
+
+Failed to add bastav.borah due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bastavborah) already exists.
+
+Failed to add k.bhaben due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kbhaben) already exists.
+
+Failed to add subhash18 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(subhash18) already exists.
+
+Failed to add avinish.tiwari due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(avinishtiwari) already exists.
+
+Failed to add akash.dutta due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(akashdutta) already exists.
+
+Failed to add agyapal due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(agyapal) already exists.
+
+Failed to add rajkumar.sarma due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rajkumarsarma) already exists.
+
+Failed to add ajit.sahu due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ajitsahu) already exists.
+
+Failed to add swagatsudhadwibedi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(swagatsudhadwibedi) already exists.
+
+Failed to add masruddin due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(masruddin) already exists.
+
+Failed to add saipraneeth due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(saipraneeth) already exists.
+
+Failed to add partha.k due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(parthak) already exists.
+
+Failed to add d.saptarshi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dsaptarshi) already exists.
+
+Failed to add ashutosh.mech due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ashutoshmech) already exists.
+
+Failed to add avilash due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(avilash) already exists.
+
+Failed to add nur.alom due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nuralom) already exists.
+
+Failed to add arbind due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(arbind) already exists.
+
+Failed to add vignesh.r due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vigneshr) already exists.
+
+Failed to add b.shuvayan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bshuvayan) already exists.
+
+Failed to add d.biswajyoti due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dbiswajyoti) already exists.
+
+Failed to add r.narmada due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rnarmada) already exists.
+
+Failed to add s.piyush due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(spiyush) already exists.
+
+Failed to add saibal due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(saibal) already exists.
+
+Failed to add b.hirak due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bhirak) already exists.
+
+Failed to add t.parag due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(tparag) already exists.
+
+Failed to add talukdarnaba due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(talukdarnaba) already exists.
+
+Failed to add alok18 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(alok18) already exists.
+
+Failed to add s.pawar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(spawar) already exists.
+
+Failed to add rajdeep.mech due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rajdeepmech) already exists.
+
+Failed to add maj.sahoo due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(majsahoo) already exists.
+
+Failed to add rsreddy due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rsreddy) already exists.
+
+Failed to add rahulaman due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rahulaman) already exists.
+
+Failed to add amit.raj due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(amitraj) already exists.
+
+Failed to add abbas due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(abbas) already exists.
+
+Failed to add nilka176103015 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nilka176103015) already exists.
+
+Failed to add manje176103021 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(manje176103021) already exists.
+
+Failed to add upasana.sarma due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(upasanasarma) already exists.
+
+Failed to add sdas93 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sdas93) already exists.
+
+Failed to add sukan176103114 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sukan176103114) already exists.
+
+Failed to add samrat.tamuly due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(samrattamuly) already exists.
+
+Failed to add dipankar.saha due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dipankarsaha) already exists.
+
+Failed to add msagar28.9 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(msagar289) already exists.
+
+Failed to add harshad.gaikwad due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(harshadgaikwad) already exists.
+
+Failed to add nites176103018 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nites176103018) already exists.
+
+Failed to add ankan18 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ankan18) already exists.
+
+Failed to add santanu18 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(santanu18) already exists.
+
+Failed to add jayashree due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jayashree) already exists.
+
+Failed to add kumar176103020 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kumar176103020) already exists.
+
+Failed to add niraj_kr due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(niraj_kr) already exists.
+
+Failed to add viwek176103111 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(viwek176103111) already exists.
+
+Failed to add k.subhra due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ksubhra) already exists.
+
+Failed to add saxena18b due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(saxena18b) already exists.
+
+Failed to add rohit18e due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rohit18e) already exists.
+
+Failed to add amit176103014 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(amit176103014) already exists.
+
+Failed to add rasoo176103007 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rasoo176103007) already exists.
+
+Failed to add sam.dev due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(samdev) already exists.
+
+Failed to add saurav.suman due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sauravsuman) already exists.
+
+Failed to add gireeshsharma due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gireeshsharma) already exists.
+
+Failed to add 0 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(0) already exists.
+
+Failed to add kodees_vssc due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kodees_vssc) already exists.
+
+Failed to add vivek176103115 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vivek176103115) already exists.
+
+Failed to add shashank.shekhar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(shashankshekhar) already exists.
+
+Failed to add debtanay due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(debtanay) already exists.
+
+Failed to add raj176103110 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(raj176103110) already exists.
+
+Failed to add sarmah18 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sarmah18) already exists.
+
+Failed to add nandani due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nandani) already exists.
+
+Failed to add nitin18 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nitin18) already exists.
+
+Failed to add verma176103116 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(verma176103116) already exists.
+
+Failed to add ajay.patil due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ajaypatil) already exists.
+
+Failed to add urmimala due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(urmimala) already exists.
+
+Failed to add koushik.das due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(koushikdas) already exists.
+
+Failed to add gaurav.kr due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gauravkr) already exists.
+
+Failed to add nath176103112 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nath176103112) already exists.
+
+Failed to add nashine18 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nashine18) already exists.
+
+Failed to add kumar176103003 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kumar176103003) already exists.
+
+Failed to add r.shashi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rshashi) already exists.
+
+Failed to add s.pawan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(spawan) already exists.
+
+Failed to add d.manish due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dmanish) already exists.
+
+Failed to add a.arvind due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(aarvind) already exists.
+
+Failed to add g.kishor due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gkishor) already exists.
+
+Failed to add jk.2013 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jk2013) already exists.
+
+Failed to add nilav176103106 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nilav176103106) already exists.
+
+Failed to add ramesh.mech due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rameshmech) already exists.
+
+Failed to add k.devarshi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kdevarshi) already exists.
+
+Failed to add wittison due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(wittison) already exists.
+
+Failed to add sunil.2013 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sunil2013) already exists.
+
+Failed to add pankaj.2013 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pankaj2013) already exists.
+
+Failed to add vishnu.t due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vishnut) already exists.
+
+Failed to add rajesh.2013 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rajesh2013) already exists.
+
+Failed to add d.gayen due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dgayen) already exists.
+
+Failed to add raol9me351 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(raol9me351) already exists.
+
+Failed to add rasmi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rasmi) already exists.
+
+Failed to add anshul.garg due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(anshulgarg) already exists.
+
+Failed to add sanasam due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sanasam) already exists.
+
+Failed to add sasanka.kakati due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sasankakakati) already exists.
+
+Failed to add ngangkham due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ngangkham) already exists.
+
+Failed to add v.agrawal due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vagrawal) already exists.
+
+Failed to add sailen.dutta due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sailendutta) already exists.
+
+Failed to add dawit due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dawit) already exists.
+
+Failed to add saurabh.2014 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(saurabh2014) already exists.
+
+Failed to add sibananda due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sibananda) already exists.
+
+Failed to add kelli due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kelli) already exists.
+
+Failed to add m.borthakur due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mborthakur) already exists.
+
+Failed to add r.dipendra due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rdipendra) already exists.
+
+Failed to add p.vivek due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pvivek) already exists.
+
+Failed to add r.pritam due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rpritam) already exists.
+
+Failed to add raktim.biswas due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(raktimbiswas) already exists.
+
+Failed to add b.gogoi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bgogoi) already exists.
+
+Failed to add ukiran due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ukiran) already exists.
+
+Failed to add dipankar.2014 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dipankar2014) already exists.
+
+Failed to add k.saikia due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ksaikia) already exists.
+
+Failed to add sujit.das due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sujitdas) already exists.
+
+Failed to add brijeshkumar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(brijeshkumar) already exists.
+
+Failed to add phuka176103109 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(phuka176103109) already exists.
+
+Failed to add anupam.alok due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(anupamalok) already exists.
+
+Failed to add avadh_kishore due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(avadh_kishore) already exists.
+
+Failed to add s.achinta due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sachinta) already exists.
+
+Failed to add jraisheh due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jraisheh) already exists.
+
+Failed to add s.sandip due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ssandip) already exists.
+
+Failed to add j.sayantan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jsayantan) already exists.
+
+Failed to add tejde176103104 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(tejde176103104) already exists.
+
+Failed to add singh176103107 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(singh176103107) already exists.
+
+Failed to add s.tikader due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(stikader) already exists.
+
+Failed to add a.shahnawaz due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ashahnawaz) already exists.
+
+Failed to add uttam.kt due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(uttamkt) already exists.
+
+Failed to add rp.soni due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rpsoni) already exists.
+
+Failed to add bikramjy due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bikramjy) already exists.
+
+Failed to add k.basumatary due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kbasumatary) already exists.
+
+Failed to add devav176103012 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(devav176103012) already exists.
+
+Failed to add j.ashirbad due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jashirbad) already exists.
+
+Failed to add sudip.shyam due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sudipshyam) already exists.
+
+Failed to add abhay.gupta due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(abhaygupta) already exists.
+
+Failed to add abinashlipun due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(abinashlipun) already exists.
+
+Failed to add l.kaushik due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(lkaushik) already exists.
+
+Failed to add sashi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sashi) already exists.
+
+Failed to add maryom.dabi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(maryomdabi) already exists.
+
+Failed to add vikash.2015 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vikash2015) already exists.
+
+Failed to add d.saurav due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dsaurav) already exists.
+
+Failed to add s.bhaskarjyoti due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sbhaskarjyoti) already exists.
+
+Failed to add j.shatrughan due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jshatrughan) already exists.
+
+Failed to add rajkumar.shufen due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rajkumarshufen) already exists.
+
+Failed to add mirzaul due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mirzaul) already exists.
+
+Failed to add bikash.kumar due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bikashkumar) already exists.
+
+Failed to add vivek.2015 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vivek2015) already exists.
+
+Failed to add k.shranish due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kshranish) already exists.
+
+Failed to add shiv.shukla due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(shivshukla) already exists.
+
+Failed to add amritava due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(amritava) already exists.
+
+Failed to add m.aritra due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(maritra) already exists.
+
+Failed to add s.nilakshi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(snilakshi) already exists.
+
+Failed to add k.dhananjay due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kdhananjay) already exists.
+
+Failed to add s.sanfui due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ssanfui) already exists.
+
+Failed to add deepakk.2014 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(deepakk2014) already exists.
+
+Failed to add shailendra2 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(shailendra2) already exists.
+
+Failed to add hirakh.das due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(hirakhdas) already exists.
+
+Failed to add a.getu due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(agetu) already exists.
+
+Failed to add akshaynamdeo512 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(akshaynamdeo512) already exists.
+
+Failed to add sangjukta due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sangjukta) already exists.
+
+Failed to add gupta89 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gupta89) already exists.
+
+Failed to add vjaiswal.vj due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(vjaiswalvj) already exists.
+
+Failed to add bham.amrit03 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(bhamamrit03) already exists.
+
+Failed to add jjyotichutia due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jjyotichutia) already exists.
+
+Failed to add dskulkarni due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dskulkarni) already exists.
+
+Failed to add plabon due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(plabon) already exists.
+
+Failed to add fds80 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(fds80) already exists.
+
+Failed to add najrul due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(najrul) already exists.
+
+Failed to add g.sodhi due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gsodhi) already exists.
+
+Failed to add n.leena due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nleena) already exists.
+
+Failed to add b.rajeswara due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(brajeswara) already exists.
+
+Failed to add g.majumder due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(gmajumder) already exists.
+
+Failed to add nitis176103008 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(nitis176103008) already exists.
+
+Failed to add sai176103019 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(sai176103019) already exists.
+
+Failed to add durga176103010 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(durga176103010) already exists.
+
+Failed to add mukes176103016 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mukes176103016) already exists.
+
+Failed to add chand176103001 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(chand176103001) already exists.
+
+Failed to add dhira176103023 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(dhira176103023) already exists.
+
+Failed to add mukes176103006 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(mukes176103006) already exists.
+
+Failed to add pranj176103002 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(pranj176103002) already exists.
+
+Failed to add krish176103004 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(krish176103004) already exists.
+
+Failed to add jyoti176103009 due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(jyoti176103009) already exists.
+
+Failed to add ritam due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ritam) already exists.
+
+Failed to add kaustabh due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(kaustabh) already exists.
+
+Failed to add ravi18a due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(ravi18a) already exists.
+
+----------------------------------
+Adding users on  2019-07-21 22:09:21.530659
+----------------------------------
+Failed to add r.saikia due to  duplicate key value violates unique constraint "mechweb_customuser_username_key"
+DETAIL:  Key (username)=(rsaikia) already exists.
+

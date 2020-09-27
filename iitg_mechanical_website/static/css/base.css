@@ -457,7 +457,7 @@ header{
   width: auto;
   color: #fff;
   height: auto;
-  background: url(images/img1.jpg) center no-repeat;
+  background: url(/images/img1.jpg) center no-repeat;
   background-size: cover;
 }
 

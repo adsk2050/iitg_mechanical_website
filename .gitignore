@@ -7,3 +7,5 @@ search/__pycache__/
 *.pyc
 venv/
 static/
+mechweb.log
+extrasAD/secret_key.txt

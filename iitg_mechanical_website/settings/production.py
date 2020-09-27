@@ -5,10 +5,10 @@ from .base import *
 DEBUG = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+# SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ['mechweb2.centralindia.cloudapp.azure.com', '52.172.166.108'] 
+ALLOWED_HOSTS = ['mechweb2.centralindia.cloudapp.azure.com', '52.172.166.108', '127.0.0.1']
 
 INTERNAL_IPS = ("127.0.0.1")
 
@@ -21,3 +21,46 @@ except ImportError:
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
+
+# SECURE_SSL_REDIRECT=True
+# SESSION_COOKIE_SECURE =True
+# CSRF_COOKIE_SECURE=True
+
+FIRST_DAY_OF_WEEK = 1
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'mechweb.log',
+            'formatter': 'verbose'
+        },
+        'console': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['file', 'console'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
+        'iitg_mechanical_website': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+        },
+    }
+}
