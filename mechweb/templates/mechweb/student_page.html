@@ -24,7 +24,7 @@
             {% image page.specific.photo original as photo %}
             <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
           {% else %}
-              {% with '/media/images/phd/'|add:page.slug|add:'.jpg' as image_static %}
+              {% with '/mech/media/images/phd/'|add:page.slug|add:'.jpg' as image_static %}
                     <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" />
               {% endwith %}
           {% endif %}

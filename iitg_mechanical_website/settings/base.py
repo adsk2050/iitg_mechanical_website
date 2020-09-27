@@ -17,7 +17,7 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 # BASE_URL = 'https://iitg.ac.in/mech'
 SECRET_KEY = None
-with open('home/ad/PycharmProjects/iitg_mechanical_website-master/extrasAD/secret_key.txt', 'r') as sc:
+with open('home/mechadmin/iitg_mechanical_website-master/extrasAD/secret_key.txt', 'r') as sc:
     SECRET_KEY = sc.readline()
 
 # Quick-start development settings - unsuitable for production
@@ -154,10 +154,10 @@ TIME_ZONE = 'Asia/Kolkata'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+STATIC_URL = '/mech/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = '/mech/media/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
@@ -239,14 +239,14 @@ SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b5307
 # SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/admin/'
-SOCIAL_AUTH_LOGIN_URL = '/admin/login/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/mech/admin/'
+SOCIAL_AUTH_LOGIN_URL = '/mech/admin/login/'
 DJANGO_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 WAGTAIL_FRONTEND_LOGIN_TEMPLATE = 'mechweb/wagtailadmin/login.html'
-WAGTAIL_FRONTEND_LOGIN_URL = '/admin/login'
+WAGTAIL_FRONTEND_LOGIN_URL = '/mech/admin/login'
 # WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
 # In Azure portal app registration, add this as redirect uri: https://127.0.0.1:8000/complete/azuread-tenant-oauth2/

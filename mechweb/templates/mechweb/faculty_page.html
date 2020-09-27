@@ -12,7 +12,7 @@
             <div class="w3-white w3-text-grey w3-card-4">
                 <div class="w3-display-container">
                     {% if page.specific.photo %} {% image page.specific.photo original as photo %}
-                    <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" /> {% else %} {% with '/media/images/faculty/'|add:page.slug|add:'.jpg' as image_static %}
+                    <img src="{{ photo.url }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" /> {% else %} {% with '/mech/media/images/faculty/'|add:page.slug|add:'.jpg' as image_static %}
                     <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: contain' alt="{{ photo.alt }}" class="" /> {% endwith %} {% endif %}
                     <div class="w3-display-bottomleft w3-container w3-text-black">
                         <!-- <h1>{{ page }}</h1> -->
