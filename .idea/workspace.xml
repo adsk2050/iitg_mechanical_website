@@ -25,15 +25,9 @@
     <list default="true" id="19e10397-8604-489d-8f67-e7952d60c05a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iitg_mechanical_website/settings/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/iitg_mechanical_website/settings/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iitg_mechanical_website/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/iitg_mechanical_website/static/css/base.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iitg_mechanical_website/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/iitg_mechanical_website/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/faculty_home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/faculty_home_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/faculty_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/faculty_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/mech_home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/mech_home_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/staff_home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/staff_home_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/staff_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/staff_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/student_home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/student_home_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/student_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/student_page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,10 +193,10 @@
       <screen x="0" y="27" width="1366" height="697" />
     </state>
     <state x="293" y="27" width="770" height="697" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.27.1366.697@0.27.1366.697" timestamp="1601148806796" />
-    <state x="374" y="102" width="868" height="622" key="find.popup" timestamp="1601180695586">
+    <state x="374" y="102" width="868" height="622" key="find.popup" timestamp="1601201007277">
       <screen x="0" y="27" width="1366" height="697" />
     </state>
-    <state x="374" y="102" width="868" height="622" key="find.popup/0.27.1366.697@0.27.1366.697" timestamp="1601180695586" />
+    <state x="374" y="102" width="868" height="622" key="find.popup/0.27.1366.697@0.27.1366.697" timestamp="1601201007277" />
     <state x="515" y="161" width="325" height="436" key="refactoring.ChangeSignatureDialog" timestamp="1600525956806">
       <screen x="0" y="27" width="1366" height="697" />
     </state>

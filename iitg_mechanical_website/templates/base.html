@@ -330,7 +330,13 @@
 
                 <ul class="list-unstyled" style="list-style: disc;">
                   <li>
-                    <a href="http://www.iitg.ac.in/mech/meadmin.php">Departmental Committees</a>
+                  {% for child in navlist %}
+                     {% with page_type=child.content_type.name %}
+                     {% if page_type == 'Committee Home' %}
+                      <a  href="{{ child.url }}">{{ child.title }}</a>
+                     {% endif %}
+                     {% endwith %}
+                  {% endfor %}
                   </li>
                   <li>
                     <a href="http://www.iitg.ac.in/mech/forms.php">Downloads</a>
