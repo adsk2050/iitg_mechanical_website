@@ -17,7 +17,8 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 # BASE_URL = 'https://iitg.ac.in/mech'
 SECRET_KEY = None
-with open('/home/ad/PycharmProjects/iitg_mechanical_website-master/extrasAD/secret_key.txt', 'r') as sc:
+with open(os.path.join(BASE_DIR, 'secrets.txt'), 'r') as sc:
+    sc.readline()
     SECRET_KEY = sc.readline()
 
 # Quick-start development settings - unsuitable for production
@@ -230,12 +231,20 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 SOCIAL_AUTH_USER_MODEL = 'mechweb.CustomUser'
-#Client ID
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = '35a05f10-9389-4f75-ab57-d3afc598a3b0'
-#Client secret
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = '~4.nZ_cS4QXedtlaz6-6BXEbUWUM2x2qz8'
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = None
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = None
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = None
+with open(os.path.join(BASE_DIR, 'secrets.txt'), 'r') as sc:
+    sc.readline()
+    sc.readline()
+    sc.readline() #Client ID
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = sc.readline()
+    sc.readline() #Client secret
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = sc.readline()
+    sc.readline()
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = sc.readline()
+
 # SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
 # SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
