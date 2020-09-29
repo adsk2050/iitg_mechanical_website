@@ -8,5 +8,5 @@ search/__pycache__/
 venv/
 static/
 mechweb.log
-secrets.txt
+secrets.json
 db.sqlite3

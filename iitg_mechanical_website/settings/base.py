@@ -12,14 +12,18 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import json
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 # BASE_URL = 'https://iitg.ac.in/mech'
-SECRET_KEY = None
-with open(os.path.join(BASE_DIR, 'secrets.txt'), 'r') as sc:
-    sc.readline()
-    SECRET_KEY = sc.readline()
+
+sc =  open(os.path.join(BASE_DIR, 'secrets.json'), 'r')
+secrets_txt = sc.read()
+secrets = json.loads(secrets_txt)
+sc.close()
+
+SECRET_KEY = secrets["SECRET_KEY"]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -231,18 +235,9 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 SOCIAL_AUTH_USER_MODEL = 'mechweb.CustomUser'
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = None
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = None
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = None
-with open(os.path.join(BASE_DIR, 'secrets.txt'), 'r') as sc:
-    sc.readline()
-    sc.readline()
-    sc.readline() #Client ID
-    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = sc.readline()
-    sc.readline() #Client secret
-    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = sc.readline()
-    sc.readline()
-    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = sc.readline()
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = secrets["SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY"]
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = secrets["SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET"]
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = secrets["SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID"]
 
 # SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
 # SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
@@ -255,7 +250,7 @@ SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
-WAGTAIL_FRONTEND_LOGIN_TEMPLATE = 'mechweb/wagtailadmin/login.html'
+WAGTAIL_FRONTEND_LOGIN_TEMPLATE = '/wagtailadmin/login.html'
 WAGTAIL_FRONTEND_LOGIN_URL = '/admin/login'
 # WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
 # In Azure portal app registration, add this as redirect uri: https://127.0.0.1:8000/complete/azuread-tenant-oauth2/
