@@ -1278,6 +1278,8 @@ class ResearchLabPage(Page):
     # When already defined in faculty model who is lab incharge... then do we need it here?
     faculty_incharge = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,
                                          related_name='faculty_incharge')
+    scientific_officer = models.ForeignKey('StaffPage', null=True, blank=True, on_delete=models.SET_NULL,
+                                         related_name='scientific_officer')
     intro = models.CharField(max_length=500, blank=True)
     body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
     contact_number = models.CharField(max_length=20, blank=True)
@@ -1312,9 +1314,10 @@ class ResearchLabPage(Page):
 
     people_panels = [
         AutocompletePanel('faculty_incharge', target_model='mechweb.FacultyPage'),
+        AutocompletePanel('scientific_officer', target_model='mechweb.StaffPage'),
         InlinePanel('faculty', label="Faculty"),
-        InlinePanel('postdocs', label="Postdocs"),
         InlinePanel('students', label="Students"),
+        InlinePanel('tech_staffs', label="Technical Staff", max_num=10),
     ]
 
     edit_handler = TabbedInterface([
@@ -1400,16 +1403,17 @@ class ResearchLabStudents(Orderable):
     ]
 
 
-class ResearchLabPostdocs(Orderable):
-    page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='postdocs')
-    postdoc = models.ForeignKey('StaffPage', null=True, blank=True, on_delete=models.SET_NULL,
-                                related_name='postdoc_lab')
-    research_statement = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+class ResearchLabTechStaff(Orderable):
+    page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='tech_staffs')
+    tech_staff = models.ForeignKey('StaffPage', null=True, blank=True, on_delete=models.SET_NULL,
+                                related_name='tech_staff_lab')
+    responsibilities = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
     panels = [
-        AutocompletePanel('postdoc', target_model='mechweb.StaffPage'),
-        FieldPanel('research_statement'),
+        AutocompletePanel('tech_staff', target_model='mechweb.StaffPage'),
+        FieldPanel('responsibilities'),
     ]
 
+# tech_staff
 
 # ------------------------------------------
 class PublicationHomePage(Page):

@@ -17,7 +17,7 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 # BASE_URL = 'https://iitg.ac.in/mech'
 SECRET_KEY = None
-with open('home/ad/PycharmProjects/iitg_mechanical_website-master/extrasAD/secret_key.txt', 'r') as sc:
+with open('/home/ad/PycharmProjects/iitg_mechanical_website-master/extrasAD/secret_key.txt', 'r') as sc:
     SECRET_KEY = sc.readline()
 
 # Quick-start development settings - unsuitable for production

@@ -9,3 +9,4 @@ venv/
 static/
 mechweb.log
 extrasAD/secret_key.txt
+db.sqlite3

@@ -23,10 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19e10397-8604-489d-8f67-e7952d60c05a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mechweb/migrations/0109_auto_20200929_2016.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iitg_mechanical_website/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/iitg_mechanical_website/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/mech_home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/mech_home_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/student_home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/student_home_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/iitg_mechanical_website/settings/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/iitg_mechanical_website/settings/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mechweb/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mechweb/templates/mechweb/research_lab_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/mechweb/templates/mechweb/research_lab_page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,6 +215,6 @@
     <state x="346" y="45" width="672" height="678" key="search.everywhere.popup/0.27.1366.697@0.27.1366.697" timestamp="1601218026260" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/iitg_mechanical_website_master$manage.coverage" NAME="manage Coverage Results" MODIFIED="1601125613913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/iitg_mechanical_website_master$manage.coverage" NAME="manage Coverage Results" MODIFIED="1601391893837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
