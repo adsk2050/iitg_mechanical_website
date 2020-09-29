@@ -15,16 +15,15 @@
 <div class="container-fluid text-center" style="font-size: 1.7em">
   <h2>B.Tech Students and Faculty Advisors</h2>
   <hr>
-  <p><a href="/media/documents/Btech_2018_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2018 Batch</a></p>
-  <p><a href="/media/documents/Btech_2017_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2017 Batch</a></p>
-  <p><a href="/media/documents/Btech_2016_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2016 Batch</a></p>
-<!--   <p><a href="/media/media/documents/btech/btech15.pdf" class="btn btn-primary btn-lg" role="button">2015 Batch</a></p>
-  <p><a href="/media/media/documents/btech/btech14.pdf" class="btn btn-primary btn-lg" role="button">2014 Batch</a></p>
-  <p><a href="/media/media/documents/btech/btech13.pdf" class="btn btn-primary btn-lg" role="button">2013 Batch</a></p>
-  <p><a href="/media/media/documents/btech/btech12.pdf" class="btn btn-primary btn-lg" role="button">2012 Batch</a></p>
-  <p><a href="/media/media/documents/btech/btech11.pdf" class="btn btn-primary btn-lg" role="button">2011 Batch</a></p>
-  <p><a href="/media/media/documents/btech/btech10.pdf" class="btn btn-primary btn-lg" role="button">2010 Batch</a></p>
-  <p><a href="/media/media/documents/btech/btechearly.pdf" >Earlier batches...</a></p> -->
+  <p><a href="/mech/media/documents/Btech_2018_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2018 Batch</a></p>
+  <p><a href="/mech/media/documents/Btech_2017_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2017 Batch</a></p>
+  <p><a href="/mech/media/documents/Btech_2016_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2016 Batch</a></p>
+<!--   <p><a href="/mech/media/documents/Btech_2015_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2015 Batch</a></p>
+  <p><a href="/mech/media/documents/Btech_2014_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2014 Batch</a></p>
+  <p><a href="/mech/media/documents/Btech_2013_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2013 Batch</a></p>
+  <p><a href="/mech/media/documents/Btech_2012_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2012 Batch</a></p>
+  <p><a href="/mech/media/documents/Btech_2011_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2011 Batch</a></p>
+  <p><a href="/mech/media/documents/Btech_2010_Faculty_Advisor.pdf" class="btn btn-primary btn-lg" role="button">2010 Batch</a></p>-->
 
   <br><br><br><br><br><br><br><br>
 
@@ -34,9 +33,9 @@
   <h2>M.Tech Students</h2>
   <hr>
 
-  <p><a href="/media/documents/mtech18.pdf" class="btn btn-primary btn-lg" role="button">2018 Batch</a></p>
-  <p><a href="/media/documents/mtech17.pdf" class="btn btn-primary btn-lg" role="button">2017 Batch</a></p>
-  <p><a href="/media/documents/mtech16.pdf" class="btn btn-primary btn-lg" role="button">2016 Batch</a></p>
+  <p><a href="/mech/media/documents/mtech18.pdf" class="btn btn-primary btn-lg" role="button">2018 Batch</a></p>
+  <p><a href="/mech/media/documents/mtech17.pdf" class="btn btn-primary btn-lg" role="button">2017 Batch</a></p>
+  <p><a href="/mech/media/documents/mtech16.pdf" class="btn btn-primary btn-lg" role="button">2016 Batch</a></p>
   <br><br><br><br><br><br><br><br><br><br>  <br><br><br><br><br><br><br>
 
 
@@ -94,7 +93,7 @@
               {% if student.specific.photo %}
                 {% image student.specific.photo original style='width:100%; height:100%' %}
               {% else %}
-                  {% with '/media/images/phd/'|add:student.slug|add:'.jpg' as image_static %}
+                  {% with '/mech/media/images/phd/'|add:student.slug|add:'.jpg' as image_static %}
                       <img src="{{ image_static }}" style='width:100%; height:100%' alt="{{ photo.alt }}" class="" />
                 {% endwith %}
               {% endif %}

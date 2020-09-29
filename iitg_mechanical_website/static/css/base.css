@@ -321,7 +321,7 @@ s
 }
 
 .service-bg-1{
-  background: url("/static/images/img1.jpg");
+  background: url("/mech/static/images/img1.jpg");
   -webkit-background-size:cover;
   background-size: cover;
   background-position: center;
