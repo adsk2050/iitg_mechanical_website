@@ -63,20 +63,20 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
             <a class="navbar-brand" href="/">
-              <img height="100px" width="100px"
+              <img class="logoiitg"
                   src="{% static "images/logo.png" %}"></a>
             </div>
 
 <div class="col-xs-12 col-sm-4 col-md-3 hidden-xs mechname" style="font-family:'Source Sans Pro', sans-serif;">
               <div class="row">
-                <span><h4 class="mechbrand" style="margin-bottom:0; font-size:20px; color: #fff;">Department of </h4></span>
+                <span><h4 class="mechbrand" style="margin-bottom:0; color: #fff;">Department of </h4></span>
               </div>
 
               <div class="row">
-                  <span><h3 class="mechbrand" style="margin-top:0; font-size:30px; margin-bottom:0; color: #fff;"> Mechanical Engineering</h3></span>
+                  <span><h3 class="mechbrandmech" style="margin-top:0; margin-bottom:0; color: #fff;"> Mechanical Engineering</h3></span>
               </div>
               <div class="row">
-                <span><h3 class="mechbrand" style="margin-top:0; font-size:20px; font-weight: bold; color: #fff;">Indian Institute of Technology Guwahati</h3></span>
+                <span><h3 class="mechbrand" style="margin-top:0; font-weight: bold; color: #fff;">Indian Institute of Technology Guwahati</h3></span>
               </div>
         </div>
 
@@ -207,7 +207,7 @@
 
 
         {% wagtailuserbar %}
-        <div class="paddingadjustments" style="padding-top: 110px;">
+        <div class="paddingadjustments" style="padding-top: 150px;">
         {% block content %}{% endblock %}
 
         </div>
@@ -329,6 +329,15 @@
                 <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Departmental Links</h6>
 
                 <ul class="list-unstyled" style="list-style: disc;">
+                  <li>
+                  {% for child in navlist %}
+                     {% with page_type=child.content_type.name %}
+                     {% if page_type == 'Committee Home' %}
+                      <a  href="{{ child.url }}">{{ child.title }}</a>
+                     {% endif %}
+                     {% endwith %}
+                  {% endfor %}
+                  </li>
                   <li>
                     <a href="http://www.iitg.ac.in/mech/meadmin.php">Departmental Committees</a>
                   </li>
