@@ -165,7 +165,7 @@
                           <li><span>Date of procurement</span>{{ eqpt.date_of_procurement }}</li>
                           {% endif %}
                           {% if eqpt.specifications %}
-                              <li><span>Specifications</span>{{ eqpt.specifications }}</li>
+                              <li><span>Specifications</span>{{ eqpt.specifications|richtext }}</li>
                           {% endif %}
                           {% if eqpt.specifications %}
                               <li><span>Manual</span><a href="{{ eqpt.document.url }}">Download</a></li>
