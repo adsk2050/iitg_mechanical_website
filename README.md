@@ -17,3 +17,5 @@
 If you are an IITG student, you get $100 credit on Microsoft Azure. Log in to [Microsoft Azure](portal.azure.com), claim your benefits and get going with the project. In case you use Azure VM, be sure to create an inbound rule in neworking section of the VM to allow port 8080 and instead of running python manage.py runsslserver, run *python manage.py runsslserver 0:8080*. Then you will be able to access the website on <Azure VM Public IP address>:8080.
   
  I would love to see a student from IITG take up this project from my hands and take it forward. Others are also welcome.
+ 
+ I would strongly advise to use [Sublime merge](https://www.sublimemerge.com/docs/linux_repositories#apt) to manage version control. It is very intuitive and doesn't have a steep learning curve like git bash.
