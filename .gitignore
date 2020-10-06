@@ -10,3 +10,4 @@ static/
 mechweb.log
 secrets.json
 db.sqlite3
+.idea/
