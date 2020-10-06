@@ -12,7 +12,7 @@
 {% block content %}
 
 <div class="container-fluid pubcont">
-  <h1 class="text-center">{{ page.title }}</h1>
+  <h1 class="text-center">Departmental Committees</h1>
   <!-- Intro -->
   <div class="about">{{ page.about|richtext }}</div>
   <hr>
@@ -21,9 +21,17 @@
 
 
 
-{% for committee in com_list %}
-<div><a href="{{ committee.url }}">{{ committee.specific.name }} </a>{{committee.specific.about|richtext}}</div>
-{% endfor %}
+
+    <div id="ug_lab" class="w3-container city" >
+        <ul class="list-group  text-center"  style="width: 50%; margin: auto">
+            {% for committee in com_list %}
+                <li class="list-group-item">
+                    <a href="{{ committee.url }}"><h4>{{ committee.specific.name }}</h4></a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 
 
 

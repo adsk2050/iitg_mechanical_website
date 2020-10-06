@@ -14,18 +14,65 @@
 <div class="container-fluid pubcont">
   <h1 class="text-center">{{ page.title }}</h1>
   <!-- Intro -->
-  <div class="about">{{ page.about|richtext }}</div>
+  <div class="about text-center">{{ page.about|richtext }}</div>
   <hr>
+
+</div>
+
+
+<div id="faculty_awards" class="w3-container city" style="display:block">
+<div id="resizecommittee">
+  <table class="table table-hover">
+      <thead class="text-center">
+        <tr>
+          {% if page.tenure_start %}
+            <th style="word-wrap: break-word;max-width: 200px">Tenure Start</th>
+            {% endif %}
+            {% if page.tenure_end %}
+            <th style="word-wrap: break-word;max-width: 200px">Tenure End</th>
+            {% endif %}
+            {% if page.specific.minutes_doc %}
+            <th style="word-wrap: break-word;max-width: 200px;min-width:50px">Minutes Doc</th>
+            {% endif %}
+
+        </tr>
+      </thead>
+      <tbody class="text-center">
+
+      <tr>
+        {% if page.tenure_start %}
+          <td style="word-wrap: break-word;max-width: 200px">{{ page.tenure_start }}</td>
+          {% endif %}
+          {% if page.tenure_end %}
+          <td style="word-wrap: break-word;max-width: 200px">{{ page.tenure_end }}</td>
+          {% endif %}
+          {% if page.specific.minutes_doc %}
+          <td style="word-wrap: break-word;max-width: 200px;min-width:50px">
+            {% for docs in page.specific.minutes_doc.all %}
+            {{ docs }}
+            {% endfor %}
+          </td>
+          {% endif %}
+
+      </tr>
+
+      <tbody>
+    </table>
 </div>
 
 
 
+  </div>
 
-    <table>
+  <br><br><br>
+
+
+
+    <!-- <table>
      {% for fac_mem in page.specific.faculty.all %}
     <tr>
-      <td>{{ fac_mem.specific.designation }}</td>
-      <td>{{ fac_mem..faculty.specific.name }}</td>
+      <td>{{ fac_mem.designation }}</td>
+      <td>{{ fac_mem.faculty.first_name }} {{ fac_mem.faculty.middle_name }} {{ fac_mem.faculty.last_name }}</td>
     </tr>
     {% endfor %}
     {% for stud_mem in page.specific.student.all %}
@@ -40,7 +87,88 @@
       <td>{{ other.specific.name }}</td>
     </tr>
     {% endfor %}
-    </table>
+    </table> -->
+
+    <div id="faculty_awards" class="w3-container city" style="display:block">
+      <div id="resizecommittee">
+        <table class="table table-hover">
+            <thead class="text-center">
+              <tr>
+                  {% if page.specific.faculty.all|length != 0 %}
+                  <th style="word-wrap: break-word;max-width: 200px">Designation</th>
+                  <th style="word-wrap: break-word;max-width: 200px">Faculty Name</th>
+                  {% endif %}
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              {% for fac_mem in page.specific.faculty.all %}
+            <tr>
+                {% if page.specific.faculty.all|length != 0 %}
+                <td style="word-wrap: break-word;max-width: 200px">{{ fac_mem.designation }}</td>
+                <td style="word-wrap: break-word;max-width: 200px">{{ fac_mem.faculty.first_name }} {{ fac_mem.faculty.middle_name }} {{ fac_mem.faculty.last_name }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+            <tbody>
+          </table>
+      </div>
+    </div>
+    <br><br>
+
+    <div id="faculty_awards" class="w3-container city" style="display:block">
+      <div id="resizecommittee">
+        <table class="table table-hover">
+            <thead class="text-center">
+              <tr>
+                  {% if page.specific.students.all|length != 0 %}
+                  <th style="word-wrap: break-word;max-width: 200px">Designation</th>
+                  <th style="word-wrap: break-word;max-width: 200px">Student Name</th>
+                  {% endif %}
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              {% for stud_mem in page.specific.students.all %}
+            <tr>
+                {% if page.specific.students.all|length != 0%}
+                <td style="word-wrap: break-word;max-width: 200px">{{ stud_mem.designation }}</td>
+                <td style="word-wrap: break-word;max-width: 200px">{{ stud_mem.student.first_name }} {{ stud_mem.student.middle_name }} {{ stud_mem.student.last_name }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+            <tbody>
+          </table>
+      </div>
+    </div>
+
+    <br><br>
+
+    <div id="faculty_awards" class="w3-container city" style="display:block">
+      <div id="resizecommittee">
+        <table class="table table-hover">
+            <thead class="text-center">
+              <tr>
+                  {% if page.specific.com_other.all|length != 0 %}
+                  <th style="word-wrap: break-word;max-width: 200px">Designation</th>
+                  <th style="word-wrap: break-word;max-width: 200px"> Name</th>
+                  {% endif %}
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              {% for other in page.specific.com_other.all %}
+            <tr>
+                {% if page.specific.com_other.all|length != 0 %}
+                <td style="word-wrap: break-word;max-width: 200px">{{ other.designation }}</td>
+                <td style="word-wrap: break-word;max-width: 200px">{{ other.name }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+            <tbody>
+          </table>
+      </div>
+    </div>
 
 
 

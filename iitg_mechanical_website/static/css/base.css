@@ -1,28 +1,141 @@
 /* media queries */
 
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   body {
     font-size: 22px;
   }
+  .mechbrand{
+    color: black;
+    line-height:1.2;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 15px;
+  }
+  .mechbrandmech{
+    color: black;
+    line-height:1.2;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+  }
+
+
+
+  .mechbrand.mechbrandscroll{
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height:1.2;
+    font-size: 15px;
+
+  }
+  .mechbrandmech.mechbrandmechscroll{
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height:1.2;
+    font-size: 17px;
+
+  }
 
   nav {
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 0px solid rgba(255,255,255,0.1);
     display: block;
   }
+  .nav-link.colourchange{
+    color: #fff !important;
+    font-size: 15px;
+    /* font-weight: bold; */
+  }
+
+  .navbar-light .navbar-nav .nav-link{
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height: 0.15;
+    font-size: 15px;
+  }
+
+  .logoiitg{
+    height: 60px;
+    width: 60px;
+  }
+}
+
+@media (min-width: 1600px) {
+
+  #resizecommittee .table{
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mechbrand{
+    color: black;
+    line-height:1.2;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 20px;
+  }
+
+  .mechbrandmech{
+    color: black;
+    line-height:1.2;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 30px;
+  }
+
+
+
+  .mechbrand.mechbrandscroll{
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height:1.2;
+    font-size: 20px;
+
+  }
+  .mechbrandmech.mechbrandmechscroll{
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height:1.2;
+    font-size: 30px;
+
+  }
+
+  .nav-link.colourchange{
+    color: #fff !important;
+    /* font-weight: bold; */
+    font-size:
+
+  }
+  .navbar-light .navbar-nav .nav-link{
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height: 0.15;
+    font-size: 25px;
+  }
+
+  .logoiitg{
+    height: 100px;
+    width: 100px;
+  }
+
 }
 
 
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
   .mechname {
     display: none;
+  }
+
+  .logoiitg{
+    height:30px;
+    width: 30px;
   }
 
   .fixed-top .navbar-collapse {
     max-height: 100vh;
     overflow-y: auto;
+  }
+  nav {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: block;
   }
 }
 
@@ -190,12 +303,6 @@ nav{
 	color: #fff;
 }
 
-.navbar-light .navbar-nav .nav-link{
-  color: #fff;
-  font-family: 'Source Sans Pro', sans-serif;;
-  line-height: 0.15;
-  font-size: 25px;
-}
 
 .fixed-top.scrolled {
   /* background-color: #62A8E0 !important; */
@@ -205,25 +312,33 @@ nav{
   transition: background-color 200ms linear;
 }
 
-.nav-link.colourchange{
+/* .nav-link.colourchange{
   color: #fff !important;
-  /* font-weight: bold; */
-}
+} */
 
-.mechbrand{
+/* .mechbrand{
   color: black;
   line-height:1.2;
-  font-family: 'Source Sans Pro', sans-serif;;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 20px;
+}
+
+.mechbrandmech{
+  color: black;
+  line-height:1.2;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 30px;
 }
 
 
 
 .mechbrand.mechbrandscroll{
   color: #fff;
-  font-family: 'Source Sans Pro', sans-serif;;
+  font-family: 'Source Sans Pro', sans-serif;
   line-height:1.2;
+  font-size: 20px;
 
-}
+} */
 
 .padding{
   padding-bottom: 2rem;
@@ -1035,25 +1150,34 @@ header{
 ------------------------------------------
 
 /*  pagination css*/
-.pagination {
-  display: inline-block;
+.paginatio {
+  display: inherit !important;
+  text-align: center;
+  border-radius: 50% !important;
 }
 
-.pagination a {
+.step-links{
+  display: inline-block;
+}
+.paginatio a {
   color: black;
-  float: left;
+  /* float: left; */
   padding: 8px 16px;
   text-decoration: none;
   border-radius: 5px;
   transition: background-color .3s;
 }
 
-.pagination a.active {
+.paginatio a.active {
   background-color: #4CAF50;
   color: white;
   border-radius: 5px;
 }
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.paginatio a:hover:not(.active) {background-color: #ddd;}
+
+.pagination .current{
+  align-content: center;
+}
 
 ------------------------------------------
 /* publications table css */
@@ -1228,7 +1352,7 @@ h2{
   }
 
   .eqptlist li{
-    color: #D5D5D5;
+    color: #222546;
     font-weight: normal;
   }
 }
