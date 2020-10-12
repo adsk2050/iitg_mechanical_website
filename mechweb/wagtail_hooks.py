@@ -200,7 +200,7 @@ class WelcomePanel():
     def render(self):
         return mark_safe("""
         <section class="panel summary nice-padding">
-          <h3>Welcome to IITG Mechanical Department website admin interface. Only edit the items related to you. Don't edit others' data. </h3>
+          <h3>Welcome to IITG Mechanical Department website content management interface. Only edit the items related to you. Don't edit others' data. All edits are associated with editor ID.</h3>
         </section>
         """)
 

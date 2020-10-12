@@ -2,5 +2,10 @@
 {% load static %}
 
 {% block branding_login %}<div><img alt="IITG Logo" src="{% static 'images/iitg_sml.gif' %}"/></div>Mechanical Department, IIT Guwahati<div></div>
-<a href="{% url "social:begin" "azuread-tenant-oauth2" %}">Login through outlook</a>
+<h3>To login through outlook: <a href="{% url "social:begin" "azuread-tenant-oauth2" %}">Click here</a></h3>
+<hr/>
+    <h3>Or</h3>
+<hr/>
+    <h3>Login using email and password</h3>
+    <h6>Security suggestion: Please don't keep same password for Outlook and Mechanical website editor profile</h6>
 {% endblock %}
