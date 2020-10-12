@@ -539,7 +539,7 @@
         <ul class="list-unstyled" style="list-style: disc;">
         <li>
         {% if request.user.is_authenticated %}
-            <a href="{% url 'wagtail_serve' '' %}admin/logout">Hello {{ request.user.first_name }}, Logout?</a>
+            Hello {{ request.user.first_name }}, <a href="{% url 'wagtail_serve' '' %}admin/logout">Logout?</a>|<a href="{% url 'wagtail_serve' ''%}admin">Go to CMS</a>
         {% else %}
             <a href="{% url 'wagtail_serve' '' %}admin/login/?next={% url 'wagtail_serve' '' %}admin/">Hi Guest! Login?</a>
         {% endif %}
