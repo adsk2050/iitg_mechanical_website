@@ -503,6 +503,10 @@
             <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Quick links</h6>
 
             <ul class="list-unstyled" style="list-style: disc;">
+                <li>
+                <a href="{% url 'wagtail_serve' '' %}search">Search</a>
+              </li>
+
               <li>
                 <a href="http://www.iitg.ac.in/">IITG Home</a>
               </li>
@@ -526,52 +530,57 @@
 
           <hr class="clearfix w-100 d-md-none">
 
-          <!-- Grid column -->
-          <div class="col-md-2 mx-auto">
+        <!-- Grid column -->
+        <div class="col-md-2 mx-auto">
 
-            <!-- Links -->
-            <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Departmental Links</h6>
+        <!-- Links -->
+        <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Departmental Links</h6>
 
-            <ul class="list-unstyled" style="list-style: disc;">
+        <ul class="list-unstyled" style="list-style: disc;">
+        <li>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'wagtail_serve' '' %}admin/logout">Hello {{ request.user.first_name }}, Logout?</a>
+        {% else %}
+            <a href="{% url 'wagtail_serve' '' %}admin/login/?next={% url 'wagtail_serve' '' %}admin/">Hi Guest! Login?</a>
+        {% endif %}
+        </li>
+          <li>
+          {% for child in navlist %}
+             {% with page_type=child.content_type.name %}
+             {% if page_type == 'Committee Home' %}
+              <a  href="{{ child.url }}">{{ child.title }}</a>
+             {% endif %}
+             {% endwith %}
+          {% endfor %}
+          </li>
+            <li>
+            {% for child in navlist %}
+            {% with page_type=child.content_type.name %}
+            {% if page_type == 'Event Home' %}
+            <a  href="{{ child.url }}">{{ child.title }}</a>
+            {% endif %}
+            {% endwith %}
+            {% endfor %}
+            </li>
+          <!-- <li>
+            <a href="http://www.iitg.ac.in/mech/meadmin.php">Departmental Committees</a>
+          </li> -->
+          <li>
+            <a href="{% url 'wagtail_serve' '' %}downloads">Downloads</a>
+          </li>
+          <li>
+            <a href="http://172.16.73.54/mrbs/web/day.php?year=2019&month=06&day=17&area=3&room=12">Online Hall Booking</a>
+          </li>
+          <li>
+            <a href="http://shilloi.iitg.ernet.in/~mech/intranet/useful_links.php">Useful links</a>
+          </li>
 
-              <li>
-              {% for child in navlist %}
-                 {% with page_type=child.content_type.name %}
-                 {% if page_type == 'Committee Home' %}
-                  <a  href="{{ child.url }}">{{ child.title }}</a>
-                 {% endif %}
-                 {% endwith %}
-              {% endfor %}
-              </li>
-
-              <!-- <li>
-                <a href="http://www.iitg.ac.in/mech/meadmin.php">Departmental Committees</a>
-              </li> -->
-              <li>
-                <a href="http://www.iitg.ac.in/mech/forms.php">Downloads</a>
-              </li>
-              <li>
-                <a href="http://172.16.73.54/mrbs/web/day.php?year=2019&month=06&day=17&area=3&room=12">Online Hall Booking</a>
-              </li>
-              <li>
-                <a href="http://shilloi.iitg.ernet.in/~mech/intranet/useful_links.php">Useful links</a>
-              </li>
-
-              <li>
-              {% for child in navlist %}
-                 {% with page_type=child.content_type.name %}
-                 {% if page_type == 'Event Home' %}
-                  <a  href="{{ child.url }}">{{ child.title }}</a>
-                 {% endif %}
-                 {% endwith %}
-              {% endfor %}
-              </li>
 
 
-            </ul>
+        </ul>
 
-          </div>
-          <!-- Grid column -->
+        </div>
+        <!-- Grid column -->
 
         </div>
         <!-- Grid row -->
@@ -590,7 +599,7 @@
           </div>
           <div class="">
             <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-              <i class="fa fa-envelope"></i>mechadmin@iitg.ac.in
+              <i class="fa fa-envelope"></i>mechwebadmin@iitg.ac.in
             </a>
           </div>
           <div class="ml-1 font-weight-light">

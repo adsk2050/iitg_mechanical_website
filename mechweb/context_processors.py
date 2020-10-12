@@ -3,7 +3,7 @@ from .models import MechHomePage, ResearchLabPage
 def navbar(request):
 	navlist_parent = MechHomePage.objects.all()
 	if navlist_parent :
-		navlist = navlist_parent[0].get_children().live().order_by('first_published_at')
+		navlist = navlist_parent[0].get_children().filter().live().order_by('first_published_at')
 		# for item in navlist:
 		# 	item
 		# for item in nav_items:
@@ -19,6 +19,7 @@ def navbar(request):
 			"categories home":9,
 			"aboutiitgmech":10,
 			"Committee Home":11,
+			"generic page":12
 		}
 		navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
 		return {'navlist': navlist}

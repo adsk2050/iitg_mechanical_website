@@ -299,6 +299,9 @@
                 <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Quick links</h6>
 
                 <ul class="list-unstyled" style="list-style: disc;">
+                    <li>
+                <a href="{% url 'wagtail_serve' '' %}search">Search</a>
+              </li>
                   <li>
                     <a href="http://www.iitg.ac.in/">IITG Home</a>
                   </li>
@@ -329,6 +332,13 @@
                 <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Departmental Links</h6>
 
                 <ul class="list-unstyled" style="list-style: disc;">
+                <li>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'wagtail_serve' '' %}admin/logout">Hello {{ request.user.first_name }}, Logout?</a>
+                {% else %}
+                    <a href="{% url 'wagtail_serve' '' %}admin/login/?next={% url 'wagtail_serve' '' %}admin/">Hi Guest! Login?</a>
+                {% endif %}
+                </li>
                   <li>
                   {% for child in navlist %}
                      {% with page_type=child.content_type.name %}
@@ -338,6 +348,15 @@
                      {% endwith %}
                   {% endfor %}
                   </li>
+                    <li>
+                    {% for child in navlist %}
+                    {% with page_type=child.content_type.name %}
+                    {% if page_type == 'Event Home' %}
+                    <a  href="{{ child.url }}">{{ child.title }}</a>
+                    {% endif %}
+                    {% endwith %}
+                    {% endfor %}
+                    </li>
                   <!-- <li>
                     <a href="http://www.iitg.ac.in/mech/meadmin.php">Departmental Committees</a>
                   </li> -->
@@ -351,15 +370,7 @@
                     <a href="http://shilloi.iitg.ernet.in/~mech/intranet/useful_links.php">Useful links</a>
                   </li>
 
-                  <li>
-                  {% for child in navlist %}
-                     {% with page_type=child.content_type.name %}
-                     {% if page_type == 'Event Home' %}
-                      <a  href="{{ child.url }}">{{ child.title }}</a>
-                     {% endif %}
-                     {% endwith %}
-                  {% endfor %}
-                  </li>
+
 
                 </ul>
 
@@ -423,7 +434,7 @@
               </div>
               <div class="">
                 <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-                  <i class="fa fa-envelope"></i>mechadmin@iitg.ac.in
+                  <i class="fa fa-envelope"></i>mechwebadmin@iitg.ac.in
                 </a>
               </div>
               <div class="ml-1 font-weight-light">

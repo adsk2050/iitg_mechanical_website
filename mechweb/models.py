@@ -14,7 +14,12 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, TabbedInterface, \
     ObjectList
+    # , StreamFieldPanel
 from wagtail.core.fields import RichTextField
+    # , StreamField
+# from wagtail.core import blocks
+# from wagtail.images.blocks import ImageChooserBlock
+# from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.core.models import Page, Orderable
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 ######################################################
@@ -122,7 +127,7 @@ class MechHomePage(Page):
 
     subpage_types = ['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage',
                      'CourseStructure', 'AlumniHomePage', 'AwardHomePage', 'Aboutiitgmech', 'CategoriesHome',
-                     'CommitteeHomePage']
+                     'CommitteeHomePage', 'GenericPage']
 
     max_count = 1
 
@@ -218,6 +223,15 @@ class Aboutiitgmech(Page):
     parent_page_types = ['MechHomePage']
     subpage_types = []
     max_count = 1
+######################################################
+class GenericPage(Page):
+    body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
+    ]
+    parent_page_types = ['MechHomePage']
+    subpage_types = ['GenericPage']
+    # max_count = 1
 
 
 ######################################################
@@ -1337,8 +1351,8 @@ class ResearchLabPage(Page):
 
 
 class LabEquipment(Orderable):
-    company = models.CharField(max_length=50, blank=True)
-    name = models.CharField(max_length=25, blank=True)
+    company = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=250, blank=True)
     page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='equipment')
     operator = models.ForeignKey('StaffPage', null=True, blank=True, on_delete=models.SET_NULL, related_name='operator')
     document = models.ForeignKey(

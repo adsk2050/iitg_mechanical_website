@@ -158,7 +158,7 @@ TIME_ZONE = 'Asia/Kolkata'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-mech = '/mech'
+mech = secrets["mech"]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = mech+'/static/'
 
