@@ -1362,8 +1362,8 @@ class LabEquipment(Orderable):
         related_name='+'
     )
     specifications = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-    cost = models.FloatField(blank=True)
-    date_of_procurement = models.DateField(blank=True)
+    cost = models.FloatField(blank=True, null=True)
+    date_of_procurement = models.DateField(blank=True, null=True)
     link = models.URLField(max_length=250, blank=True)
     photo_1 = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL,
                                 related_name='+')
