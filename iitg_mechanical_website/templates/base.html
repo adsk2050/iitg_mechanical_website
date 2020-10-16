@@ -184,7 +184,7 @@
                     </li>
                     {% endif %}
 
-                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == "Committee Home"%}
+                    {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == "Committee Home" or page_type == 'generic page' %}
 
                     {% else %}
                     <li class="nav-item"> <a class="nav-link"  role="button" style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;" href="{{ child.url }}">{{ child.title }}</a></li>
@@ -334,7 +334,7 @@
                 <ul class="list-unstyled" style="list-style: disc;">
                 <li>
                 {% if request.user.is_authenticated %}
-                    Hello {{ request.user.first_name }}, <a href="{% url 'wagtail_serve' '' %}admin/logout">Logout?</a>|<a href="{% url 'wagtail_serve' ''%}admin">Go to CMS</a>
+                    Hello {{ request.user.first_name }}, <a href="{% url 'wagtail_serve' ''%}admin">Go to CMS</a>
                 {% else %}
                     <a href="{% url 'wagtail_serve' '' %}admin/login/?next={% url 'wagtail_serve' '' %}admin/">Hi Guest! Login?</a>
                 {% endif %}
