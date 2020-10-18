@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load mechweb_tags %}
+
 {% block body_class %}template-faculty-page{% endblock %}
 
 {% block content %}
@@ -57,7 +59,7 @@
                     {% endif %} {% if page.specific.email_id %}
                     <li>
                         <h4>Mail ID</h4>
-                        <p>{{ page.specific.email_id }}</p>
+                        <p>{{ page.specific.email_id|noscrape }}</p>
                     </li>
                     {% endif %} {% if page.specific.website %}
                     <li>

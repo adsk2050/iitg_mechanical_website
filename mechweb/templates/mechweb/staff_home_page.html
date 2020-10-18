@@ -3,6 +3,7 @@
 {% load static %}
 
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load mechweb_tags %}
 
 {% block body_class %}template-staff-homepage{% endblock %}
 
@@ -84,7 +85,7 @@
                                   <li><span>Office</span>{{ staff.specific.address }}</li>
                               {% endif %}
                               {% if staff.specific.email_id %}
-                                  <li><span>Email : </span>{{ staff.specific.email_id }}</li>
+                                  <li><span>Email : </span>{{ staff.specific.email_id|noscrape }}</li>
                               {% endif %}
                               {% if staff.specific.contact_number %}
                                   <li><span>Contact</span>{{ staff.specific.contact_number }}</li>

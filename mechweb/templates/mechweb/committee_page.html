@@ -20,51 +20,59 @@
 </div>
 
 
-<div id="faculty_awards" class="w3-container city" style="display:block">
-<div id="resizecommittee">
-  <table class="table table-hover">
-      <thead class="text-center">
-        <tr>
-          {% if page.tenure_start %}
-            <th style="word-wrap: break-word;max-width: 200px">Tenure Start</th>
-            {% endif %}
-            {% if page.tenure_end %}
-            <th style="word-wrap: break-word;max-width: 200px">Tenure End</th>
-            {% endif %}
-            {% if page.specific.minutes_doc %}
-            <th style="word-wrap: break-word;max-width: 200px;min-width:50px">Minutes Doc</th>
-            {% endif %}
+{#<div id="faculty_awards" class="w3-container city" style="display:block">#}
+{#<div id="resizecommittee">#}
+{#  <table class="table table-hover">#}
+{#      <thead class="text-center">#}
+{#        <tr>#}
+{#          {% if page.tenure_start %}#}
+{#            <th style="word-wrap: break-word;max-width: 200px">Tenure Start</th>#}
+{#            {% endif %}#}
+{#            {% if page.tenure_end %}#}
+{#            <th style="word-wrap: break-word;max-width: 200px">Tenure End</th>#}
+{#            {% endif %}#}
+{#            {% if page.specific.minutes_doc %}#}
+{#            <th style="word-wrap: break-word;max-width: 200px;min-width:50px"><a href="{{ page.specific.minutes_doc.url }}">Minutes Doc</a></th>#}
+{##}
+{#            {% endif %}#}
+{##}
+{#        </tr>#}
+{#      </thead>#}
+{#      <tbody class="text-center">#}
+{##}
+{#      <tr>#}
+{#        {% if page.tenure_start %}#}
+{#          <td style="word-wrap: break-word;max-width: 200px">{{ page.tenure_start }}</td>#}
+{#          {% endif %}#}
+{#          {% if page.tenure_end %}#}
+{#          <td style="word-wrap: break-word;max-width: 200px">{{ page.tenure_end }}</td>#}
+{#          {% endif %}#}
+{#          {% if page.specific.minutes_doc %}#}
+{#          <td style="word-wrap: break-word;max-width: 200px;min-width:50px">#}
+{#            {% for docs in page.specific.minutes_doc.all %}#}
+{#            {{ docs }}#}
+{#            {% endfor %}#}
+{#          </td>#}
+{#          {% endif %}#}
+{##}
+{#      </tr>#}
+{##}
+{#      <tbody>#}
+{#    </table>#}
+{#</div>#}
+{#  </div>#}
 
-        </tr>
-      </thead>
-      <tbody class="text-center">
+{% if page.specific.minutes_doc %}
+<ul>
+<li >
+{% for docs in page.specific.minutes_doc.all %}
+{{ docs.url }}
+{% endfor %}
+</li>
+</ul>
+{% endif %}
 
-      <tr>
-        {% if page.tenure_start %}
-          <td style="word-wrap: break-word;max-width: 200px">{{ page.tenure_start }}</td>
-          {% endif %}
-          {% if page.tenure_end %}
-          <td style="word-wrap: break-word;max-width: 200px">{{ page.tenure_end }}</td>
-          {% endif %}
-          {% if page.specific.minutes_doc %}
-          <td style="word-wrap: break-word;max-width: 200px;min-width:50px">
-            {% for docs in page.specific.minutes_doc.all %}
-            {{ docs }}
-            {% endfor %}
-          </td>
-          {% endif %}
-
-      </tr>
-
-      <tbody>
-    </table>
-</div>
-
-
-
-  </div>
-
-  <br><br><br>
+<br><br><br>
 
 
 

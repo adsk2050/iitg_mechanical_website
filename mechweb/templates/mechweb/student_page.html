@@ -4,6 +4,7 @@
 
 
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load mechweb_tags %}
 
 {% block body_class %}template-event-page{% endblock %}
 
@@ -67,9 +68,9 @@
           {% if page.specific.email_id %}
               <li>
                   <h4>Email ID</h4>
-                  <p>{{ page.specific.email_id }}</p>
+                  <p>{{ page.specific.email_id|noscrape }}</p>
                   {% if page.specific.email_id_2 %}
-              			<p>{{ page.specific.email_id_2 }}</p>
+              			<p>{{ page.specific.email_id_2|noscrape }}</p>
               		{% endif %}
              </li>
          {% endif %}

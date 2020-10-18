@@ -3,6 +3,7 @@
 {% load static %}
 
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load mechweb_tags %}
 
 {% block body_class %}template-faculty-homepage mt-5{% endblock %}
 
@@ -133,7 +134,7 @@
                               <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
                           {% endif %}
                           {% if faculty.specific.email_id %}
-                              <li><span>Email</span> {{ faculty.specific.email_id }}</li>
+                              <li><span>Email</span> {{ faculty.specific.email_id|noscrape }}</li>
                           {% endif %}
 
 
@@ -207,7 +208,7 @@
                               <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
                           {% endif %}
                           {% if faculty.specific.email_id %}
-                              <li><span>Email</span> {{ faculty.specific.email_id }}</li>
+                              <li><span>Email</span> {{ faculty.specific.email_id|noscrape }}</li>
                           {% endif %}
 
 
