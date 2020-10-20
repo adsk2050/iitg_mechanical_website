@@ -103,6 +103,22 @@ class MechHomePage(Page):
     donate_message = models.CharField(blank=True, max_length=250)
     # intro = RichTextField(blank=True)
     # user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
+
+    # footer links
+    # quick_link1
+    # quick_link2
+    # quick_link3
+    # quick_link4
+    # quick_link5
+    # quick_link6
+    #
+    # dept_link1
+    # dept_link2
+    # dept_link3
+    # dept_link4
+    # dept_link5
+    # dept_link6
+
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname="full"),
         FieldPanel('body', classname="full"),
@@ -706,7 +722,7 @@ class AbstractStudentPage(Page):
     email_id = models.EmailField(unique=True)
     roll_no = models.IntegerField(blank=True)
     enrolment_year = models.DateField(default=timezone.now)
-    leaving_year = models.DateField(default=timezone.now)
+    leaving_year = models.DateField(default=timezone.now, blank=True, null=True)
     programme = models.CharField(max_length=2, choices=STUDENT_PROGRAMME)
     is_exchange = models.BooleanField(default=False, verbose_name="International Student")
     contact_number = models.CharField(max_length=20, blank=True)
@@ -743,6 +759,12 @@ class AbstractStudentPage(Page):
 
 ######################################################
 class StudentHomePage(AbstractStudentHomePage):
+    intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro'),
+    ]
+
     def serve(self, request):
         student_list = self.get_children().live().order_by('-studentpage__enrolment_year', 'studentpage__first_name',
                                                            'studentpage__middle_name', 'studentpage__last_name')
@@ -753,24 +775,24 @@ class StudentHomePage(AbstractStudentHomePage):
             student_list = student_list.filter(studentpage__programme=prog)
 
         # Filter by tag
-        tag = request.GET.get('tag')
-        if tag:
-            student_list = student_list.filter(studentpage__research_interests__name=tag)
+        # tag = request.GET.get('tag')
+        # if tag:
+        #     student_list = student_list.filter(studentpage__research_interests__name=tag)
         year = request.GET.get('year')
         if year:
             student_list = student_list.filter(studentpage__enrolment_year__year=year)
 
-        paginator = Paginator(student_list, 50)  # Show 50 students per page
-        page_no = request.GET.get('page_no')
-        student_list = paginator.get_page(page_no)
+        # paginator = Paginator(student_list, 50)  # Show 50 students per page
+        # page_no = request.GET.get('page_no')
+        # student_list = paginator.get_page(page_no)
 
         all_research_interests = student_interests()
         return render(request, self.template, {
             'page': self,
             'student_list': student_list,
-            'all_research_interests': all_research_interests,
-            'tag': tag,
-            'page_no': page_no,
+            # 'all_research_interests': all_research_interests,
+            # 'tag': tag,
+            # 'page_no': page_no,
             'prog': prog,
             'year': year,
         })
@@ -779,20 +801,19 @@ class StudentHomePage(AbstractStudentHomePage):
         verbose_name = "Student Home"
 
 
-class StudentResearchInterestTag(TaggedItemBase):
-    content_object = ParentalKey(
-        'StudentPage',
-        related_name='tagged_items',
-        on_delete=models.CASCADE
-    )
+# class StudentResearchInterestTag(TaggedItemBase):
+#     content_object = ParentalKey(
+#         'StudentPage',
+#         related_name='tagged_items',
+#         on_delete=models.CASCADE
+#     )
 
 
 class StudentPage(AbstractStudentPage):
     user = models.OneToOneField(AUTH_USER_MODEL, related_name='student', null=True, on_delete=models.SET_NULL)
-    faculty_advisor = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,
-                                        related_name='faculty_advisor')
-    research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True,
-                                                verbose_name='Research Interests')
+    faculty_advisor = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Main supervisor/Faculty Advisor', related_name='faculty_advisor')
+    # research_interests = ClusterTaggableManager(through=StudentResearchInterestTag, blank=True,
+    #                                             verbose_name='Research Interests')
 
     content_panels = Page.content_panels + [
         ######################################################
@@ -819,7 +840,7 @@ class StudentPage(AbstractStudentPage):
 
         AutocompletePanel('faculty_advisor', target_model='mechweb.FacultyPage'),
 		# shouldn't this be with faculty, so that studen't can't change faculty advisor by their own.
-        FieldPanel('research_interests'),
+        # FieldPanel('research_interests'),
         InlinePanel('stud_gallery_images', label="Gallery images", max_num=2),
         InlinePanel('stud_links', label="Related Links", max_num=10),
     ]
@@ -915,15 +936,15 @@ class StudentPageGalleryImage(Orderable):
     ]
 
 
-def student_interests():
-    live_tags = StudentResearchInterestTag.objects.all()
-    common_tags = []
-    for tag in live_tags:
-        tag2 = tag.__str__().split('tagged with ', 1)
-        tag3 = tag2.pop()
-        if tag3 not in common_tags:
-            common_tags.append(tag3)
-    return common_tags
+# def student_interests():
+#     live_tags = StudentResearchInterestTag.objects.all()
+#     common_tags = []
+#     for tag in live_tags:
+#         tag2 = tag.__str__().split('tagged with ', 1)
+#         tag3 = tag2.pop()
+#         if tag3 not in common_tags:
+#             common_tags.append(tag3)
+#     return common_tags
 
 
 ######################################################
@@ -1332,6 +1353,7 @@ class ResearchLabPage(Page):
         InlinePanel('faculty', label="Faculty"),
         InlinePanel('students', label="Students"),
         InlinePanel('tech_staffs', label="Technical Staff", max_num=10),
+        InlinePanel('interns', label="Intern"),
     ]
 
     edit_handler = TabbedInterface([
@@ -1427,7 +1449,23 @@ class ResearchLabTechStaff(Orderable):
         FieldPanel('responsibilities'),
     ]
 
-# tech_staff
+
+class ResearchLabIntern(Orderable):
+    page = ParentalKey(ResearchLabPage, on_delete=models.CASCADE, related_name='interns')
+    name = models.CharField(max_length=250)
+    institute = models.CharField(max_length=250)
+    start = models.DateField(default=timezone.now)
+    end = models.DateField(default=timezone.now)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('institute'),
+        FieldPanel('start'),
+        FieldPanel('end'),
+    ]
+    # class Meta:
+    #     ordering = ['end']
+
 
 # ------------------------------------------
 class PublicationHomePage(Page):
@@ -1437,18 +1475,11 @@ class PublicationHomePage(Page):
     max_count = 1
 
     def serve(self, request):
-        pub_list = self.get_children().live().order_by('-publicationpage__pub_year', 'publicationpage__pub_type',
-                                                       '-publicationpage__citations')
-
+        pub_list = self.get_children().live().order_by('-publicationpage__pub_year', '-publicationpage__citations')
         year_list = []
         year = timezone.now().year
         for i in range(year, 1996, -1):
             year_list.append(i)
-
-        # year = request.GET.get('year')
-        # if year:
-        # 	pub_list = pub_list.filter(publicationpage__pub_year__year=year)
-        # else: year = timezone.now().year
 
         pub_type = request.GET.get('pub_type')
         if pub_type:
@@ -1631,24 +1662,13 @@ class ProjectHomePage(Page):
     max_count = 1
 
     def serve(self, request):
-        project_list = ProjectPage.objects.all().order_by('start_date', 'budget', '-project_type')
-
-        current_project_list = []
-        past_project_list = []
-        today = date.today()
-        for proj in project_list:
-            try:
-                if proj.end_date >= today:
-                    current_project_list.append(proj)
-                else:
-                    past_project_list.append(proj)
-            except TypeError:
-                current_project_list.append(proj)
-
-        return render(request, self.template, {
+        project_list = ProjectPage.objects.all().order_by('-end_date', '-budget')
+        sponsored_projs = project_list.filter(project_type=1)
+        consultancy_projs = project_list.filter(project_type=0)
+        return render(request, self.template,{
             'page': self,
-            'current_project_list': current_project_list,
-            'past_project_list': past_project_list,
+            'sponsored_projs':sponsored_projs,
+            'consultancy_projs':consultancy_projs,
         })
 
     class Meta:
@@ -1780,7 +1800,7 @@ class CourseStructure(Page):
     max_count = 1
 
     def serve(self, request):
-        course_list = self.get_children().live().order_by('coursepage__name')
+        course_list = self.get_children().live().order_by('-coursepage__credits', 'coursepage__code')
         # Filter by programme
         prog = request.GET.get('prog')
         structure = []

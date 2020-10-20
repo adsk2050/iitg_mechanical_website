@@ -27,7 +27,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th style="word-wrap: break-word;max-width: 500px">S. No</th>
+            <th style="word-wrap: break-word;max-width: 500px">Sl. No</th>
             <th style="word-wrap: break-word;max-width: 500px">Project Title</th>
             <th style="word-wrap: break-word;max-width: 200px">Principal Investigator</th>
             <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Co PIs</th>
@@ -38,8 +38,7 @@
 
         </thead>
         <tbody  id="myUL" >
-          {% for project in page.get_children.specific %}
-          {% if project.project_type == '0' %}
+          {% for project in consultancy_projs %}
           <tr>
               <td style="word-wrap: break-word;max-width: 500px">{{ forloop.counter }}</td>
               <td style="word-wrap: break-word;max-width: 500px"><a href="{{ project.url }}">{{ project.name }}</a></td>
@@ -47,7 +46,7 @@
                   {% with pis=project.specific.faculty_pi.all  %}
                     {% if pis %}
                       {% for pi in pis %}
-                      <a href="{{ pi.faculty.url }}">{{ pi.faculty }},</a>
+                      <a href="{{ pi.faculty.url }}">{{ pi.faculty }}</a>,
                       {% endfor %}
                     {% elif  project.specific.alt_PI_text %}
                       {{ project.specific.alt_PI_text }}
@@ -57,16 +56,14 @@
               <td style="word-wrap: break-word;max-width: 250px;min-width:50px">
                 {% with copis=project.specific.faculty_copi.all  %}
                     {% if copis %}
-                      {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }},</a>{% endfor %}
+                      {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }}</a>, {% endfor %}
                     {% endif %}
                 {% endwith %}
               </td>
               <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ project.budget }}</td>
               <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ project.start_date|date:"Y" }}-{{ project.end_date|date:"Y" }}</td>
           </tr>
-
-          {% endif %}
-        {% endfor %}
+          {% endfor %}
 
         </tbody>
         </table>
@@ -77,7 +74,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th style="word-wrap: break-word;max-width: 500px">S. No</th>
+            <th style="word-wrap: break-word;max-width: 500px">Sl. No</th>
             <th style="word-wrap: break-word;max-width: 500px">Project Title</th>
             <th style="word-wrap: break-word;max-width: 200px">Principal Investigator</th>
             <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Co PIs</th>
@@ -88,8 +85,7 @@
 
         </thead>
         <tbody  id="myUL" >
-          {% for project in page.get_children.specific %}
-          {% if project.project_type == '1' %}
+          {% for project in sponsored_projs %}
           <tr>
             <td style="word-wrap: break-word;max-width: 500px">{{ forloop.counter }}</td>
               <td style="word-wrap: break-word;max-width: 500px"><a href="{{ project.url }}">{{ project.name }}</a></td>
@@ -97,7 +93,7 @@
                   {% with pis=project.specific.faculty_pi.all  %}
                     {% if pis %}
                       {% for pi in pis %}
-                      <a href="{{ pi.faculty.url }}">{{ pi.faculty }},</a>
+                      <a href="{{ pi.faculty.url }}">{{ pi.faculty }}</a>,
                       {% endfor %}
                     {% elif  project.specific.alt_PI_text %}
                       {{ project.specific.alt_PI_text }}
@@ -107,7 +103,7 @@
               <td style="word-wrap: break-word;max-width: 250px;min-width:50px">
                 {% with copis=project.specific.faculty_copi.all  %}
                     {% if copis %}
-                      {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }},</a>{% endfor %}
+                      {% for copi in copis %}<a href="{{ copi.faculty.url }}">{{ copi.faculty }}</a>, {% endfor %}
                     {% endif %}
                 {% endwith %}
               </td>
@@ -115,7 +111,6 @@
               <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ project.start_date|date:"Y" }}-{{ project.end_date|date:"Y" }}</td>
           </tr>
 
-          {% endif %}
         {% endfor %}
 
         </tbody>

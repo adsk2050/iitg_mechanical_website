@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load wagtailcore_tags wagtailimages_tags %}
-
+{% load mechweb_tags %}
 {% block body_class %}template-research-homepage{% endblock %}
 
 
@@ -50,17 +50,18 @@
                 </h4>
               </div>
               <div class="lab_tech_staff">
-              <h4 style="color:#15218d; font-weight:bolder;"> Technical Staff <br></h4>
+              <h4 style="color:#15218d; font-weight:bolder;"> Technical Staff <hr>
                 {% if page.tech_staffs.all|length != 0 %}
                   <ul>
                   {% for tech_staff in page.tech_staffs.all %}
                       <li>
-                          <a href="{{ tech_staff.tech_staff.url }}">{{ tech_staff.tech_staff }}</a>
-                            {{ tech_staff.responsibilities|richtext }}
+                          <a style="color:#4F5345; font-weight:normal;" href="{{ tech_staff.tech_staff.url }}">{{ tech_staff.tech_staff }}</a>
+                            {{ tech_staff.responsibilities|richtext }}<hr>
                       </li>
                   {% endfor %}
                   </ul>
               {% endif %}
+              </h4>
               </div>
               <div class="lab_address">
                 <h4  style="color:#15218d; font-weight:bolder;">Address<br>
@@ -96,7 +97,7 @@
               <ul>
               {% for student in page.students.all %}
                   <li>
-                      <a href="{{ student.student.url }}">{{ student.student }}</a>
+                      <a href="{{ student.student.url }}">{{ student.student }}</a>{{ student.student.specific.leaving_year|date:'Y'|isalumni }}
                   </li>
                   <li>{{ student.research_statement|richtext }}</li>
               {% endfor %}
@@ -107,14 +108,13 @@
 
 
         <div class="container">
-          {% if page.postdocs.all|length != 0 %}
-              <h3>Postdocs</h3>
+          {% if page.interns.all|length != 0 %}
+              <h3>Interns</h3>
               <ul>
-              {% for postdoc in page.postdocs.all %}
+              {% for intern in page.interns.all %}
                   <li>
-                      <a href="{{ postdoc.postdoc.url }}">{{ postdoc.postdoc }}</a>
+                      {{ intern.name }}, {{ intern.institute }}, {{ intern.start|date:'M-Y' }} to {{ intern.end|date:'M-Y' }}
                   </li>
-                  <li>{{ postdoc.research_statement|richtext }}</li>
               {% endfor %}
               </ul>
           {% endif %}
@@ -173,7 +173,7 @@
                           <li><span>Date of procurement</span>{{ eqpt.date_of_procurement }}</li>
                           {% endif %}
                           {% if eqpt.specifications %}
-                              <li><span>Specifications</span>{{ eqpt.specifications|richtext }}</li>
+                              <li><span>Description</span>{{ eqpt.specifications|richtext }}</li>
                           {% endif %}
                           {% if eqpt.document %}
                               <li><span>Manual</span><a href="{{ eqpt.document.url }}">Download</a></li>

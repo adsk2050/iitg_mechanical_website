@@ -16,6 +16,7 @@ LOCATIONS=(
 	('0', 'Seminar hall'),
 	('1', 'ME new meeting room'),
 	('2', 'Other'),
+	('3', 'Online'),
 )
 
 EVENTS=(

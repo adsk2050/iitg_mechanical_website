@@ -256,7 +256,7 @@
                 </div>
                 <div class="">
                   <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-                    <i class="fa fa-chrome">&nbsp;</i> <a href="http://www.iitg.ac.in/mech"> Mechanical Website</a>
+                    <i class="fa fa-chrome">&nbsp;</i> <a href="http://www.iitg.ac.in/mech"> Old Website</a>
                   </a>
                 </div>
 
@@ -300,6 +300,9 @@
 
                 <ul class="list-unstyled" style="list-style: disc;">
                     <li>
+                <a href="{% url 'wagtail_serve' '' %}recruitment">Faculty Recruitment</a>
+              </li>
+                    <li>
                 <a href="{% url 'wagtail_serve' '' %}search">Search</a>
               </li>
                   <li>
@@ -313,9 +316,6 @@
                   </li>
                   <li>
                     <a href="http://www.iitg.ac.in/mech/Rutag-pal/index1.htm">RuTAG-NE</a>
-                  </li>
-                  <li>
-                    <a href="https://www.iitg.ac.in/cet/nptel.html">NPTEL</a>
                   </li>
 
                 </ul>
@@ -367,7 +367,7 @@
                     <a href="http://172.16.73.54/mrbs/web/day.php?year=2019&month=06&day=17&area=3&room=12">Online Hall Booking</a>
                   </li>
                   <li>
-                    <a href="http://shilloi.iitg.ernet.in/~mech/intranet/useful_links.php">Useful links</a>
+                    <a href="{% url 'wagtail_serve' '' %}useful-links">Useful links</a>
                   </li>
 
 
@@ -433,8 +433,8 @@
                 Website Queries
               </div>
               <div class="">
-                <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-                  <i class="fa fa-envelope"></i>mechwebadmin@iitg.ac.in
+                <a class="btn-floating btn-fb mx-1" style="color:#fff" href="mailto:mechwebadmin@iitg.ac.in">
+                  <i class="fa fa-envelope"></i> mechwebadmin@iitg.ac.in
                 </a>
               </div>
               <div class="ml-1 font-weight-light">
@@ -446,8 +446,7 @@
             </div>
 
             <div class="w3-third">
-              <div class="copyright text-center py-3">© 2020 Department of ME, IITG:
-                <a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
+              <div class="copyright text-center py-3">© 2020 Department of ME,<a href="https://iitg.ac.in"  style="color: #fff"> IIT Guwahati</a>
                 <br><br>
                 <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website feedback form</a></span>
               </div>

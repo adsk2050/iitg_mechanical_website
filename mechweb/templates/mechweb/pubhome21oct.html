@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-publication-homepage{% endblock %}
+
+{% block body_style %}padding-top: 20px; {% endblock %}
+
+
+{% block content %}
+
+<style>
+  .rotateimage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    margin:-60px 0 0 -60px;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.loaderback{
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  background: #222546;
+  width: 100%;
+  height: 100vh;
+  z-index: 99999;
+}
+
+.loading {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin: -35px 0 0 -56px;
+  width: 112px;
+  height: 70px;
+  *zoom: 1;
+  background: #222546;
+}
+.loading:before,
+.loading:after {
+  display: table;
+  content: "";
+}
+.loading:after {
+  clear: both;
+}
+
+</style>
+
+<!-- Preloader -->
+  <div class="loaderback">
+    <div class="loading">
+        <img class="rotateimage" height="100px" width="100px"
+                src="{% static "images/logo.png" %}" >
+    </div>
+  </div>
+
+<!-- Preloader End -->
+
+<div class="container-fluid pubcont">
+  {% if pub_type == '0' %}
+    <h1 class="text-center">Patents</h1>
+
+  {% elif pub_type == '1' %}
+  <h1 class="text-center">Conference Publications</h1>
+
+  {% elif pub_type == '2' %}
+  <h1 class="text-center">Journal Publications</h1>
+  {% elif pub_type == '3' %}
+  <h1 class="text-center">Books</h1>
+  {% elif pub_type == '4' %}
+  <h1 class="text-center">Book Chapters</h1>
+  {% elif pub_type == '5' %}
+  <h1 class="text-center">Posters</h1>
+
+  {% endif %}
+
+  <!-- Intro -->
+  <div class="intro">{{ page.intro|richtext }}</div>
+  <hr>
+</div>
+
+
+<div class="container-fluid" >
+  <ul class="nav nav-tabs">
+     <!-- {% for year in year_list %}
+     <li>
+       <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('{{ year }}')">{{ year }}</button>
+     </li>
+
+      {% endfor %}
+      <li>
+        <button class="{% if current_year %}class='active'{% endif %}" onclick="filterSelection('all')">All</button>
+      </li> -->
+{{ current_year }}
+      {% for year in year_list %}
+      {% if year > 2015 %}
+      <li>
+        <a class="btn btn-lg btn-block {% if current_year %}class='active'{% endif %}" id="{% if current_year %}{{ year }}{% endif %}" href="javascript:void(0)" onclick="filterSelection('{{ year }}')" data-toggle="tab">
+        <span class="hidden-xs">{{year}}</span></a>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+
+      <li>
+        <a class="btn btn-lg btn-block {% if current_year %}class='active'{% endif %}" href="javascript:void(0)" onclick="filterSelection('2015')" data-toggle="tab">
+        <span class="hidden-xs"> 2015 and older</span></a>
+      </li>
+
+
+
+
+  </ul>
+</div>
+<br>
+
+<!--
+<ul id="myInputpub">
+  {% for publication in pub_list %}
+    <li class="filterDiv" id="year_{{ publication.specific.pub_year|date:'Y' }}">
+      <h2><a href="{{ publication.url }}">{{ publication }}</a></h2>
+
+    </li>
+  {% endfor %}
+</ul> -->
+
+
+<div class="container-fluid awardscont">
+
+
+
+
+      <div id="faculty" class="tab-pane active">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+                <th style="word-wrap: break-word;max-width: 80px">Sl. No</th>
+                <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Year</th>
+                <th style="word-wrap: break-word;max-width: 200px">Author(s)</th>
+
+                {% if pub_type == '1' or pub_type == '5' or pub_type == '2' or pub_type == '0' %}
+                <th style="word-wrap: break-word;max-width: 500px">Title</th>
+                {% elif pub_type == '4' %}
+                <th style="word-wrap: break-word;max-width: 500px">Chapter and Book title</th>
+                {% elif pub_type == '3' %}
+                <th style="word-wrap: break-word;max-width: 500px">Book Title</th>
+                {% endif %}
+
+                {% if pub_type == '3' or pub_type == '4' %}
+                <th style="word-wrap: break-word;max-width: 500px">Publisher</th>
+                {% elif pub_type == '4' %}
+                <th style="word-wrap: break-word;max-width: 500px">Journal</th>
+                {% elif pub_type == '1' or pub_type == '5'%}
+                <th style="word-wrap: break-word;max-width: 500px">Conference</th>
+                {% endif %}
+
+                {% if pub_type == '4' or pub_type == '2' or pub_type == '3'%}
+                <td style="word-wrap: break-word;max-width: 250px;min-width:100px">Volume</td>
+                {% endif %}
+
+                {% if pub_type == '2' or pub_type == '4' %}
+                <th style="word-wrap: break-word;max-width: 250px;min-width:50px">Pages</th>
+                {% endif %}
+            </tr>
+          </thead>
+
+          <tbody  id="myInputpub" >
+            {% for publication in pub_list %}
+                <td style="word-wrap: break-word;max-width: 80px">{{ forloop.counter }}</td>
+                <td style="word-wrap: break-word;max-width: 250px;min-width:50px">{{ publication.specific.pub_year|date:"Y" }}</td>
+                <td style="word-wrap: break-word;max-width: 200px">{{ publication.specific.alt_people_text }}</td>
+
+                <td style="word-wrap: break-word;max-width: 500px"> <a href="{{ publication.specific.url }}">{{ publication.specific.name }}</a> </td>
+
+                {% if pub_type == '3' or pub_type == '4' or pub_type == '4' or  pub_type == '1' or pub_type == '5'%}
+                <th style="word-wrap: break-word;max-width: 500px">{{ publication.specific.pub_journal }}</th>
+                {% endif %}
+
+                {% if pub_type == '4' or pub_type == '2' or pub_type == '3'%}
+                <td style="word-wrap: break-word;max-width: 250px;min-width:100px">{{ publication.specific.pub_vol }}</td>
+                {% endif %}
+
+                {% if pub_type == '4' or pub_type == '2'%}
+                <td style="word-wrap: break-word;max-width: 100px;min-width:50px">{{ publication.specific.page_start }}-{{ publication.specific.page_end }}</td>
+                {% endif %}
+            </tr>
+
+          {% endfor %}
+
+          </tbody>
+          </table>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block extra_script %}
+<script>
+  function filterSelection(year) {
+  var input, filter, ul, li, a, i, txtValue, integ, substraa, substrbb, yearint;
+  ul = document.getElementById("myInputpub");
+  list = ul.getElementsByTagName("tr");
+  yearint = parseInt(year);
+  ;  // for (i = 0; i < li.length; i++) {
+  //       li[i].style.display = "none";
+  //   }
+
+  // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+  if( yearint > 2015 ){
+  for (i = 0; i < list.length; i++) {
+    a = list[i].id;
+    substraa = a.substring(0,4);
+    substrbb = a.substring(5,9);
+    integ = parseInt(substrbb);
+    if ( integ === yearint) {
+      list[i].style.display = "";
+    } else {
+      list[i].style.display = "none";
+    }
+  }
+}
+
+else{
+  for (i = 0; i < list.length; i++) {
+    a = list[i].id;
+    substraa = a.substring(0,4);
+    substrbb = a.substring(5,9);
+    integ = parseInt(substrbb);
+    if ( integ <= yearint) {
+      list[i].style.display = "";
+    } else {
+      list[i].style.display = "none";
+    }
+  }
+}
+
+  }
+
+$(window).on('load',function() { //when the document is loaded
+  $(".loaderback").delay(1500).fadeOut("slow"); //fade out preloader. You can add your custom effects here too.
+});
+</script>
+
+<script type="text/javascript">
+window.onload=function(){
+document.getElementById("2020").click();
+};
+</script>
+
+{% endblock %}
