@@ -786,7 +786,7 @@ class StudentHomePage(AbstractStudentHomePage):
         # page_no = request.GET.get('page_no')
         # student_list = paginator.get_page(page_no)
 
-        all_research_interests = student_interests()
+        # all_research_interests = student_interests()
         return render(request, self.template, {
             'page': self,
             'student_list': student_list,
