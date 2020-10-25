@@ -1,0 +1,54 @@
+{% extends "home/base.html" %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+
+
+{% block title %}
+{{page.title}}
+{% endblock %}
+
+{% block css %}
+  <style media="screen">
+  {% include "home/team.css" %}
+  </style>
+{% endblock %}
+
+{% block content %}
+
+
+
+  <div class="team-bg-image"></div>
+
+  <div class="team-bg-text">
+    <h1 style="font-size:50px; color: white;">Meet the team!</h1>
+  </div>
+<br><br>
+
+
+<div class="team-area">
+  <div class="container">
+    <div class="row justify-content-center">
+
+        {% for member in page.team_members  %}
+        {% if  forloop.counter0 == 0 %}
+        <div class="col-12">
+        {% elif forloop.counter0 <= 2 %}
+        <div class="col-md-6 col-12">
+
+        {% else %}
+        <div class="col-lg-4 col-md-6 col-12">
+        {% endif %}
+
+          {% include_block member%}
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+
+
+{% endblock %}

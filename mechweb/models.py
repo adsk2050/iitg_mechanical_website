@@ -127,7 +127,7 @@ class MechHomePage(Page):
 
     subpage_types = ['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage',
                      'CourseStructure', 'AlumniHomePage', 'AwardHomePage', 'Aboutiitgmech', 'CategoriesHome',
-                     'CommitteeHomePage', 'GenericPage']
+                     'CommitteeHomePage', 'GenericPage','mesa.MesaHomePage']
 
     max_count = 1
 
@@ -2227,9 +2227,9 @@ class CommitteePageLink(Orderable):
  # from mechweb.models import CourseProgrammes, CourseSpecializations, CourseTypes
 
 # class Committees(Page):
-# 	dispoc_external = models.CharField(max_length=300, blank=True) 
-# 	dupc_external = models.CharField(max_length=300, blank=True) 
-# 	dppc_external = models.CharField(max_length=300, blank=True) 
+# 	dispoc_external = models.CharField(max_length=300, blank=True)
+# 	dupc_external = models.CharField(max_length=300, blank=True)
+# 	dppc_external = models.CharField(max_length=300, blank=True)
 
 # 	def serve(self, request):
 # 		fac_fic = FacultyPage.objects.all().exclude(faculty_in_charge="11").order_by('faculty_in_charge')
@@ -2237,17 +2237,17 @@ class CommitteePageLink(Orderable):
 
 # 		fac_dupc = FacultyPage.objects.all().filter(dupc__in=["1", "2"]).order_by('dupc')
 # 		stud_dupc = StudentPage.objects.all().filter(dupc__in=["4", "5"]).order_by('dupc')
-		
+
 # 		fac_dppc = FacultyPage.objects.all().filter(dppc__in=["1", "2"].order_by('dppc')
 # 		stud_dppc = StudentPage.objects.all().filter(dppc__in=["5", "4"].order_by('dppc')
-		
-		
+
+
 # 		fac_mesa = FacultyPage.objects.all().filter(mesa="5").order_by('mesa')
 # 		stud_mesa = StudentPage.objects.all().exclude(mesa__in=["5", "6"]).order_by('mesa')
-		
+
 # 		fac_sae = FacultyPage.objects.all().filter(sae="2").order_by('mesa')
 # 		stud_sae = StudentPage.objects.all().filter(sae__in=["1", "0"]).order_by('sae')
-		
+
 # 		fac_disco = FacultyPage.objects.all().exclude(disciplinary_committee__in=["3", "4"]).order_by('disciplinary_committee')
 # 		stud_disco = StudentPage.objects.all().filter(disciplinary_committee="3").order_by('disciplinary_committee')
 # 		return render(request, self.template, {
@@ -2257,18 +2257,18 @@ class CommitteePageLink(Orderable):
 # 			'tag':tag,
 # 			'page_no':page_no,
 # 			'prog':prog,
-# 			fac_fic = 
-# 			fac_dispoc = 
-# 			fac_dupc = 
-# 			stud_dupc = 
-# 			fac_dppc = 
-# 			stud_dppc = 
-# 			fac_mesa = 
-# 			stud_mesa = 
-# 			fac_sae = 
-# 			stud_sae = 
-# 			fac_disco = 
-# 			stud_disco = 
+# 			fac_fic =
+# 			fac_dispoc =
+# 			fac_dupc =
+# 			stud_dupc =
+# 			fac_dppc =
+# 			stud_dppc =
+# 			fac_mesa =
+# 			stud_mesa =
+# 			fac_sae =
+# 			stud_sae =
+# 			fac_disco =
+# 			stud_disco =
 # 		})
 
 # 	class Meta:

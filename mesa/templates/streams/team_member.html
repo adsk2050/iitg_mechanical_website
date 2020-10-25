@@ -1,0 +1,28 @@
+{% load static %}
+{% load wagtailimages_tags %}
+
+<div class=" mt-3">
+
+<div class="single-team m-auto shadow" style="width:350px !important;">
+  <div class="img-area" >
+    {% image self.profile_picture max-350x350 as profile_pic %}
+    <img src="{{profile_pic.url}}" class="img-responsive" alt="{{self.name}}" data-src="holder.js/350x350/auto" style="max-height:350px !important;">
+    <div class="social">
+      <ul style="display: inline !important;">
+        {% if self.linkedin_url %}
+        <li><a href="{{self.linkedin_url}}" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        {% endif %}
+
+        {% if self.facebook_url %}
+        <li><a href="{{self.facebook_url}}" target="_blank"><i class="fab fa-facebook"></i></a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="img-text">
+    <h4>{{self.name}}</h4>
+    <h6 class="text-muted">{{self.email}}</h6>
+    <h5 class="text-muted">{{self.por}}</h5>
+  </div>
+</div>
+</div>

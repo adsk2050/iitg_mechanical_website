@@ -1,0 +1,48 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+
+<div class="text-center " style="
+    -webkit-box-shadow: 5px -4px 14px -6px rgba(0,0,0,0.68);
+    -moz-box-shadow: 5px -4px 14px -6px rgba(0,0,0,0.68);
+    box-shadow: 5px -4px 14px -6px rgba(0,0,0,0.68);
+">
+
+
+  <div class="p-2 m-3">
+    <div class="row">
+
+    {% if self.tag %}
+    {% if self.tag == "new" %}
+    <span class="badge badge-pill badge-primary flex float-left">New</span>
+    {% elif self.tag == "important" %}
+    <span class="badge badge-pill badge-danger flex float-left">Important</span>
+
+
+    {% elif self.tag == "outdated" %}
+    <span class="badge badge-pill badge-light flex float-left">Outdated</span>
+    {% endif %}
+    {% endif %}
+    </div>
+    {% image self.card_image max-500x500 as card_image%}
+    <img class="rounded m-auto" src="{{card_image.url}}" data-src="holder.js/225x225/auto" alt="225x225" class="img-fluid" style="width: 225px; height: 225px; margin-bottom: 10px;">
+
+    <div class="">
+      {% if self.button_link %}
+      <h2>
+        <a href="{{self.button_link}}" target="_blank">
+          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="{{self.button_tooltip}}" data-original-title="{{self.button_tooltip}}"> {{self.button_text}}</button>
+        </a>
+      </h2>
+
+      {% endif %}
+      <span class="meta d-inline-block mb-3 text-muted"><i>Last updated on {{self.last_updated}}</i></span>
+      {% if self.info %}
+
+      <p>{{self.info}}</p>
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>

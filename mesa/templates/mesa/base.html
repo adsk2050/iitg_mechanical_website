@@ -1,0 +1,156 @@
+{% load wagtailcore_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/journal/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+  {# OwlCarousel2 #}
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+    crossorigin="anonymous" />
+  {# aos css #}
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+
+  <title>
+    {% block title %}
+    {% endblock %}
+  </title>
+  {% block css %}
+
+  {% endblock %}
+
+  <style media="screen">
+
+  </style>
+</head>
+
+<body>
+  {# nav for all pages #}
+  <nav class="navbar navbar-expand-md  navbar-dark bg-info fixed-top">
+    <a href="{% slugurl 'home' %}" class="navbar-brand"><img src="{% static "home/images/logo.png" %}" alt="logo" width="120px" height="30px"></a>
+    {# <a class="navbar-brand" href="#">Mesa</a> #}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          {# <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> #}
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/team">Team</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Seismech</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Initiatives</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="https://drive.google.com/drive/folders/0B1psc0iRN7sYbDdvNXhXNXZkVkE">Resources</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="#">Publications</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="https://mechiitg.wordpress.com/">Blog</a>
+            {# <a class="dropdown-item" href="#">Separated link</a> #}
+          </div>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right navbar-show ml-auto">
+        <li><a class="navbar-brand" href="https://www.facebook.com/MESA.IITGuwahati/"><i class="fab fa-facebook"></i></a></li>
+        <li><a class="navbar-brand" href="#contact"><i class="fas fa-phone"></i></a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+
+
+
+
+
+  {% block content %}
+  {% endblock %}
+
+
+
+  <footer class=" page-footer font-small stylish-color-dark pt-4 bg-info  " style="position: relative;color: #fff; font-family: 'Source Sans Pro', sans-serif; padding: 0%;" id="contact">
+
+    <div class="container text-center text-md-left ">
+
+      <div class="row mt-3">
+
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto ">
+
+          <h6 class="text-uppercase font-weight-bold" style="font-size: larger;">MESA</h6>
+          <p>Department of <br> Mechanical Engineering <br>
+            IIT Guwahati<br />
+            Guwahati, Assam</p>
+
+        </div>
+        <div class="col-md-3 col-lg-2 col-xl-2  mb-3 text-center">
+
+          <h6 class="text-uppercase font-weight-bold" style="font-size: larger;">Useful links</h6>
+
+          <a href="http://www.iitg.ac.in/" style="color: white;">IIT Guwahati</a>
+          <br>
+
+          <a href="http://intranet.iitg.ernet.in/" style="color: white;">Intranet</a>
+          <br>
+          <a href="http://www.iitg.ac.in/mech/" style="color: white;">Department of ME</a>
+
+
+
+        </div>
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+          <h6 class="text-uppercase font-weight-bold" style="font-size: larger;">Contact Us</h6>
+
+
+          <i class="fas fa-envelope mr-3"></i>mesa@iitg.ac.in
+          <br>
+          <span><a href="https://www.facebook.com/MESA.IITGuwahati/" style="color: white;"><i class="fab fa-facebook mr-3"></i>Facebook </a></span>
+
+
+        </div>
+
+      </div>
+  </footer>
+
+
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  {# holder.js #}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.7/holder.min.js" integrity="sha512-O6R6IBONpEcZVYJAmSC+20vdsM07uFuGjFf0n/Zthm8sOFW+lAq/OK1WOL8vk93GBDxtMIy6ocbj6lduyeLuqQ==" crossorigin="anonymous"></script>
+  {# OwlCarousel2 script #}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+
+  {# aos script #}
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      AOS.init();
+    });
+  </script>
+  {% block js %}
+  {% endblock %}
+</body>
+
+</html>

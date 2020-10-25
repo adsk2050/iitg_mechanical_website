@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mechweb',
+    'mesa',
 
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
@@ -201,13 +202,13 @@ RICHTEXT_MISC = ['hr']
 ALL_RICHTEXT_FEATURES = (
     RICHTEXT_BLOCKTYPES +
     RICHTEXT_INLINESTYLES +
-    RICHTEXT_ENTITIES + 
+    RICHTEXT_ENTITIES +
     RICHTEXT_MISC
 )
 
 CUSTOM_RICHTEXT = ALL_RICHTEXT_FEATURES
 # (
-#     RICHTEXT_BLOCKTYPES + 
+#     RICHTEXT_BLOCKTYPES +
 #     RICHTEXT_INLINESTYLES +
 #     RICHTEXT_MISC
 # )
