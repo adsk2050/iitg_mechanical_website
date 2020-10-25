@@ -1,3 +1,4 @@
+from collections import defaultdict
 from .models import MechHomePage, ResearchLabPage
 
 def navbar(request):
@@ -18,11 +19,10 @@ def navbar(request):
 			"Event Home":8,
 			"categories home":9,
 			"aboutiitgmech":10,
-			"Committee Home":11,
-			"generic page":12
 		}
+		ordering = defaultdict(lambda: 1000, ordering)
 		navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
-		return {'navlist': navlist}
+		return {'navlist': navlist[:11]}
 	else:
 		return {'navlist':[]}
 
