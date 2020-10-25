@@ -41,8 +41,7 @@ tablib==2.0.0
 Unidecode==1.1.1
 urllib3==1.25.10
 wagtail==2.10.2
-git+git://github.com/adsk2050/wagtail-autocomplete.git#egg=wagtail-autocomplete
-# wagtail-autocomplete==0.6
+wagtail-autocomplete==0.6
 webencodings==0.5.1
 whitenoise==5.2.0
 Willow==1.4
