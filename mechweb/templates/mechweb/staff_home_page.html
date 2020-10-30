@@ -12,42 +12,24 @@
 {% get_media_prefix as MEDIA_URL %}
 <br><br>
   <div class="w3-container-fluid">
-      <!-- <h1>Staff</h1> -->
       <div class="container-fluid">
           <div class="row padding">
               <div class="col-md-12 text-center">
-                  <!-- <h1>{{ page.title }}</h1> -->
                   <p>{{ page.intro|richtext }}</p>
               </div>
           </div>
       </div>
 
 
-      <!-- <div class="row ">
-
-        <div class="col-xs-12 col-sm-4 col-md-4">
-          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('officer')" name="button">
-            <i class="fa fa-check-square-o visible-xs"></i>
-            <span class="hidden-xs"><li>Officer</li></span>
-          </button>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-4 col-md-4">
-          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('staff')" name="button">
-            <i class="fa fa-check-square-o visible-xs"></i>
-            <span class="hidden-xs"><li>Staff</li></span>
-          </button>
-
-        </div>
-      </div> -->
-
       <div class="w3-row">
         <a id="linkid" href="javascript:void(0)" onclick="openCity(event, 'faculty_awards');">
-          <div id="left_tab" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-blue-grey" style="text-align:center; font-size:1.2em; color: #222546 !important">Technical Officers</div>
+          <div id="left_tab" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-blue-grey" style="text-align:center; font-size:1.2em; color: #222546 !important">Technical Officers</div>
         </a>
         <a href="javascript:void(0)" onclick="openCity(event, 'best_papers');">
-          <div id="right_tab" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding " style="text-align:center; font-size:1.2em; color: #222546 !important">Staff</div>
+          <div id="middle_tab" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding " style="text-align:center; font-size:1.2em; color: #222546 !important">Staff</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'postdocc');">
+          <div id="right_tab" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding " style="text-align:center; font-size:1.2em; color: #222546 !important">Post Docs</div>
         </a>
 
       </div>
@@ -65,10 +47,10 @@
                       <div class="col-xs-4 col-sm-4 image">
                         <a href="{% pageurl staff %}">
                           {% if staff.specific.photo %}{
-                            {% image staff.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
+                            {% image staff.specific.photo original style='width:100%; height:100%;'%}
                           {% else %}
                               {% with MEDIA_URL|add:'images/staff/'|add:staff.slug|add:'.jpg' as image_static %}
-                              <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
+                              <img src="{{ image_static }}" style='width:100%; height:100%;' alt="{{ photo.alt }}" class="" />
                             {% endwith %}
                           {% endif %}
 
@@ -98,15 +80,6 @@
           </div>
       </div>
 
-      <!-- {% if breads.paginator.count > 1 %}
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-12">
-                  {% include "includes/pagination.html" with subpages=breads %}
-                  </div>
-              </div>
-          </div>
-      {% endif %} -->
 </div>
 
 {% endblock content %}
@@ -133,20 +106,28 @@
         txtValue = a.textContent || a.innerText;
         integ = parseInt(txtValue);
         if (c == "officer"){
-          if (integ < 10 && integ > 4) {
+          if (integ < 14 && integ > 8) {
             li[i].style.display = "block";
           } else {
             li[i].style.display = "none";
           }
         }
         else if (c == "staff"){
-          if (integ < 5 && integ > -1) {
+          if (integ < 9 && integ > -1) {
             li[i].style.display = "block";
           } else {
             li[i].style.display = "none";
           }
         }
-        
+
+        else if (c == "postdoc"){
+          if (integ < 16 && integ > 13) {
+            li[i].style.display = "block";
+          } else {
+            li[i].style.display = "none";
+          }
+        }
+
       }
 
       }
@@ -156,12 +137,25 @@
       filterSelection('officer');
       var element = document.getElementById("right_tab");
       element.classList.remove("w3-border-blue-grey");
+      var element = document.getElementById("middle_tab");
+      element.classList.remove("w3-border-blue-grey");
       var element = document.getElementById("left_tab");
       element.classList.add("w3-border-blue-grey");
     }
     if(cityName==='best_papers'){
       filterSelection('staff');
       var element = document.getElementById("left_tab");
+      element.classList.remove("w3-border-blue-grey");
+      var element = document.getElementById("right_tab");
+      element.classList.remove("w3-border-blue-grey");
+      var element = document.getElementById("middle_tab");
+      element.classList.add("w3-border-blue-grey");
+    }
+    if(cityName==='postdocc'){
+      filterSelection('postdoc');
+      var element = document.getElementById("left_tab");
+      element.classList.remove("w3-border-blue-grey");
+      var element = document.getElementById("middle_tab");
       element.classList.remove("w3-border-blue-grey");
       var element = document.getElementById("right_tab");
       element.classList.add("w3-border-blue-grey");
