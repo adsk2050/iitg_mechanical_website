@@ -9,6 +9,14 @@ from wagtail.images.blocks import ImageChooserBlock
 from .blocks import *
 
 class MesaHomePage(Page):
+    template = "mesa/home_page.html"
+    logo = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     about = models.TextField(null=True,blank = True)
     about_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -42,6 +50,7 @@ class MesaHomePage(Page):
         blank = True,
     )
     content_panels = Page.content_panels + [
+        ImageChooserPanel("logo"),
         FieldPanel("about"),
         ImageChooserPanel('about_image'),
         FieldPanel("our_aim"),
@@ -55,6 +64,7 @@ class MesaHomePage(Page):
         # verbose_name = "Mesa"
 
 class Team(Page):
+
     max_count = 1
     team_bg_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -71,6 +81,8 @@ class Team(Page):
         null=True,
         blank=True,
     )
+
+    # logo = MesaHomePage.objects.all()[0].logo
     content_panels = Page.content_panels + [
         ImageChooserPanel('team_bg_image'),
         StreamFieldPanel("team_members")
