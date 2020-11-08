@@ -46,19 +46,24 @@ MASTERS_SPECIALIZATION = (
 
 STAFF_DESIGNATION = (
 	# Staff
-	('4', 'Technical Superintendent'),
 	('0', 'Jr. Assistant'),
 	('1', 'Jr. Superintendent'),
 	('2', 'Jr. Technical Superintendent'),
 	('3', 'Jr. Technician'),
+	('4', 'Technical Superintendent'),
+	('5', 'Sr. Assistant'),
+	('6', 'Sr. Superintendent'),
+	('7', 'Sr. Technical Superintendent'),
+	('8', 'Sr. Technician'),
 	# Officer
-	('6', 'Technical Officer Gr I'),
-	('5', 'Technical Officer Gr II'),
-	('7', 'Junior Technical Officer'),
-	('8', 'Asst. Workshop Superintendent'),
+	('9', 'Technical Officer Gr I'),
+	('10', 'Technical Officer Gr II'),
+	('11', 'Junior Technical Officer'),
+	('12', 'Asst. Workshop Superintendent'),
+	('13', 'Senior Technical Officer'),
 	# Others
-	('9', 'PostDoc'),
-	('10', 'Others'),
+	('14', 'PostDoc'),
+	('15', 'Others'),
 )
 
 PROJECT_TYPES=(

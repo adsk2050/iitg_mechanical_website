@@ -866,9 +866,9 @@ header{
 .bread-list-item .image {
   background-color: #eb7400;
   margin: 0;
-  max-width: 180px;
+  max-width: 160px;
   max-height: 180px;
-  min-width: 180px;
+  min-width: 160px;
   min-height: 180px;
   padding: 0;
   background-size: 100% 100%;

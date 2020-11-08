@@ -1014,7 +1014,7 @@ class StaffPage(Page):
     email_id = models.EmailField()
     responsibilities = models.CharField(max_length=500, null=True, blank=True)
 
-    designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='10')
+    designation = models.CharField(max_length=2, choices=STAFF_DESIGNATION, default='15')
     joining_year = models.DateField(default=timezone.now)
     contact_number = models.CharField(max_length=20, blank=True)
     address = models.CharField(max_length=100, blank=True)

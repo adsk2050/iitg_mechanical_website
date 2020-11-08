@@ -13,42 +13,24 @@
 {% get_media_prefix as MEDIA_URL %}
 <br><br>
   <div class="w3-container-fluid">
-      <!-- <h1>Staff</h1> -->
       <div class="container-fluid">
           <div class="row padding">
               <div class="col-md-12 text-center">
-                  <!-- <h1>{{ page.title }}</h1> -->
                   <p>{{ page.intro|richtext }}</p>
               </div>
           </div>
       </div>
 
 
-      <!-- <div class="row ">
-
-        <div class="col-xs-12 col-sm-4 col-md-4">
-          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('officer')" name="button">
-            <i class="fa fa-check-square-o visible-xs"></i>
-            <span class="hidden-xs"><li>Officer</li></span>
-          </button>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-4 col-md-4">
-          <button type="button" class="btn btn-lg btn-block " onclick="filterSelection('staff')" name="button">
-            <i class="fa fa-check-square-o visible-xs"></i>
-            <span class="hidden-xs"><li>Staff</li></span>
-          </button>
-
-        </div>
-      </div> -->
-
       <div class="w3-row">
-        <a id="linkid" href="javascript:void(0)" onclick="openCity(event, 'faculty_awards');">
-          <div id="left_tab" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-blue-grey" style="text-align:center; font-size:1.2em; color: #222546 !important">Technical Officers</div>
+        <a id="linkid" href="javascript:void(0)" onclick="openCity(event, 'officer_clicked');">
+          <div id="left_tab" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-blue-grey" style="text-align:center; font-size:1.2em; color: #222546 !important">Technical Officers</div>
         </a>
-        <a href="javascript:void(0)" onclick="openCity(event, 'best_papers');">
-          <div id="right_tab" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding " style="text-align:center; font-size:1.2em; color: #222546 !important">Staff</div>
+        <a href="javascript:void(0)" onclick="openCity(event, 'staff_clicked');">
+          <div id="middle_tab" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding " style="text-align:center; font-size:1.2em; color: #222546 !important">Staff</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'postdoc_clicked');">
+          <div id="right_tab" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding " style="text-align:center; font-size:1.2em; color: #222546 !important">Post Docs</div>
         </a>
 
       </div>
@@ -60,16 +42,16 @@
           <div class="row bread-list justify-content-md-center" id="myUL">
             {% for staff in staff_list %}
               <div class="col-xs-11 col-md-5 bread-list-item">
-                <span style="display:none">{{ staff.specific.designation }}</span>
+                <span style="display:none" class="{{ staff.specific.get_designation_display }}">{{ staff.specific.designation }}</span>
 
                   <div class="row">
                       <div class="col-xs-4 col-sm-4 image">
                         <a href="{% pageurl staff %}">
-                          {% if staff.specific.photo %}{
-                            {% image staff.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
+                          {% if staff.specific.photo %}
+                            {% image staff.specific.photo original style='width:100%; height:100%;'%}
                           {% else %}
                               {% with MEDIA_URL|add:'images/staff/'|add:staff.slug|add:'.jpg' as image_static %}
-                              <img src="{{ image_static }}" style='width:100%; height:100%; object-fit: cover' alt="{{ photo.alt }}" class="" />
+                              <img src="{{ image_static }}" style='width:100%; height:100%;' alt="{{ photo.alt }}" class="" />
                             {% endwith %}
                           {% endif %}
 
@@ -99,75 +81,87 @@
           </div>
       </div>
 
-      <!-- {% if breads.paginator.count > 1 %}
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-12">
-                  {% include "includes/pagination.html" with subpages=breads %}
-                  </div>
-              </div>
-          </div>
-      {% endif %} -->
 </div>
 
 {% endblock content %}
 
 
 {% block extra_script %}
-
-
-    <script>
-
-    filterSelection("all")
-      function filterSelection(c) {
-      var input, filter, ul, li, a, i, txtValue, integ;
-      ul = document.getElementById("myUL");
-      li = ul.getElementsByClassName("bread-list-item");
-
-      // for (i = 0; i < li.length; i++) {
-      //       li[i].style.display = "none";
-      //   }
-
-      // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
-      for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("span")[0];
-        txtValue = a.textContent || a.innerText;
-        integ = parseInt(txtValue);
-        if (c == "officer"){
-          if (integ < 10 && integ > 4) {
-            li[i].style.display = "block";
-          } else {
-            li[i].style.display = "none";
-          }
+<script>
+    openCity('', 'officer_clicked');
+    function filterSelection(c) {
+        var input, filter, ul, li, a, i, txtValue, integ;
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByClassName("bread-list-item");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("span")[0];
+            console.log(a)
+            txtValue = a.textContent || a.innerText;
+            integ = parseInt(txtValue);
+            if (c == "officer"){
+                console.log('reached inside officer if');
+                if (integ < 14 && integ > 8){
+                    li[i].style.display = "block";
+                }
+                else{
+                    li[i].style.display = "none";
+                }
+            }
+            else if (c == "staff"){
+                if (integ < 9 && integ > -1){
+                    li[i].style.display = "block";
+                }
+                else{
+                    li[i].style.display = "none";
+                }
+            }
+            else if (c == "postdoc"){
+                if (integ < 16 && integ > 13){
+                    li[i].style.display = "block";
+                }
+                else{
+                    li[i].style.display = "none";
+                }
+            }
+            else{
+                console.log('No staff category selected');
+                li[i].style.display = "block";
+            }
         }
-        else if (c == "staff"){
-          if (integ < 5 && integ > -1) {
-            li[i].style.display = "block";
-          } else {
-            li[i].style.display = "none";
-          }
-        }
-        
-      }
-
-      }
+    }
 
     function openCity(evt, cityName) {
-    if(cityName==='faculty_awards'){
-      filterSelection('officer');
-      var element = document.getElementById("right_tab");
-      element.classList.remove("w3-border-blue-grey");
-      var element = document.getElementById("left_tab");
-      element.classList.add("w3-border-blue-grey");
+        if(cityName==='officer_clicked'){
+            console.log('officer_clicked');
+            filterSelection('officer');
+            var element = document.getElementById("left_tab");
+            element.classList.add("w3-border-blue-grey");
+            var element = document.getElementById("middle_tab");
+            element.classList.remove("w3-border-blue-grey");
+            var element = document.getElementById("right_tab");
+            element.classList.remove("w3-border-blue-grey");
+        }
+        if(cityName==='staff_clicked'){
+            console.log('staff_clicked');
+            filterSelection('staff');
+            var element = document.getElementById("left_tab");
+            element.classList.remove("w3-border-blue-grey");
+            var element = document.getElementById("middle_tab");
+            element.classList.add("w3-border-blue-grey");
+            var element = document.getElementById("right_tab");
+            element.classList.remove("w3-border-blue-grey");
+        }
+        if(cityName==='postdoc_clicked'){
+            console.log('postdoc_clicked');
+            filterSelection('postdoc');
+            var element = document.getElementById("left_tab");
+            element.classList.remove("w3-border-blue-grey");
+            var element = document.getElementById("middle_tab");
+            element.classList.remove("w3-border-blue-grey");
+            var element = document.getElementById("right_tab");
+            element.classList.add("w3-border-blue-grey");
+        }
     }
-    if(cityName==='best_papers'){
-      filterSelection('staff');
-      var element = document.getElementById("left_tab");
-      element.classList.remove("w3-border-blue-grey");
-      var element = document.getElementById("right_tab");
-      element.classList.add("w3-border-blue-grey");
-    }
-    }
-    </script>
+</script>
 
 {% endblock %}
