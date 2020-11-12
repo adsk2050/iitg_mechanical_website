@@ -6,7 +6,7 @@ DEBUG = True
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ['172.16.72.2', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['172.16.72.79', '127.0.0.1', '0.0.0.0']
 
 INTERNAL_IPS = ("127.0.0.1, 0.0.0.0")
 
@@ -27,3 +27,5 @@ except ImportError:
     pass
 
 # BASE_URL = 'https://mechweb2.centralindia.cloudapp.azure.com/mech/'
+
+SECURE_SSL_REDIRECT=True

@@ -8,7 +8,7 @@ DEBUG = False
 # SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ['172.16.72.2', '127.0.0.1']
+ALLOWED_HOSTS = ['172.16.72.79', '127.0.0.1']
 
 INTERNAL_IPS = ("127.0.0.1")
 
@@ -22,7 +22,7 @@ except ImportError:
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 
-# SECURE_SSL_REDIRECT=True
+SECURE_SSL_REDIRECT=True
 # SESSION_COOKIE_SECURE =True
 # CSRF_COOKIE_SECURE=True
 

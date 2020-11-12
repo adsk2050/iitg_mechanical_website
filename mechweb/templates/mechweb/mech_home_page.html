@@ -405,39 +405,40 @@
         </div>
     </div>
      <!-- end of research categories row -->
-{#    <div class="w3-padding-64 messagebox">#}
-{#      <div class="w3-row-padding">#}
-{#        <div class="w3-col l4 m6">#}
-{#          <span style="display: block; text-align: center">#}
-{#            {% if page.specific.HOD_image %}#}
-{#              {% image page.specific.HOD_image original as photo %}#}
-{#              <img class="w3-image w3-round-large w3-hide-small" src="{{ photo.url }}" alt="{{ photo.alt }}" style="align-items: center; width:17em; height:20em; margin-top: 2em "   />#}
-{#            {% else %}#}
-{#                {% with MEDIA_URL|add:'images/placeholder.jpg' as image_static %}#}
-{#                    <img class="w3-image w3-round-large w3-hide-small w3-grayscale" src="{{ image_static }}" alt="placeholder" width="335" height="471" />#}
-{#                {% endwith %}#}
-{#            {% endif %}#}
-{#          </span>#}
-{#        </div>#}
-{##}
-{#          <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->#}
-{#          <div class="w3-col l8 m6">#}
-{#          <h1 class="w3-xxlarge" style="color: #ffffff" ><b>From HOD's Desk</b></h1>#}
-{#          <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>#}
-{##}
-{#          <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="#}
-{#            fa fa-long-arrow-right"></i>#}
-{#          </a>#}
-{#          </p> -->#}
-{#          <br><br>#}
-{#          <div class="" style="display:block; text-align:right">#}
-{#            <strong style="text-align: right; padding-right:40px;" >{{ hod_name }}</strong><br>#}
-{#            <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical Engineering</strong>#}
-{#          </div>#}
-{##}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
+    <div class="w3-padding-64 messagebox">
+      <div class="w3-row-padding">
+        <div class="w3-col l4 m6">
+          <span style="display: block; text-align: center">
+            {% if page.specific.HOD_image %}
+              {% image page.specific.HOD_image original as photo %}
+              <img class="w3-image w3-round-large w3-hide-small" src="{{ photo.url }}" alt="{{ photo.alt }}" style="align-items: center; width:17em; height:20em; margin-top: 2em "   />
+            {% else %}
+                {% with MEDIA_URL|add:'images/placeholder.jpg' as image_static %}
+                    <img class="w3-image w3-round-large w3-hide-small w3-grayscale" src="{{ image_static }}" alt="placeholder" width="335" height="471" />
+                {% endwith %}
+            {% endif %}
+          </span>
+        </div>
+
+          <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
+          <div class="w3-col l8 m6">
+          {% if page.specific.HOD_message %}
+          <h1 class="w3-xxlarge" style="color: #ffffff" ><b>From HOD's Desk</b></h1>
+          <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
+            {% endif %}
+          <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
+            fa fa-long-arrow-right"></i>
+          </a>
+          </p> -->
+          <br><br>
+          <div class="" style="display:block; text-align:right">
+            <strong style="text-align: right; padding-right:40px;" >{{ hod_name }}</strong><br>
+            <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical Engineering</strong>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="page-footer font-small stylish-color-dark pt-4"  style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif;">
