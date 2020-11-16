@@ -1,4 +1,7 @@
-from .base import *
+try:
+    from .base import *
+except ImportError:
+    pass
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -8,7 +11,7 @@ DEBUG = True
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ['172.16.72.79', '127.0.0.1', '0.0.0.0']
 
-INTERNAL_IPS = ("127.0.0.1, 0.0.0.0")
+INTERNAL_IPS = ("172.16.72.79, 127.0.0.1, 0.0.0.0")
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -21,11 +24,4 @@ MIDDLEWARE = MIDDLEWARE+[
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-try:
-    from .local import *
-except ImportError:
-    pass
-
 # BASE_URL = 'https://mechweb2.centralindia.cloudapp.azure.com/mech/'
-
-SECURE_SSL_REDIRECT=True
