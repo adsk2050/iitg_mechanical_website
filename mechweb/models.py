@@ -760,9 +760,15 @@ class AbstractStudentPage(Page):
 ######################################################
 class StudentHomePage(AbstractStudentHomePage):
     intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    btech_body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    mtech_body= RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    phd_body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
 
     content_panels = Page.content_panels + [
         FieldPanel('intro'),
+        FieldPanel('btech_body'),
+        FieldPanel('mtech_body'),
+        FieldPanel('phd_body')
     ]
 
     def serve(self, request):
