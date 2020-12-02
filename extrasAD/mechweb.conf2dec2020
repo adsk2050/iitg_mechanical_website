@@ -1,0 +1,63 @@
+
+
+LoadModule wsgi_module /home/nelson/iitg_mechanical_website/venv/lib/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py38.cpython-38-x86_64-linux-gnu.so
+
+ServerName 172.16.72.79
+ServerAdmin mechwebadmin@iitg.ac.in
+DocumentRoot /var/www/iitg_mechanical_website
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+ServerSignature Off
+ServerTokens Prod
+
+# ErrorDocument 404 /custom_404.html
+# ErrorDocument 500 /custom_50x.html
+# ErrorDocument 502 /custom_50x.html
+# ErrorDocument 503 /custom_50x.html
+# ErrorDocument 504 /custom_50x.html
+
+# Alias /index.html /home/nelson/iitg_mechanical_website/extrasAD/index.html
+
+Alias /mech/favicon.ico /home/nelson/iitg_mechanical_website/static/images/favicon.ico
+# Alias /favicon.ico /home/nelson/iitg_mechanical_website/static/images/favicon.ico
+
+Alias /mech/static /home/nelson/iitg_mechanical_website/static
+# Alias /static /home/nelson/iitg_mechanical_website/static
+<Directory /home/nelson/iitg_mechanical_website/static>
+        Require all granted
+</Directory>
+
+Alias /mech/media /home/nelson/iitg_mechanical_website/media
+# Alias /media /home/nelson/iitg_mechanical_website/media
+<Directory /home/nelson/iitg_mechanical_website/media>
+        Require all granted
+</Directory>
+
+<Directory /home/nelson/iitg_mechanical_website/iitg_mechanical_website>
+        <Files wsgi.py>
+                Require all granted
+        </Files>
+</Directory>
+
+Options -Indexes -FollowSymLinks
+
+LimitRequestBody 524288000
+
+<VirtualHost *:80>
+    WSGIDaemonProcess iitg_mechanical_website python-path=/home/nelson/iitg_mechanical_website python-home=/home/nelson/iitg_mechanical_website/venv
+    WSGIProcessGroup iitg_mechanical_website
+</VirtualHost>
+
+<VirtualHost *:443>
+    WSGIDaemonProcess iitg_mechanical_website-https python-path=/home/nelson/iitg_mechanical_website python-home=/home/nelson/iitg_mechanical_website/venv
+    WSGIProcessGroup iitg_mechanical_website-https
+
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/172.16.72.79.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/172.16.72.79.key
+</VirtualHost>
+
+WSGIScriptAlias /mech /home/nelson/iitg_mechanical_website/iitg_mechanical_website/wsgi.py
+# WSGIScriptAlias / /home/nelson/iitg_mechanical_website/iitg_mechanical_website/wsgi.py

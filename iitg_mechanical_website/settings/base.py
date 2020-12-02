@@ -16,7 +16,6 @@ import json
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
-# BASE_URL = 'https://iitg.ac.in/mech'
 
 sc =  open(os.path.join(BASE_DIR, 'secrets.json'), 'r')
 secrets_txt = sc.read()
@@ -24,7 +23,7 @@ secrets = json.loads(secrets_txt)
 sc.close()
 
 SECRET_KEY = secrets["SECRET_KEY"]
-
+# BASE_URL = secrets["BASE_URL"]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -245,13 +244,16 @@ SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = secrets["SOCIAL_AUTH_AZUREAD_TENAN
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = mech+'/admin/'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = BASE_URL+'/admin/'
 SOCIAL_AUTH_LOGIN_URL = mech+'/admin/login/'
+# SOCIAL_AUTH_LOGIN_URL = BASE_URL+'/admin/login/'
 DJANGO_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 WAGTAIL_FRONTEND_LOGIN_TEMPLATE = '/wagtailadmin/login.html'
-WAGTAIL_FRONTEND_LOGIN_URL = mech+'/admin/login'
+WAGTAIL_FRONTEND_LOGIN_URL = mech+'/admin/login/'
+# WAGTAIL_FRONTEND_LOGIN_URL = BASE_URL+'/admin/login/'
 # WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
 # In Azure portal app registration, add this as redirect uri: https://127.0.0.1:8000/complete/azuread-tenant-oauth2/
