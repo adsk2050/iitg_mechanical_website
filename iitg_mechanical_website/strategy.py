@@ -9,6 +9,9 @@ class CustomDjangoStrategy(DjangoStrategy):
 
     def build_absolute_uri(self, path=None):
         if path:
+            print(f"{path} -- in build_absolute_uri (custom)\n")
             return "https://intranet.iitg.ac.in"+path
         else:
-            return self.build_absolute_uri2(path=path)
+            print("No path, running system defined build_absolute_uri\n")
+            return "https://intranet.iitg.ac.in"
+            # return self.build_absolute_uri2(path=path)

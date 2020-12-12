@@ -21,3 +21,5 @@ FIRST_DAY_OF_WEEK = 1
 
 # SESSION_COOKIE_DOMAIN=None
 SOCIAL_AUTH_STRATEGY = 'iitg_mechanical_website.strategy.CustomDjangoStrategy'
+SESSION_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE=False

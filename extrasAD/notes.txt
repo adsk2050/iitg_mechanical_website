@@ -1,3 +1,9 @@
+AuthStateMissing error resolution see first one
+
+https://github.com/python-social-auth/social-app-django/issues/31
+https://github.com/omab/python-social-auth/issues/534
+____________________________________________________________________
+
 https://serverfault.com/questions/377783/protect-apache2-server-status-handler-by-password
 
 To see server stats in browser through server/server-status:
