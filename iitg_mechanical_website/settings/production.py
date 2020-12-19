@@ -12,6 +12,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 
+BASE_URL = "intranet.iitg.ac.in"
+
+
 SECURE_SSL_REDIRECT=True
 SESSION_COOKIE_SECURE =True
 CSRF_COOKIE_SECURE=True
