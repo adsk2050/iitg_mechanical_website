@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-award-page{% endblock %}
+
+
+
+
+{% block content %}
+
+    <!-- {{ page.title }} -->
+<br><br>
+    <div class="container-fluid">
+        <div class="row padding">
+            <div class="col">
+                <h1 class="text-center" style="color:#222546; font-weight:bolder;">Award: {{ page.specific.award_title }}</h1>
+                {% if page.specific.faculty %}
+                    <h3 class="text-center" style="color:#222546; font-weight:bolder;">Faculty awarded: <a href="{{ page.specific.faculty.url }}">{{ page.specific.faculty }}</a></h3>
+                {% elif page.specific.alt_recipient_text %}
+                <h3 class="text-center" style="color:#222546; font-weight:bolder;">Recipient(s) {{ page.specific.alt_recipient_text }}</h3>
+                {% endif %}
+                {% if page.specific.other_recipients %}
+                    <h3 class="text-center" style="color:#222546; font-weight:bolder;">Other recipients: {{ page.specific.other_recipients }}</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+	<!-- Images for carousal -->
+    <div>{% image page.specific.image fill-320x240 %}</div>
+    <div>{{ pic.caption }}</div>
+    <hr>
+	<h3>Description:</h3>
+	<div>{{ page.specific.award_description|richtext }}</div>
+	<hr>
+	<div>Award type : {{ page.specific.get_award_type_display }}</div>
+	<div>Time : {{ page.specific.award_time|date:'Y' }}</div>
+	<div>Conferrer: {{ page.specific.conferrer }}</div>
+    <div>About Conferrer:{{ page.specific.conferrer_description|richtext }}</div>
+
+
+{% endblock %}

@@ -2096,19 +2096,23 @@ class AwardHomePage(Page):
     intro = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
     content_panels = Page.content_panels + [
         FieldPanel('intro'),
-        InlinePanel('awards', label="Awards"),
-        # , widget=),
     ]
     parent_page_types = ['MechHomePage']
-    subpage_types = []
+    subpage_types = ["AwardPage"]
     max_count = 1
+
+    def serve(self, request):
+        award_list = AwardPage.objects.all().order_by('-award_time')
+        return render(request, self.template,{
+            'page': self,
+            'award_list':award_list,
+        })
 
     class Meta:
         verbose_name = "Awards Home"
 
 
-class Award(Orderable):
-    page = ParentalKey(AwardHomePage, null=True, on_delete=models.SET_NULL, related_name='awards')
+class AwardPage(Page):
     faculty = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,
                                 related_name='award_fac')
     other_recipients = models.CharField(max_length=100, blank=True)
@@ -2137,17 +2141,12 @@ class Award(Orderable):
         FieldPanel('alt_recipient_text'),
     ]
 
-    class Meta:
-        ordering = ['-award_time']
-
 
 def get_new_awards():
-    a = Award.objects.all().order_by('sort_order')
+    a = AwardPage.objects.all().order_by('-award_time')
     if len(a) >= 5:
         a = a[0:5]
     return a
-
-
 #################################################################
 class CommitteeHomePage(Page):
     parent_page_types = ['MechHomePage']
