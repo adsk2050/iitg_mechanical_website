@@ -5,7 +5,7 @@ except ImportError:
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['intranet.iitg.ac.in/mech', '172.16.72.79']
+ALLOWED_HOSTS = ['intranet.iitg.ac.in', 'intranet.iitg.ac.in/mech', '172.16.72.79']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -18,7 +18,7 @@ BASE_URL = "intranet.iitg.ac.in"
 SECURE_SSL_REDIRECT=True
 SESSION_COOKIE_SECURE =True
 CSRF_COOKIE_SECURE=True
-CSRF_TRUSTED_ORIGINS = ['intranet.iitg.ac.in']
+CSRF_TRUSTED_ORIGINS = ['intranet.iitg.ac.in', 'intranet.iitg.ernet.in']
 
 FIRST_DAY_OF_WEEK = 1
 

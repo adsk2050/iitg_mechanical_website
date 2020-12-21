@@ -2127,7 +2127,7 @@ class AwardPage(Page):
     alt_recipient_text = models.CharField(max_length=1000, blank=True,
                                           help_text="Use this only if you can't add faculty")
 
-    panels = [
+    content_panels = Page.content_panels + [
         FieldPanel('award_title'),
         FieldPanel('award_description'),
         FieldPanel('award_type'),

@@ -263,6 +263,7 @@
                     <!-- <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button> -->
                 </div>
                 <div id="News" class="tabcontent">
+		    <div class="container" style="text-align: center"><br>News</div>
                     {% for notification in page.text_panels.all %}
                     {% if notification.content_type == "0" %}
                     <div class="container">
@@ -305,7 +306,8 @@
                     {% endfor %}
                 </div>
                 <div id="Announcements" class="tabcontent">
-                {% for notification in page.text_panels.all %}
+		<div class="container" style="text-align: center"><br>Announcements</div>
+		{% for notification in page.text_panels.all %}
                 {% if notification.content_type == "1" %}
                     <div class="container">
                         <div class="card" style="margin: 5px 0;">
@@ -332,7 +334,8 @@
                 {% endfor %}
                 </div>
                 <div id="Events" class="tabcontent">
-                {% for event in new_events %}
+                <div class="container" style="text-align: center"><br>Events</div>
+		{% for event in new_events %}
                     <div class="container">
                         <a href="{{ event.url }}">
                             <div class="card" style="margin: 5px 0;">
