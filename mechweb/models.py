@@ -143,7 +143,7 @@ class MechHomePage(Page):
 
     subpage_types = ['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage',
                      'CourseStructure', 'AlumniHomePage', 'AwardHomePage', 'Aboutiitgmech', 'CategoriesHome',
-                     'CommitteeHomePage', 'GenericPage']
+                     'CommitteeHomePage', 'GenericPage', 'NewsAnnouncementHomePage']
 
     max_count = 1
 
@@ -176,6 +176,7 @@ class MechHomePage(Page):
         context['hod_contact'] = hod_contact
         context['new_events'] = new_events
         context['top_awards'] = top_awards
+        context['news_annncmnts'] = news_annncmnts
 
         return context
 
@@ -251,6 +252,54 @@ class GenericPage(Page):
 
 
 ######################################################
+class NewsAnnouncementHomePage(Page):
+    parent_page_types = ['MechHomePage']
+    subpage_types = ['NewsAnnouncementPage']
+    max_count = 1
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        naalist = self.get_children().live().order_by('-first_published_at')
+        paginator = Paginator(naalist, 25)
+        page = request.GET.get('page')
+        naalist = paginator.get_page(page)
+        context['naalist'] = naalist
+        return context
+
+    class Meta:
+        verbose_name = "News and Announcements Home"
+
+
+class NewsAnnouncementPage(Page):
+    heading = models.CharField(blank=True, max_length=50)
+    photo = models.ForeignKey('wagtailimages.Image', blank=True, on_delete=models.SET_NULL, null=True, related_name='+')
+    description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    date = models.DateTimeField()
+    info_type = models.CharField(
+        default="0",
+        choices=TEXT_PANEL_CONTENT_TYPES,
+        max_length=50
+    )
+    content_panels = Page.content_panels + [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('date'),
+        FieldPanel('content_type'),
+        ImageChooserPanel('photo'),
+    ]
+
+    parent_page_types = ['NewsAnnouncementHomePage']
+    subpage_types = []
+
+    class Meta:
+        verbose_name = "News or Announcement"
+
+def news_annncmnts():
+    a = NewsAnnouncementPage.objects.all().live().order_by('-first_published_at')
+    if len(a) >= 100:
+        a = a[0:100]
+    return a
+######################################################
 class EventHomePage(Page):
     # nav_order = models.CharField(max_length=1, default=NAV_ORDER[0])
     # user = models.OneToOneField(AUTH_USER_MODEL,related_name='event_home_page_manager', null=True, on_delete=models.SET_NULL)
@@ -277,7 +326,7 @@ class EventHomePage(Page):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
         event_list = self.get_children().live().order_by('-first_published_at')
-        paginator = Paginator(event_list, 1)  # Show 1 events per page
+        paginator = Paginator(event_list, 25)  # Show 1 events per page
         page = request.GET.get('page')
         event_list = paginator.get_page(page)
         context['event_list'] = event_list
@@ -358,11 +407,10 @@ class EventPageLink(Orderable):
 
 
 def get_new_events():
-    a = EventPage.objects.all().live().order_by('-first_published_at')
+    a = EventPage.objects.all().live().order_by('-start_date')
     if len(a) >= 10:
         a = a[0:10]
     return a
-
 
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
