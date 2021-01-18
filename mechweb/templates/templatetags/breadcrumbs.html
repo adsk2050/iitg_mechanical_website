@@ -1,0 +1,14 @@
+{% load wagtailcore_tags %}
+{% if ancestors %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% for ancestor in ancestors %}
+        {% if forloop.last %}
+        <li class="ml-3 breadcrumb-item active">{{ ancestor }}</li>
+        {% else %}
+        <li><a class="ml-2 mr-1breadcrumb-item" href="{% pageurl ancestor %}">{{ ancestor }}</a> /</li>
+        {% endif %}
+        {% endfor %}
+    </ol>
+</nav>
+{% endif %}
