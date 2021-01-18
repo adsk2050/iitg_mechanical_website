@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+
+
+{% block content %}
+
+
+
+{% breadcrumbs%}
+
+<h2 class="text-center"> <strong>{{page.title}}</strong></h2>
+<div style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
+ {{page.intro|richtext}}
+</div>
+
+{% if programSpecializations.count %}
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>
+        <strong>Program Specializations</strong>
+      </h3>
+    </div>
+  </div>
+
+<div>
+  <ol>
+{% for specialization in programSpecializations %}
+<li>
+    <a href="{% pageurl specialization %}" class="">
+    <h4 class="">{{specialization.specific.name}}</h4>
+    </a>
+</li>
+
+    {% endfor %}
+</ol>
+</div>
+</div>
+
+<br><br><br><br><br><br><br><br>
+
+
+{% endif %}
+
+
+
+
+{% if effectiveTimePeriods.count %}
+<div class="container">
+<div class="">
+<h3>
+Effective time periods for the course structure
+</h3>
+
+</div>
+
+<ul>
+
+
+{% for timeperiod in effectiveTimePeriods %}
+<li>
+<a href="{%pageurl timeperiod %}" >
+{{timeperiod.title}}
+</a>
+</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% endblock %}

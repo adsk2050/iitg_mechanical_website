@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+
+
+{% block content %}
+
+
+
+<!-- add breadcrumbs -->
+{% breadcrumbs%}
+<div class="container text-center">
+
+    {% for sem in semesters %}
+    
+
+<h2 class="text-center" style="font-weight:bolder;">Semester {{ sem.specific.semester_number }}</h2>
+
+
+<table class="table table-striped" style="width: 80%; margin: auto; font-size: 1.5em ">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Course No.</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">L</th>
+            <th scope="col">T</th>
+            <th scope="col">P</th>
+            <th scope="col" style="text-align: center">Credits</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in sem.get_children %}
+        <tr>
+
+            <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
+            <td>{{ course.specific.name }}</td>
+            <td>{{ course.specific.lectures }}</td>
+            <td>{{ course.specific.tutorials }}</td>
+            <td>{{ course.specific.practicals }}</td>
+            <td style="text-align: center">{{ course.specific.credits }}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+    {% endfor %}
+
+
+{% if courses %}
+
+
+<table class="table table-striped" style="width: 80%; margin: auto; font-size: 1.5em ">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Course No.</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">L</th>
+            <th scope="col">T</th>
+            <th scope="col">P</th>
+            <th scope="col" style="text-align: center">Credits</th>
+
+        </tr>
+    </thead>
+    <tbody>
+    
+          {% for course in courses  %}
+        <tr>
+
+            <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
+            <td>{{ course.specific.name }}</td>
+            <td>{{ course.specific.lectures }}</td>
+            <td>{{ course.specific.tutorials }}</td>
+            <td>{{ course.specific.practicals }}</td>
+            <td style="text-align: center">{{ course.specific.credits }}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+
+{% endblock %}
