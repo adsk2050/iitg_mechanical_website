@@ -1787,6 +1787,81 @@ class ProjectPageGalleryImage(Orderable):
 # 		tc+=course.specific.credits
 # 	return tc
 
+class Program(Page):
+    name = models.CharField(max_length=50,blank=True,null=True)
+    code = models.CharField(max_length=20,blank=True,null=True)
+    intro = RichTextField(blank=True,null=True, features=CUSTOM_RICHTEXT)
+    content_panels = Page.content_panels + [
+        FieldPanel('name'),
+        FieldPanel('code'),
+        FieldPanel('intro'),
+    ]
+    subpage_types = ['EffectiveTimePeriod','ProgramSpecialization']
+
+    class Meta:
+        verbose_name = "Program"
+        verbose_name_plural = "Programs"
+    def get_context(self, request):
+        context = super(Program, self).get_context(request)
+        context['programSpecializations'] = self.get_children().type(ProgramSpecialization)
+        context['effectiveTimePeriods']  = self.get_children().type(EffectiveTimePeriod)
+        return context
+
+class ProgramSpecialization(Page):
+    name = models.CharField(max_length=50,blank=True,null=True)
+    intro = RichTextField(blank=True,null=True, features=CUSTOM_RICHTEXT)
+    content_panels = Page.content_panels + [    
+        FieldPanel('name'),
+        FieldPanel('intro')
+    ]
+    subpage_types = ['EffectiveTimePeriod','Course']
+
+    class Meta:
+        verbose_name = "Program Specialization"
+        verbose_name_plural = "Program Specializations"
+
+    def get_context(self, request):
+        context = super(ProgramSpecialization, self).get_context(request)
+        context['effectiveTimePeriods']  = self.get_children().type(EffectiveTimePeriod)
+        return context
+
+class Semester(Page):
+    semester_number = models.CharField(max_length=50,verbose_name='Semester Number')
+    content_panels = Page.content_panels + [
+        FieldPanel('semester_number'),
+    ]
+    subpage_types = ['Course',]
+    class Meta:
+        verbose_name = "Semester"
+        verbose_name_plural = "Semesters"
+    
+
+class EffectiveTimePeriod(Page):
+    is_latest = models.BooleanField(default=False,verbose_name="Is this latest course structure?")
+    content_panels = Page.content_panels+ [
+        FieldPanel('is_latest'),
+    ]
+    subpage_types = ["CoursePage","Course","Semester"]
+    class Meta:
+        verbose_name = "Effective Time Period"
+        verbose_name_plural = "Effective Time Periods"
+    def get_context(self, request):
+        context = super(EffectiveTimePeriod, self).get_context(request)
+        context['semesters'] = self.get_children().type(Semester)
+        context['courses']  = self.get_children().type(Course)
+        return context
+
+class Academics(Page):
+    content_panels = Page.content_panels+[
+    ]
+    parent_page_types = ['MechHomePage']
+    subpage_types = ['Program']
+    max_count = 1
+    class Meta:
+        verbose_name = "Acadmic Course Structure"
+        verbose_name_plural = "Acadmic Course Structures"
+
+
 class CourseStructure(Page):
     # nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
 
@@ -1796,7 +1871,7 @@ class CourseStructure(Page):
         InlinePanel('featured_courses', label="Featured Courses", max_num=10),
     ]
     parent_page_types = ['MechHomePage']
-    subpage_types = ['CoursePage']
+    subpage_types = ['CoursePage','Program']
     max_count = 1
 
     def serve(self, request):
@@ -1924,6 +1999,71 @@ class CourseStructure(Page):
 # 		'course_list': course_list,
 # 	})
 
+
+class Course(Page):
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=10)
+    photo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    lectures = models.IntegerField(verbose_name="L")
+    tutorials = models.IntegerField(verbose_name="T")
+    practicals = models.IntegerField(verbose_name="P")
+    credits = models.IntegerField(verbose_name="C")
+    course_type = models.CharField(max_length=2, choices=COURSE_TYPES, default='0')
+    
+    description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    course_page_link = models.URLField(blank=True)
+    document = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Syllabus',
+    )
+    
+    content_panels = Page.content_panels + [
+        FieldPanel('name'),
+        MultiFieldPanel([
+            FieldPanel('code'),
+            FieldPanel('course_type'),
+            # FieldPanel('eligible_programmes'),
+            DocumentChooserPanel('document'),
+            FieldPanel('course_page_link'),
+        ], heading="Course Details"),
+        FieldPanel('description'),
+        ImageChooserPanel('photo'),
+        InlinePanel('course_instructors', label="Course Instructor"),
+    ]
+
+    eligibility_and_sem_panels = [
+        FieldRowPanel([
+            FieldPanel('lectures'),
+            FieldPanel('tutorials'),
+            FieldPanel('practicals'),
+            FieldPanel('credits'),
+        ]),
+    ]
+
+    announcement_tab_panels = [
+        InlinePanel('course_announcements', label="Announcement"),
+    ]
+
+    edit_handler = TabbedInterface([
+        ObjectList(content_panels, heading="Content"),
+        ObjectList(eligibility_and_sem_panels, heading="Eligibility and Semester"),
+        ObjectList(announcement_tab_panels, heading="Announcements"),
+        ObjectList(Page.promote_panels, heading="Promote"),
+        ObjectList(Page.settings_panels, heading="Settings"),
+    ])
+
+    # parent_page_types = ['CourseStructure']
+    # subpage_types = []
+
+    class Meta:
+        verbose_name = "Course"
+        verbose_name_plural = "Courses"
+
+
+
 class CoursePage(Page):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=10)
@@ -2036,7 +2176,7 @@ class CoursePage(Page):
         ObjectList(Page.settings_panels, heading="Settings"),
     ])
 
-    parent_page_types = ['CourseStructure']
+    # parent_page_types = ['CourseStructure']
     subpage_types = []
 
     class Meta:
@@ -2048,6 +2188,17 @@ class CoursePageFaculty(Orderable):
     page = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name='course_instructor')
     faculty = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,
                                 related_name='course_instructor')
+    session = models.DateField(verbose_name="Instruction start date", default=timezone.now)
+    introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    panels = [
+        AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
+        FieldPanel('introduction'),
+        FieldPanel('session'),
+    ]
+class CourseFaculty(Orderable):
+    page = ParentalKey(Course, on_delete=models.CASCADE, related_name='course_instructors')
+    faculty = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,
+                                related_name='course_instructors')
     session = models.DateField(verbose_name="Instruction start date", default=timezone.now)
     introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
     panels = [
@@ -2070,6 +2221,22 @@ class CourseAnnouncementPage(Orderable):
         FieldPanel('announcement'),
         DocumentChooserPanel('document'),
     ]
+
+class CourseAnnouncement(Orderable):
+    page = ParentalKey(Course, on_delete=models.CASCADE, related_name='course_announcements')
+    announcement = RichTextField(max_length=250, blank=True, features=CUSTOM_RICHTEXT)
+    document = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    panels = [
+        FieldPanel('announcement'),
+        DocumentChooserPanel('document'),
+    ]
+
+
 
 
 class FeaturedCourse(Orderable):
@@ -2247,9 +2414,9 @@ class CommitteePageLink(Orderable):
  # from mechweb.models import CourseProgrammes, CourseSpecializations, CourseTypes
 
 # class Committees(Page):
-# 	dispoc_external = models.CharField(max_length=300, blank=True) 
-# 	dupc_external = models.CharField(max_length=300, blank=True) 
-# 	dppc_external = models.CharField(max_length=300, blank=True) 
+# 	dispoc_external = models.CharField(max_length=300, blank=True)
+# 	dupc_external = models.CharField(max_length=300, blank=True)
+# 	dppc_external = models.CharField(max_length=300, blank=True)
 
 # 	def serve(self, request):
 # 		fac_fic = FacultyPage.objects.all().exclude(faculty_in_charge="11").order_by('faculty_in_charge')
@@ -2257,17 +2424,17 @@ class CommitteePageLink(Orderable):
 
 # 		fac_dupc = FacultyPage.objects.all().filter(dupc__in=["1", "2"]).order_by('dupc')
 # 		stud_dupc = StudentPage.objects.all().filter(dupc__in=["4", "5"]).order_by('dupc')
-		
+
 # 		fac_dppc = FacultyPage.objects.all().filter(dppc__in=["1", "2"].order_by('dppc')
 # 		stud_dppc = StudentPage.objects.all().filter(dppc__in=["5", "4"].order_by('dppc')
-		
-		
+
+
 # 		fac_mesa = FacultyPage.objects.all().filter(mesa="5").order_by('mesa')
 # 		stud_mesa = StudentPage.objects.all().exclude(mesa__in=["5", "6"]).order_by('mesa')
-		
+
 # 		fac_sae = FacultyPage.objects.all().filter(sae="2").order_by('mesa')
 # 		stud_sae = StudentPage.objects.all().filter(sae__in=["1", "0"]).order_by('sae')
-		
+
 # 		fac_disco = FacultyPage.objects.all().exclude(disciplinary_committee__in=["3", "4"]).order_by('disciplinary_committee')
 # 		stud_disco = StudentPage.objects.all().filter(disciplinary_committee="3").order_by('disciplinary_committee')
 # 		return render(request, self.template, {
@@ -2277,18 +2444,18 @@ class CommitteePageLink(Orderable):
 # 			'tag':tag,
 # 			'page_no':page_no,
 # 			'prog':prog,
-# 			fac_fic = 
-# 			fac_dispoc = 
-# 			fac_dupc = 
-# 			stud_dupc = 
-# 			fac_dppc = 
-# 			stud_dppc = 
-# 			fac_mesa = 
-# 			stud_mesa = 
-# 			fac_sae = 
-# 			stud_sae = 
-# 			fac_disco = 
-# 			stud_disco = 
+# 			fac_fic =
+# 			fac_dispoc =
+# 			fac_dupc =
+# 			stud_dupc =
+# 			fac_dppc =
+# 			stud_dppc =
+# 			fac_mesa =
+# 			stud_mesa =
+# 			fac_sae =
+# 			stud_sae =
+# 			fac_disco =
+# 			stud_disco =
 # 		})
 
 # 	class Meta:
