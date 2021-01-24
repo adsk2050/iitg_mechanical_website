@@ -1,3 +1,7 @@
+https://ubuntu.com/blog/django-behind-a-proxy-fixing-absolute-urls
+How to deal with different hostnames when dealing with relative URLS(How to convert to absolute URL according to hostname)
+____________________________________________________________________
+
 AuthStateMissing error resolution see first one
 
 https://github.com/python-social-auth/social-app-django/issues/31

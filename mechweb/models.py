@@ -130,13 +130,8 @@ class MechHomePage(Page):
         ImageChooserPanel('donate_image'),
     ]
 
-    notification_tab_panels = [
-        InlinePanel('text_panels', label="Mini Articles"),
-    ]
-
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading="Content"),
-        ObjectList(notification_tab_panels, heading="News & Notifications"),
         ObjectList(Page.promote_panels, heading="Promote"),
         ObjectList(Page.settings_panels, heading="Settings"),
     ])
@@ -182,33 +177,6 @@ class MechHomePage(Page):
 
     class Meta:
         verbose_name = "Home"
-
-
-class HomeTextPanel(Orderable):
-    page = ParentalKey(MechHomePage, on_delete=models.CASCADE, related_name='text_panels')
-    title = models.CharField(blank=True, max_length=50)
-    photo = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE, related_name='+')
-    # You are trying to change the nullable field 'photo' on hometextpanel to non-nullable without a default; we can't do that (the database needs something to populate existing rows).
-    # Please select a fix:
-    # 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
-    # 2) Ignore for now, and let me handle existing rows with NULL myself (e.g. because you added a RunPython or RunSQL operation to handle NULL values in a previous data migration)
-    # 3) Quit, and let me add a default in models.py
-    # Select an option: 2
-    description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-    date = models.DateTimeField()
-    # change the below content_type code to manage css accordingly
-    content_type = models.CharField(
-        default="0",
-        choices=TEXT_PANEL_CONTENT_TYPES,
-        max_length=50
-    )
-    panels = [
-        FieldPanel('title'),
-        FieldPanel('description'),
-        FieldPanel('date'),
-        FieldPanel('content_type'),
-        ImageChooserPanel('photo'),
-    ]
 
 
 class MechHomePageGalleryImage(Orderable):
