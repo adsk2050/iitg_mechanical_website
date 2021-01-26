@@ -252,7 +252,7 @@ class NewsAnnouncementPage(Page):
         FieldPanel('title'),
         FieldPanel('description'),
         FieldPanel('date'),
-        FieldPanel('content_type'),
+        FieldPanel('info_type'),
         ImageChooserPanel('photo'),
     ]
 
