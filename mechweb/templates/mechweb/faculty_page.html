@@ -67,7 +67,14 @@
                     <li>
                         <h4>Joining Year : {{ page.specific.joining_date|date:"Y" }}</h4>
                     </li>
-                    {% endif %} {% if page.specific.research_interests %}
+                    {% endif %} {% if page.specific.scopus_profile_link %}
+                        <li><a href="{{ page.specific.scopus_profile_link }}">Scopus</a></li>
+                    {% endif %} {% if page.specific.google_scholar_profile_link %}
+                        <li><a href="{{ page.specific.google_scholar_profile_link }}">Google Scholar</a></li>
+                    {% endif %} {% if page.specific.researchgate_profile_link %}
+                        <li><a href="{{ page.specific.researchgate_profile_link }}">ResearchGate</a></li>
+                    {% endif %}
+                    {% if page.specific.research_interests %}
                     <li>
                         <h4>Research Interests :</h4>
                         <p>{% for tag in page.specific.research_interests.all %} <a href="{{ page.get_parent.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}</p>

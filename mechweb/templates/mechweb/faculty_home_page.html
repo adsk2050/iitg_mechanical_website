@@ -126,6 +126,15 @@
 
                         </div>
                         <div class=" col-sm-12 col-md-4 researchbox">
+                        {% if faculty.specific.scopus_profile_link %}
+                            <a href="{{ faculty.specific.scopus_profile_link }}">Scopus</a> |
+                        {% endif %}
+                        {% if faculty.specific.google_scholar_profile_link %}
+                            <a href="{{ faculty.specific.google_scholar_profile_link }}">Google Scholar</a> |
+                        {% endif %}
+                        {% if faculty.specific.researchgate_profile_link %}
+                            <a href="{{ faculty.specific.researchgate_profile_link }}">ResearchGate</a>
+                        {% endif %}
                           {% if faculty.specific.research_interests %}
                               <span><h5>Research Interests:</h5></span>
                                   {% for tag in faculty.specific.research_interests.all %} <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}
