@@ -3,7 +3,22 @@
 {% load static %}
 
 
+
 {% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+
+
+{% block extra_css %}
+
+<style>
+
+body {
+  background: #eee;
+  line-height: 30px;
+}
+
+</style>
+
+{% endblock extra_css %}
 
 {% block body_class %}template-event-page{% endblock %}
 
@@ -13,76 +28,32 @@
 {% breadcrumbs%}
 
 <div class="w3-content w3-margin-top" style="max-width:1400px; padding-top:100px;">
-
-  <!-- The Grid -->
   <div class="w3-row-padding">
-
-    <!-- Left Column -->
     <div class="w3-third">
-
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
-
-          {% if page.specific.photo %}{
+          {% if page.specific.photo %}
             {% image page.specific.photo width-300 style="width:100%" %}
             <img src="{{ image.url }}" width="{{ image.width }}"
                     height="{{ image.height }}" alt="{{ image.alt }}" class="" />
-          }
-
           {% else %}
-              <img src="{% static "images/placeholdercourse.jpg" %}" width="450"
+              <img src="{% static "images/placeholdercourse.jpg" %}" width="100%"
                       height="400" alt="{{ image.alt }}" class="" style="object-fit:cover;" />
           {% endif %}
 
-          <div class="w3-display-bottomleft w3-container w3-text-black">
-            <h1>	{{ page.title}} </h1>
-          </div>
         </div>
-        <div class="w3-container">
-          <h4><a href="{{ page.url }}">{{ page.specific.name }}</h4><hr></a>
-          {% if page.specific.code %}
-              <li>
-                  <h4>Course code </h4>
-                  <p>{{ page.specific.code }}</p>
-              </li>
-          {% endif %}
-          {% if page.specific.lectures %}
-              <li>
-                  <h4>L-T-P-C </h4>
-                  <p>{{ page.specific.lectures }}-{{ page.specific.tutorials }}-{{ page.specific.practicals }}-{{ page.specific.credits }}</p>
-              </li>
-          {% endif %}
-
-          {% if page.specific.document.url %}
-              <li>
-                  <h4>Syllabus</h4>
-                  <p><a href="{{ page.specific.document.url }}">Download</a></p>
-             </li>
-         {% endif %}
-         {% if page.specific.semester %}
-             <li>
-                 <h4>Semester</h4>
-                 <p>{{ page.specific.semester }}</p>
-             </li>
-         {% endif %}
-
-         {% if page.specific.get_eligible_programmes_display %}
-             <li>
-                 <h4>Eligible Programmes</h4>
-                 <p>{{ page.specific.get_eligible_programmes_display }}</p>
-             </li>
-         {% endif %}
-
-         {% if page.specific.course_page_link %}
-             <li>
-                 <h4>Course Page</h4>
-                 <p><a href="{{ page.specific.course_page_link }}">{{ page.specific.code }}</a></a></p>
-             </li>
-         {% endif %}
-
-
+        <div class="w3-container text-dark font-weight-bold pt-2">
+          <h4>About this course: </h4>
           <hr>
-
+          <li>Course Name: {{page.title}}</li>
+          <li>Course Code: {{ page.specific.code }}</li>
+          <li>L-T-P-C : {{ page.lectures }}-{{ page.tutorials }}-{{ page.practicals }}-{{ page.credits }}</li>
+          <li>Syllabus:  {% if page.document.url %}<a href="{{ page.document.url }}" class="btn btn-sm btn-warning">Download</a>{%else%}NaN{% endif %} </li>
+          <li>Course Type: {{page.get_course_type_display}}</li>
+         {% if page.course_page_link %}
+             <li>Course Page :<a href="{{ page.specific.course_page_link }}">{{ page.specific.code }}</a></li>
+         {% endif %}
+          <hr>
         </div>
       </div><br>
 
@@ -91,15 +62,29 @@
 
     <!-- Right Column -->
     <div class="w3-twothird">
-
-
       <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>{{ page.specific.name }}</h2>
-        {% if page.specific.course_instructor.all|length > 0 %}
-          <h4 class="w3-text-grey w3-padding-16">Course Instructor{% if page.specific.course_instructor.all|length > 1 %}s{% endif %}  [Current]</h4>
+      <br>
+        <h2 class=" w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge"></i>{{ page.specific.name }}</h2>
+       <hr>
+        {% if page.specific.course_instructors.all|length > 0 %}
+          <h6 class="w3-padding-16 text-muted">Course Instructor{% if page.specific.course_instructors.all|length > 1 %}s{% endif %}:</h6>
+          <ul class="list-group">
+          {% for instructor in page.course_instructors.all%}
+          <a class="list-group-item list-group-item-action" href="{{instructor.faculty.website}}">
+          {{instructor.faculty.first_name}} {{instructor.faculty.middle_name}} {{instructor.faculty.last_name}}
+          </a>
+          {% endfor %}
+          </ul>
+        <br>
         {% endif %}
 
-        <p>{{ page.specific.description|richtext }}</p>
+        <h6 class="text-muted"> Description: </h6>
+        {% if page.description %}
+        <p>{{ page.description|richtext }}</p>
+
+        {% else %}
+        <p>No description provided.</p>
+        {% endif %}
 
         <div class="w3-container">
           {% for faculty in page.specific.course_instructor.all %}

@@ -1,7 +1,17 @@
 {% load wagtailcore_tags %}
+
 {% if ancestors %}
+
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
+<style>
+a {
+    border-bottom: 1px solid transparent;
+    color: #222546;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+</style>
+    <ol class="breadcrumb bg-white">
         {% for ancestor in ancestors %}
         {% if forloop.last %}
         <li class="ml-3 breadcrumb-item active">{{ ancestor }}</li>

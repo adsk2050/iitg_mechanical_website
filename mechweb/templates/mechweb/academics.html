@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+
+{% block extra_css %}
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+body {
+  background: #eee;
+  {% comment %} font-family: "times new roman", serif; {% endcomment %}
+  line-height: 30px;
+}
+
+
+
+.box {
+  background: #fff;
+  border-radius: 2px;
+  {% comment %} box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); {% endcomment %}
+  {% comment %} margin: 30px 5%; {% endcomment %}
+  {% comment %} padding: 5%; {% endcomment %}
+}
+
+
+
+/* The list style
+-------------------------------------------------------------- */
+
+.directory-list ul {
+  margin-left: 10px;
+  padding-left: 20px;
+  border-left: 1px dashed #ddd;
+}
+.fa{
+  color: #222546;
+}
+.directory-list li {
+  list-style: none;
+  color: #888;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.directory-list a {
+  border-bottom: 1px solid transparent;
+  color: #222546;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.directory-list a:hover {
+  border-color: #eee;
+  color: #000;
+}
+
+.directory-list .folder,
+.directory-list .folder > a {
+  {% comment %} color: #777; {% endcomment %}
+  font-weight: bold;
+}
+
+
+/* The icons
+-------------------------------------------------------------- */
+
+{% comment %} .directory-list li.folder:before {
+  /* folder icon if folder class is specified */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='lightblue' d='M96.429,37.5v39.286c0,3.423-1.228,6.361-3.684,8.817c-2.455,2.455-5.395,3.683-8.816,3.683H16.071 c-3.423,0-6.362-1.228-8.817-3.683c-2.456-2.456-3.683-5.395-3.683-8.817V23.214c0-3.422,1.228-6.362,3.683-8.817 c2.455-2.456,5.394-3.683,8.817-3.683h17.857c3.422,0,6.362,1.228,8.817,3.683c2.455,2.455,3.683,5.395,3.683,8.817V25h37.5 c3.422,0,6.361,1.228,8.816,3.683C95.201,31.138,96.429,34.078,96.429,37.5z' /></svg>");
+  background-position: center top;
+  background-size: 75% auto;
+} {% endcomment %}
+
+
+</style>
+
+{% endblock extra_css %}
+
+
+
+
+{% breadcrumbs%}
+
+
+
+{% block content %}
+
+
+<div class="box container pt-5">
+<h2 class="text-center">Academics</h2>
+<hr>
+  <ul class="directory-list">
+  {{tree_structure |safe}}
+  </ul>
+<hr>
+<br>
+</div>
+
+
+<br><br>
+
+
+
+
+
+{% endblock %}

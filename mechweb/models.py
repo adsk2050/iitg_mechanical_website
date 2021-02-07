@@ -1815,7 +1815,7 @@ class ProgramSpecialization(Page):
         FieldPanel('intro')
     ]
     subpage_types = ['EffectiveTimePeriod','Course']
-
+    template = "mechweb/program.html"
     class Meta:
         verbose_name = "Program Specialization"
         verbose_name_plural = "Program Specializations"
@@ -1831,10 +1831,15 @@ class Semester(Page):
         FieldPanel('semester_number'),
     ]
     subpage_types = ['Course',]
+    template = "mechweb/effective_time_period.html"
     class Meta:
         verbose_name = "Semester"
         verbose_name_plural = "Semesters"
-    
+    def get_context(self,request):
+        context = super(Semester,self).get_context(request)
+        # courses = self.get_children().type(Course)
+        context['semesters']= [context['page']]
+        return context
 
 class EffectiveTimePeriod(Page):
     is_latest = models.BooleanField(default=False,verbose_name="Is this latest course structure?")
@@ -1857,10 +1862,35 @@ class Academics(Page):
     parent_page_types = ['MechHomePage']
     subpage_types = ['Program']
     max_count = 1
+
+    
+
+    def get_context(self,request):
+        def visitNode(node,html):
+            for child in node.get_children():
+                flag = (child.specific_class!=EffectiveTimePeriod)
+                html+="<li>"+('<i class="fa fa-graduation-cap folder" aria-hidden="true">' if flag else '<i class="fa fa-code-fork" aria-hidden="true"> ')+'<a href="{0}">'.format(child.url)+("Course structure - " if not flag else "")+child.title+'</a></i>'+"</li>"
+                if(flag):
+                    html+="<ul>"
+                    html = visitNode(child,html)
+                    html+="</ul>"
+            return html
+
+        context = super(Academics, self).get_context(request)
+        tree_structure = ""
+        # print(self.visitNode)
+        tree_structure = visitNode(self,tree_structure)
+        context['tree_structure'] =tree_structure
+        return context
+
     class Meta:
         verbose_name = "Acadmic Course Structure"
         verbose_name_plural = "Acadmic Course Structures"
+    
 
+
+
+    
 
 class CourseStructure(Page):
     # nav_order = models.CharField(max_length=1, default=NAV_ORDER[6])
@@ -2028,19 +2058,17 @@ class Course(Page):
             # FieldPanel('eligible_programmes'),
             DocumentChooserPanel('document'),
             FieldPanel('course_page_link'),
+            FieldRowPanel([
+                FieldPanel('lectures'),
+                FieldPanel('tutorials'),
+                FieldPanel('practicals'),
+                FieldPanel('credits'),
+        ]),
         ], heading="Course Details"),
         FieldPanel('description'),
         ImageChooserPanel('photo'),
         InlinePanel('course_instructors', label="Course Instructor"),
-    ]
 
-    eligibility_and_sem_panels = [
-        FieldRowPanel([
-            FieldPanel('lectures'),
-            FieldPanel('tutorials'),
-            FieldPanel('practicals'),
-            FieldPanel('credits'),
-        ]),
     ]
 
     announcement_tab_panels = [
@@ -2049,7 +2077,6 @@ class Course(Page):
 
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading="Content"),
-        ObjectList(eligibility_and_sem_panels, heading="Eligibility and Semester"),
         ObjectList(announcement_tab_panels, heading="Announcements"),
         ObjectList(Page.promote_panels, heading="Promote"),
         ObjectList(Page.settings_panels, heading="Settings"),

@@ -1,23 +1,46 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+{% block body_class %}template-course-structure{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+body {
+  background: #eee;
+  line-height: 30px;
+}
+tr{
+    cursor:pointer;
+}
+
+</style>
+
+{% endblock extra_css %}
+
+
 
 
 {% block content %}
 
-
+ 
 
 <!-- add breadcrumbs -->
 {% breadcrumbs%}
-<div class="container text-center">
+<div class="text-center" >
 
     {% for sem in semesters %}
     
 
-<h2 class="text-center" style="font-weight:bolder;">Semester {{ sem.specific.semester_number }}</h2>
+<div class="container" style="background:white;">
+<hr>
+<a href="{% pageurl sem %}"><h2 class="text-center" style="font-weight:bolder;">Semester {{ sem.specific.semester_number }}</h2></a>
+<hr>
+<br><br>
+<div class="table-responsive-lg">
 
-
-<table class="table table-striped" style="width: 80%; margin: auto; font-size: 1.5em ">
-    <thead class="thead-dark">
+<table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
+    <thead style="background-color:#222546;color:white">
         <tr>
             <th scope="col">Course No.</th>
             <th scope="col">Course Name</th>
@@ -30,9 +53,9 @@
     </thead>
     <tbody>
         {% for course in sem.get_children %}
-        <tr>
+        <tr onclick="window.location='{{course.url}}';">
 
-            <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
+            <td>{{ course.specific.code }}</td>
             <td>{{ course.specific.name }}</td>
             <td>{{ course.specific.lectures }}</td>
             <td>{{ course.specific.tutorials }}</td>
@@ -43,14 +66,22 @@
         {% endfor %}
     </tbody>
 </table>    
+</div>
+<br><br>
+</div>
+<br>
     {% endfor %}
 
 
 {% if courses %}
 
+<div class="container" style="background:white;">
 
-<table class="table table-striped" style="width: 80%; margin: auto; font-size: 1.5em ">
-    <thead class="thead-dark">
+<br><br>
+<div class="table-responsive-lg">
+
+<table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
+    <thead style="background-color:#222546;color:white">
         <tr>
             <th scope="col">Course No.</th>
             <th scope="col">Course Name</th>
@@ -64,7 +95,7 @@
     <tbody>
     
           {% for course in courses  %}
-        <tr>
+        <tr onclick="window.location='{{course.url}}';">
 
             <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
             <td>{{ course.specific.name }}</td>
@@ -77,6 +108,10 @@
         {% endfor %}
     </tbody>
 </table>
+
+<br><br>
+</div>
+</div>
 {% endif %}
 
 

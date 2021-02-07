@@ -2,42 +2,71 @@
 {% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
 
 
+{% block extra_css %}
+
+<style>
+
+body {
+  background: #eee;
+  line-height: 30px;
+}
+
+</style>
+
+{% endblock extra_css %}
+
 {% block content %}
 
 
 
 {% breadcrumbs%}
 
+<div class="row">
+<div class="col-sm-12 col-lg-6 bg-white">
+<br><br>
 <h2 class="text-center"> <strong>{{page.title}}</strong></h2>
+<hr>
 <div style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
  {{page.intro|richtext}}
 </div>
 
-{% if programSpecializations.count %}
 
-
-
-<div class="container">
+<br><br><br><br><br><br><br><br>
+</div>
+{% comment %} <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <h3>
-        <strong>Program Specializations</strong>
-      </h3>
+    <div class="col-12 col-sm-6 col-lg-4">
+      <h6 class="text-muted">Colouring List Group Items</h6> 
+      <ul class="list-group">
+        <a href="#" class="list-group-item list-group-item-action">Little Women</a>
+        <a href="#" class="list-group-item list-group-item-action list-group-item-light">Native Son</a>
+      </ul>
     </div>
   </div>
+</div> {% endcomment %}
 
-<div>
-  <ol>
-{% for specialization in programSpecializations %}
-<li>
-    <a href="{% pageurl specialization %}" class="">
-    <h4 class="">{{specialization.specific.name}}</h4>
-    </a>
-</li>
 
-    {% endfor %}
-</ol>
+<div class="col-sm-12 col-lg-6 bg-white">
+<br><br>
+{% if programSpecializations.count %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-sm-6 col-lg-4">
+      <h6 class="text-muted">Program Specializations</h6> 
+      <ul class="list-group">
+      {% for specialization in programSpecializations %}
+
+        <a href="{% pageurl specialization %}" class="list-group-item list-group-item-action">
+        {% if page.code %}
+        {{page.code}} in
+        {% endif %}
+        {{specialization.title}}</a>
+      {% endfor %}  
+      </ul>
+    </div>
+  </div>
 </div>
+
 </div>
 
 <br><br><br><br><br><br><br><br>
@@ -49,26 +78,27 @@
 
 
 {% if effectiveTimePeriods.count %}
+
 <div class="container">
-<div class="">
-<h3>
-Effective time periods for the course structure
-</h3>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-lg-4">
+      <h6 class="text-muted">Course Structure</h6> 
+      <ul class="list-group">
+      {% for timeperiod in effectiveTimePeriods %}
+        <a href="{% pageurl timeperiod %}" class="list-group-item list-group-item-action">
+       <i class="fa fa-code-fork" aria-hidden="true"> {{timeperiod.title}}</i></a>
+      {% endfor %}  
+      </ul>
+    </div>
+  </div>
 
 </div>
 
-<ul>
+<br><br><br><br><br><br><br><br><br><br>
 
-
-{% for timeperiod in effectiveTimePeriods %}
-<li>
-<a href="{%pageurl timeperiod %}" >
-{{timeperiod.title}}
-</a>
-</li>
-{% endfor %}
-</ul>
-</div>
 {% endif %}
+
+</div>
+</div>
 
 {% endblock %}
