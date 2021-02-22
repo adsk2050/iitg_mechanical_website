@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load mechweb_tags %}
+
+{% block body_class %}template-event-page{% endblock %}
+
+{% block extra_css %}
+
+
+
+<style>
+
+body {
+ // background: #eee;
+  line-height: 30px;
+}
+
+
+th {
+    white-space: nowrap;
+}
+
+th,td{
+    text-align:center;
+}        
+
+</style>
+
+{% endblock extra_css %}
+
+
+{% block content %}
+
+
+<div class="bg-white">
+<br><br>
+<h1 class="text-center"> {{page}}</h1>
+<br><br><br>
+{% if resourceSections.count %}
+
+<div class="col">
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <h6 class="text-muted"></h6> 
+      <ul class="list-group">
+      {% for section in resourceSections %}
+
+        <a href="{% pageurl section %}" class="list-group-item list-group-item-action">
+        {{section}}</a>
+      {% endfor %}  
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+{%endif%}
+
+{% if resources.count %}
+<div class="table-responsive-lg">
+
+<table class="table table-striped table-bordered table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
+    <thead style="background-color:#222546;color:white">
+        <tr>
+            <th scope="col">S. No.</th>
+            <th scope="col">Title</th>
+            <th scope="col">Faculty In-Charge</th>
+            <th scope="col">Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for resource in resources %}
+        <tr>
+
+            <td>{{ forloop.counter }}.</td>
+            <td>{{ resource.title }}</td>
+            <td><a href="{{resource.specific.faculty_incharge.url}}"> {{ resource.specific.faculty_incharge }}</a></td>
+            <td><a target="_blank" href="{{ resource.specific.link }}"><i class="fa fa-external-link" aria-hidden="true"><span class="ml-2">Click here</span></i></a></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+</div>
+<br><br>
+</div>
+{%endif%}
+
+
+</div>
+
+<br><br><br><br><br><br>
+{% endblock %}
