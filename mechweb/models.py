@@ -795,9 +795,7 @@ class StudentHomePage(AbstractStudentHomePage):
     ]
 
     def serve(self, request):
-        student_list = self.get_children().live().order_by('-studentpage__enrolment_year', 'studentpage__first_name',
-                                                           'studentpage__middle_name', 'studentpage__last_name')
-
+        student_list = self.get_children().live()
         # Filter by programme
         prog = request.GET.get('prog')
         if prog in ['0', '1', '2', '3']:
@@ -814,7 +812,8 @@ class StudentHomePage(AbstractStudentHomePage):
         # paginator = Paginator(student_list, 50)  # Show 50 students per page
         # page_no = request.GET.get('page_no')
         # student_list = paginator.get_page(page_no)
-
+        student_list = student_list.order_by('-studentpage__enrolment_year__year', 'studentpage__first_name',
+                                                           'studentpage__middle_name', 'studentpage__last_name')
         # all_research_interests = student_interests()
         return render(request, self.template, {
             'page': self,

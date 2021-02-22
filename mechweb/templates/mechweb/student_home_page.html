@@ -90,16 +90,16 @@
               <ul class="bread-meta">
                   <li><strong>{{ student.specific.get_programme_display }}{{ student.specific.leaving_year|date:'Y'|isalumni }}</strong></li>
                   {% if student.specific.enrolment_year %}
-                      <li><span>Enrolment year</span>{{ student.specific.enrolment_year|date:"Y" }}</li>
+                      <li><span>Enrollment year</span>{{ student.specific.enrolment_year|date:"Y" }}</li>
                   {% endif %}
                   {% if student.specific.email_id %}
                       <li><span>Email</span>{{ student.specific.email_id|noscrape }}</li>
                   {% endif %}
                   {% if student.specific.roll_no %}
-                      <li><span>Enrolment NO.</span>{{ student.specific.roll_no }}</li>
+                      <li><span>Enrollment NO.</span>{{ student.specific.roll_no }}</li>
                   {% endif %}
                   {% if student.specific.faculty_advisor %}
-                      <li><span>{% if page.specific.programme == '2' %}Supervisor{% else %}Faculty Advisor{% endif %}</span>{{ student.specific.faculty_advisor }}</li>
+                      <li><span>Supervisor</span>{{ student.specific.faculty_advisor }}</li>
                   {% endif %}
                   {% if student.specific.hostel_address_line_1 %}
                       <li><span>Hostel</span>{{ student.specific.hostel_address_line_1 }}</li>
