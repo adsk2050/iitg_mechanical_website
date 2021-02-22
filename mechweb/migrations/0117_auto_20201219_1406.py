@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('wagtailimages', '0022_uploadedimage'),
-        ('wagtailcore', '0059_apply_collection_ordering'),
+        # ('wagtailcore', '0059_apply_collection_ordering'),
         ('mechweb', '0116_auto_20201117_1705'),
     ]
 

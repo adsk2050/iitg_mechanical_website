@@ -138,7 +138,7 @@ class MechHomePage(Page):
 
     subpage_types = ['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage',
                      'CourseStructure', 'AlumniHomePage', 'AwardHomePage', 'Aboutiitgmech', 'CategoriesHome',
-                     'CommitteeHomePage', 'GenericPage', 'NewsAnnouncementHomePage']
+                     'CommitteeHomePage', 'GenericPage', 'NewsAnnouncementHomePage','ResourceSection']
 
     max_count = 1
 
@@ -2320,3 +2320,36 @@ class CommitteePageLink(Orderable):
 
 # 	class Meta:
 # 		verbose_name = "Awards Home"
+
+
+
+class ResourceSection(Page):
+
+    content_panels = Page.content_panels +[
+
+    ]
+
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['resourceSections'] = self.get_children().live().type(ResourceSection)
+        context['resources'] = self.get_children().live().type(Resource) 
+        return context
+
+    parent_page_types = ['MechHomePage','ResourceSection']
+    subpage_type = ['ResourceSection','Resource']
+
+class Resource(Page):
+
+    faculty_incharge = models.ForeignKey("FacultyPage",null=True,blank=True,verbose_name=_("Faculty In-charge"), on_delete=models.SET_NULL,related_name="resources")
+    link = models.URLField(blank=False,null=True)
+
+    parent_page_types = ['ResourceSection',]
+    subpage_types = []
+    content_panels = Page.content_panels + [
+        AutocompletePanel('faculty_incharge',target_model="mechweb.FacultyPage"),
+        FieldPanel('link')
+    ]
+
+
+
