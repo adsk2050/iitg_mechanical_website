@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+{% block body_class %}template-course-structure{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+body {
+  background: #eee;
+  line-height: 30px;
+}
+tr{
+    cursor:pointer;
+}
+
+</style>
+
+{% endblock extra_css %}
+
+
+
+
+{% block content %}
+
+ 
+
+<!-- add breadcrumbs -->
+{% breadcrumbs%}
+
+
+
+<div class="container bg-white">
+
+
+{% if page.table_view %}
+
+<div class="table-responsive-lg pt-5 pb-5">
+
+<table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
+    <thead style="background-color:#222546;color:white">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Roll Number</th>
+            <th scope="col">Email</th>
+
+        </tr>
+    </thead>
+    <tbody>
+    
+        {% for student in page.get_children %}
+        <tr onclick="window.location='{{student.url}}';">
+
+            <td>{{ student.specific.first_name }} {{student.specific.middle_name}} {{student.specific.last_name}}</td>
+            <td>{{student.specific.roll_no}}</td>
+            <td> {{student.specific.user.email}}</td>    
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+{% else %}
+
+
+
+{% endif %}
+
+
+
+
+</div>
+{% endblock %}

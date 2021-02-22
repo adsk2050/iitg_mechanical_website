@@ -36,6 +36,7 @@ from .constants import LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, FACULTY_DESIGNAT
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, \
     STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, USER_TYPES, INTEREST_CATEGORIES
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 ######################################################
 # NAV_ORDER
@@ -747,7 +748,7 @@ class AbstractStudentPage(Page):
     # 	enrl_yr = datetime.strptime('Aug 1 20'+roll_no[0:2]+' 12:00PM', '%b %d %Y %I:%M%p')
     # 	return enrl_yr
 
-    parent_page_types = ['StudentHomePage']
+    parent_page_types = ['StudentHomePage','StudentBatch','Students']
     subpage_types = []
 
     def __str__(self):
@@ -766,9 +767,7 @@ class StudentHomePage(AbstractStudentHomePage):
     ]
 
     def serve(self, request):
-        student_list = self.get_children().live().order_by('-studentpage__enrolment_year', 'studentpage__first_name',
-                                                           'studentpage__middle_name', 'studentpage__last_name')
-
+        student_list = self.get_children().live()
         # Filter by programme
         prog = request.GET.get('prog')
         if prog in ['0', '1', '2', '3']:
@@ -787,6 +786,8 @@ class StudentHomePage(AbstractStudentHomePage):
         # student_list = paginator.get_page(page_no)
 
         # all_research_interests = student_interests()
+        student_list = student_list.order_by('-studentpage__enrolment_year__year', 'studentpage__first_name',
+                                                           'studentpage__middle_name', 'studentpage__last_name')
         return render(request, self.template, {
             'page': self,
             'student_list': student_list,
@@ -1796,7 +1797,7 @@ class Program(Page):
         FieldPanel('code'),
         FieldPanel('intro'),
     ]
-    subpage_types = ['EffectiveTimePeriod','ProgramSpecialization']
+    subpage_types = ['EffectiveTimePeriod','ProgramSpecialization','Students']
 
     class Meta:
         verbose_name = "Program"
@@ -1805,6 +1806,9 @@ class Program(Page):
         context = super(Program, self).get_context(request)
         context['programSpecializations'] = self.get_children().type(ProgramSpecialization)
         context['effectiveTimePeriods']  = self.get_children().type(EffectiveTimePeriod)
+        students = self.get_children().live().type(Students)
+        if len(students):
+            context['students'] = students[0]
         return context
 
 class ProgramSpecialization(Page):
@@ -1814,7 +1818,7 @@ class ProgramSpecialization(Page):
         FieldPanel('name'),
         FieldPanel('intro')
     ]
-    subpage_types = ['EffectiveTimePeriod','Course']
+    subpage_types = ['EffectiveTimePeriod','Course','Students']
     template = "mechweb/program.html"
     class Meta:
         verbose_name = "Program Specialization"
@@ -1823,7 +1827,122 @@ class ProgramSpecialization(Page):
     def get_context(self, request):
         context = super(ProgramSpecialization, self).get_context(request)
         context['effectiveTimePeriods']  = self.get_children().type(EffectiveTimePeriod)
+        students = self.get_children().live().type(Students)
+        if len(students):
+            context['students'] = students[0]
         return context
+
+class Students(Page):
+    content_panels = Page.content_panels + [
+
+    ]
+    parent_page_types = ['Program','ProgramSpecialization']
+    subpage_types = ['StudentBatch',]
+    class Meta:
+        verbose_name = "Students"
+        verbose_name_plural = "Students"
+
+
+class IntegerRangeField(models.IntegerField):
+    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+        self.min_value, self.max_value = min_value, max_value
+        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+    def formfield(self, **kwargs):
+        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
+        defaults.update(kwargs)
+        return super(IntegerRangeField, self).formfield(**defaults)
+
+def current_year():
+    return date.today().year
+
+def max_value_current_year(value):
+    return MaxValueValidator(current_year()+1)(value)    
+
+class StudentBatch(Page):
+    enrollment_year = models.IntegerField(_('year'),default=current_year(),validators=[MinValueValidator(1994), max_value_current_year])
+    table_view = models.BooleanField(default=False)
+    content_panels = Page.content_panels + [
+        FieldPanel('enrollment_year'),
+        FieldPanel('table_view')
+    ]
+    parent_page_types = ['Students',]
+    subpage_types = ['Student']
+    class Meta:
+        verbose_name = "Student Batch"
+        verbose_name_plural = "Student Batches"
+
+class Student(Page):
+    user = models.OneToOneField(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL)
+    first_name = models.CharField(max_length=50)
+    middle_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50,blank=True)
+    email_id = models.EmailField(blank=True,unique=True,verbose_name="Personal Email ID")
+    roll_no = models.IntegerField(blank=True)
+    enrollment_year = models.DateField(default=timezone.now)
+    leaving_year = models.DateField(default=timezone.now, blank=True, null=True)
+    is_exchange = models.BooleanField(default=False, verbose_name="International Student")
+    supervisor = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Main supervisor/Faculty Advisor', related_name='supervisor')
+    co_supervisor = models.ForeignKey('FacultyPage',null=True,blank=True,on_delete=models.SET_NULL,verbose_name="Co-supervisor",related_name='co_supervisor')
+    contact_number = models.CharField(max_length=20, blank=True)
+    hostel_address = models.CharField(max_length=25, blank=True)
+    photo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    intro = models.CharField(max_length=250, blank=True)
+    body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    website = models.URLField(max_length=250, blank=True)
+
+
+    parent_page_types = ['Students','StudentBatch']
+    subpage_types = []
+    
+    content_panels = Page.content_panels + [
+        FieldPanel('user'),
+        FieldPanel('first_name'),
+        FieldPanel('middle_name'),
+        FieldPanel('last_name'),
+        FieldPanel('email_id'),
+        FieldPanel('roll_no'),
+        FieldPanel('enrollment_year'),
+        FieldPanel('leaving_year'),
+        FieldPanel('is_exchange'),
+        AutocompletePanel('supervisor', target_model='mechweb.FacultyPage'),
+        AutocompletePanel('co_supervisor', target_model='mechweb.FacultyPage'),
+        InlinePanel('custom_supervisor',max_num=2,label="Supervisor/Co-supervisor/Faculty Advisor (Only if the supervisor/co-supervisor/faculty advisor is from other department)"),
+        FieldPanel('contact_number'),
+        FieldPanel('hostel_address'),
+        FieldPanel('website'),
+        ImageChooserPanel('photo'),
+        FieldPanel('intro'),
+        FieldPanel('body'),
+
+    ]
+    def __str__(self):
+        name = self.first_name
+        if(len(self.middle_name)):
+            name+= " " + self.middle_name
+        if(len(self.last_name)):
+            name+= " " + self.last_name
+        return name
+
+    class Meta:
+        verbose_name = "Student"
+        verbose_name_plural = "Students"
+
+
+
+class CustomSupervisor(Orderable):
+    page = ParentalKey(Student, on_delete=models.CASCADE, related_name='custom_supervisor')
+    full_name = models.CharField(blank=False,max_length=264)
+    website = models.URLField(blank=True)
+    choices = (
+        ('supervisor','Supervisor/Faculty Advisor'),
+        ('co_supervisor','Co-supervisor')
+    )
+    supervisor_type = models.CharField(default='co_supervisor',choices=choices,max_length=264)
+    panels = [
+        FieldPanel('supervisor_type'),
+        FieldPanel('full_name'),
+        FieldPanel('website')        
+    ]
 
 class Semester(Page):
     semester_number = models.CharField(max_length=50,verbose_name='Semester Number')
@@ -1868,8 +1987,8 @@ class Academics(Page):
     def get_context(self,request):
         def visitNode(node,html):
             for child in node.get_children():
-                flag = (child.specific_class!=EffectiveTimePeriod)
-                html+="<li>"+('<i class="fa fa-graduation-cap folder" aria-hidden="true">' if flag else '<i class="fa fa-code-fork" aria-hidden="true"> ')+'<a href="{0}">'.format(child.url)+("Course structure - " if not flag else "")+child.title+'</a></i>'+"</li>"
+                flag = (child.specific_class!=EffectiveTimePeriod and child.specific_class!=Students)
+                html+="<li>"+('<i class="fa fa-graduation-cap folder" aria-hidden="true">' if flag else '<i class="fa fa-code-fork" aria-hidden="true"> ')+'<a href="{0}">'.format(child.url)+child.title+'</a></i>'+"</li>"
                 if(flag):
                     html+="<ul>"
                     html = visitNode(child,html)

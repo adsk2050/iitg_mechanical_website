@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+
+
+{% block extra_css %}
+
+<style>
+
+body {
+  background: #eee;
+  line-height: 30px;
+}
+
+</style>
+
+{% endblock extra_css %}
+
+{% block content %}
+
+
+
+{% breadcrumbs%}
+
+<div class="pt-5 pb-5"> 
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <h6 class="text-muted">Students</h6> 
+      <ul class="list-group">
+      {% for batch in page.get_children %}
+        <a href="{% pageurl batch %}" class="list-group-item list-group-item-action">
+       <i class="fa fa-user" aria-hidden="true"> {{batch.title}}</i></a>
+      {% endfor %}  
+      </ul>
+    </div>  
+  </div>
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

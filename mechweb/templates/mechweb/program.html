@@ -21,37 +21,28 @@ body {
 
 {% breadcrumbs%}
 
-<div class="row">
-<div class="col-sm-12 col-lg-6 bg-white">
-<br><br>
+<div class="row bg-white pb-4">
+<div class="col-sm-12 col-lg-6 pt-4">
+
 <h2 class="text-center"> <strong>{{page.title}}</strong></h2>
 <hr>
+
 <div style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
  {{page.intro|richtext}}
 </div>
 
-
-<br><br><br><br><br><br><br><br>
 </div>
-{% comment %} <div class="container">
-  <div class="row">
-    <div class="col-12 col-sm-6 col-lg-4">
-      <h6 class="text-muted">Colouring List Group Items</h6> 
-      <ul class="list-group">
-        <a href="#" class="list-group-item list-group-item-action">Little Women</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-light">Native Son</a>
-      </ul>
-    </div>
-  </div>
-</div> {% endcomment %}
+<div class="col-sm-12 col-lg-6 bg-white pt-4">
 
 
-<div class="col-sm-12 col-lg-6 bg-white">
-<br><br>
+
+<div class="row">
+
 {% if programSpecializations.count %}
+<div class="col">
 <div class="container">
   <div class="row">
-    <div class="col-12 col-sm-6 col-lg-4">
+    <div class="col-12 col-lg-6">
       <h6 class="text-muted">Program Specializations</h6> 
       <ul class="list-group">
       {% for specialization in programSpecializations %}
@@ -69,19 +60,21 @@ body {
 
 </div>
 
-<br><br><br><br><br><br><br><br>
 
+</div>
 
 {% endif %}
 
 
 
 
+
 {% if effectiveTimePeriods.count %}
+<div class="col">
 
 <div class="container">
   <div class="row">
-    <div class="col-12 col-sm-6 col-lg-4">
+    <div class="col-12 col-lg-6">
       <h6 class="text-muted">Course Structure</h6> 
       <ul class="list-group">
       {% for timeperiod in effectiveTimePeriods %}
@@ -94,9 +87,32 @@ body {
 
 </div>
 
-<br><br><br><br><br><br><br><br><br><br>
-
+</div>
 {% endif %}
+
+{% if students %}
+<div class="col">
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <h6 class="text-muted">Students</h6> 
+      <ul class="list-group">
+      {% for batch in students.get_children %}
+        <a href="{% pageurl batch %}" class="list-group-item list-group-item-action">
+       <i class="fa fa-user" aria-hidden="true"> {{batch.title}}</i></a>
+      {% endfor %}  
+      </ul>
+    </div>  
+  </div>
+
+</div>
+</div>
+{% endif %}
+
+
+
+
 
 </div>
 </div>
