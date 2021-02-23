@@ -2340,13 +2340,26 @@ class ResourceSection(Page):
     subpage_type = ['ResourceSection','Resource']
 
 class Resource(Page):
-
-    faculty_incharge = models.ForeignKey("FacultyPage",null=True,blank=True,verbose_name=_("Faculty In-charge"), on_delete=models.SET_NULL,related_name="resources")
-    link = models.URLField(blank=False,null=True)
-
+    link = models.URLField(blank=True,null=True)
     parent_page_types = ['ResourceSection',]
     subpage_types = []
     content_panels = Page.content_panels + [
-        AutocompletePanel('faculty_incharge',target_model="mechweb.FacultyPage"),
+        InlinePanel('faculty_incharges',label="Faculty In-Charge"),
+        InlinePanel('custom_faculty_incharges',label="Other Faculty In-Charge"),
         FieldPanel('link')
+    ]
+
+class ResourceFacultyInCharge(Orderable):
+    page = ParentalKey(Resource, on_delete=models.CASCADE, related_name='faculty_incharges')
+    faculty = models.ForeignKey("mechweb.FacultyPage", verbose_name=_("Faculty"), on_delete=models.CASCADE)
+    panels = [
+        AutocompletePanel('faculty',target_model='mechweb.FacultyPage'),
+    ]
+class ResourceCustomFacultyInCharge(Orderable):
+    page = ParentalKey(Resource, on_delete=models.CASCADE, related_name='custom_faculty_incharges')
+    full_name = models.CharField(blank=False,null=True,max_length=264)
+    website = models.URLField(blank=True,null=True)
+    panels = [
+        FieldPanel('full_name'),
+        FieldPanel('website')
     ]

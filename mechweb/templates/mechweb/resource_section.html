@@ -43,10 +43,10 @@ th,td{
 
 <div class="col">
 <div class="container">
-  <div class="row">
+  <div class="row d-flex justify-content-center">
     <div class="col-12 col-lg-6">
       <h6 class="text-muted"></h6> 
-      <ul class="list-group">
+      <ul class="list-group text-center font-weight-bold">
       {% for section in resourceSections %}
 
         <a href="{% pageurl section %}" class="list-group-item list-group-item-action">
@@ -78,7 +78,23 @@ th,td{
 
             <td>{{ forloop.counter }}.</td>
             <td>{{ resource.title }}</td>
-            <td><a href="{{resource.specific.faculty_incharge.url}}"> {{ resource.specific.faculty_incharge }}</a></td>
+            <td>
+            {% for faculty_incharge in resource.specific.faculty_incharges.all %}
+            {% if forloop.counter0 %}
+            ,
+            {% endif %}
+            <a href="{{faculty_incharge.specific.url}}">{{faculty_incharge.faculty}}</a>
+            
+            {% endfor %}
+
+            {% for faculty_incharge in resource.specific.custom_faculty_incharges.all %}
+            {% if forloop.counter0 or resource.specific.faculty_incharges%}
+            ,
+            {% endif %}
+            <a href="{{faculty_incharge.website}}">{{faculty_incharge.full_name}}</a>
+            
+            {% endfor %}
+            </td>
             <td><a target="_blank" href="{{ resource.specific.link }}"><i class="fa fa-external-link" aria-hidden="true"><span class="ml-2">Click here</span></i></a></td>
 
         </tr>
