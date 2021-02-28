@@ -49,7 +49,7 @@ th,td{
       <ul class="list-group text-center font-weight-bold">
       {% for section in resourceSections %}
 
-        <a href="{% pageurl section %}" class="list-group-item list-group-item-action">
+        <a href="{% pageurl section %}" class="list-group-item list-group-item-action mb-2">
         {{section}}</a>
       {% endfor %}  
       </ul>
@@ -68,7 +68,7 @@ th,td{
         <tr>
             <th scope="col">S. No.</th>
             <th scope="col">Title</th>
-            <th scope="col">Faculty In-Charge</th>
+            <th scope="col">Faculty In-Charge(s)</th>
             <th scope="col">Link</th>
         </tr>
     </thead>
@@ -83,8 +83,7 @@ th,td{
             {% if forloop.counter0 %}
             ,
             {% endif %}
-            <a href="{{faculty_incharge.specific.url}}">{{faculty_incharge.faculty}}</a>
-            
+            <a href="{{faculty_incharge.faculty.url}}">{{faculty_incharge.faculty}}</a>
             {% endfor %}
 
             {% for faculty_incharge in resource.specific.custom_faculty_incharges.all %}
