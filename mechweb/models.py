@@ -2324,9 +2324,9 @@ class CommitteePageLink(Orderable):
 
 
 class ResourceSection(Page):
-
+    intro = RichTextField(blank=True,null=True, features=CUSTOM_RICHTEXT)
     content_panels = Page.content_panels +[
-
+        FieldPanel('intro')
     ]
 
 
