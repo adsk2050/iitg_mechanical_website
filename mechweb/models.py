@@ -2334,10 +2334,11 @@ class ResourceSection(Page):
         context = super().get_context(request)
         context['resourceSections'] = self.get_children().live().type(ResourceSection)
         context['resources'] = self.get_children().live().type(Resource) 
+        context['outreach'] = self.get_children().live().type(OutReach)
         return context
 
     parent_page_types = ['MechHomePage','ResourceSection']
-    subpage_type = ['ResourceSection','Resource']
+    subpage_type = ['ResourceSection','Resource','OutReach']
 
 class Resource(Page):
     link = models.URLField(blank=True,null=True)
@@ -2357,6 +2358,35 @@ class ResourceFacultyInCharge(Orderable):
     ]
 class ResourceCustomFacultyInCharge(Orderable):
     page = ParentalKey(Resource, on_delete=models.CASCADE, related_name='custom_faculty_incharges')
+    full_name = models.CharField(blank=False,null=True,max_length=264)
+    website = models.URLField(blank=True,null=True)
+    panels = [
+        FieldPanel('full_name'),
+        FieldPanel('website')
+    ]
+
+class OutReach(Page):
+    parent_page_types = ['ResourceSection',]
+    subpage_types = []
+    body = models.TextField(blank=True,null=True,verbose_name="Institute/Event")
+    date = models.DateField(default=timezone.now,null=True)
+    subpage_types = []
+    content_panels = Page.content_panels + [
+        InlinePanel('faculty_incharges',label="Faculty"),
+        InlinePanel('custom_faculty_incharges',label="Other Faculty"),
+        FieldPanel('body'),
+        FieldPanel('date')
+    ]
+
+class OutReachFaculty(Orderable):
+    page = ParentalKey(OutReach,on_delete=models.CASCADE,related_name="faculty_incharges")
+    faculty = models.ForeignKey("mechweb.FacultyPage", verbose_name=_("Faculty"), on_delete=models.CASCADE)
+    panels = [
+        AutocompletePanel('faculty',target_model='mechweb.FacultyPage'),
+    ]
+    
+class OutReachCustomFaculty(Orderable):
+    page = ParentalKey(OutReach, on_delete=models.CASCADE, related_name='custom_faculty_incharges')
     full_name = models.CharField(blank=False,null=True,max_length=264)
     website = models.URLField(blank=True,null=True)
     panels = [

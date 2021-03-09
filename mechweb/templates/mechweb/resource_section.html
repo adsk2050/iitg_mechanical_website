@@ -113,6 +113,56 @@ th,td{
 {%endif%}
 
 
+
+
+
+{% if outreach.count %}
+<div class="table-responsive-lg">
+
+<table class="table table-striped table-bordered table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
+    <thead style="background-color:#222546;color:white">
+        <tr>
+            <th scope="col">S. No.</th>
+            <th scope="col">Title</th>
+            <th scope="col">Faculty In-Charge(s)</th>
+            <th scope="col">Institute/Event</th>
+            <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in outreach %}
+        <tr>
+
+            <td>{{ forloop.counter }}.</td>
+            <td>{{ object.title }}</td>
+            <td>
+            {% for faculty_incharge in object.specific.faculty_incharges.all %}
+            {% if forloop.counter0 %}
+            ,
+            {% endif %}
+            <a href="{{faculty_incharge.faculty.url}}">{{faculty_incharge.faculty}}</a>
+            {% endfor %}
+
+            {% for faculty_incharge in object.specific.custom_faculty_incharges.all %}
+            {% if forloop.counter0 or object.specific.faculty_incharges%}
+            ,
+            {% endif %}
+            <a href="{{faculty_incharge.website}}">{{faculty_incharge.full_name}}</a>
+            
+            {% endfor %}
+            </td>
+            <td> {{object.specific.body}}</td>
+            <td> {{object.specific.date}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+</div>
+<br><br>
+</div>
+{%endif%}
+
+
 </div>
 
 <br><br><br><br><br><br>
