@@ -6,19 +6,19 @@ DEBUG = True
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ['172.16.72.2', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ("127.0.0.1, 0.0.0.0")
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INSTALLED_APPS = INSTALLED_APPS + [
-	'debug_toolbar',
+	# 'debug_toolbar',
     'sslserver',
 ]
 
 MIDDLEWARE = MIDDLEWARE+[
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 try:

@@ -3,14 +3,107 @@
 
 
 {% block extra_css %}
-
+<title>{{page.title}} | Mechanical Department | IITG</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://themes.audemedia.com/html/goodgrowth/css/owl.theme.default.min.css"/>
 <style>
 
 body {
-  background: #eee;
+  {% comment %} background: #eee; {% endcomment %}
   line-height: 30px;
 }
 
+
+
+#testimonials {
+    background: linear-gradient(112deg, #ffffff 50%, antiquewhite 50%);
+    {% comment %} max-width: 900px; {% endcomment %}
+    {% comment %} margin: auto {% endcomment %}
+}
+
+#program-title {
+    background: antiquewhite;
+}
+
+.carousel-caption {
+    position: initial;
+    z-index: 10;
+    padding: 6rem 8rem;
+    color: rgba(78, 77, 77, 0.856);
+    text-align: center;
+    {% comment %} font-size: 1.2rem; {% endcomment %}
+    font-style: italic;
+    font-weight: bold;
+    line-height: 2rem
+}
+
+@media(max-width:767px) {
+    .carousel-caption {
+        position: initial;
+        z-index: 10;
+        padding: 3rem 2rem;
+        color: rgba(78, 77, 77, 0.856);
+        text-align: center;
+        font-size: 0.7rem;
+        font-style: italic;
+        font-weight: bold;
+        line-height: 1.5rem
+    }
+}
+
+
+
+
+#image-caption {
+    font-style: normal;
+    {% comment %} font-size: 1rem; {% endcomment %}
+    margin-top: 0.5rem
+}
+
+@media(max-width:767px) {
+    #image-caption {
+        font-style: normal;
+        font-size: 0.6rem;
+        margin-top: 0.5rem
+    }
+}
+
+#testimonials i {
+    background-color: #eea29a;
+    padding: 1.4rem
+}
+
+@media(max-width:767px) {
+    i {
+        padding: 0.8rem
+    }
+}
+
+.carousel-control-prev {
+    justify-content: flex-start
+}
+
+.carousel-control-next {
+    justify-content: flex-end
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    transition: none;
+    opacity: unset
+}
+
+
+
+element.style {
+}
+.carousel-item {
+    height: auto;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
 </style>
 
 {% endblock extra_css %}
@@ -20,29 +113,32 @@ body {
 
 
 {% breadcrumbs%}
+<div class="bg-white">
+<div id="program-title">
+<br>
+<h2 class="text-center" > <strong>{{page.title}}</strong></h2>
+<br>
+</div>
+<div class="row  pb-4">
 
-<div class="row bg-white pb-4">
-<div class="col-sm-12 col-lg-6 pt-4">
-
-<h2 class="text-center"> <strong>{{page.title}}</strong></h2>
-<hr>
+<div class="col-sm-12 col-lg-12 pt-4">
 
 <div style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
  {{page.intro|richtext}}
 </div>
 
 </div>
-<div class="col-sm-12 col-lg-6 bg-white pt-4">
+<div class="col-sm-12 col-lg-12 bg-white pt-4">
 
 
-
+<div class="container">
 <div class="row">
 
 {% if programSpecializations.count %}
 <div class="col">
 <div class="container">
   <div class="row">
-    <div class="col-12 col-lg-6">
+    <div class="col-12 col-lg-8">
       <h6 class="text-muted">Program Specializations</h6> 
       <ul class="list-group">
       {% for specialization in programSpecializations %}
@@ -60,9 +156,6 @@ body {
 
 </div>
 
-
-</div>
-
 {% endif %}
 
 
@@ -74,7 +167,7 @@ body {
 
 <div class="container">
   <div class="row">
-    <div class="col-12 col-lg-6">
+    <div class="col-12 col-lg-8">
       <h6 class="text-muted">Course Structure</h6> 
       <ul class="list-group">
       {% for timeperiod in effectiveTimePeriods %}
@@ -95,10 +188,10 @@ body {
 
 <div class="container">
   <div class="row">
-    <div class="col-12 col-lg-6">
+    <div class="col-12 col-lg-8">
       <h6 class="text-muted">Students</h6> 
       <ul class="list-group">
-      {% for batch in students.get_children %}
+      {% for batch in students.specific.get_children %}
         <a href="{% pageurl batch %}" class="list-group-item list-group-item-action">
        <i class="fa fa-user" aria-hidden="true"> {{batch.title}}</i></a>
       {% endfor %}  
@@ -116,5 +209,56 @@ body {
 
 </div>
 </div>
+</div>
+<div class="container">
+    <div id="testimonials" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="carousel-caption">
+                    <p>If Shai Reznik's TDD videos don't convince you to add automated testing your code, I don't know what will.This was the very best explanation of frameworks for brginners that I've ever seen. </p>
+                    <div id="image-caption">Nick Doe</div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="carousel-caption">
+                    <p>If Shai Reznik's TDD videos don't convince you to add automated testing your code, I don't know what will.This was the very best explanation of frameworks for brginners that I've ever seen.</p>
+                    <div id="image-caption">Cromption Greves</div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="carousel-caption">
+                    <p>If Shai Reznik's TDD videos don't convince you to add automated testing your code, I don't know what will.This was the very best explanation of frameworks for brginners that I've ever seen.</p>
+                    <div id="image-caption">Harry Mon</div>
+                </div>
+            </div>
+        </div> <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i> </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i class='fa fa-arrow-right'></i> </a>
+    </div>
+</div>
+</div>
 
 {% endblock %}
+
+
+{% block extra_script %}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+        		//  TESTIMONIALS CAROUSEL HOOK
+		        {% comment %} $('#testimonials').owlCarousel({
+		            loop: true,
+		            center: true,
+		            items: 1,
+		            autoplay: true,
+		            autoplayTimeout: 4000,
+		            smartSpeed: 450,
+					mouseDrag: true,
+					touchDrag: true,
+		        });
+        	}); {% endcomment %}
+
+</script>
+
+{% endblock extra_script   %}

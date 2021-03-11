@@ -685,7 +685,7 @@
     /*---------------*/
 
     $(document).ready( function() {
-      $('.carousel').carousel();
+      {% comment %} $('.carousel').carousel(); {% endcomment %}
       $('#carouselExampleIndicators').on('slide.bs.carousel', function(e) {
           var from = $('.nav li.active').index();
           var next = $(e.relatedTarget);

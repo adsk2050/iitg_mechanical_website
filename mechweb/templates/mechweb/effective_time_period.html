@@ -7,8 +7,14 @@
 <style>
 
 body {
-  background: #eee;
   line-height: 30px;
+}
+.main-div{
+  background: linear-gradient(350deg, #ffffff 60%, antiquewhite 40%);
+
+}
+.sem-title{
+    {% comment %} background:antiquewhite; {% endcomment %}
 }
 tr{
     cursor:pointer;
@@ -27,20 +33,32 @@ tr{
 
 <!-- add breadcrumbs -->
 {% breadcrumbs%}
+
+
+
+<div style="background:antiquewhite;">
+<br>
+<h2 class="text-center" > <strong>Course Structure</strong></h2>
+<br>
+</div>
+
 <div class="text-center" >
 
     {% for sem in semesters %}
     
 
+<div class="">
 <div class="container" style="background:white;">
 <hr>
+<div class="sem-title">
 <a href="{% pageurl sem %}"><h2 class="text-center" style="font-weight:bolder;">Semester {{ sem.specific.semester_number }}</h2></a>
+</div>
 <hr>
 <br><br>
 <div class="table-responsive-lg">
 
 <table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
-    <thead style="background-color:#222546;color:white">
+    <thead style="background-color:antiquewhite;color:#222546">
         <tr>
             <th scope="col">Course No.</th>
             <th scope="col">Course Name</th>
@@ -69,7 +87,8 @@ tr{
 </div>
 <br><br>
 </div>
-<br>
+</div>
+{% comment %} <br> {% endcomment %}
     {% endfor %}
 
 

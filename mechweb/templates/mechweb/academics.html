@@ -9,15 +9,16 @@
 
 <style>
 body {
-  background: #eee;
+  {% comment %} background: #eee; {% endcomment %}
   {% comment %} font-family: "times new roman", serif; {% endcomment %}
   line-height: 30px;
+  {% comment %} background: linear-gradient(90deg, #ffffff 50%, antiquewhite 50%); {% endcomment %}
 }
 
 
 
 .box {
-  background: #fff;
+
   border-radius: 2px;
   {% comment %} box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); {% endcomment %}
   {% comment %} margin: 30px 5%; {% endcomment %}
@@ -89,13 +90,18 @@ body {
 {% block content %}
 
 
+<div style="background:antiquewhite;">
+<br>
+<h2 class="text-center" > <strong>{{page.title}}</strong></h2>
+<br>
+</div>
+
+
 <div class="box container pt-5">
-<h2 class="text-center">Academics</h2>
-<hr>
+
   <ul class="directory-list">
   {{tree_structure |safe}}
   </ul>
-<hr>
 <br>
 </div>
 

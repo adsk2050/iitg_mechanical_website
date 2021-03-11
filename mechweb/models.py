@@ -1842,6 +1842,18 @@ class Students(Page):
         verbose_name = "Students"
         verbose_name_plural = "Students"
 
+    def get_children(self):
+        children = super().get_children().order_by('-title')
+        print(children)
+        return children
+    def get_childern1(self):
+        children = super().get_children().order_by("-title")
+        return children
+    def get_context(self, request):
+        context = super(Students, self).get_context(request)
+        context['batches']  = self.get_children().type(StudentBatch)
+        return context
+
 
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
@@ -1870,6 +1882,7 @@ class StudentBatch(Page):
     class Meta:
         verbose_name = "Student Batch"
         verbose_name_plural = "Student Batches"
+        ordering = ['-title']
 
 class Student(Page):
     user = models.OneToOneField(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL)
@@ -1883,13 +1896,13 @@ class Student(Page):
     is_exchange = models.BooleanField(default=False, verbose_name="International Student")
     supervisor = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Main supervisor/Faculty Advisor', related_name='supervisor')
     co_supervisor = models.ForeignKey('FacultyPage',null=True,blank=True,on_delete=models.SET_NULL,verbose_name="Co-supervisor",related_name='co_supervisor')
-    contact_number = models.CharField(max_length=20, blank=True)
-    hostel_address = models.CharField(max_length=25, blank=True)
+    contact_number = models.CharField(max_length=30, blank=True)
+    hostel_address = models.CharField(max_length=264, blank=True)
     photo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
     intro = models.CharField(max_length=250, blank=True)
     body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-    website = models.URLField(max_length=250, blank=True)
-
+    website = models.URLField(blank=True)
+    linkedin = models.URLField(blank=True)
 
     parent_page_types = ['Students','StudentBatch']
     subpage_types = []
@@ -1907,13 +1920,19 @@ class Student(Page):
         AutocompletePanel('supervisor', target_model='mechweb.FacultyPage'),
         AutocompletePanel('co_supervisor', target_model='mechweb.FacultyPage'),
         InlinePanel('custom_supervisor',max_num=2,label="Supervisor/Co-supervisor/Faculty Advisor (Only if the supervisor/co-supervisor/faculty advisor is from other department)"),
-        FieldPanel('contact_number'),
         FieldPanel('hostel_address'),
-        FieldPanel('website'),
+        MultiFieldPanel(
+            [
+                FieldPanel('contact_number'),
+                FieldPanel('website'),
+                FieldPanel('linkedin')
+            ],
+            heading="Contact Information",
+            classname="collapsible"
+        ),
         ImageChooserPanel('photo'),
         FieldPanel('intro'),
         FieldPanel('body'),
-
     ]
     def __str__(self):
         name = self.first_name
@@ -1988,7 +2007,14 @@ class Academics(Page):
         def visitNode(node,html):
             for child in node.get_children():
                 flag = (child.specific_class!=EffectiveTimePeriod and child.specific_class!=Students)
-                html+="<li>"+('<i class="fa fa-graduation-cap folder" aria-hidden="true">' if flag else '<i class="fa fa-code-fork" aria-hidden="true"> ')+'<a href="{0}">'.format(child.url)+child.title+'</a></i>'+"</li>"
+                html+="<li>"
+                if(child.specific_class==Program or child.specific_class==ProgramSpecialization):
+                    html+='<i class="fa fa-graduation-cap folder" aria-hidden="true">'
+                elif (child.specific_class==Students):
+                    html+='<i class="fa fa-user" aria-hidden="true">'
+                else:
+                    html+='<i class="fa fa-code-fork" aria-hidden="true">'
+                html+='<a href="{0}">'.format(child.url)+child.title+'</a></i>'+"</li>"
                 if(flag):
                     html+="<ul>"
                     html = visitNode(child,html)

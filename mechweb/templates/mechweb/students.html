@@ -7,7 +7,6 @@
 <style>
 
 body {
-  background: #eee;
   line-height: 30px;
 }
 
@@ -21,13 +20,20 @@ body {
 
 {% breadcrumbs%}
 
+
+<div style="background:antiquewhite;">
+<br>
+<h2 class="text-center" > <strong>Students</strong></h2>
+<br>
+</div>
+
 <div class="pt-5 pb-5"> 
 <div class="container">
   <div class="row">
     <div class="col-12 col-lg-6">
-      <h6 class="text-muted">Students</h6> 
+      <h6 class="text-muted"></h6> 
       <ul class="list-group">
-      {% for batch in page.get_children %}
+      {% for batch in batches %}
         <a href="{% pageurl batch %}" class="list-group-item list-group-item-action">
        <i class="fa fa-user" aria-hidden="true"> {{batch.title}}</i></a>
       {% endfor %}  
