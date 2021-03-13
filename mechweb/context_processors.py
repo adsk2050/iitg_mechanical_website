@@ -9,7 +9,7 @@ def navbar(request):
 		# 	item
 		# for item in nav_items:
 		ordering = {
-			"Course Structure":1,
+			"Academics":1,
 			"Research Home":2,
 			"Student Home":3,
 			"faculty home page":4,

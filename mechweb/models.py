@@ -1871,10 +1871,6 @@ class Students(Page):
 
     def get_children(self):
         children = super().get_children().order_by('-title')
-        print(children)
-        return children
-    def get_childern1(self):
-        children = super().get_children().order_by("-title")
         return children
     def get_context(self, request):
         context = super(Students, self).get_context(request)
@@ -2050,7 +2046,6 @@ class Academics(Page):
 
         context = super(Academics, self).get_context(request)
         tree_structure = ""
-        # print(self.visitNode)
         tree_structure = visitNode(self,tree_structure)
         context['tree_structure'] =tree_structure
         return context
