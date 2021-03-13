@@ -103,6 +103,11 @@ element.style {
     -webkit-background-size: cover;
     background-size: cover;
 }
+
+
+a{
+  color: #007bff;
+}
 </style>
 
 {% endblock extra_css %}
@@ -207,8 +212,13 @@ element.style {
 </div>
 
 
-{% if page.testimonials.all.count %}
+<div class="text-center col-12">
+<br><br>
+{{page.body|richtext}}
+</div>
 
+
+{% if page.testimonials.all.count %}
 
 
 <div class="container pt-5 small">
@@ -221,7 +231,8 @@ element.style {
             <div class="carousel-item {% if not forloop.counter0 %}active{% endif %} ">
                 <div class="carousel-caption">
                     <p>{{object.testimonial}}</p>
-                    <div id="image-caption">{{object.author}}</div>
+                    <div id="image-caption">{{object.author}}
+                    </div>
                 </div>
             </div>  
 {% endfor %}

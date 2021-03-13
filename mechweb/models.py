@@ -1792,10 +1792,12 @@ class Program(Page):
     name = models.CharField(max_length=50,blank=True,null=True)
     code = models.CharField(max_length=20,blank=True,null=True)
     intro = RichTextField(blank=True,null=True, features=CUSTOM_RICHTEXT)
+    body = RichTextField(blank=True,null=True)
     content_panels = Page.content_panels + [
         FieldPanel('name'),
         FieldPanel('code'),
         FieldPanel('intro'),
+        FieldPanel('body'),
         MultiFieldPanel([
         InlinePanel('testimonials',label="testimonial"),
         ],heading="Testimonials"),
@@ -1817,9 +1819,11 @@ class Program(Page):
 class ProgramSpecialization(Page):
     name = models.CharField(max_length=50,blank=True,null=True)
     intro = RichTextField(blank=True,null=True, features=CUSTOM_RICHTEXT)
+    body = RichTextField(blank=True,null=True)
     content_panels = Page.content_panels + [    
         FieldPanel('name'),
         FieldPanel('intro'),
+        FieldPanel('body'),
         InlinePanel('testimonials',label="testimonials")
     ]
     subpage_types = ['EffectiveTimePeriod','Course','Students']
@@ -1908,11 +1912,11 @@ class StudentBatch(Page):
         ordering = ['-title']
 
 class Student(Page):
-    user = models.OneToOneField(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50,blank=True)
-    email_id = models.EmailField(blank=True,unique=True,verbose_name="Personal Email ID")
+    email_id = models.EmailField(blank=True,verbose_name="Personal Email ID")
     roll_no = models.IntegerField(blank=True)
     enrollment_year = models.DateField(default=timezone.now)
     leaving_year = models.DateField(default=timezone.now, blank=True, null=True)
@@ -2007,7 +2011,7 @@ class EffectiveTimePeriod(Page):
     content_panels = Page.content_panels+ [
         FieldPanel('is_latest'),
     ]
-    subpage_types = ["CoursePage","Course","Semester"]
+    subpage_types = ["Course","Semester"]
     class Meta:
         verbose_name = "Effective Time Period"
         verbose_name_plural = "Effective Time Periods"
@@ -2052,8 +2056,8 @@ class Academics(Page):
         return context
 
     class Meta:
-        verbose_name = "Acadmic Course Structure"
-        verbose_name_plural = "Acadmic Course Structures"
+        verbose_name = "Academics"
+        verbose_name_plural = "Academics"
     
 
 
