@@ -3,9 +3,8 @@
 
 
 {% block extra_css %}
-<title>{{page.title}} | Mechanical Department | IITG</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://themes.audemedia.com/html/goodgrowth/css/owl.theme.default.min.css"/>
+{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="https://themes.audemedia.com/html/goodgrowth/css/owl.theme.default.min.css"/> {% endcomment %}
 <style>
 
 body {
@@ -22,7 +21,7 @@ body {
 }
 
 #program-title {
-    background: antiquewhite;
+    background: #eea29a;
 }
 
 .carousel-caption {
@@ -203,61 +202,45 @@ element.style {
 </div>
 {% endif %}
 
-
-
-
-
 </div>
 </div>
 </div>
-<div class="container">
+
+
+{% if page.testimonials.all.count %}
+
+
+
+<div class="container pt-5 small">
+<p class="text-center" > <strong>Testimonials</strong></p>
     <div id="testimonials" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
+{% for object in page.testimonials.all %}
+
+
+            <div class="carousel-item {% if not forloop.counter0 %}active{% endif %} ">
                 <div class="carousel-caption">
-                    <p>If Shai Reznik's TDD videos don't convince you to add automated testing your code, I don't know what will.This was the very best explanation of frameworks for brginners that I've ever seen. </p>
-                    <div id="image-caption">Nick Doe</div>
+                    <p>{{object.testimonial}}</p>
+                    <div id="image-caption">{{object.author}}</div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <div class="carousel-caption">
-                    <p>If Shai Reznik's TDD videos don't convince you to add automated testing your code, I don't know what will.This was the very best explanation of frameworks for brginners that I've ever seen.</p>
-                    <div id="image-caption">Cromption Greves</div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="carousel-caption">
-                    <p>If Shai Reznik's TDD videos don't convince you to add automated testing your code, I don't know what will.This was the very best explanation of frameworks for brginners that I've ever seen.</p>
-                    <div id="image-caption">Harry Mon</div>
-                </div>
-            </div>
-        </div> <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i> </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i class='fa fa-arrow-right'></i> </a>
+            </div>  
+{% endfor %}
+        </div> 
+        <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i> </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i class='fa fa-arrow-right'></i> </a>
     </div>
 </div>
 </div>
 
+{% endif %}
 {% endblock %}
 
 
 {% block extra_script %}
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script> {% endcomment %}
 
 <script type="text/javascript">
-jQuery(document).ready(function($) {
-        		//  TESTIMONIALS CAROUSEL HOOK
-		        {% comment %} $('#testimonials').owlCarousel({
-		            loop: true,
-		            center: true,
-		            items: 1,
-		            autoplay: true,
-		            autoplayTimeout: 4000,
-		            smartSpeed: 450,
-					mouseDrag: true,
-					touchDrag: true,
-		        });
-        	}); {% endcomment %}
 
 </script>
 

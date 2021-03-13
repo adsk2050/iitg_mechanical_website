@@ -1796,6 +1796,9 @@ class Program(Page):
         FieldPanel('name'),
         FieldPanel('code'),
         FieldPanel('intro'),
+        MultiFieldPanel([
+        InlinePanel('testimonials',label="testimonial"),
+        ],heading="Testimonials"),
     ]
     subpage_types = ['EffectiveTimePeriod','ProgramSpecialization','Students']
 
@@ -1816,7 +1819,8 @@ class ProgramSpecialization(Page):
     intro = RichTextField(blank=True,null=True, features=CUSTOM_RICHTEXT)
     content_panels = Page.content_panels + [    
         FieldPanel('name'),
-        FieldPanel('intro')
+        FieldPanel('intro'),
+        InlinePanel('testimonials',label="testimonials")
     ]
     subpage_types = ['EffectiveTimePeriod','Course','Students']
     template = "mechweb/program.html"
@@ -1831,6 +1835,25 @@ class ProgramSpecialization(Page):
         if len(students):
             context['students'] = students[0]
         return context
+
+class ProgramTestimonials(Orderable):
+    page = ParentalKey(Program, on_delete=models.CASCADE, related_name='testimonials')
+    testimonial = models.TextField(blank=False,null=True)
+    author = models.TextField(blank=False,null=True)
+    
+    panels = [
+        FieldPanel('testimonial'),
+        FieldPanel('author')
+    ]
+
+class ProgramSpecializationTestimonials(Orderable):
+    page = ParentalKey(ProgramSpecialization, on_delete=models.CASCADE, related_name='testimonials')
+    testimonial = models.TextField(blank=False,null=True)
+    author = models.TextField(blank=False,null=True)
+    panels = [
+        FieldPanel('testimonial'),
+        FieldPanel('author')
+    ]
 
 class Students(Page):
     content_panels = Page.content_panels + [
