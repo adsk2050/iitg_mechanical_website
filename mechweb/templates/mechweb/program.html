@@ -8,7 +8,6 @@
 <style>
 
 body {
-  {% comment %} background: #eee; {% endcomment %}
   line-height: 30px;
 }
 
@@ -16,8 +15,6 @@ body {
 
 #testimonials {
     background: linear-gradient(112deg, #ffffff 50%, antiquewhite 50%);
-    {% comment %} max-width: 900px; {% endcomment %}
-    {% comment %} margin: auto {% endcomment %}
 }
 
 #program-title {
@@ -105,8 +102,47 @@ element.style {
 }
 
 
-a{
-  color: #007bff;
+
+
+
+{% comment %} .inner li:hover{
+  background:#eea29a;
+} {% endcomment %}
+
+a li:hover{
+  background:#eea29a;
+}
+a li{
+  color:#222546;
+}
+.title{
+  background:#222546;
+  color:white;
+}
+.body p a{
+  color:blue;
+}
+
+.body a {
+  outline: none;
+  text-decoration: underline;
+}
+
+.body a:link {
+  color: #222546;
+}
+.body a:focus {
+  background: #BAE498;
+}
+
+.body a:hover {
+  {% comment %} color:white; {% endcomment %}
+  background: antiquewhite;
+}
+
+.body a:active {
+  background: #265301;
+  color: #CDFEAA;
 }
 </style>
 
@@ -116,8 +152,8 @@ a{
 
 
 
+<div class="bg-white container">
 {% breadcrumbs%}
-<div class="bg-white">
 <div id="program-title">
 <br>
 <h2 class="text-center" > <strong>{{page.title}}</strong></h2>
@@ -125,96 +161,79 @@ a{
 </div>
 <div class="row  pb-4">
 
-<div class="col-sm-12 col-lg-12 pt-4">
-
-<div style="width: 80%; margin-left: 10%; font-size: 1.1em; text-align: center">
+<div class="col-sm-12 col-lg-7 pt-4">
+<div class="mx-5 text-center body">
  {{page.intro|richtext}}
+
+ {{page.body|richtext}}
 </div>
 
 </div>
-<div class="col-sm-12 col-lg-12 bg-white pt-4">
+<div class="col-sm-12 col-lg-4 bg-white pt-4">
 
 
-<div class="container">
-<div class="row">
+<div class="">
+<div class="">
 
-{% if programSpecializations.count %}
-<div class="col">
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-lg-8">
-      <h6 class="text-muted">Program Specializations</h6> 
-      <ul class="list-group">
-      {% for specialization in programSpecializations %}
-
-        <a href="{% pageurl specialization %}" class="list-group-item list-group-item-action">
-        {% if page.code %}
-        {{page.code}} in
-        {% endif %}
-        {{specialization.title}}</a>
-      {% endfor %}  
-      </ul>
-    </div>
-  </div>
-</div>
-
-</div>
-
-{% endif %}
+<section class="col-12">
+   <div class="container">
+    {% if programSpecializations.count %}
+     <div class="row">
+        <div class="col-12">
+          <h4 class="title p-3"><a>Program Specializations</a></h4>
+          <div class="inner">
+            <ul>
+              {% for specialization in programSpecializations %}
+                    <a href="{% pageurl specialization %}"><li class="px-3 py-1">{{specialization.title}}</li></a>
+              {% endfor %}  
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endif %}
 
 
 
+      {% if effectiveTimePeriods.count %}
+
+        <div class="row">
+          <div class="col-12">
+            <h4 class="title p-3"><a>Course Structure(s)</a></h4>
+            <div class="inner">
+              <ul>
+                {% for timeperiod in effectiveTimePeriods %}
+                      <a href="{% pageurl timeperiod %}"><li class="px-3 py-1">{{timeperiod.title}}</li></a>
+                {% endfor %}  
+              </ul>
+            </div>
+          </div>
+        </div>     
+
+      {% endif %}
+
+      {% if students %}
 
 
-{% if effectiveTimePeriods.count %}
-<div class="col">
+        <div class="row">
+          <div class="col-12">
+            <h4 class="title p-3"><a  href="{%pageurl students%}">Students</a></h4>
+            <div class="inner">
+              <ul>
+                {% for batch in students.specific.get_children %}
+                      <a href="{% pageurl batch %}"><li class="px-3 py-1">{{batch.title}}</li></a>
+                {% endfor %}  
+              </ul>
+            </div>
+          </div>
+        </div>     
 
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-lg-8">
-      <h6 class="text-muted">Course Structure</h6> 
-      <ul class="list-group">
-      {% for timeperiod in effectiveTimePeriods %}
-        <a href="{% pageurl timeperiod %}" class="list-group-item list-group-item-action">
-       <i class="fa fa-code-fork" aria-hidden="true"> {{timeperiod.title}}</i></a>
-      {% endfor %}  
-      </ul>
-    </div>
-  </div>
+      {% endif %}
+   </div>
+ </section>
 
-</div>
-
-</div>
-{% endif %}
-
-{% if students %}
-<div class="col">
-
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-lg-8">
-      <h6 class="text-muted">Students</h6> 
-      <ul class="list-group">
-      {% for batch in students.specific.get_children %}
-        <a href="{% pageurl batch %}" class="list-group-item list-group-item-action">
-       <i class="fa fa-user" aria-hidden="true"> {{batch.title}}</i></a>
-      {% endfor %}  
-      </ul>
-    </div>  
-  </div>
 
 </div>
 </div>
-{% endif %}
-
-</div>
-</div>
-</div>
-
-
-<div class="text-center col-12">
-<br><br>
-{{page.body|richtext}}
 </div>
 
 
@@ -222,7 +241,6 @@ a{
 
 
 <div class="container pt-5 small">
-<p class="text-center" > <strong>Testimonials</strong></p>
     <div id="testimonials" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
 {% for object in page.testimonials.all %}
@@ -240,9 +258,23 @@ a{
         <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i> </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i class='fa fa-arrow-right'></i> </a>
     </div>
 </div>
+<div>
+<div class="waveWrapper waveAnimation">
+  <div class="waveWrapperInner bgTop">
+    <div class="wave waveTop" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-top.png')"></div>
+  </div>
+  <div class="waveWrapperInner bgMiddle">
+    <div class="wave waveMiddle" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-mid.png')"></div>
+  </div>
+  <div class="waveWrapperInner bgBottom">
+    <div class="wave waveBottom" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-bot.png')"></div>
+  </div>
+</div>
+</div>
 </div>
 
 {% endif %}
+
 {% endblock %}
 
 

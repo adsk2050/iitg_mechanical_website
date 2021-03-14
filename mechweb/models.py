@@ -2030,14 +2030,18 @@ class Academics(Page):
         def visitNode(node,html):
             for child in node.get_children():
                 flag = (child.specific_class!=EffectiveTimePeriod and child.specific_class!=Students)
-                html+="<li>"
+                html+='<a href="{0}">'.format(child.url)
+                html+="<li class='pl-1'>"
                 if(child.specific_class==Program or child.specific_class==ProgramSpecialization):
                     html+='<i class="fa fa-graduation-cap folder" aria-hidden="true">'
                 elif (child.specific_class==Students):
                     html+='<i class="fa fa-user" aria-hidden="true">'
                 else:
                     html+='<i class="fa fa-code-fork" aria-hidden="true">'
-                html+='<a href="{0}">'.format(child.url)+child.title+'</a></i>'+"</li>"
+                html+='<span class="pl-3">'
+                if(child.specific_class==EffectiveTimePeriod):
+                    html+="Course Structure "
+                html+=child.title+'</span>'+'</i></li></a>'
                 if(flag):
                     html+="<ul>"
                     html = visitNode(child,html)

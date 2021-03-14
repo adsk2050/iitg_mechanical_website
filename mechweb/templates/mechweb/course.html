@@ -17,6 +17,9 @@ body {
 .custom-bg2{
   background:antiquewhite;
 }
+.card{
+  border:none;
+}
 </style>
 
 {% endblock extra_css %}
@@ -25,14 +28,14 @@ body {
 
 {% block content %}
 
-
+<div class="container">
 {% breadcrumbs%}
 
-<div class="w3-content w3-margin-top custom-bg2" style="max-width:1400px; padding-top:10px;">
-  <div class="w3-row-padding ">
-    <div class="w3-third">
-      <div class="w3-white w3-text-grey w3-card-4">
-        <div class="w3-display-container">
+<div class="custom-bg2 p-sm-0 p-md-4">
+  <div class="row">
+    <div class="col-sm-12 col-lg-4">
+      <div class="w3-white w3-text-grey card">
+        <div class="">
           {% if page.specific.photo %}
             {% image page.specific.photo width-300 style="width:100%" %}
             <img src="{{ image.url }}" width="{{ image.width }}"
@@ -43,9 +46,10 @@ body {
           {% endif %}
 
         </div>
-        <div class="w3-container text-dark font-weight-bold pt-2">
+        <div class="container text-dark font-weight-bold pt-2">
           <h4>About this course: </h4>
           <hr>
+          <div class="text-center">
           <li>Course Name: {{page.title}}</li>
           <li>Course Code: {{ page.specific.code }}</li>
           <li>L-T-P-C : {{ page.lectures }}-{{ page.tutorials }}-{{ page.practicals }}-{{ page.credits }}</li>
@@ -55,6 +59,7 @@ body {
              <li>Course Page :<a href="{{ page.specific.course_page_link }}">{{ page.specific.code }}</a></li>
          {% endif %}
           <hr>
+          </div>
         </div>
       </div><br>
 
@@ -62,13 +67,13 @@ body {
     </div>
 
     <!-- Right Column -->
-    <div class="w3-twothird">
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
+    <div class="col-sm-12 col-lg-8">
+      <div class="container card w3-white">
       <br>
-        <h2 class=" w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge"></i>{{ page.specific.name }}</h2>
+        <h2 class=" "><i class="fa fa-book fa-fw"></i>{{ page.specific.name }}</h2>
        <hr>
         {% if page.specific.course_instructors.all|length > 0 %}
-          <h6 class="w3-padding-16 text-muted">Course Instructor{% if page.specific.course_instructors.all|length > 1 %}s{% endif %}:</h6>
+          <h6 class="text-muted">Course Instructor{% if page.specific.course_instructors.all|length > 1 %}s{% endif %}:</h6>
           <ul class="list-group">
           {% for instructor in page.course_instructors.all%}
           <a class="list-group-item list-group-item-action" href="{{instructor.faculty.website}}">
@@ -87,12 +92,12 @@ body {
         <p>No description provided.</p>
         {% endif %}
 
-        <div class="w3-container">
+        <div class="container">
           {% for faculty in page.specific.course_instructor.all %}
           <ul>
           <h5 class="w3-opacity"><b>{{ pic.caption }}</b></h5>
           {% image pic.image fill-500x500 %}
-          <li><h6 class="w3-text-teal"><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</h6>
+          <li><h6 class="w3-text-teal"><a href="{% pageurl faculty %}">{{ faculty.faculty }}</h6>
           <p>{{ faculty.introduction|richtext }}</p></li>
           <hr>
         </ul>
@@ -114,6 +119,7 @@ body {
   </div>
 
   <!-- End Page Container -->
+</div>
 </div>
 <br>
 
