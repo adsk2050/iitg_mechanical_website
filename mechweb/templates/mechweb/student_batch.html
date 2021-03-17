@@ -9,9 +9,9 @@
 body {
   line-height: 30px;
 }
-tr{
+{% comment %} tr{
     cursor:pointer;
-}
+} {% endcomment %}
 
 .nowrap {
   white-space: nowrap ;
@@ -84,22 +84,39 @@ tr{
             <th scope="col">Roll Number</th>
             <th scope="col">Email</th>
             <th scope="col">Faculty Advisor/Supervisor</th>
+            <th scope="col">Co-Supervisor</th>
         </tr>
     </thead>
     <tbody>
     
         {% for student in page.get_children %}
-        <tr onclick="window.location='{{student.url}}';">
+        {% comment %} <tr onclick="window.location='{{student.url}}';"> {% endcomment %}
+        <tr>
             <td> {{forloop.counter}}</td>
             <td>{{ student.specific.first_name }} {{student.specific.middle_name}} {{student.specific.last_name}}</td>
             <td>{{student.specific.roll_no}}</td>
-            <td> {{student.specific.user.email}}</td>    
+            <td> {{student.specific.webmail}}</td>    
             <td>
              {% if student.specific.supervisor %}
                 <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a>
             {% else %}
                 {% for kk in student.specific.custom_supervisor.all%}
                     {% if kk.supervisor_type == "supervisor" %}
+                        {% if kk.website %}
+                        <a href="{{ kk.website }}">{{ kk.full_name }}</a>
+                        {% else %}
+                        {{kk.full_name}}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </td>
+            <td>
+             {% if student.specific.co_supervisor %}
+                <a href="{{student.specific.co_supervisor.url}}"> {{student.specific.co_supervisor}}</a>
+            {% else %}
+                {% for kk in student.specific.custom_supervisor.all%}
+                    {% if kk.supervisor_type == "co_supervisor" %}
                         {% if kk.website %}
                         <a href="{{ kk.website }}">{{ kk.full_name }}</a>
                         {% else %}
@@ -123,11 +140,12 @@ tr{
 <div class="container-fluid" >
 <div class="row bread-list justify-content-md-center" id="myUL" >
 {% for student in page.get_children.live %}
-  <div class="col-xs-11 col-md-5 bread-list-item small p-2 " style="background:antiquewhite;">
+  <div class="col-xs-11 col-md-5 bread-list-item p-2 " style="background:antiquewhite;">
 
       <div class="row align-items-center">
           <div class="col-5">
-            <a href="{{ student.url }}">
+            {% comment %} <a href="{{ student.url }}"> {% endcomment %}
+            <a>
           {% if student.specific.photo %}
             {% image student.specific.photo fill-100x100 as photo %}
             <img src="{{ photo.url }}" alt="{{ photo.alt }}" class="rounded-circle" style="width:100%" >
@@ -138,14 +156,15 @@ tr{
               </a>
           </div>
           <div class="col-7">
-              <a href="{{ student.url }}">
+              {% comment %} <a href="{{ student.url }}"> {% endcomment %}
+              <a>
                   <h3> {{ student }}</h3>   
               </a>
               <ul class="bread-meta">
                   {% if student.specific.enrollment_year %}
                       <li> <b>Enrollment year: </b> {{ student.specific.enrollment_year|date:"Y" }}</li>
                   {% endif %}
-                    <li ><b >Email: </b>{{ student.specific.user.email}}</li>
+                    <li ><b >Email: </b>{{ student.specific.webmail}}</li>
                   {% if student.specific.roll_no %}
                       <li ><b>Enrollment No.: </b>{{ student.specific.roll_no }}</li>
                   {% endif %}
@@ -166,6 +185,40 @@ tr{
                         {% endif %}
                     {% endfor %}
                   {% endif %}
+
+
+                    {% if student.specific.co_supervisor %}
+                        <li>
+                            <b>Co-supervisor:</b>
+                            <a href="{{ student.specific.co_supervisor.url }}">{{ student.specific.co_supervisor }}</a></p>
+
+                        </li>
+                        {% else %}
+
+
+                        {% for kk in student.specific.custom_supervisor.all%}
+                            {% if kk.supervisor_type == "co_supervisor" %}
+                                <li>
+                                <b>Co-supervisor:</b>
+                                <a href="{{ kk.website }}">{{ kk.full_name }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="row"> 
+                        {% if student.specific.website %}
+                        <div class="col-6">
+                        <a href="{{student.specific.website}}" target="_blank"><i class="fa fa-globe fa-2x" aria-hidden="true"></i></a>
+                        </div>
+                        {% endif %}
+
+                        {% if student.specific.linkedin %}
+                        <div class="col-6">
+                        <a href="{{student.specific.linkedin}}" target="_blank"> <i class="fa fa-linkedin fa-2x text-primary" aria-hidden="true"></i></a>
+                        </div>
+                        {% endif %}
+                    </div>
               </ul>
           </div>
       </div>

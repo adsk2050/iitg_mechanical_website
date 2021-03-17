@@ -298,10 +298,26 @@
                                 <div class="dropdown-divider"></div>
                                 <ul>
                               {% for program in child.get_children %}
-                              
+                                  
+                                  {% if program.specific.hasSpecialization %}
+                                  <ul>
+                                  <li class="text-center"><a class="dropdown-item" href="{{program.url}}">{{program}}</a></li>
+                                  
+                                  {% for program_child in program.get_children  %}
+                                    {% if program_child.specific.get_verbose_name == "Program Specialization" %}
+                                    <li><a class="dropdown-item" href="{{ program_child.url }}">{{program_child.title}}</a></li>
+                                    {% endif %}
+                                  {% endfor %}
+                                  </ul>
+                                  {% else %}
                                   <li><a class="dropdown-item" href="{{ program.url }}">{{program.title}}</a></li>
-                              
-                              {% endfor %}
+
+                                  {% endif %}
+                                
+                                {% if not forloop.last %}
+                                <div class="dropdown-divider"></div>
+                                {% endif %}
+                                {% endfor %}
                                 </ul>
                                 {% comment %} <div class="dropdown-divider"></div>
                                 <ul>

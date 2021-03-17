@@ -128,22 +128,17 @@ a li{
   text-decoration: underline;
 }
 
-.body a:link {
+{% comment %} .body a {
   color: #222546;
-}
-.body a:focus {
-  background: #BAE498;
-}
+} {% endcomment %}
 
 .body a:hover {
-  {% comment %} color:white; {% endcomment %}
+  color:black;
   background: antiquewhite;
+
 }
 
-.body a:active {
-  background: #265301;
-  color: #CDFEAA;
-}
+
 </style>
 
 {% endblock extra_css %}
@@ -161,14 +156,6 @@ a li{
 </div>
 <div class="row  pb-4">
 
-<div class="col-sm-12 col-lg-7 pt-4">
-<div class="mx-5 text-center body">
- {{page.intro|richtext}}
-
- {{page.body|richtext}}
-</div>
-
-</div>
 <div class="col-sm-12 col-lg-4 bg-white pt-4">
 
 
@@ -234,8 +221,16 @@ a li{
 
 </div>
 </div>
+
+</div>
+<div class="col-sm-12 col-lg-7 pt-4">
+<div class="mx-5 text-center body">
+ {{page.intro|richtext}}
+
+ {{page.body|richtext}}
 </div>
 
+</div>
 
 {% if page.testimonials.all.count %}
 
@@ -258,6 +253,7 @@ a li{
         <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i> </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i class='fa fa-arrow-right'></i> </a>
     </div>
 </div>
+
 <div>
 <div class="waveWrapper waveAnimation">
   <div class="waveWrapperInner bgTop">

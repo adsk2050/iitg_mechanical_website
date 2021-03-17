@@ -217,7 +217,24 @@
                                 <ul>
                               {% for program in child.get_children %}
                               
+                                  {% if program.specific.hasSpecialization %}
+                                  <ul>
+                                  <li class="text-center"><a class="dropdown-item" href="{{program.url}}">{{program}}</a></li>
+                                  
+                                  {% for program_child in program.get_children  %}
+                                    {% if program_child.specific.get_verbose_name == "Program Specialization" %}
+                                    <li><a class="dropdown-item" href="{{ program_child.url }}">{{program_child.title}}</a></li>
+                                    {% endif %}
+                                  {% endfor %}
+                                  </ul>
+                                  {% else %}
                                   <li><a class="dropdown-item" href="{{ program.url }}">{{program.title}}</a></li>
+
+                                  {% endif %}
+                                
+                                {% if not forloop.last %}
+                                <div class="dropdown-divider"></div>
+                                {% endif %}
                               
                               {% endfor %}
                                 </ul>
@@ -685,7 +702,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="{% static "js/owl.carousel.js" %}"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    {% comment %} <script src="https://code.jquery.com/jquery-3.4.1.js"></script> {% endcomment %}
     <script>
         window.jQuery || document.write('<script src="{% static "js/jquery-1.11.3.min.js" %}"><\/script>');
     </script>

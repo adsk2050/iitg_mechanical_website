@@ -1803,7 +1803,8 @@ class Program(Page):
         ],heading="Testimonials"),
     ]
     subpage_types = ['EffectiveTimePeriod','ProgramSpecialization','Students']
-
+    def hasSpecialization(self):
+        return len(self.get_children().type(ProgramSpecialization))>0
     class Meta:
         verbose_name = "Program"
         verbose_name_plural = "Programs"
@@ -1908,7 +1909,8 @@ class StudentBatch(Page):
         ordering = ['-title']
 
 class Student(Page):
-    user = models.ForeignKey(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL)
+    # user = models.ForeignKey(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL,blank=True,verbose_name="User(only if the user exists)")
+    webmail = models.EmailField(blank=False,null=True)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50,blank=True)
@@ -1931,10 +1933,11 @@ class Student(Page):
     subpage_types = []
     
     content_panels = Page.content_panels + [
-        FieldPanel('user'),
+        # FieldPanel('user'),
         FieldPanel('first_name'),
         FieldPanel('middle_name'),
         FieldPanel('last_name'),
+        FieldPanel('webmail'),
         FieldPanel('email_id'),
         FieldPanel('roll_no'),
         FieldPanel('enrollment_year'),
@@ -2397,12 +2400,10 @@ class CourseFaculty(Orderable):
     page = ParentalKey(Course, on_delete=models.CASCADE, related_name='course_instructors')
     faculty = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,
                                 related_name='course_instructors')
-    session = models.DateField(verbose_name="Instruction start date", default=timezone.now)
-    introduction = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    current = models.BooleanField(default=True,verbose_name="Current Instructor?")
     panels = [
         AutocompletePanel('faculty', target_model='mechweb.FacultyPage'),
-        FieldPanel('introduction'),
-        FieldPanel('session'),
+        FieldPanel('current')
     ]
 
 

@@ -10,6 +10,9 @@
     text-decoration: none;
     transition: all 0.2s ease;
 }
+{% comment %} p{
+    hyphens:auto;
+} {% endcomment %}
 .breadcrumb a:link:hover{
     color:#222546;
     background:antiquewhite;
@@ -20,7 +23,7 @@
         {% if forloop.last %}
         <li class="ml-3 breadcrumb-item active">{{ ancestor }}</li>
         {% else %}
-        <li><a class="ml-2 mr-1breadcrumb-item" href="{% pageurl ancestor %}">{{ ancestor }}</a> /</li>
+        <li><a class="ml-2 mr-1breadcrumb-item" href="{% pageurl ancestor %}">{{ ancestor }}/</a></li>
         {% endif %}
         {% endfor %}
     </ol>
