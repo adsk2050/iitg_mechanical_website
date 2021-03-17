@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load mechweb_tags %}
+
+{% block body_class %}template-event-page{% endblock %}
+
+
+{% block extra_css %}
+<style>
+
+
+.custom-bg{
+  background: linear-gradient(120deg, #ffffff 50%, antiquewhite 50%);
+}
+.custom-bg2{
+  background:antiquewhite;
+}
+.card{
+  border:none;
+{% comment %} box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%); {% endcomment %}
+}
+
+
+.gradient-bg{
+  background:-webkit-linear-gradient(50deg, rgba(255, 110, 196, .9), rgba(120, 115, 245, .9)) !important
+}
+
+.small {
+  transform: scale(0.9, 0.9);
+  -ms-transform: scale(0.9, 0.9); /* IE 9 */
+  -webkit-transform: scale(0.9, 0.9); /* Safari and Chrome */
+  -o-transform: scale(0.9, 0.9); /* Opera */
+  -moz-transform: scale(0.9, 0.9); /* Firefox */
+}
+
+.student-info hr{
+  margin:0px;
+}
+
+.student-info li p{
+  margin:5px;
+}
+
+</style>
+
+{% endblock extra_css %}
+
+
+
+
+
+{% block content %}
+
+
+<div class="container">
+<!-- add breadcrumbs -->
+{% breadcrumbs%}
+
+<div class="custom-bg2 px-sm-0 px-md-4">
+
+
+  <!-- The Grid -->
+  <br>
+  <div class="row">
+
+    <!-- Left Column -->
+    <div class="col-sm-12 col-md-4">
+      <!-- {{ page.title }} -->
+
+      <div class="card">
+        <br>
+        <div class="m-auto">
+
+          {% if page.photo %}
+            {% image page.photo fill-300x300 as photo %}
+            <img src="{{ photo.url }}" alt="{{ photo.alt }}" class="rounded-circle" style="width:100%" >
+          {% else %}
+          
+          <img  src="https://www.nmeaf.org/sites/default/themes/nichols/images/icon-student.png" class="rounded" >
+          {% endif %}
+        </div>
+        <br>
+
+        <div class="text-center student-info">
+          <h1>{{ page }}</h1>
+            <hr>
+          {% if page.enrollment_year %}
+              <li>
+                  <h4>Enrollment Year</h4>
+                  <p>{{ page.enrollment_year.year }}</p>
+              </li>
+              <hr>
+          {% endif %}
+
+           {% if page.roll_no %}
+               <li>
+                 <h4>Roll Number</h4>
+                   <p>{{ page.roll_no }}</p>
+               </li>
+               <hr>
+           {% endif %}
+
+           {% if page.supervisor %}
+               <li>
+                  <h4>Supervisor/ Faculty Advisor</h4>
+                   <p><a href="{{ page.supervisor.url }}">{{ page.supervisor }}</a></p>
+
+               </li><hr>
+            {% else %}
+
+
+            {% for kk in page.custom_supervisor.all%}
+                {% if kk.supervisor_type == "supervisor" %}
+                    <li>
+                      <h4>Supervisor/ Faculty Advisor</h4>
+                      <p><a href="{{ kk.website }}">{{ kk.full_name }}</a></p>
+                  </li>
+                  <hr>
+                {% endif %}
+            {% endfor %}
+           {% endif %}
+
+
+
+
+           {% if page.co_supervisor %}
+               <li>
+                  <h4>Co-supervisor</h4>
+                   <p><a href="{{ page.co_supervisor.url }}">{{ page.co_supervisor }}</a></p>
+
+               </li><hr>
+            {% else %}
+
+
+            {% for kk in page.custom_supervisor.all%}
+                {% if kk.supervisor_type == "co_supervisor" %}
+                    <li>
+                      <h4>Co-supervisor</h4>
+                      <p><a href="{{ kk.website }}">{{ kk.full_name }}</a></p>
+                  </li>
+                  <hr>
+                {% endif %}
+            {% endfor %}
+           {% endif %}
+
+            
+          {% if page.webmail %}
+              <li>
+                  <h4>Email</h4>
+                  <p>{{ page.webmail }}</p>
+             </li>
+             <hr>
+         {% endif %}
+
+          {% if page.email_id and request.user.is_authenticated %}
+          
+          <li>
+          <h4> Personal Email</h4>
+          <p> {{page.email_id}}</p>
+          </li>
+          <hr>
+          {% endif %}
+        {% if request.user.is_authenticated %}
+         {% if page.contact_number %}
+             <li>
+                 <h4>Contact Number</h4>
+                 <p>{{ page.contact_number }}</p>
+
+             </li>
+             <hr>
+         {% endif %}
+
+         {% if page.hostel_address %}
+             <li>
+                 <h4>Address</h4>
+                 <p>{{ page.hostel_address }}</p>
+
+             </li>
+            <hr>
+         {% endif %}
+        {% endif %}
+      
+        </div>
+      </div>
+      <br>
+    </div>
+    <div class="col-sm-12 col-md-8">
+        <div class="w3-container card   w3-margin-bottom">
+        <h2 class="w3-padding-16"><i class="fa fa-info-circle w3-margin-right"></i>About</h2>
+        <hr>
+        <div class="w3-container">
+          {% if page.intro %}
+          <p>{{ page.intro }}</p>
+          {% else %}
+          <br><br>
+          {% endif %}
+        <p>{{ page.body|richtext }}</p>
+        </div>
+
+
+      <div class="row">
+        {% if page.website %}
+        <div class="col-6">
+        <li>
+          <h4><a target="_blank" href="{{page.website}}"> <i class="fa fa-link" aria-hidden="true"> <span class="ml-1"> Personal website</span></i> </a></h4>
+        </li>
+        </div>
+        {% endif %}
+        {% if page.linkedin %}
+        <div class="col-6">
+          <li>
+          <h4><a target="_blank" href="{{page.linkedin}}"> <i class="fa fa-linkedin" aria-hidden="true"> <span class="ml-1"> Linkedin</span></i> </a></h4>
+        </li>
+        </div>
+        {% endif %}
+        </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+{% endblock extra_scripts %}
+
+
+

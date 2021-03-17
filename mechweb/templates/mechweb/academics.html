@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+
+{% block extra_css %}
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+body {
+  {% comment %} background: #eee; {% endcomment %}
+  {% comment %} font-family: "times new roman", serif; {% endcomment %}
+  line-height: 30px;
+  {% comment %} background: linear-gradient(90deg, #ffffff 50%, antiquewhite 50%); {% endcomment %}
+}
+
+
+
+.box {
+
+  border-radius: 2px;
+  {% comment %} box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); {% endcomment %}
+  {% comment %} margin: 30px 5%; {% endcomment %}
+  {% comment %} padding: 5%; {% endcomment %}
+  background:white;
+}
+
+
+.custom-bg {
+  position: relative;
+}
+
+.custom-bg:after {
+  position: absolute;
+  height: 100px;
+  content: "";
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg id='wave' style='transform:rotate(0deg); transition: 0.3s' viewBox='0 0 1440 110' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3clinearGradient id='sw-gradient-0' x1='0' x2='0' y1='1' y2='0'%3e%3cstop stop-color='rgba(250, 235, 215, 1)' offset='0%25'%3e%3c/stop%3e%3cstop stop-color='rgba(250, 235, 215, 1)' offset='100%25'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3cpath style='transform:translate(0, 0px); opacity:1' fill='url(%23sw-gradient-0)' d='M0,99L10,97.2C20,95,40,92,60,91.7C80,92,100,95,120,88C140,81,160,62,180,51.3C200,40,220,37,240,38.5C260,40,280,48,300,58.7C320,70,340,84,360,78.8C380,73,400,48,420,47.7C440,48,460,73,480,82.5C500,92,520,84,540,73.3C560,62,580,48,600,47.7C620,48,640,62,660,73.3C680,84,700,92,720,84.3C740,77,760,55,780,44C800,33,820,33,840,34.8C860,37,880,40,900,40.3C920,40,940,37,960,36.7C980,37,1000,40,1020,49.5C1040,59,1060,73,1080,80.7C1100,88,1120,88,1140,80.7C1160,73,1180,59,1200,60.5C1220,62,1240,81,1260,77C1280,73,1300,48,1320,47.7C1340,48,1360,73,1380,84.3C1400,95,1420,92,1430,89.8L1440,88L1440,110L1430,110C1420,110,1400,110,1380,110C1360,110,1340,110,1320,110C1300,110,1280,110,1260,110C1240,110,1220,110,1200,110C1180,110,1160,110,1140,110C1120,110,1100,110,1080,110C1060,110,1040,110,1020,110C1000,110,980,110,960,110C940,110,920,110,900,110C880,110,860,110,840,110C820,110,800,110,780,110C760,110,740,110,720,110C700,110,680,110,660,110C640,110,620,110,600,110C580,110,560,110,540,110C520,110,500,110,480,110C460,110,440,110,420,110C400,110,380,110,360,110C340,110,320,110,300,110C280,110,260,110,240,110C220,110,200,110,180,110C160,110,140,110,120,110C100,110,80,110,60,110C40,110,20,110,10,110L0,110Z'%3e%3c/path%3e%3c/svg%3e");
+  background-repeat:no-repeat;
+}
+
+
+#tree{
+  position:absolute;
+  bottom:0px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg id='wave' style='transform:rotate(0deg); transition: 0.3s' viewBox='0 0 1440 210' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3clinearGradient id='sw-gradient-0' x1='0' x2='0' y1='1' y2='0'%3e%3cstop stop-color='rgba(243, 106, 62, 1)' offset='0%25'%3e%3c/stop%3e%3cstop stop-color='rgba(255, 179, 11, 1)' offset='100%25'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3cpath style='transform:translate(0, 0px); opacity:1' fill='url(%23sw-gradient-0)' d='M0,189L15,185.5C30,182,60,175,90,175C120,175,150,182,180,168C210,154,240,119,270,98C300,77,330,70,360,73.5C390,77,420,91,450,112C480,133,510,161,540,150.5C570,140,600,91,630,91C660,91,690,140,720,157.5C750,175,780,161,810,140C840,119,870,91,900,91C930,91,960,119,990,140C1020,161,1050,175,1080,161C1110,147,1140,105,1170,84C1200,63,1230,63,1260,66.5C1290,70,1320,77,1350,77C1380,77,1410,70,1440,70C1470,70,1500,77,1530,94.5C1560,112,1590,140,1620,154C1650,168,1680,168,1710,154C1740,140,1770,112,1800,115.5C1830,119,1860,154,1890,147C1920,140,1950,91,1980,91C2010,91,2040,140,2070,161C2100,182,2130,175,2145,171.5L2160,168L2160,210L2145,210C2130,210,2100,210,2070,210C2040,210,2010,210,1980,210C1950,210,1920,210,1890,210C1860,210,1830,210,1800,210C1770,210,1740,210,1710,210C1680,210,1650,210,1620,210C1590,210,1560,210,1530,210C1500,210,1470,210,1440,210C1410,210,1380,210,1350,210C1320,210,1290,210,1260,210C1230,210,1200,210,1170,210C1140,210,1110,210,1080,210C1050,210,1020,210,990,210C960,210,930,210,900,210C870,210,840,210,810,210C780,210,750,210,720,210C690,210,660,210,630,210C600,210,570,210,540,210C510,210,480,210,450,210C420,210,390,210,360,210C330,210,300,210,270,210C240,210,210,210,180,210C150,210,120,210,90,210C60,210,30,210,15,210L0,210Z'%3e%3c/path%3e%3c/svg%3e");
+  background-repeat:no-repeat;
+}
+
+/* The list style
+-------------------------------------------------------------- */
+
+.directory-list ul {
+  margin-left: 10px;
+  padding-left: 20px;
+  border-left: 1px dashed #ddd;
+}
+.fa{
+  color: #222546;
+}
+.directory-list li {
+  list-style: none;
+  color: #888;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.directory-list a {
+  border-bottom: 1px solid transparent;
+  color: #222546;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.directory-list li:hover {
+  border-color: #eee;
+  color: #000;
+  background:#eea29a;
+}
+
+.directory-list .folder,
+.directory-list .folder > a {
+  {% comment %} color: #777; {% endcomment %}
+  font-weight: bold;
+}
+
+
+
+
+{% comment %} .directory-list li.folder:before {
+  /* folder icon if folder class is specified */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='lightblue' d='M96.429,37.5v39.286c0,3.423-1.228,6.361-3.684,8.817c-2.455,2.455-5.395,3.683-8.816,3.683H16.071 c-3.423,0-6.362-1.228-8.817-3.683c-2.456-2.456-3.683-5.395-3.683-8.817V23.214c0-3.422,1.228-6.362,3.683-8.817 c2.455-2.456,5.394-3.683,8.817-3.683h17.857c3.422,0,6.362,1.228,8.817,3.683c2.455,2.455,3.683,5.395,3.683,8.817V25h37.5 c3.422,0,6.361,1.228,8.816,3.683C95.201,31.138,96.429,34.078,96.429,37.5z' /></svg>");
+  background-position: center top;
+  background-size: 75% auto;
+} {% endcomment %}
+
+</style>
+
+{% endblock extra_css %}
+
+
+
+{% block content %}
+
+    {% comment %} <ol class="breadcrumb bg-white">
+        <li class="ml-3 breadcrumb-item active">Academics</li>
+    </ol> {% endcomment %}
+<div class="container">
+{%breadcrumbs%}
+<div style="background:#eea29a;">
+<br>
+<h2 class="text-center" > <strong>{{page.title}}</strong></h2>
+<br>
+</div>
+
+<div class="box container pt-5">
+
+
+  <ul class="directory-list">
+  {{tree_structure |safe}}
+  </ul>
+<br>
+
+</div>
+
+<div>
+<div class="waveWrapper waveAnimation">
+  <div class="waveWrapperInner bgTop">
+    <div class="wave waveTop" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-top.png')"></div>
+  </div>
+  <div class="waveWrapperInner bgMiddle">
+    <div class="wave waveMiddle" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-mid.png')"></div>
+  </div>
+  <div class="waveWrapperInner bgBottom">
+    <div class="wave waveBottom" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-bot.png')"></div>
+  </div>
+</div>
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+
+
+{% block extra_css %}
+{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="https://themes.audemedia.com/html/goodgrowth/css/owl.theme.default.min.css"/> {% endcomment %}
+<style>
+
+body {
+  line-height: 30px;
+}
+
+
+
+#testimonials {
+    background: linear-gradient(112deg, #ffffff 50%, antiquewhite 50%);
+}
+
+#program-title {
+    background: #eea29a;
+}
+
+.carousel-caption {
+    position: initial;
+    z-index: 10;
+    padding: 6rem 8rem;
+    color: rgba(78, 77, 77, 0.856);
+    text-align: center;
+    {% comment %} font-size: 1.2rem; {% endcomment %}
+    font-style: italic;
+    font-weight: bold;
+    line-height: 2rem
+}
+
+@media(max-width:767px) {
+    .carousel-caption {
+        position: initial;
+        z-index: 10;
+        padding: 3rem 2rem;
+        color: rgba(78, 77, 77, 0.856);
+        text-align: center;
+        font-size: 0.7rem;
+        font-style: italic;
+        font-weight: bold;
+        line-height: 1.5rem
+    }
+}
+
+
+
+
+#image-caption {
+    font-style: normal;
+    {% comment %} font-size: 1rem; {% endcomment %}
+    margin-top: 0.5rem
+}
+
+@media(max-width:767px) {
+    #image-caption {
+        font-style: normal;
+        font-size: 0.6rem;
+        margin-top: 0.5rem
+    }
+}
+
+#testimonials i {
+    background-color: #eea29a;
+    padding: 1.4rem
+}
+
+@media(max-width:767px) {
+    i {
+        padding: 0.8rem
+    }
+}
+
+.carousel-control-prev {
+    justify-content: flex-start
+}
+
+.carousel-control-next {
+    justify-content: flex-end
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    transition: none;
+    opacity: unset
+}
+
+
+
+element.style {
+}
+.carousel-item {
+    height: auto;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+
+
+
+
+{% comment %} .inner li:hover{
+  background:#eea29a;
+} {% endcomment %}
+
+a li:hover{
+  background:#eea29a;
+}
+a li{
+  color:#222546;
+}
+.title{
+  background:#222546;
+  color:white;
+}
+.body p a{
+  color:blue;
+}
+
+.body a {
+  outline: none;
+  text-decoration: underline;
+}
+
+{% comment %} .body a {
+  color: #222546;
+} {% endcomment %}
+
+.body a:hover {
+  color:black;
+  background: antiquewhite;
+
+}
+
+
+</style>
+
+{% endblock extra_css %}
+
+{% block content %}
+
+
+
+<div class="bg-white container">
+{% breadcrumbs%}
+<div id="program-title">
+<br>
+<h2 class="text-center" > <strong>{{page.title}}</strong></h2>
+<br>
+</div>
+<div class="row  pb-4">
+
+<div class="col-sm-12 col-lg-4 bg-white pt-4">
+
+
+<div class="">
+<div class="">
+
+<section class="col-12">
+   <div class="container">
+    {% if programSpecializations.count %}
+     <div class="row">
+        <div class="col-12">
+          <h4 class="title p-3"><a>Program Specializations</a></h4>
+          <div class="inner">
+            <ul>
+              {% for specialization in programSpecializations %}
+                    <a href="{% pageurl specialization %}"><li class="px-3 py-1">{{specialization.title}}</li></a>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+
+
+      {% if effectiveTimePeriods.count %}
+
+        <div class="row">
+          <div class="col-12">
+            <h4 class="title p-3"><a>Course Structure(s)</a></h4>
+            <div class="inner">
+              <ul>
+                {% for timeperiod in effectiveTimePeriods %}
+                      <a href="{% pageurl timeperiod %}"><li class="px-3 py-1">{{timeperiod.title}}</li></a>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      {% endif %}
+
+      {% if students %}
+
+
+        <div class="row">
+          <div class="col-12">
+            <h4 class="title p-3"><a  href="{%pageurl students%}">Students</a></h4>
+            <div class="inner">
+              <ul>
+                {% for batch in students.specific.get_children %}
+                      <a href="{% pageurl batch %}"><li class="px-3 py-1">{{batch.title}}</li></a>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      {% endif %}
+   </div>
+ </section>
+
+
+</div>
+</div>
+
+</div>
+<div class="col-sm-12 col-lg-7 pt-4">
+<div class="mx-5 text-center body">
+ {{page.intro|richtext}}
+
+ {{page.body|richtext}}
+</div>
+
+</div>
+
+{% if page.testimonials.all.count %}
+
+
+<div class="container pt-5 small">
+    <div id="testimonials" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+{% for object in page.testimonials.all %}
+
+
+            <div class="carousel-item {% if not forloop.counter0 %}active{% endif %} ">
+                <div class="carousel-caption">
+                    <p>{{object.testimonial}}</p>
+                    <div id="image-caption">{{object.author}}
+                    </div>
+                </div>
+            </div>
+{% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i> </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i class='fa fa-arrow-right'></i> </a>
+    </div>
+</div>
+{% endif %}
+
+<div>
+<div class="waveWrapper waveAnimation">
+  <div class="waveWrapperInner bgTop">
+    <div class="wave waveTop" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-top.png')"></div>
+  </div>
+  <div class="waveWrapperInner bgMiddle">
+    <div class="wave waveMiddle" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-mid.png')"></div>
+  </div>
+  <div class="waveWrapperInner bgBottom">
+    <div class="wave waveBottom" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-bot.png')"></div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+
+{% block extra_script %}
+
+
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script> {% endcomment %}
+
+<script type="text/javascript">
+
+</script>
+
+{% endblock extra_script   %}
