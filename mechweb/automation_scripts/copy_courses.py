@@ -40,7 +40,7 @@ def init_program_and_sem():
         if program!='M.Tech':
             title =""
             if program=='B.Tech':
-                title="UG Courses"
+                title="Undergraduate"
             else:
                 title ="PG Courses & Electives"
             program_obj = Program(
@@ -50,7 +50,7 @@ def init_program_and_sem():
             program_obj.save()
             print( title+" created!")
             etp = EffectiveTimePeriod(
-                title="default"
+                title="latest"
             )
             program_obj.add_child(instance=etp)
             etp.save()
@@ -71,7 +71,7 @@ def init_program_and_sem():
                 program_obj.add_child(instance=s_obj)
                 s_obj.save()
                 etp = EffectiveTimePeriod(
-                    title="default"
+                    title="latest"
                 )
                 s_obj.add_child(instance=etp)
                 etp.save()
@@ -181,6 +181,7 @@ def copy_course():
 
     
 
+# opne the shell using python manage.py shell and use this script like this:
 
 # from mechweb.automation_scripts.copy_courses import *
 # init_program_and_sem()

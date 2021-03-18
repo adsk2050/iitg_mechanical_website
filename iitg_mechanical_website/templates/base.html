@@ -63,7 +63,8 @@
         color:#222546;
       }
       .custom-gradient-bg{
-        background:linear-gradient(to top, #faebd7 50%, #fff 50%);
+        background-image: linear-gradient(to bottom, #faebd7, #ffede6, #fff2f4, #fff9fd, #ffffff);
+        background-repeat: repeat no-repeat;
       }
 
       {% comment %} 
@@ -151,7 +152,7 @@
     <body class="{% block body_class %}{% endblock %}" style="{% block body_style %}{% endblock %}">
 
       <!-- <header style="background-color: #3A5157;" class="blog-header py-3 row"> -->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color:#222546 ">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#222546 ">
           <div class="container-fluid" >
             <div class=" navbar-header col-xs-12 col-sm-4 col-md-1" >
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -347,7 +348,7 @@
 
 
         {% wagtailuserbar %}
-        <div class="paddingadjustments" style="padding-top: 150px;">
+        <div class="paddingadjustments">
         {% block content %}{% endblock %}
 
         </div>
