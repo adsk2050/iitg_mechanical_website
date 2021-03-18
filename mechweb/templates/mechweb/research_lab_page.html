@@ -50,13 +50,13 @@
                 </h4>
               </div>
               <div class="lab_tech_staff">
-              <h4 style="color:#15218d; font-weight:bolder;"> Technical Staff <hr>
+              <h4 style="color:#15218d; font-weight:bolder;"> Technical Staff
                 {% if page.tech_staffs.all|length != 0 %}
                   <ul>
                   {% for tech_staff in page.tech_staffs.all %}
                       <li>
                           <a style="color:#4F5345; font-weight:normal;" href="{{ tech_staff.tech_staff.url }}">{{ tech_staff.tech_staff }}</a>
-                            {{ tech_staff.responsibilities|richtext }}<hr>
+                            {{ tech_staff.responsibilities|richtext }}
                       </li>
                   {% endfor %}
                   </ul>
@@ -64,10 +64,16 @@
               </h4>
               </div>
               <div class="lab_address">
-                <h4  style="color:#15218d; font-weight:bolder;">Address<br>
+                <h4  style="color:#15218d; font-weight:bolder;">Address:<br>
                   <span  style="color:#4F5345; font-weight:normal;">{{ page.specific.address }}</span>
                 </h4>
+                {% if page.contact_number %}
+                  <h4  style="color:#15218d; font-weight:bolder;">Contact Number:<br>
+                    <span  style="color:#4F5345; font-weight:normal;">{{ page.specific.contact_number }}</span>
+                  </h4>              
+                {% endif %}
               </div>
+
           </div>
 
         <div class="col-xs-12 col-sm-7 col-md-7 labbox">

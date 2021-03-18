@@ -1,6 +1,7 @@
 import datetime
 from django import template
 from django.template.defaultfilters import stringfilter
+from wagtail.core.models import Page
 
 register = template.Library()
 
@@ -20,3 +21,16 @@ def isalumni(value):
     else:
         return ""
 
+@register.inclusion_tag('templatetags/breadcrumbs.html', takes_context=True)
+def breadcrumbs(context):
+    self = context.get('self')
+    if self is None or self.depth <= 1:
+        # When on the home page, displaying breadcrumbs is irrelevant.
+        ancestors = ()
+    else:
+        ancestors = Page.objects.ancestor_of(
+            self, inclusive=True).filter(depth__gt=1)
+    return {
+        'ancestors': ancestors,
+        'request': context['request'],
+    }
