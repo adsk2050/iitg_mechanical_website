@@ -24,9 +24,25 @@ body {
   -o-transform: scale(0.9, 0.9); /* Opera */
   -moz-transform: scale(0.9, 0.9); /* Firefox */
 }
-.btn{
-    background-color: #eea29a;
+
+.btn:hover{
+    background:#eea29a;
+    color:#222546;
 }
+.btn{
+    border:none !important;
+    color:black;
+    background:antiquewhite;
+}
+.btn:active {
+  background-color: #222546 !important;
+  color:white;
+}
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 </style>
 
 {% endblock extra_css %}
@@ -56,14 +72,14 @@ body {
     <div class="col-6 mr-auto">
     {% with page.specific.get_prev_sibling as prev_page %}
     {% if prev_page %}
-    <a href="{{prev_page.url }}" class="btn  float-left"><i class="fa fa-arrow-left mr-2" aria-hidden="true"> </i> {{prev_page}}</a>
+    <a href="{{prev_page.url }}" class="btn float-left"><i class="fa fa-arrow-left mr-2" aria-hidden="true"> </i> {{prev_page}}</a>
     {% endif %}
     {% endwith %}
     </div>
     <div class="col-6">
     {% with page.specific.get_next_sibling as next_page %}
     {% if next_page %}
-    <a href="{{next_page.url }}" class="btn  float-right">{{next_page}}<i class="fa fa-arrow-right ml-2" aria-hidden="true"> </i></a>
+    <a href="{{next_page.url }}" class="btn btn-primary  float-right">{{next_page}}<i class="fa fa-arrow-right ml-2" aria-hidden="true"> </i></a>
     
     {% endif %}    
     {% endwith %}
@@ -170,7 +186,7 @@ body {
                   {% endif %}
 
                   {% if student.specific.supervisor %}
-                <li> <b>Faculty Advisor/Supervisor: </b> <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a>
+                <li> <b>Faculty Advisor/Supervisor: </b> <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a></li>
                   {% else %}
                     {% for kk in student.specific.custom_supervisor.all%}
                         {% if kk.supervisor_type == "supervisor" %}
@@ -205,7 +221,7 @@ body {
                             {% endif %}
                         {% endfor %}
                     {% endif %}
-
+			<br>
                     <div class="row"> 
                         {% if student.specific.website %}
                         <div class="col-6">

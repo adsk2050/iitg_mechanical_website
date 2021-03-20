@@ -4,28 +4,49 @@
 
 <nav aria-label="breadcrumb">
 <style>
+
 .breadcrumb li a {
     border-bottom: 1px solid transparent;
     color: #222546;
     text-decoration: none;
     transition: all 0.2s ease;
 }
+
 {% comment %} p{
     hyphens:auto;
 } {% endcomment %}
-.breadcrumb a:link:hover{
+
+.breadcrumb li:hover{
     color:#222546;
     background:antiquewhite;
+    border-radius:8%;
 }
+
+.breadcrumb-item .item,.breadcrumb-item i {
+	vertical-align:middle;
+}
+
+.breadcrumb-item i{
+    opacity:0.5;
+    color:blue;
+}
+
+.breadcrumb li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 </style>
+<div class="">
     <ol class="breadcrumb bg-white">
         {% for ancestor in ancestors %}
         {% if forloop.last %}
-        <li class="ml-3 breadcrumb-item active">{{ ancestor }}</li>
+        <li class="breadcrumb-item active"><span class="item my-auto">{{ ancestor }}</span></li>
         {% else %}
-        <li><a class="ml-2 mr-1breadcrumb-item" href="{% pageurl ancestor %}">{{ ancestor }}/</a></li>
+        <li class=" mr-2 py-2 px-1"><a class="breadcrumb-item" href="{% pageurl ancestor %}"><span class="mr-1 item">{{ ancestor }}</span><i class="fa fa-angle-right  mx-1"></i></a></li>
         {% endif %}
         {% endfor %}
     </ol>
-</nav>
+</div>
 {% endif %}
