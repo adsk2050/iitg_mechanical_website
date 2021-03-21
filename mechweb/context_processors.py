@@ -9,7 +9,7 @@ def navbar(request):
 		# 	item
 		# for item in nav_items:
 		ordering = {
-			"Course Structure":1,
+			"Academics":1,
 			"Research Home":2,
 			"Student Home":3,
 			"faculty home page":4,
@@ -19,10 +19,11 @@ def navbar(request):
 			"Event Home":8,
 			"categories home":9,
 			"aboutiitgmech":10,
+			"resource section":11,
 		}
 		ordering = defaultdict(lambda: 1000, ordering)
 		navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
-		return {'navlist': navlist[:11]}
+		return {'navlist': navlist[:12]}
 	else:
 		return {'navlist':[]}
 

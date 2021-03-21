@@ -45,7 +45,7 @@
           {% if page.joining_year %}
               <li>
                   <h4>Joining year</h4>
-                  <p>{{ page.joining_year }}</p>
+                  <p>{{ page.joining_year|date:"Y" }}</p>
               </li>
           {% endif %}
           {% if page.email_id %}

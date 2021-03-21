@@ -25,7 +25,7 @@
                 <h2>Results for {% if cat %}{{ cat_name }}{% endif %}{% if tag and cat %} with {% endif %}{% if tag %}{{ tag }}{% endif %}</h2>
 
             {% else %}
-                {% if faculty_list.number == 1 %}
+                {% if current_faculty_list.number == 1 %}
                     <!-- <h2>Intro:</h2> -->
                     <div class="intro">{{ page.intro|richtext }}</div>
                 {% endif %}
@@ -69,25 +69,6 @@
       </a>
 
     </div>
-
-    <!-- <ul class="nav nav-tabs nav-justified awardstab">
-
-                <li class="nav-item">
-                  <a class="nav-link active" href="#faculty"  data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Faculty</span></a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="#visiting" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Visiting Faculty</span></a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="#past" data-toggle="tab"><i class="fa fa-check-square-o visible-xs"></i>
-                  <span class="hidden-xs">Past Faculty</span></a>
-                </li>
-
-        </ul> -->
 
         <br><br><br>
 
@@ -145,6 +126,15 @@
 
                         </div>
                         <div class=" col-sm-12 col-md-4 researchbox">
+                        {% if faculty.specific.scopus_profile_link %}
+                            <a href="{{ faculty.specific.scopus_profile_link }}">Scopus</a> |
+                        {% endif %}
+                        {% if faculty.specific.google_scholar_profile_link %}
+                            <a href="{{ faculty.specific.google_scholar_profile_link }}">Google Scholar</a> |
+                        {% endif %}
+                        {% if faculty.specific.researchgate_profile_link %}
+                            <a href="{{ faculty.specific.researchgate_profile_link }}">ResearchGate</a>
+                        {% endif %}
                           {% if faculty.specific.research_interests %}
                               <span><h5>Research Interests:</h5></span>
                                   {% for tag in faculty.specific.research_interests.all %} <a href="{{ page.url }}?tag={{ tag }}">{{ tag }}</a> | {% endfor %}
@@ -285,36 +275,11 @@
   {% endif %}
 </div>
 
-
-
-
-
-<!--     <div class="pagination">
-        <span class="step-links">
-            {% if faculty_list.has_previous %}
-                <a href="?page_no=1{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">&laquo; first</a>
-                <a href="?page_no={{ faculty_list.previous_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ faculty_list.number }} of {{ faculty_list.paginator.num_pages }}.
-            </span>
-
-            {% if faculty_list.has_next %}
-                <a href="?page_no={{ faculty_list.next_page_number }}{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">next</a>
-                <a href="?page_no={{ faculty_list.paginator.num_pages }}{% if tag %}&{{ tag }}{% endif %}{% if cat %}&{{ cat }}{% endif %}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div> -->
-
-
-    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-
 {% endblock %}
 
 
 {% block extra_script %}
-
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 var btnContainer = document.getElementById("myDIV");
@@ -379,8 +344,8 @@ btns[i].addEventListener("click", function() {
   }
 
 </script>
-// for tabs
-  <script>
+
+ <script>
 
     function openCity(evt, cityName) {
       var i, x, tablinks;

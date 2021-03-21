@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
+{% block body_class %}template-course-structure{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+body {
+  line-height: 30px;
+}
+{% comment %} tr{
+    cursor:pointer;
+} {% endcomment %}
+
+.nowrap {
+  white-space: nowrap ;
+}
+
+.small {
+  transform: scale(0.9, 0.9);
+  -ms-transform: scale(0.9, 0.9); /* IE 9 */
+  -webkit-transform: scale(0.9, 0.9); /* Safari and Chrome */
+  -o-transform: scale(0.9, 0.9); /* Opera */
+  -moz-transform: scale(0.9, 0.9); /* Firefox */
+}
+.btn{
+    background-color: #eea29a;
+}
+</style>
+
+{% endblock extra_css %}
+
+
+
+
+{% block content %}
+
+ 
+
+
+<div class="custom-gradient-bg">
+<div class="container bg-white">
+<!-- add breadcrumbs -->
+{% breadcrumbs%}
+<div style="background:#eea29a;">
+<br>
+<h2 class="text-center" > <strong>{{page.title}}</strong></h2>
+<br>
+</div>
+
+<br>
+<div class="container bg-white">
+
+<div class="row">
+    <div class="col-6 mr-auto">
+    {% with page.specific.get_prev_sibling as prev_page %}
+    {% if prev_page %}
+    <a href="{{prev_page.url }}" class="btn  float-left"><i class="fa fa-arrow-left mr-2" aria-hidden="true"> </i> {{prev_page}}</a>
+    {% endif %}
+    {% endwith %}
+    </div>
+    <div class="col-6">
+    {% with page.specific.get_next_sibling as next_page %}
+    {% if next_page %}
+    <a href="{{next_page.url }}" class="btn  float-right">{{next_page}}<i class="fa fa-arrow-right ml-2" aria-hidden="true"> </i></a>
+    
+    {% endif %}    
+    {% endwith %}
+    </div>
+</div>
+<hr>
+
+
+{% if page.table_view %}
+
+<div class="table-responsive-lg pt-5 pb-5 text-center">
+
+<table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
+    <thead style="background-color:antiquewhite;color:#222546">
+        <tr>
+        <th scope="col">S. No.</th>
+            <th scope="col">Name</th>
+            <th scope="col">Roll Number</th>
+            <th scope="col">Email</th>
+            <th scope="col">Faculty Advisor/Supervisor</th>
+            <th scope="col">Co-Supervisor</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+        {% for student in page.get_children.live %}
+        {% comment %} <tr onclick="window.location='{{student.url}}';"> {% endcomment %}
+        <tr>
+            <td> {{forloop.counter}}</td>
+            <td>{{ student.specific.first_name }} {{student.specific.middle_name}} {{student.specific.last_name}}</td>
+            <td>{{student.specific.roll_no}}</td>
+            <td> {{student.specific.webmail}}</td>    
+            <td>
+             {% if student.specific.supervisor %}
+                <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a>
+            {% else %}
+                {% for kk in student.specific.custom_supervisor.all%}
+                    {% if kk.supervisor_type == "supervisor" %}
+                        {% if kk.website %}
+                        <a href="{{ kk.website }}">{{ kk.full_name }}</a>
+                        {% else %}
+                        {{kk.full_name}}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </td>
+            <td>
+             {% if student.specific.co_supervisor %}
+                <a href="{{student.specific.co_supervisor.url}}"> {{student.specific.co_supervisor}}</a>
+            {% else %}
+                {% for kk in student.specific.custom_supervisor.all%}
+                    {% if kk.supervisor_type == "co_supervisor" %}
+                        {% if kk.website %}
+                        <a href="{{ kk.website }}">{{ kk.full_name }}</a>
+                        {% else %}
+                        {{kk.full_name}}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+{% else %}
+
+
+
+<div class="container-fluid" >
+<div class="row bread-list justify-content-md-center" id="myUL" >
+{% for student in page.get_children %}
+  <div class="col-xs-11 col-md-5 bread-list-item p-2 " style="background:antiquewhite;">
+
+      <div class="row align-items-center">
+          <div class="col-5">
+            {% comment %} <a href="{{ student.url }}"> {% endcomment %}
+            <a>
+          {% if student.specific.photo %}
+            {% image student.specific.photo fill-100x100 as photo %}
+            <img src="{{ photo.url }}" alt="{{ photo.alt }}" class="rounded-circle" style="width:100%" >
+          {% else %}
+          
+          <img  src="https://www.nmeaf.org/sites/default/themes/nichols/images/icon-student.png" class="rounded" style="width:100%">
+          {% endif %}
+              </a>
+          </div>
+          <div class="col-7">
+              {% comment %} <a href="{{ student.url }}"> {% endcomment %}
+              <a>
+                  <h3> {{ student }}</h3>   
+              </a>
+              <ul class="bread-meta">
+                  {% if student.specific.enrollment_year %}
+                      <li> <b>Enrollment year: </b> {{ student.specific.enrollment_year|date:"Y" }}</li>
+                  {% endif %}
+                    <li ><b >Email: </b>{{ student.specific.webmail}}</li>
+                  {% if student.specific.roll_no %}
+                      <li ><b>Enrollment No.: </b>{{ student.specific.roll_no }}</li>
+                  {% endif %}
+
+                  {% if student.specific.supervisor %}
+                <li> <b>Faculty Advisor/Supervisor: </b> <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a></li>
+                  {% else %}
+                    {% for kk in student.specific.custom_supervisor.all%}
+                        {% if kk.supervisor_type == "supervisor" %}
+                            <li>
+                            <b>Supervisor/ Faculty Advisor: </b>
+                            {% if kk.website %}
+                            <a href="{{ kk.website }}">{{ kk.full_name }}</a></p>
+                            {% else %}
+                            {{kk.full_name}}
+                            {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                  {% endif %}
+
+
+                    {% if student.specific.co_supervisor %}
+                        <li>
+                            <b>Co-supervisor:</b>
+                            <a href="{{ student.specific.co_supervisor.url }}">{{ student.specific.co_supervisor }}</a></p>
+
+                        </li>
+                        {% else %}
+
+
+                        {% for kk in student.specific.custom_supervisor.all%}
+                            {% if kk.supervisor_type == "co_supervisor" %}
+                                <li>
+                                <b>Co-supervisor:</b>
+                                <a href="{{ kk.website }}">{{ kk.full_name }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="row"> 
+                        {% if student.specific.website %}
+			<br>
+                        <div class="col-6">
+                        <a href="{{student.specific.website}}" target="_blank"><i class="fa fa-globe fa-2x" aria-hidden="true"></i></a>
+                        </div>
+                        {% endif %}
+
+                        {% if student.specific.linkedin %}
+                        
+<div class="col-6">
+                        <a href="{{student.specific.linkedin}}" target="_blank"> <i class="fa fa-linkedin fa-2x text-primary" aria-hidden="true"></i></a>
+                        </div>
+                        {% endif %}
+                    </div>
+              </ul>
+          </div>
+      </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+
+
+{% endif %}
+
+
+
+
+</div>
+</div>
+</div>
+{% endblock %}

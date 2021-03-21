@@ -43,7 +43,9 @@
             </div>
         {% endfor %}
         </ul>
-            
+	{% if page.specific.document %}
+	<div><a href="{{ page.specific.document.url }}"> Event Document</a></div>            
+	{% endif %}
     </div>
 
     <br><br>

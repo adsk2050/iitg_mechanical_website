@@ -1,5 +1,41 @@
+https://ubuntu.com/blog/django-behind-a-proxy-fixing-absolute-urls
+How to deal with different hostnames when dealing with relative URLS(How to convert to absolute URL according to hostname)
+____________________________________________________________________
+
+AuthStateMissing error resolution see first one
+
+https://github.com/python-social-auth/social-app-django/issues/31
+https://github.com/omab/python-social-auth/issues/534
+____________________________________________________________________
+
+https://serverfault.com/questions/377783/protect-apache2-server-status-handler-by-password
+
+To see server stats in browser through server/server-status:
+Add this to the /etc/apache2/mods-available/status.conf:
+
+<Location /server-status>
+    SetHandler server-status
+    Order deny,allow
+    Deny from all
+    Satisfy Any
+
+    Allow from localhost ip6-localhost
+
+    AuthType basic
+    AuthName "Apache status"
+    AuthUserFile /etc/apache2/passwd-server-status
+    Require valid-user
+</Location>
+
+Then do: "htpasswd -c /etc/apache2/passwd-server-status username"
+____________________________________________________________________
+
+https://developers.google.com/speed/pagespeed/module/
+____________________________________________________________________
+
 https://stackoverflow.com/questions/3157875/logging-activity-on-djangos-admin-django
 ____________________________________________________________________
+
 Used this to learn and implement apache deployment info: https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-14-04#prerequisites-and-goals
 Used this to make temporary ssl server https://www.pdxpixel.com/blog/2014/02/04/setting-up-django-site-ssl-apache-mod_wsgi-mod_ssl/
 extrasAD/mechweb.conf for apache configurations

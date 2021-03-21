@@ -1,0 +1,26 @@
+/etc/apache2/mods-enabled/access_compat.load:LoadModule access_compat_module /usr/lib/apache2/modules/mod_access_compat.so
+/etc/apache2/mods-enabled/alias.load:LoadModule alias_module /usr/lib/apache2/modules/mod_alias.so
+/etc/apache2/mods-enabled/auth_basic.load:LoadModule auth_basic_module /usr/lib/apache2/modules/mod_auth_basic.so
+/etc/apache2/mods-enabled/authn_core.load:LoadModule authn_core_module /usr/lib/apache2/modules/mod_authn_core.so
+/etc/apache2/mods-enabled/authn_file.load:LoadModule authn_file_module /usr/lib/apache2/modules/mod_authn_file.so
+/etc/apache2/mods-enabled/authz_core.load:LoadModule authz_core_module /usr/lib/apache2/modules/mod_authz_core.so
+/etc/apache2/mods-enabled/authz_host.load:LoadModule authz_host_module /usr/lib/apache2/modules/mod_authz_host.so
+/etc/apache2/mods-enabled/authz_user.load:LoadModule authz_user_module /usr/lib/apache2/modules/mod_authz_user.so
+/etc/apache2/mods-enabled/autoindex.load:LoadModule autoindex_module /usr/lib/apache2/modules/mod_autoindex.so
+/etc/apache2/mods-enabled/deflate.load:LoadModule deflate_module /usr/lib/apache2/modules/mod_deflate.so
+/etc/apache2/mods-enabled/dir.load:LoadModule dir_module /usr/lib/apache2/modules/mod_dir.so
+/etc/apache2/mods-enabled/env.load:LoadModule env_module /usr/lib/apache2/modules/mod_env.so
+/etc/apache2/mods-enabled/filter.load:LoadModule filter_module /usr/lib/apache2/modules/mod_filter.so
+/etc/apache2/mods-enabled/mime.load:LoadModule mime_module /usr/lib/apache2/modules/mod_mime.so
+/etc/apache2/mods-enabled/mpm_event.load:LoadModule mpm_event_module /usr/lib/apache2/modules/mod_mpm_event.so
+/etc/apache2/mods-enabled/negotiation.load:LoadModule negotiation_module /usr/lib/apache2/modules/mod_negotiation.so
+/etc/apache2/mods-enabled/pagespeed.load:  LoadModule version_module /usr/lib/apache2/modules/mod_version.so
+/etc/apache2/mods-enabled/pagespeed.load:  LoadModule pagespeed_module /usr/lib/apache2/modules/mod_pagespeed.so
+/etc/apache2/mods-enabled/pagespeed.load:    LoadModule access_compat_module /usr/lib/apache2/modules/mod_access_compat.so
+/etc/apache2/mods-enabled/pagespeed.load:  LoadModule pagespeed_module /usr/lib/apache2/modules/mod_pagespeed_ap24.so
+/etc/apache2/mods-enabled/pagespeed.load: LoadModule deflate_module /usr/lib/apache2/modules/mod_deflate.so
+/etc/apache2/mods-enabled/reqtimeout.load:LoadModule reqtimeout_module /usr/lib/apache2/modules/mod_reqtimeout.so
+/etc/apache2/mods-enabled/setenvif.load:LoadModule setenvif_module /usr/lib/apache2/modules/mod_setenvif.so
+/etc/apache2/mods-enabled/socache_shmcb.load:LoadModule socache_shmcb_module /usr/lib/apache2/modules/mod_socache_shmcb.so
+/etc/apache2/mods-enabled/ssl.load:LoadModule ssl_module /usr/lib/apache2/modules/mod_ssl.so
+/etc/apache2/mods-enabled/status.load:LoadModule status_module /usr/lib/apache2/modules/mod_status.so

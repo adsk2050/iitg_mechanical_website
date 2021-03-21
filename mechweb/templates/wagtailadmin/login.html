@@ -1,7 +1,7 @@
 {% extends "wagtailadmin/login.html" %}
 {% load static %}
 
-{% block branding_login %}<div><img alt="IITG Logo" src="{% static 'images/iitg_sml.gif' %}"/></div>Mechanical Department, IIT Guwahati<div></div>
+{% block branding_login %}<div><a href="{% url 'wagtail_serve' '' %}"><img alt="IITG Logo" src="{% static 'images/iitg_sml.gif' %}"/></div>Mechanical Department, IIT Guwahati<div></a></div>
 <h3>To login through outlook: <a href="{% url "social:begin" "azuread-tenant-oauth2" %}">Click here</a></h3>
 <hr/>
     <h3>Or</h3>
