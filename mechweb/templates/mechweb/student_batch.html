@@ -42,6 +42,9 @@ body {
   outline: none !important;
   box-shadow: none !important;
 }
+.web-links i:hover{
+opacity:0.8;
+}
 
 </style>
 
@@ -92,7 +95,7 @@ body {
 
 <div class="table-responsive-lg pt-5 pb-5 text-center">
 
-<table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
+<table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll;">
     <thead style="background-color:antiquewhite;color:#222546">
         <tr>
         <th scope="col">S. No.</th>
@@ -105,7 +108,7 @@ body {
     </thead>
     <tbody>
     
-        {% for student in page.get_children %}
+        {% for student in page.get_children.live %}
         {% comment %} <tr onclick="window.location='{{student.url}}';"> {% endcomment %}
         <tr>
             <td> {{forloop.counter}}</td>
@@ -156,7 +159,7 @@ body {
 <div class="container-fluid" >
 <div class="row bread-list justify-content-md-center" id="myUL" >
 {% for student in page.get_children.live %}
-  <div class="col-xs-11 col-md-5 bread-list-item p-2 " style="background:antiquewhite;">
+  <div class="col-xs-11 col-md-5 bread-list-item p-2 small" style="background:antiquewhite;">
 
       <div class="row align-items-center">
           <div class="col-5">
@@ -170,9 +173,23 @@ body {
           <img  src="https://www.nmeaf.org/sites/default/themes/nichols/images/icon-student.png" class="rounded" style="width:100%">
           {% endif %}
               </a>
-          </div>
+	 </div>
           <div class="col-7">
-              {% comment %} <a href="{{ student.url }}"> {% endcomment %}
+             
+                   <div class="row web-links d-flex"> 
+                        {% if student.specific.website %}
+                        <div class="col-6 mt-3">
+                        <a href="{{student.specific.website}}" target="_blank"><i class="fa fa-globe fa-2x" aria-hidden="true"></i></a>
+                        </div>
+                        {% endif %}
+
+                        {% if student.specific.linkedin %}
+                        <div class="col-6 mt-3">
+                        <a href="{{student.specific.linkedin}}" target="_blank"> <i class="fa fa-linkedin fa-2x" data-toggle="tooltip" data-placement="top" title="linkedin profile" style="color:rgb(10, 102, 194)" aria-hidden="true"></i></a>
+                        </div>
+                        {% endif %}
+                    </div>
+	      {% comment %} <a href="{{ student.url }}"> {% endcomment %}
               <a>
                   <h3> {{ student }}</h3>   
               </a>
@@ -221,20 +238,6 @@ body {
                             {% endif %}
                         {% endfor %}
                     {% endif %}
-			<br>
-                    <div class="row"> 
-                        {% if student.specific.website %}
-                        <div class="col-6">
-                        <a href="{{student.specific.website}}" target="_blank"><i class="fa fa-globe fa-2x" aria-hidden="true"></i></a>
-                        </div>
-                        {% endif %}
-
-                        {% if student.specific.linkedin %}
-                        <div class="col-6">
-                        <a href="{{student.specific.linkedin}}" target="_blank"> <i class="fa fa-linkedin fa-2x text-primary" aria-hidden="true"></i></a>
-                        </div>
-                        {% endif %}
-                    </div>
               </ul>
           </div>
       </div>
