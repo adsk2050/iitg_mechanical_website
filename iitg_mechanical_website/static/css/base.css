@@ -1,3 +1,9 @@
+body{
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
 /* media queries */
 
 
@@ -45,7 +51,7 @@
     /* font-weight: bold; */
   }
 
-  .navbar-light .navbar-nav .nav-link{
+  .navbar-dark .navbar-nav .nav-link{
     color: #fff;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 0.15;
@@ -102,7 +108,7 @@
     font-size:
 
   }
-  .navbar-light .navbar-nav .nav-link{
+  .navbar-dark .navbar-nav .nav-link{
     color: #fff;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 0.15;
@@ -129,10 +135,10 @@
     width: 30px;
   }
 
-  .fixed-top .navbar-collapse {
+  /* .fixed-top .navbar-collapse {
     max-height: 100vh;
     overflow-y: auto;
-  }
+  } */
   nav {
     border-top: 1px solid rgba(255,255,255,0.1);
     display: block;
@@ -155,6 +161,10 @@ body,html {
 }
 
 
+.body{
+  padding: 0 !important;
+  overflow-x:hidden !important;
+}
 .dropdown-toggle::after {
   display:none !important;  //important is added to overcome basic effect from bootstrap document
 }
@@ -291,7 +301,7 @@ nav{
 }
 
 
-.navbar-light .navbar-brand{
+.navbar-dark .navbar-brand{
   color: #fff;
   font-size: 25px;
   text-transform: uppercase;
@@ -299,7 +309,7 @@ nav{
   letter-spacing: 2px;
 }
 
-.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+.navbar-dark .navbar-nav .active > .nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show > .nav-link {
 	color: #fff;
 }
 
@@ -368,37 +378,63 @@ nav{
   line-height: 1.45;
 }
 
-.carousel-inner img{
+.carousel-inner img,.yt-video{
   width: 100%;
-  height: 100%;
+  height: 400px;
+}
+.yt-video2{
+  display: none;
+  visibility: hidden;
+}
+.carousel-caption{
+  bottom: 70px;
+}
+
+@media (max-width:992px){
+  .carousel-inner img{
+    height: 300px;
+  }
+  .yt-video{
+    height: 300px;
+  }
+  .yt-video2{
+    visibility: visible;
+    display: block;
+    width: 100%;
+    height: 200px;
+  }
+  .carousel-caption{
+    bottom: 10px;
+  }
+}
+@media (max-width:768px) {
+    .carousel-inner img{
+    height: 200px;
+  }
+  .yt-video{
+    display: none;
+    
+  }
+  .yt-video2{
+    display: block;
+  }
 }
 
 .carousel-item{
-  height: 100vh;
-  min-height: 300px;
   background: no-repeat center center scroll;
   -webkit-background-size:cover;
-  background-size: cover;
-
 }
 
-.carousel-caption{
-  bottom: 270px;
 
-}
-s
 .carousel-caption h5{
   font-size: 45px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-top: 25px;
+  /* margin-top: 25px; */
 }
 
 .carousel-caption p{
-  width: 75%;
   margin: auto;
-  font-size: 18px;
-  line-height: 1.9;
 
 }
 
@@ -514,7 +550,7 @@ s
   position: relative;
   overflow: visible;
 }
-.sidebar-box .read-more {
+.sidebar-box .stage {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -667,13 +703,11 @@ header{
 .newscontainer .promo {
   font-weight: 300;
   background: linear-gradient(190deg, #222546 0%,#5085A5 100%);
-  border-radius: 0px 0px 10px 10px;
-  color: #fff;
-  height: 432px;
+  border-radius: 10px;
+  color: #ffff; 
+ /* height: 432px; */
   margin-bottom: 20px;
-  margin-left: 30px;
-  margin-right: 30px;
-  /* margin-top: -40px; */
+  margin-top: 10px;
   text-align: center;
   overflow: hidden;
   position: relative;
@@ -681,17 +715,12 @@ header{
   font-size: 18px;
 }
 
-.promo-text .read-more{
-  position: absolute;
-  bottom: 0;
-  left: 0;
+.promo-text .stage{
+  position: relative;
   width: 100%;
   text-align: center;
-  margin: 0; padding: 30px 0;
   font-family: 'Source Sans Pro', sans-serif;
-
-  background-image: linear-gradient(to bottom, transparent, #222546);
-
+  padding: 0px;
 }
 
 .newscontainer .promo h1,
@@ -847,8 +876,6 @@ header{
 .bread-list-item {
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 4px;
-  margin: 12px;
-  overflow: hidden;
   display: block;
 }
 

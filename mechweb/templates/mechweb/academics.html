@@ -23,7 +23,6 @@ body {
   {% comment %} box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); {% endcomment %}
   {% comment %} margin: 30px 5%; {% endcomment %}
   {% comment %} padding: 5%; {% endcomment %}
-  background:white;
 }
 
 
@@ -80,7 +79,7 @@ background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg id='wave' style='
 .directory-list li:hover {
   border-color: #eee;
   color: #000;
-  background:#eea29a;
+  background:#a9d6e5;
 }
 
 .directory-list .folder,
@@ -111,16 +110,15 @@ background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg id='wave' style='
         <li class="ml-3 breadcrumb-item active">Academics</li>
     </ol> {% endcomment %}
 <div class="custom-gradient-bg">
-<div class="container">
-<div style="background:#eea29a;">
+{% breadcrumbs%}
+<div class="">
+<div style="background:#2a6f97;">
 <br>
-<h2 class="text-center" > <strong>{{page.title}}</strong></h2>
+<h2 class="text-center text-white" > <strong>{{page.title}}</strong></h2>
 <br>
 </div>
 
 <div class="box container pt-5">
-
-
   <ul class="directory-list">
   {{tree_structure |safe}}
   </ul>

@@ -14,11 +14,11 @@ body {
 
 
 #testimonials {
-    background: linear-gradient(112deg, #ffffff 50%, antiquewhite 50%);
+    background: linear-gradient(112deg, #a9d6e5 50%, #89c2d9 50%);
 }
 
 #program-title {
-    background: #eea29a;
+    background: #2a6f97;
 }
 
 .carousel-caption {
@@ -27,7 +27,7 @@ body {
     padding: 6rem 8rem;
     color: rgba(78, 77, 77, 0.856);
     text-align: center;
-    {% comment %} font-size: 1.2rem; {% endcomment %}
+    font-size: 1.2rem;
     font-style: italic;
     font-weight: bold;
     line-height: 2rem
@@ -37,13 +37,13 @@ body {
     .carousel-caption {
         position: initial;
         z-index: 10;
-        padding: 3rem 2rem;
+        padding: 3rem 4rem;
         color: rgba(78, 77, 77, 0.856);
         text-align: center;
-        font-size: 0.7rem;
+        font-size: 1rem;
         font-style: italic;
         font-weight: bold;
-        line-height: 1.5rem
+        line-height: 1.5rem;
     }
 }
 
@@ -65,10 +65,12 @@ body {
 }
 
 #testimonials i {
-    background-color: #eea29a;
+    background-color: #012a4a;
     padding: 1.4rem
 }
-
+#testimonials a:hover{
+  color:white;
+}
 @media(max-width:767px) {
     i {
         padding: 0.8rem
@@ -109,14 +111,16 @@ element.style {
   background:#eea29a;
 } {% endcomment %}
 
-a li:hover{
-  background:#eea29a;
+.inner li:hover{
+  background:#468faf;
+  color:white;
 }
+
 a li{
   color:#222546;
 }
 .title{
-  background:#222546;
+  background:#2a6f97;
   color:white;
 }
 .body p a{
@@ -134,8 +138,12 @@ a li{
 
 .body a:hover {
   color:black;
-  background: antiquewhite;
+  background: #2c7da0;
 
+}
+.inner li{
+  border-bottom:solid 1px #2c7da0;
+  background:#a9d6e5;
 }
 
 
@@ -146,17 +154,17 @@ a li{
 {% block content %}
 
 
-<div class="custom-gradient-bg">
-
-<div class="bg-white container">
+<div class="">
+{% breadcrumbs%}
+<div class="">
 <div id="program-title">
 <br>
-<h2 class="text-center" > <strong>{{page.title}}</strong></h2>
+<h2 class="text-center text-white" > <strong>{{page.title}}</strong></h2>
 <br>
 </div>
-<div class="row  pb-4">
+<div class="row pb-4">
 
-<div class="col-sm-12 col-lg-4 bg-white pt-4">
+<div class="col-sm-12 col-lg-4 pt-4">
 
 
 <div class="">
@@ -206,7 +214,7 @@ a li{
             <h4 class="title p-3"><a  href="{%pageurl students%}">Students</a></h4>
             <div class="inner">
               <ul>
-                {% for batch in students.specific.get_children %}
+                {% for batch in students.specific.get_children.live %}
                       <a href="{% pageurl batch %}"><li class="px-3 py-1">{{batch.title}}</li></a>
                 {% endfor %}  
               </ul>
@@ -235,7 +243,7 @@ a li{
 {% if page.testimonials.all.count %}
 
 
-<div class="container pt-5 small">
+<div class="container pt-5">
     <div id="testimonials" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
 {% for object in page.testimonials.all %}

@@ -17,6 +17,10 @@ body {
     cursor:pointer;
 } */
 
+.table a{
+    text-decoration:underline !important;
+}
+
 </style>
 
 {% endblock extra_css %}
@@ -26,16 +30,16 @@ body {
 
 {% block content %}
 
-<div class="custom-gradient-bg">
-<div class="container">
+<div class="">
+<div class="">
 <!-- add breadcrumbs -->
 {% breadcrumbs%}
 
 
 
-<div style="background:#eea29a">
+<div style="background:#2a6f97">
 <br>
-<h2 class="text-center" > <strong>Course Structure ({{page}})</strong></h2>
+<h2 class="text-center text-white" > <strong>Course Structure ({{page}})</strong></h2>
 <br>
 </div>
 
@@ -45,17 +49,17 @@ body {
 
 
 <div class="">
-<div class="container" style="background:white;">
-<hr>
-<div class="sem-title">
-<a href="{% pageurl sem %}"><h2 class="text-center" style="font-weight:bolder;">Semester {{ sem.specific.semester_number }}</h2></a>
-</div>
-<hr>
-<br><br>
-<div class="table-responsive-lg container">
+<div class="">
 
-<table class="table table-sm table-striped table-hover" style="margin: auto;overflow-x:scroll; ">
-    <thead style="background-color:antiquewhite;color:#222546">
+<div class="sem-title">
+<br>
+<a href="{% pageurl sem %}"><h2 class="text-center" style="font-weight:bolder;">Semester {{ sem.specific.semester_number }}</h2></a>
+<p class="text-muted">(click on course no. to open course page)</p>
+</div>
+<div class="table-responsive-lg container-fluid">
+
+<table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll;">
+    <thead style="background-color:#014f86;color:#fff">
         <tr>
             <th scope="col">Course No.</th>
             <th scope="col">Course Name</th>
@@ -91,13 +95,13 @@ body {
 
 {% if courses %}
 
-<div class="container" style="background:white;">
+<div class="">
 
 <br><br>
-<div class="table-responsive-lg">
+<div class="table-responsive-md container-fluid">
 
-<table class="table table-sm table-striped table-hover" style="width: 80%; margin: auto;overflow-x:scroll; ">
-    <thead style="background-color:#222546;color:white">
+<table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll; ">
+    <thead style="background-color:#014f86;color:white">
         <tr>
             <th scope="col">Course No.</th>
             <th scope="col">Course Name</th>

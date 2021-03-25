@@ -102,6 +102,8 @@ class MechHomePage(Page):
     donate_image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, blank=True,
                                      related_name='+')
     donate_message = models.CharField(blank=True, max_length=250)
+    yt_video_code = models.CharField(blank=True,null=True,max_length=264,verbose_name="Youtube video code")
+
     # intro = RichTextField(blank=True)
     # user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
 
@@ -124,6 +126,7 @@ class MechHomePage(Page):
         FieldPanel('intro', classname="full"),
         FieldPanel('body', classname="full"),
         InlinePanel('gallery_images', label="Gallery Images", max_num=10),
+        FieldPanel('yt_video_code'),
         FieldPanel('HOD_message'),
         FieldPanel('donate_message'),
         FieldPanel('donation_link'),
@@ -1933,10 +1936,12 @@ class StudentBatch(Page):
     ]
     parent_page_types = ['Students',]
     subpage_types = ['Student']
+    def get_children(self):
+        children = super().get_children().order_by('title')
+        return children
     class Meta:
         verbose_name = "Student Batch"
         verbose_name_plural = "Student Batches"
-        ordering = ['-title']
 
 class Student(Page):
     # user = models.ForeignKey(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL,blank=True,verbose_name="User(only if the user exists)")

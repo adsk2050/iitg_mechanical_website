@@ -20,6 +20,7 @@ def navbar(request):
 			"categories home":9,
 			"aboutiitgmech":10,
 			"resource section":11,
+			"Committee Home":12,
 		}
 		ordering = defaultdict(lambda: 1000, ordering)
 		navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
