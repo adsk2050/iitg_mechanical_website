@@ -1903,12 +1903,12 @@ class Students(Page):
         verbose_name = "Students"
         verbose_name_plural = "Students"
 
-    def get_children(self):
+    def get_children_order_by_title(self):
         children = super().get_children().order_by('-title')
         return children
     def get_context(self, request):
         context = super(Students, self).get_context(request)
-        context['batches']  = self.get_children().type(StudentBatch)
+        context['batches']  = self.get_children_order_by_title().type(StudentBatch)
         return context
 
 
@@ -1936,7 +1936,8 @@ class StudentBatch(Page):
     ]
     parent_page_types = ['Students',]
     subpage_types = ['Student']
-    def get_children(self):
+
+    def get_children_order_by_title(self):
         children = super().get_children().order_by('title')
         return children
     class Meta:
@@ -1950,7 +1951,7 @@ class Student(Page):
     middle_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50,blank=True)
     email_id = models.EmailField(blank=True,verbose_name="Personal Email ID")
-    roll_no = models.IntegerField(blank=True)
+    roll_no = models.IntegerField(blank=True,null=True)
     enrollment_year = models.DateField(default=timezone.now)
     leaving_year = models.DateField(default=timezone.now, blank=True, null=True)
     is_exchange = models.BooleanField(default=False, verbose_name="International Student")
@@ -2006,8 +2007,6 @@ class Student(Page):
     class Meta:
         verbose_name = "Student"
         verbose_name_plural = "Students"
-
-
 
 class CustomSupervisor(Orderable):
     page = ParentalKey(Student, on_delete=models.CASCADE, related_name='custom_supervisor')

@@ -189,7 +189,7 @@ text-align:center;}
             
 
            
-            <div class="col-sm-12 col-xs-12 col-md-8 p-sm-0 p-md-5 newsbox">
+            <div class="col-sm-12 col-xs-12 col-md-8 p-sm-0 px-md-5 newsbox">
                 <div class="tab">
                     <button class="tablinks text-center "  onclick="openCity(event, 'News')">News</button>
                     <button class="tablinks text-center "  onclick="openCity(event, 'Announcements')">Announcements</button>
@@ -197,7 +197,7 @@ text-align:center;}
                     <!-- <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button> -->
                 </div>
                 <div id="News" class="tabcontent">
-		    <div class="container" style="text-align: center"><br>News</div>
+		    <div class="container" style="text-align: center">News</div>
                     {% for notification in news_annncmnts %}
                     {% if notification.info_type == "0" %}
                     <div class="container">
@@ -240,7 +240,7 @@ text-align:center;}
                     {% endfor %}
                 </div>
                 <div id="Announcements" class="tabcontent">
-                <div class="container" style="text-align: center"><br>Announcements</div>
+                <div class="container" style="text-align: center">Announcements</div>
                 {% for notification in news_annncmnts %}
                         {% if notification.info_type == "1" %}
                             <div class="container">
@@ -268,7 +268,7 @@ text-align:center;}
                         {% endfor %}
                 </div>
                 <div id="Events" class="tabcontent">
-                <div class="container" style="text-align: center"><br>Events</div>
+                <div class="container" style="text-align: center">Events</div>
 		{% for event in new_events %}
                     <div class="container">
                         <a href="{{ event.url }}">

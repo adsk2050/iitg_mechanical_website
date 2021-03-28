@@ -116,7 +116,7 @@ opacity:0.8;
     </thead>
     <tbody>
     
-        {% for student in page.get_children.live %}
+        {% for student in page.get_children_order_by_title.live %}
         {% comment %} <tr onclick="window.location='{{student.url}}';"> {% endcomment %}
         <tr>
             <td> {{forloop.counter}}</td>
@@ -166,7 +166,7 @@ opacity:0.8;
 
 <div>
 <div class="row bread-list justify-content-center" id="myUL" >
-{% for student in page.get_children.live %}
+{% for student in page.get_children_order_by_title.live %}
   <div class="col-xs-12 col-lg-3 col-md-5 bread-list-item p-2 m-2" style="background:#edf2fb;">
 
       <div class="row align-items-center">
@@ -208,11 +208,11 @@ opacity:0.8;
                   {% endif %}
                     <li ><b >Email: </b>{{ student.specific.webmail}}</li>
                   {% if student.specific.roll_no %}
-                      <li ><b>Enrollment No.: </b>{{ student.specific.roll_no }}</li>
+                      <li ><b>Registration No.: </b>{{ student.specific.roll_no }}</li>
                   {% endif %}
 
                   {% if student.specific.supervisor %}
-                <li> <b>Faculty Advisor/Supervisor: </b> <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a></li>
+                <li> <b>Supervisor: </b> <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a></li>
                   {% else %}
                     {% for kk in student.specific.custom_supervisor.all%}
                         {% if kk.supervisor_type == "supervisor" %}

@@ -226,7 +226,7 @@
 
                                   {% if program.specific.hasSpecialization %}
                                   <ul>
-                                  <li class="text-center"><a class="dropdown-item" href="{{program.url}}">{{program}}</a></li>
+                                  <li class="text-center"><a class="dropdown-item" href="{{program.url}}"><strong>{{program}}</strong></a></li>
 
                                   {% for program_child in program.get_children  %}
                                     {% if program_child.specific.get_verbose_name == "Program Specialization" %}

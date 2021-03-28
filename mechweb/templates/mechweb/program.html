@@ -145,7 +145,11 @@ a li{
   border-bottom:solid 1px #2c7da0;
   background:#a9d6e5;
 }
+.program-intro{
+  text-align: justify;
+  text-justify: inter-word;
 
+}
 
 </style>
 
@@ -214,7 +218,7 @@ a li{
             <h4 class="title p-3"><a  href="{%pageurl students%}">Students</a></h4>
             <div class="inner">
               <ul>
-                {% for batch in students.specific.get_children.live %}
+                {% for batch in students.specific.get_children_order_by_title.live %}
                       <a href="{% pageurl batch %}"><li class="px-3 py-1">{{batch.title}}</li></a>
                 {% endfor %}  
               </ul>
@@ -231,12 +235,14 @@ a li{
 </div>
 
 </div>
-<div class="col-sm-12 col-lg-7 pt-4">
-<div class="mx-5 body">
+<div class="col-sm-12 col-lg-7 px-sm-5 px-lg-5 pt-4">
+<div class="program-intro">
  {{page.intro|richtext}}
-
- {{page.body|richtext}}
 </div>
+<div class="body text-center">
+ {{page.body|richtext}}
+<div>
+
 
 </div>
 
