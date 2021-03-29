@@ -3,25 +3,29 @@
 
 
 {% block extra_css %}
-{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" /> {% endcomment %}
-{% comment %} <link rel="stylesheet" href="https://themes.audemedia.com/html/goodgrowth/css/owl.theme.default.min.css"/> {% endcomment %}
+{% comment %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+  integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+  crossorigin="anonymous" /> {% endcomment %}
+{% comment %}
+<link rel="stylesheet" href="https://themes.audemedia.com/html/goodgrowth/css/owl.theme.default.min.css" />
+{% endcomment %}
 <style>
-
-body {
-  line-height: 30px;
-}
-
+  body {
+    line-height: 30px;
+  }
 
 
-#testimonials {
+
+  #testimonials {
     background: linear-gradient(112deg, #a9d6e5 50%, #89c2d9 50%);
-}
+  }
 
-#program-title {
+  #program-title {
     background: #2a6f97;
-}
+  }
 
-.carousel-caption {
+  .carousel-caption {
     position: initial;
     z-index: 10;
     padding: 6rem 8rem;
@@ -31,126 +35,157 @@ body {
     font-style: italic;
     font-weight: bold;
     line-height: 2rem
-}
+  }
 
-@media(max-width:767px) {
+  @media(max-width:767px) {
     .carousel-caption {
-        position: initial;
-        z-index: 10;
-        padding: 3rem 4rem;
-        color: rgba(78, 77, 77, 0.856);
-        text-align: center;
-        font-size: 1rem;
-        font-style: italic;
-        font-weight: bold;
-        line-height: 1.5rem;
+      position: initial;
+      z-index: 10;
+      padding: 3rem 4rem;
+      color: rgba(78, 77, 77, 0.856);
+      text-align: center;
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: bold;
+      line-height: 1.5rem;
     }
-}
+  }
 
 
 
 
-#image-caption {
+  #image-caption {
     font-style: normal;
-    {% comment %} font-size: 1rem; {% endcomment %}
-    margin-top: 0.5rem
-}
 
-@media(max-width:767px) {
-    #image-caption {
-        font-style: normal;
-        font-size: 0.6rem;
-        margin-top: 0.5rem
+      {
+      % comment %
     }
-}
 
-#testimonials i {
+    font-size: 1rem;
+
+      {
+      % endcomment %
+    }
+
+    margin-top: 0.5rem
+  }
+
+  @media(max-width:767px) {
+    #image-caption {
+      font-style: normal;
+      font-size: 0.6rem;
+      margin-top: 0.5rem
+    }
+  }
+
+  #testimonials i {
     background-color: #012a4a;
     padding: 1.4rem
-}
-#testimonials a:hover{
-  color:white;
-}
-@media(max-width:767px) {
+  }
+
+  #testimonials a:hover {
+    color: white;
+  }
+
+  @media(max-width:767px) {
     i {
-        padding: 0.8rem
+      padding: 0.8rem
     }
-}
+  }
 
-.carousel-control-prev {
+  .carousel-control-prev {
     justify-content: flex-start
-}
+  }
 
-.carousel-control-next {
+  .carousel-control-next {
     justify-content: flex-end
-}
+  }
 
-.carousel-control-prev,
-.carousel-control-next {
+  .carousel-control-prev,
+  .carousel-control-next {
     transition: none;
     opacity: unset
-}
+  }
 
 
 
-element.style {
-}
-.carousel-item {
+  element.style {}
+
+  .carousel-item {
     height: auto;
     min-height: 300px;
     background: no-repeat center center scroll;
     -webkit-background-size: cover;
     background-size: cover;
-}
+  }
 
 
 
 
 
-{% comment %} .inner li:hover{
-  background:#eea29a;
-} {% endcomment %}
+    {
+    % comment %
+  }
 
-.inner li:hover{
-  background:#468faf;
-  color:white;
-}
+  .inner li:hover {
+    background: #eea29a;
+  }
 
-a li{
-  color:#222546;
-}
-.title{
-  background:#2a6f97;
-  color:white;
-}
-.body p a{
-  color:blue;
-}
+    {
+    % endcomment %
+  }
 
-.body a {
-  outline: none;
-  text-decoration: underline;
-}
+  .inner li:hover {
+    background: #468faf;
+    color: white;
+  }
 
-{% comment %} .body a {
-  color: #222546;
-} {% endcomment %}
+  a li {
+    color: #222546;
+  }
 
-.body a:hover {
-  color:black;
-  background: #2c7da0;
+  .title {
+    background: #2a6f97;
+    color: white;
+  }
 
-}
-.inner li{
-  border-bottom:solid 1px #2c7da0;
-  background:#a9d6e5;
-}
-.program-intro{
-  text-align: justify;
-  text-justify: inter-word;
+  .body p a {
+    color: blue;
+  }
 
-}
+  .body a {
+    outline: none;
+    text-decoration: underline;
+  }
 
+    {
+    % comment %
+  }
+
+  .body a {
+    color: #222546;
+  }
+
+    {
+    % endcomment %
+  }
+
+  .body a:hover {
+    color: black;
+    background: #2c7da0;
+
+  }
+
+  .inner li {
+    border-bottom: solid 1px #2c7da0;
+    background: #a9d6e5;
+  }
+
+  .program-intro {
+    text-align: justify;
+    text-justify: inter-word;
+
+  }
 </style>
 
 {% endblock extra_css %}
@@ -159,129 +194,128 @@ a li{
 
 
 <div class="">
-{% breadcrumbs%}
-<div class="">
-<div id="program-title">
-<br>
-<h2 class="text-center text-white" > <strong>{{page.title}}</strong></h2>
-<br>
-</div>
-<div class="row pb-4">
+  {% breadcrumbs%}
+  <div class="">
+    <div id="program-title">
+      <br>
+      <h2 class="text-center text-white"> <strong>{{page.title}}</strong></h2>
+      <br>
+    </div>
+    <div class="row pb-4">
 
-<div class="col-sm-12 col-lg-4 pt-4">
+      <div class="col-sm-12 col-lg-4 pt-4">
 
 
-<div class="">
-<div class="">
+        <div class="">
+          <div class="">
 
-<section class="col-12">
-   <div class="container">
-    {% if programSpecializations.count %}
-     <div class="row">
-        <div class="col-12">
-          <h4 class="title p-3"><a>Program Specializations</a></h4>
-          <div class="inner">
-            <ul>
-              {% for specialization in programSpecializations %}
-                    <a href="{% pageurl specialization %}"><li class="px-3 py-1">{{specialization.title}}</li></a>
-              {% endfor %}  
-            </ul>
+            <section class="col-12">
+              <div class="container">
+                {% if programSpecializations.count %}
+                <div class="row">
+                  <div class="col-12">
+                    <h4 class="title p-3"><a>Program Specializations</a></h4>
+                    <div class="inner">
+                      <ul>
+                        {% for specialization in programSpecializations %}
+                        <a href="{% pageurl specialization %}">
+                          <li class="px-3 py-1">{{specialization.title}}</li>
+                        </a>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+
+
+
+                {% if effectiveTimePeriods.count %}
+
+                <div class="row">
+                  <div class="col-12">
+                    <h4 class="title p-3"><a>Course Structure(s)</a></h4>
+                    <div class="inner">
+                      <ul>
+                        {% for timeperiod in effectiveTimePeriods %}
+                        <a href="{% pageurl timeperiod %}">
+                          <li class="px-3 py-1">{{timeperiod.title}}</li>
+                        </a>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {% endif %}
+
+                {% if students %}
+
+
+                <div class="row">
+                  <div class="col-12">
+                    <h4 class="title p-3"><a href="{%pageurl students%}">Students</a></h4>
+                    <div class="inner">
+                      <ul>
+                        {% for batch in students.specific.get_children_order_by_title.live %}
+                        <a href="{% pageurl batch %}">
+                          <li class="px-3 py-1">{{batch.title}}</li>
+                        </a>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {% endif %}
+              </div>
+            </section>
+
+
           </div>
         </div>
+
       </div>
-      {% endif %}
+      <div class="col-sm-12 col-lg-7 px-sm-5 px-lg-5 pt-4">
+        <div class="program-intro">
+          {{page.intro|richtext}}
+        </div>
+        <div class="body text-center">
+          {{page.body|richtext}}
+
+          {% if page.testimonials.all.count %}
 
 
-
-      {% if effectiveTimePeriods.count %}
-
-        <div class="row">
-          <div class="col-12">
-            <h4 class="title p-3"><a>Course Structure(s)</a></h4>
-            <div class="inner">
-              <ul>
-                {% for timeperiod in effectiveTimePeriods %}
-                      <a href="{% pageurl timeperiod %}"><li class="px-3 py-1">{{timeperiod.title}}</li></a>
-                {% endfor %}  
-              </ul>
-            </div>
-          </div>
-        </div>     
-
-      {% endif %}
-
-      {% if students %}
+          <div class="container pt-5">
+            <div id="testimonials" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                {% for object in page.testimonials.all %}
 
 
-        <div class="row">
-          <div class="col-12">
-            <h4 class="title p-3"><a  href="{%pageurl students%}">Students</a></h4>
-            <div class="inner">
-              <ul>
-                {% for batch in students.specific.get_children_order_by_title.live %}
-                      <a href="{% pageurl batch %}"><li class="px-3 py-1">{{batch.title}}</li></a>
-                {% endfor %}  
-              </ul>
-            </div>
-          </div>
-        </div>     
-
-      {% endif %}
-   </div>
- </section>
-
-
-</div>
-</div>
-
-</div>
-<div class="col-sm-12 col-lg-7 px-sm-5 px-lg-5 pt-4">
-<div class="program-intro">
- {{page.intro|richtext}}
-</div>
-<div class="body text-center">
- {{page.body|richtext}}
-<div>
-
-
-</div>
-
-{% if page.testimonials.all.count %}
-
-
-<div class="container pt-5">
-    <div id="testimonials" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-{% for object in page.testimonials.all %}
-
-
-            <div class="carousel-item {% if not forloop.counter0 %}active{% endif %} ">
-                <div class="carousel-caption">
+                <div class="carousel-item {% if not forloop.counter0 %}active{% endif %} ">
+                  <div class="carousel-caption">
                     <p>{{object.testimonial}}</p>
                     <div id="image-caption">{{object.author}}
                     </div>
+                  </div>
                 </div>
-            </div>  
-{% endfor %}
-        </div> 
-        <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i> </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i class='fa fa-arrow-right'></i> </a>
+                {% endfor %}
+              </div>
+              <a class="carousel-control-prev" href="#testimonials" data-slide="prev"> <i class='fa fa-arrow-left'></i>
+              </a> <a class="carousel-control-next" href="#testimonials" data-slide="next"> <i
+                  class='fa fa-arrow-right'></i> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endif %}
     </div>
+  </div>
 </div>
-</div>
-</div>
-
-{% endif %}
-</div>
-{% endblock %}
+  {% endblock %}
 
 
-{% block extra_script %}
+  {% block extra_script %}
 
-
-{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script> {% endcomment %}
-
-<script type="text/javascript">
-
-</script>
-
-{% endblock extra_script   %}
+  {% endblock extra_script   %}

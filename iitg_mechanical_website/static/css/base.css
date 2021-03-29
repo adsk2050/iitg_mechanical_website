@@ -149,9 +149,9 @@ body{
 body,html {
   /* color: #272727; */
 
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  /* width: 100%; */
+  /* height: 100%; */
+  /* min-height: 100vh; */
 
   font-family: 'Source Sans Pro', sans-serif;;
   font-style: normal;
@@ -163,8 +163,8 @@ body,html {
 
 
 .body{
-  padding: 0 !important;
-  overflow-x:hidden !important;
+  /* padding: 0 !important; */
+  /* overflow-x:hidden !important; */
 }
 .dropdown-toggle::after {
   display:none !important;  //important is added to overcome basic effect from bootstrap document
@@ -179,9 +179,7 @@ body,html {
   color: #fff !important;
   font-weight: bold;
 }
-.show{
-  columns: col-md-4 !important;
-}
+
 
 .dropdown-header{
   font-weight: bold;
@@ -387,10 +385,6 @@ nav{
   display: none;
   visibility: hidden;
 }
-.carousel-caption{
-  bottom: 70px;
-}
-
 @media (max-width:992px){
   .carousel-inner img{
     height: 300px;
@@ -621,14 +615,13 @@ header{
   width: 30%;
   height: auto;
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 20px;
-}
+ }
 
 /* Style the buttons that are used to open the tab content */
 .newsbox .tab button {
   display: block;
-  background: linear-gradient(190deg, #222546 0%,#5085A5 100%);
-
+  background-color: #5085A5;
+  /* background-color: #007aff; */
   /* background-color: inherit; */
   color: #fff;
   margin: 30px 0;
@@ -651,11 +644,6 @@ header{
   background-color: #ddd;
 } */
 
-.newsbox .tab button:active {
-  background-color: #fff;
-  color: black;
-}
-
 
 /* .newsbox .tab .tablinks:hover {
   background: #222546;
@@ -664,14 +652,14 @@ header{
 } */
 
 .newsbox .tab .tablinks:active {
-  background-color: #fff ;
-  /* transition: 0.9s; */
+  background-color: #90e0ef ;
+  transition: 0.9s;
   color: #fff;
   font-weight: 400;
 }
 /* Create an active/current "tab button" class */
 .newsbox .tab button.active {
-  background-color: #fff;
+  background-color: #03045e;
 }
 .newsbox{
   display: block;
@@ -680,11 +668,9 @@ header{
 
 /* Style the tab content */
 .tabcontent{
-  float: left;
+  /* float: left; */
   width: 70%;
-  height: 435px;;
-  display: none;
-  overflow-y: scroll;
+  overflow-y: hidden;
   font-family: 'Source Sans Pro', sans-serif;
 }
 

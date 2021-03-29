@@ -6,106 +6,158 @@
 {% block extra_css %}
 
 <style>
-  .rotateimage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 150px;
-    height: 150px;
-    margin:-60px 0 0 -60px;
-    -webkit-animation:spin 3s linear infinite;
-    -moz-animation:spin 3s linear infinite;
-    animation:spin 3s linear infinite;
-}
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+    .rotateimage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        margin: -60px 0 0 -60px;
+        -webkit-animation: spin 3s linear infinite;
+        -moz-animation: spin 3s linear infinite;
+        animation: spin 3s linear infinite;
+    }
 
-.loaderback{
-  position: fixed;
-  left: 0%;
-  top: 0%;
-  background: #fff;
-  width: 100%;
-  height: 100vh;
-  z-index: 99999;
+    @-moz-keyframes spin {
+        100% {
+            -moz-transform: rotate(360deg);
+        }
+    }
+
+    @-webkit-keyframes spin {
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    .loaderback {
+        position: fixed;
+        left: 0%;
+        top: 0%;
+        background: #fff;
+        width: 100%;
+        height: 100vh;
+        z-index: 99999;
+    }
+
+    .loading {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin: -35px 0 0 -56px;
+        width: 112px;
+        height: 70px;
+        *zoom: 1;
+        background: #fff;
+    }
+
+    .loading:before,
+    .loading:after {
+        display: table;
+        content: "";
+    }
+
+    .loading:after {
+        clear: both;
+    }
+
+    .stage {
+        padding: 40px;
+        text-align: center;
+    }
+
+    .stage a {
+        line-height: 1em;
+        letter-spacing: 0.06em;
+        font-family: 'Lato', sans-serif;
+        font-weight: normal;
+        font-size: 16px;
+        text-decoration: none;
+        color: #fff;
+        background: #231f20;
+        display: inline-block;
+        padding: 15px 12px 15px 15px;
+        transition: background 200ms;
+        border-radius: 4px;
+    }
+
+    .stage a:hover {
+        background: #61a5c2;
+        color: #000;
+    }
+
+    .stage a:after {
+        font-family: 'FontAwesome', sans-serif;
+        font-weight: 300;
+        content: "\f105";
+        margin-left: 20px;
+        color: #fff;
+        font-size: 18px;
+        vertical-align: middle;
+        transition: color 200ms;
+    }
+
+    .stage a:hover:after {
+        color: #000;
+    }
+
+    .tabcontent ul li {
+        border-bottom: 1px dotted #CCCCCC;
+
+    }
+
+    .tabcontent {
+        border-left: 1px solid #E2E5E9;
+        padding-left: 10px;
+        margin-top:20px;
+        margin-bottom:20px;
+        height:450px;
+        {% comment %} height: 400px; {% endcomment %}
+    }
+    .tabcontent a{
+        text-decoration:underline;
+        color:#61a5c2;
+    }
+
+    .underline--magical {
+  background-image: linear-gradient(190deg, #a9d6e5 20%,#014f86 80%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.2em;
+  background-position: 0 100%;
+  transition: background-size 0.25s ease-in;
 }
 
-.loading {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  margin: -35px 0 0 -56px;
-  width: 112px;
-  height: 70px;
-  *zoom: 1;
-  background: #fff;
-}
-.loading:before,
-.loading:after {
-  display: table;
-  content: "";
-}
-.loading:after {
-  clear: both;
-}
-.stage {
-padding:40px;
-text-align:center;}
-.stage a {
-  line-height:1em;
-  letter-spacing:0.06em;
-  font-family: 'Lato', sans-serif;
-  font-weight:normal;
-  font-size:16px;
-  text-decoration:none;
-  color:#fff;
-  background:#231f20;
-  display:inline-block;
-  padding:15px 12px 15px 15px;
-  transition:background 200ms;
-  border-radius:4px;
-}
-.stage a:hover {
-  background:#61a5c2;
-  color:#000;
-}
-.stage a:after {
-  font-family: 'FontAwesome', sans-serif;
-  font-weight:300;
-  content: "\f105";
-  margin-left:20px;
-  color:#fff;
-  font-size:18px;
-  vertical-align:middle;
-  transition:color 200ms;
-}
 
-.stage a:hover:after {
-  color:#000;
-}
 </style>
 
 {% endblock %}
 
 
 {% block content %}
-    <!-- Preloader -->
-    <div class="loaderback">
-        <div class="loading">
-            <img class="rotateimage" height="100px" width="100px" src="{% static "images/logo.png" %}" >
-        </div>
+<!-- Preloader -->
+<div class="loaderback">
+    <div class="loading">
+        <img class="rotateimage" height="100px" width="100px" src="{% static "images/logo.png" %}">
     </div>
-    <!-- Preloader End -->
+</div>
+<!-- Preloader End -->
 
-    <div class="bd-example row d-flex justify-content-center">
+<div class="bd-example row d-flex justify-content-center">
     {% if page.yt_video_code %}
-    
-      <div class="col-sm-12 col-md-7">
+
+    <div class="col-sm-12 col-md-7">
         <div id="carouselslider" class="carousel slide" data-ride="carousel">
             <ul class="carousel-indicators">
                 {% for photo in page.gallery_images.all %}
-                <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.counter0 == 0 %}active{% endif %}"></li>
+                <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}"
+                    class="{% if forloop.counter0 == 0 %}active{% endif %}"></li>
                 {% endfor %}
             </ul>
             <div class="carousel-inner">
@@ -126,18 +178,21 @@ text-align:center;}
                 </a>
             </div>
         </div>
-      </div>
-      <div class="col-sm-12 col-md-5">
+    </div>
+    <div class="col-sm-12 col-md-5">
         <div class="yt-video-div">
-            <iframe id="yt-video-frame" class="yt-video" src="https://www.youtube-nocookie.com/embed/{{page.yt_video_code}}?modestbranding=1" frameborder="0" allowfullscreen></iframe>
+            <iframe id="yt-video-frame" class="yt-video"
+                src="https://www.youtube-nocookie.com/embed/{{page.yt_video_code}}?modestbranding=1" frameborder="0"
+                allowfullscreen></iframe>
         </div>
-      </div>
+    </div>
     {% else %}
     <div class="col-sm-12 col-md-8">
         <div id="carouselslider" class="carousel slide" data-ride="carousel">
             <ul class="carousel-indicators">
                 {% for photo in page.gallery_images.all %}
-                <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.counter0 == 0 %}active{% endif %}"></li>
+                <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}"
+                    class="{% if forloop.counter0 == 0 %}active{% endif %}"></li>
                 {% endfor %}
             </ul>
             <div class="carousel-inner">
@@ -160,146 +215,121 @@ text-align:center;}
         </div>
     </div>
     {% endif %}
-    </div>
-    <!-- Split screen Code starts -->
-    <div class="container-fluid newscontainer p-sm-0  pl-md-5">
-        <div class="row padding d-flex justify-content-between">
-            <div class="col-sm-12 col-xs-12 col-md-4 promo">
-                <figure>
-                    <img height="100px" width="100px" src="{% static "images/img2.jpg" %}">
-                </figure>
-        	   
-	     <div class="promo-text" >
-                    <h3>About ME,IITG</h3>
-        	<br>        
-	    <p  class=""style="text-align: justify;text-justify: inter-word">{{ page.intro }}</p>
-                    <p class="">
-                      {% for child in navlist %}
-                       {% with page_type=child.content_type.name %}
-                        {% if page_type == 'aboutiitgmech' %}
-                        <div class="stage">
-                        <a class="button" href="{{ child.url }}">Read More</a>
-                        </div>
-                        {% endif %}
-                       {% endwith %}
-                      {% endfor %}
-                    </p>
-                </div>
-            </div>
-            
+</div>
+<!-- Split screen Code starts -->
+<div class="container-fluid newscontainer p-sm-0  pl-md-5">
+    <div class="row padding d-flex justify-content-between">
+        <div class="col-sm-12 col-xs-12 col-md-4 promo">
+            <figure>
+                <img height="100px" width="100px" src="{% static "images/img2.jpg" %}">
+            </figure>
 
-           
-            <div class="col-sm-12 col-xs-12 col-md-8 p-sm-0 px-md-5 newsbox">
-                <div class="tab">
-                    <button class="tablinks text-center "  onclick="openCity(event, 'News')">News</button>
-                    <button class="tablinks text-center "  onclick="openCity(event, 'Announcements')">Announcements</button>
-                    <button class="tablinks text-center "  onclick="openCity(event, 'Events')">Events</button>
-                    <!-- <button class="tablinks text-center" onclick="openCity(event, 'Others')">Others</button> -->
-                </div>
-                <div id="News" class="tabcontent">
-		    <div class="container" style="text-align: center">News</div>
-                    {% for notification in news_annncmnts %}
-                    {% if notification.info_type == "0" %}
-                    <div class="container">
-                        <div class="card" style="margin: 5px 0;">
-                            <div class="row">
-                                <div class="col-md-12" style="padding:2px 25px;">
-                                    <div class="card-block text-center">
-                                        <h4 class="card-title "style="font-size: 1.2em">{{ notification.heading }}</h4>
-                                        <p class="card-text">
-                                            Date:{{ notification.date }}
-                                            <br>
-                                            {{ notification.description|richtext }}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <!-- <div class="card-img-bottom">
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
+            <div class="promo-text">
+                <h3>About ME,IITG</h3>
+                <br>
+                <p class="" style="text-align: justify;text-justify: inter-word">{{ page.intro }}</p>
+                <p class="">
+                    {% for child in navlist %}
+                    {% with page_type=child.content_type.name %}
+                    {% if page_type == 'aboutiitgmech' %}
+                    <div class="stage">
+                        <a class="button" href="{{ child.url }}">Read More</a>
                     </div>
                     {% endif %}
+                    {% endwith %}
                     {% endfor %}
-                    {% for award in top_awards %}
-                    <div class="container">
-                        <div class="card" style="margin: 5px 0;">
-                            <div class="row">
-                                <div class="col-md-12" style="padding:2px 25px;">
-                                    <div class="card-block text-center">
-                                      <!-- <h4 class="card-title "style="font-size: 1.2em">Achievement!</h4> -->
-                                      <p>
-                                          {{ award.award_title }}({{ award.get_award_type_display }}) awarded to {{ award.faculty }} by {{ award.conferrer }} {{ award.title }}
-                                      </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div id="Announcements" class="tabcontent">
-                <div class="container" style="text-align: center">Announcements</div>
-                {% for notification in news_annncmnts %}
-                        {% if notification.info_type == "1" %}
-                            <div class="container">
-                                <div class="card" style="margin: 5px 0;">
-                                    <div class="row">
-                                        <div class="col-md-12" style="padding:2px 25px;">
-                                            <div class="card-block text-center">
-                                                <h4 class="card-title "style="font-size: 1.2em">{{ notification.heading }}</h4>
-                                                <p class="card-text">
-                                                    Date:{{ notification.date }}
-                                                    <br>
-                                                    {{ notification.description|richtext }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                        <!-- <div class="card-img-bottom">
+                </p>
+            </div>
+        </div>
 
-                                        </div> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% endfor %}
-                </div>
-                <div id="Events" class="tabcontent">
-                <div class="container" style="text-align: center">Events</div>
-		{% for event in new_events %}
-                    <div class="container">
-                        <a href="{{ event.url }}">
-                            <div class="card" style="margin: 5px 0;">
-                                <div class="row">
-                                    <div class="col-md-12" style="padding:2px 25px;">
-                                        <div class="card-block text-center">
-                                            <h4 class="card-title " style="font-size: 1.2em">{{ event.event_name }} [{{ event.get_event_type_display }}]</h4>
-                                            <p class="card-text">
-                                                From:{{ event.start_date }} To: {{ event.end_date }} at {{ event.get_venue_display }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <!-- <div class="card-img-bottom">
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+
+        <div class="col-sm-12 col-xs-12 col-md-8 p-sm-0 px-md-5 newsbox h-100">
+            <div class="row d-flex justify-content-center">
+                <div id="News" class="tabcontent col-sm-12 col-md-4">
+
+                    <h4><span class="underline--magical p-2 my-2"> News</span> </button></h4>
+                    <div class="news_list">
+                        <ul>
+
+                            {% for notification in news_annncmnts %}
+                            {% if notification.info_type == "0" %}
+                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i> <a
+                                    href="{{notification.url}}">{{ notification.title}}</a>
+                                 </a> </a>
+                                <figure class="date">
+                                    <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
+                                </figure>
+                            </li>
+
+                            {% endif %}
+                            {% endfor %}
+
+                            {% for award in top_awards %}
+                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i>
+                                <a>{{ award.award_title }}({{ award.get_award_type_display }}) awarded to
+                                    {{ award.faculty }} by {{ award.conferrer }} {{ award.title }}</a>
+                                 </a> </a>
+                                <figure class="date">
+                                    <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
+                                </figure>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                {% endfor %}
                 </div>
+                <div id="Announcements" class="tabcontent col-sm-12 col-md-4">
+                    <h4><span class="underline--magical p-2 my-2">Announcements</span></h4>
+                    <div class="news_list">
+                        <ul>
+
+                            {% for notification in news_annncmnts %}
+                            {% if notification.info_type == "1" %}
+                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i> <a
+                                    href="{{notification.url}}">{{ notification.title}}</a>
+                                 </a> </a>
+                                <figure class="date">
+                                    <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
+                                </figure>
+                            </li>
+
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+                <div id="Events" class="tabcontent col-sm-12 col-md-4">
+                    <h4><span class="underline--magical p-2 my-2">Events</span></h4>
+                    <div class="news_list">
+                        <ul>
+ {% comment %}  {% endcomment %}
+                            {% for event in new_events %}
+                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i> <a
+                                    href="{{event.url}}">{{ event.event_name}} [{{event.get_event_type_display}}]</a>
+                                 </a> </a>
+                                <figure class="date">
+                                    <font size="-1"><i class="fa fa-calendar"></i> From: {{ event.start_date }} To:
+                                        {{ event.end_date }} at {{ event.get_venue_display }}</font>
+                                </figure>
+                            </li>
+
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
             </div>
 
             <div class="col-sm-12 col-md-0">
-            {% if page.yt_video_code %}
-              <div class="yt-video-div2">
-                <iframe class="yt-video2" src="https://www.youtube-nocookie.com/embed/{{page.yt_video_code}}?modestbranding=1&showinfo=0&fs=0" frameborder="0" allowfullscreen></iframe>
-              </div>
-            {% endif %}
+                {% if page.yt_video_code %}
+                <div class="yt-video-div2">
+                    <iframe class="yt-video2"
+                        src="https://www.youtube-nocookie.com/embed/{{page.yt_video_code}}?modestbranding=1&showinfo=0&fs=0"
+                        frameborder="0" allowfullscreen></iframe>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -339,7 +369,9 @@ text-align:center;}
                 <div class="single-service">
                     <div class="service-bg">
                         {% image category.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
-                        <h2><a href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">{{ category.title }}</a></h2>
+                        <h2><a
+                                href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">{{ category.title }}</a>
+                        </h2>
                     </div>
                     <div class="service-text sidebar-box" style="text-align: justify;text-justify: inter-word;">
                         <p>{{ category.specific.intro|richtext }}</p>
@@ -350,88 +382,72 @@ text-align:center;}
             {% endfor %}
         </div>
     </div>
-     <!-- end of research categories row -->
+    <!-- end of research categories row -->
     <div class="w3-padding-64 messagebox">
-      <div class="w3-row-padding">
-        <div class="w3-col l4 m6">
-          <span style="display: block; text-align: center">
-            {% if page.specific.HOD_image %}
-              {% image page.specific.HOD_image original as photo %}
-              <img class="w3-image w3-round-large w3-hide-small" src="{{ photo.url }}" alt="{{ photo.alt }}" style="align-items: center; width:17em; height:20em; margin-top: 2em "   />
-            {% else %}
-                {% with MEDIA_URL|add:'images/placeholder.jpg' as image_static %}
-                    <img class="w3-image w3-round-large w3-hide-small w3-grayscale" src="{{ image_static }}" alt="placeholder" width="335" height="471" />
-                {% endwith %}
-            {% endif %}
-          </span>
-        </div>
+        <div class="w3-row-padding">
+            <div class="w3-col l4 m6">
+                <span style="display: block; text-align: center">
+                    {% if page.specific.HOD_image %}
+                    {% image page.specific.HOD_image original as photo %}
+                    <img class="w3-image w3-round-large w3-hide-small" src="{{ photo.url }}" alt="{{ photo.alt }}"
+                        style="align-items: center; width:17em; height:20em; margin-top: 2em " />
+                    {% else %}
+                    {% with MEDIA_URL|add:'images/placeholder.jpg' as image_static %}
+                    <img class="w3-image w3-round-large w3-hide-small w3-grayscale" src="{{ image_static }}"
+                        alt="placeholder" width="335" height="471" />
+                    {% endwith %}
+                    {% endif %}
+                </span>
+            </div>
 
-          <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
-          <div class="w3-col l8 m6">
-          {% if page.specific.HOD_message %}
-          <h1 class="w3-xxlarge" style="color: #ffffff" ><b>From HOD's Desk</b></h1>
-          <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
-            {% endif %}
-          <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
+            <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
+            <div class="w3-col l8 m6">
+                {% if page.specific.HOD_message %}
+                <h1 class="w3-xxlarge" style="color: #ffffff"><b>From HOD's Desk</b></h1>
+                <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
+                {% endif %}
+                <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
           </a>
           </p> -->
-          <br><br>
-          <div class="" style="display:block; text-align:right">
-            <strong style="text-align: right; padding-right:40px;" >{{ hod_name }}</strong><br>
-            <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical Engineering</strong>
-          </div>
+                <br><br>
+                <div class="" style="display:block; text-align:right">
+                    <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong><br>
+                    <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
+                        Engineering</strong>
+                </div>
 
+            </div>
         </div>
-      </div>
     </div>
 
-    <!-- button colour change -->
-    <!-- <script>
-    // Add active class to the current button (highlight it)
-    var header = document.getElementById("myDIV");
-    var btns = header.getElementsByClassName("btn");
-    for (var i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function() {
-      var current = document.getElementsByClassName("active");
-      current[0].className = current[0].className.replace(" active", "");
-      this.className += " active";
-      });
-    }
-    </script> -->
-{% endblock %}
+    {% endblock %}
 
-{% block extra_script %}
-<script>
-
-function openCity(evt, cityName) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the link that opened the tab
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-
-$(document).ready( function() { //when the document is ready
-  $(".loaderback").fadeOut("fast"); //fade out preloader. You can add your custom effects here too.
-});
+    {% block extra_script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easy-ticker/2.0.0/jquery.easy-ticker.min.js"
+        integrity="sha512-tQ+m/Q8eMfIQqjhnq2v7X9/z081Mq+SkSualPcrqzYlrHPGzm2NIZRo3TB0fvwe5oj5POb29U2vCZi8LYdl/ug=="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script>
+        $(document).ready(function () { //when the document is ready
+            $(".loaderback").fadeOut("fast"); //fade out preloader. You can add your custom effects here too.
+        });
 
 
 
-</script>
+        $(function () {
+            $('.news_list').easyTicker({
+                direction: 'up',
+                visible: 4,
+                interval: 2000,
+                easing: 'easeInBack',
+                controls: {
+                    up: '.btnUp',
+                    down: '.btnDown',
+                    toggle: '.btnToggle'
+                }
+            });
+        });
+    </script>
 
-{% endblock %}
+    {% endblock %}

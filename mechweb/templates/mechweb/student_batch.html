@@ -122,7 +122,7 @@ opacity:0.8;
             <td> {{forloop.counter}}</td>
             <td>{{ student.specific.first_name }} {{student.specific.middle_name}} {{student.specific.last_name}}</td>
             <td>{{student.specific.roll_no}}</td>
-            <td> {{student.specific.webmail}}</td>    
+            <td> {{student.specific.webmail|noscrape}}</td>    
             <td>
              {% if student.specific.supervisor %}
                 <a href="{{student.specific.supervisor.url}}"> {{student.specific.supervisor}}</a>
@@ -206,7 +206,7 @@ opacity:0.8;
                   {% if student.specific.enrollment_year %}
                       <li> <b>Enrollment year: </b> {{ student.specific.enrollment_year|date:"Y" }}</li>
                   {% endif %}
-                    <li ><b >Email: </b>{{ student.specific.webmail}}</li>
+                    <li ><b >Email: </b>{{ student.specific.webmail|noscrape}}</li>
                   {% if student.specific.roll_no %}
                       <li ><b>Registration No.: </b>{{ student.specific.roll_no }}</li>
                   {% endif %}

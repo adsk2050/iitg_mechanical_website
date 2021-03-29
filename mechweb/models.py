@@ -64,6 +64,21 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # 			#simplest answer - All admins are staff
 # 			return self.is_staff
 
+class IntegerRangeField(models.IntegerField):
+    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+        self.min_value, self.max_value = min_value, max_value
+        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+    def formfield(self, **kwargs):
+        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
+        defaults.update(kwargs)
+        return super(IntegerRangeField, self).formfield(**defaults)
+
+def current_year():
+    return date.today().year
+
+def max_value_current_year(value):
+    return MaxValueValidator(current_year()+1)(value)
+
 class CustomUser(AbstractUser):
     username = models.CharField(
         _('username'),
@@ -993,11 +1008,11 @@ class StaffHomePage(Page):
     ]
 
     parent_page_types = ['MechHomePage']
-    subpage_types = ['StaffPage']
+    subpage_types = ['StaffPage','ProjectStaff']
     max_count = 1
 
     def serve(self, request):
-        staff_list = self.get_children().live().order_by('staffpage__first_name', 'staffpage__middle_name',
+        staff_list = self.get_children().type(StaffPage).live().order_by('staffpage__first_name', 'staffpage__middle_name',
                                                          'staffpage__last_name')
 
         # Filter by designation
@@ -1015,6 +1030,8 @@ class StaffHomePage(Page):
         staff_list = paginator.get_page(page_no)
 
         all_staff_skills = staff_skills()
+        project_staff = self.get_children().type(ProjectStaff).live()
+        print(project_staff)
         return render(request, self.template, {
             'page': self,
             'staff_list': staff_list,
@@ -1022,6 +1039,7 @@ class StaffHomePage(Page):
             'tag': tag,
             'page_no': page_no,
             'desig': desig,
+            'project_staff':project_staff,
         })
 
     # and this too
@@ -1089,6 +1107,27 @@ class StaffPage(Page):
     class Meta:
         verbose_name = "Staff"
         verbose_name_plural = "Staff"
+
+class ProjectStaff(Page):
+    full_name = models.CharField(max_length=264,null=True)
+    email = models.EmailField(null=True,blank=True)
+    joining_year = models.IntegerField(null=True,blank=True,validators=[MinValueValidator(1994), max_value_current_year])
+    associate_faculty = models.ForeignKey('FacultyPage', null=True, blank=True, on_delete=models.SET_NULL,related_name='associate_faculty')
+    project_title = models.TextField(blank=True,null=True)
+
+    parent_page_types = ['StaffHomePage']
+    subpage_types = []
+    content_panels = Page.content_panels + [
+        FieldPanel('full_name'),
+        FieldPanel('email'),
+        FieldPanel('joining_year'),
+        AutocompletePanel('associate_faculty', target_model='mechweb.FacultyPage'),
+        # FieldPanel('associate_faculty'),
+        FieldPanel('project_title')    
+    ]
+    class Meta:
+        verbose_name = "Project Staff"
+        verbose_name_plural = "Project Staff"
 
 
 def staff_skills():
@@ -1910,22 +1949,6 @@ class Students(Page):
         context = super(Students, self).get_context(request)
         context['batches']  = self.get_children_order_by_title().type(StudentBatch)
         return context
-
-
-class IntegerRangeField(models.IntegerField):
-    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
-        self.min_value, self.max_value = min_value, max_value
-        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
-    def formfield(self, **kwargs):
-        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
-        defaults.update(kwargs)
-        return super(IntegerRangeField, self).formfield(**defaults)
-
-def current_year():
-    return date.today().year
-
-def max_value_current_year(value):
-    return MaxValueValidator(current_year()+1)(value)
 
 class StudentBatch(Page):
     enrollment_year = models.IntegerField(_('year'),default=current_year(),validators=[MinValueValidator(1994), max_value_current_year])
