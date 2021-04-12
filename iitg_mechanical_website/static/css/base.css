@@ -1343,13 +1343,10 @@ h2{
 
 .labbox{
   border-radius: 2px;
-  border: 1px solid #ccc;
   padding: 10px;
 }
 
   .lab_faculty , .lab_sci_off , .lab_tech_staff , .lab_address{
-    border: 2px solid #ccc;
-    border-radius: 3px;
     padding: 5px;
     margin: 2px;
     background-color: linear-gradient(190deg, #222546 0%,#5085A5 100%);
@@ -1358,18 +1355,9 @@ h2{
     width: 300px;
   }
 
-  .eqptlist span{
-    color: #222546;
-    font-weight: 200;
-  }
-
-  .eqptlist li{
-    color: #222546;
-    font-weight: normal;
-  }
 }
 /*  lab page css end */
-
+list-style
 /*  award css*/
 
 .awardscont .awardstab{
