@@ -215,7 +215,6 @@ td a{
             <th scope="col">S. No.</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
-            <th scope="col">Joining Year</th>
             <th scope="col">Associate Faculty</th>
             <th scope="col">Project title</th>
             
@@ -227,8 +226,7 @@ td a{
 
             <td>{{ forloop.counter }}.</td>
             <td>{{ staff.specific.full_name }}</td>
-            <td>{{staff.specific.email}}</td>
-            <td>{{staff.specific.joining_year}}</td>
+            <td> {%if staff.specific.email%}{{staff.specific.email|noscrape}}{%endif%}</td>
             <td><a href="{{staff.specific.associate_faculty.url}}">{{staff.specific.associate_faculty}}</a>
             <td>{{staff.specific.project_title}}</td>
 
