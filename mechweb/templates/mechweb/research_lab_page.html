@@ -1,8 +1,9 @@
+
 {% extends "base.html" %}
 
 
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags %}
 
 {% load mechweb_tags %}
 
@@ -14,38 +15,22 @@
 
 <style>
 
-  ul li{
+ .equipments ul li {
 
-  list-style: circle ; 
+    list-style: circle;
 
- }
-
+  }
+  .equipment-card{
+    cursor:pointer;
+  }
+  .intro a,.equipments a,.more-info a{
+    text-decoration:underline;
+  }
 </style>
 
-
-
-
-
 {% endblock extra_css %}
-
-
-
-
-
-
-
-
-
-
-
 {% block body_class %}template-research-homepage{% endblock %}
-
-
-
-
-
 {% block content %}
-
 {% comment %}
 
 <div id="carouselExampleSlidesOnly" class="carousel slide labpage" data-ride="carousel">
@@ -84,15 +69,15 @@
 
     <div class="col">
 
-      <h1 class="text-center" style="color:#15218d; font-weight:bolder;">{{ page.title }}</h1>
+      <h1 class="text-center" style=" font-weight:bolder;">{{ page.title }}</h1>
 
       {% if page.specific.lab_type == '0' %}
 
-      <p class="text-center" style="color:#4F5345; font-weight:bold;">Department Lab</p>
+      <p class="text-center" style=" font-weight:bold;">Department Lab</p>
 
       {% else %}
 
-      <p class="text-center" style="color:#4F5345; font-weight:normal;">Department Research Lab</p>
+      <p class="text-center" style=" font-weight:normal;">Department Research Lab</p>
 
       {% endif %}
 
@@ -104,23 +89,159 @@
 
 
 
+<div class="container border intro">
 
+  <div class="row">
+
+    <div class="col-0 col-lg-1"></div>
+
+    <div class="col-12 col-lg-3">
+      <div class="row d-flex justify-content-center">
+      {% if page.specific.faculty_incharge %}
+        <div class="lab_faculty">
+          <h4 style=" font-weight:bolder;">Laboratory Incharge:<br>
+            <a style=" font-weight:normal;"
+              href="{{ page.specific.faculty_incharge.url }}">{{ page.specific.faculty_incharge }}</a>
+          </h4>
+        </div>
+      {% endif %}
+        {% if page.specific.scientific_officer %}
+        <div class="lab_sci_off">
+          <h4 style=" font-weight:bolder;"> Scientific Officer:<br>
+            <a style=" font-weight:normal;"
+              href="{{ page.specific.scientific_officer.url }}">{{ page.specific.scientific_officer }}</a>
+          </h4>
+        </div>
+        {% endif %}
+        {% if page.tech_staffs.all|length != 0 %}
+
+        <div class="lab_tech_staff">
+          <h4 style=" font-weight:bolder;"> Technical Staff:</h4>
+            <ul>
+              {% for tech_staff in page.tech_staffs.all %}
+              <li>
+                <a style=" font-weight:normal;"
+                  href="{{ tech_staff.tech_staff.url }}"><h5>{{ tech_staff.tech_staff }}</h5></a>
+              <!--  {{ tech_staff.responsibilities|richtext }}  -->
+              </li>
+              {% endfor %}
+            </ul>
+          
+        </div>
+            {% endif %}
+
+          {% if page.contact_number %}
+
+<div class="lab_address">
+          <h4 style=" font-weight:bolder;">Contact Number:<br>
+
+            <span style=" font-weight:normal;">{{ page.specific.contact_number }}</span>
+
+          </h4>
+</div>
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    
+
+    <div class="col-12 col-lg-7 labbox border-left">
+
+      <h3 class="text-center" style="font-weight:bolder;">About Lab</h3>
+
+      <div class="" style="font-weight:normal;    text-align: justify;">{{ page.specific.intro | richtext }}</div>
+
+    </div>
+
+  </div>
+
+</div>
 
 {% if page.equipment.all|length != 0 %}
-
-<h2 class="text-center" style="color:#15218d; font-weight:bolder;">Lab Equipments</h2>
-
-<div class="container-fluid">
+<br>
+<h2 class="text-center" style=" font-weight:bolder;">Lab Equipments</h2>
+<div class="text-center">
+<span class="text-muted">(Click on equipment for more information)</span>
+</div>
+<div class="container-fluid equipments">
 
   <div class="row d-flex justify-content-center">
 
     {% for eqpt in page.equipment.all %}
 
+    {% with id=7|randomid%}
+    <!-- Modal -->
+    <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg"  role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title font-weight-bold" id="modal-title">{{eqpt.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
 
+            {% image eqpt.photo_1 original as img%}
 
-    <div class="col-12 col-lg-3 col-md-4 card mb-3">
+            <img class="card-img-top" src="{{img.url}}" alt="{{eqpt.name}}">
+            <div class="card-body">
+              <div class="card-text">
+                <ul class="">
+                  {% if eqpt.company %}
 
-      {% image eqpt.photo_1 fill-180x180-c100 as img%}
+                  <li><span class="font-weight-bold">Make:</span> {{ eqpt.company }}</li>
+
+                  {% endif %}
+
+                  {% if eqpt.operator %}
+                  <li><span class="font-weight-bold">Operator: </span> <a
+                      href="{{ eqpt.operator.url }}">{{ eqpt.operator }}</a></li>
+                  {% endif %}
+
+                  {% if eqpt.cost %}
+
+                  <li><span class="font-weight-bold">Cost:</span> {{ eqpt.cost }}</li>
+
+                  {% endif %}
+
+                  {% if eqpt.funding_agency %}
+
+                  <li><span class="font-weight-bold">Funding Agency:</span> <a
+                      href="{{ eqpt.funding_agency_link }}"></a>{{ eqpt.funding_agency }}</li>
+
+                  {% endif %}
+
+                  {% if eqpt.date_of_procurement %}
+                  <li><span class="font-weight-bold">Date of procurement:</span>{{ eqpt.date_of_procurement }}</li>
+                  {% endif %}
+                  {% if eqpt.specifications %}
+                  <li><span class="font-weight-bold">Description:</span>{{ eqpt.specifications|richtext }}</li>
+                  {% else %}
+                  <li><span class="font-weight-bold">Description: </span>None</li>
+                  {% endif %}
+                  {% if eqpt.document %}
+                  <li><span>Manual</span><a href="{{ eqpt.document.url }}">Download</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+              <p class="card-text"><small class="text-muted"></small></p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-3 col-md-4 card m-5 pt-3 equipment-card" data-toggle="modal" data-target="#{{id}}">
+    {% endwith %}
+
+      {% image eqpt.photo_1 fill-280x280 as img%}
 
       <img class="card-img-top" src="{{img.url}}" alt="{{eqpt.name}}">
 
@@ -128,74 +249,7 @@
 
       <div class="card-body">
 
-        <a href="{{ eqpt.link }}">
-
-          <h5 class="card-title">{{eqpt.name}}</h5>
-
-        </a>
-
-        <br>
-
-        <div class="card-text">
-
-          <ul class="">
-
-            {% if eqpt.company %}
-
-            <li><span class="font-weight-bold">Make:</span> {{ eqpt.company }}</li>
-
-            {% endif %}
-
-            {% if eqpt.operator %}
-
-            <li><span class="font-weight-bold">Operator: </span> <a
-
-                href="{{ eqpt.operator.url }}">{{ eqpt.operator }}</a></li>
-
-            {% endif %}
-
-            {% if eqpt.cost %}
-
-            <li><span class="font-weight-bold">Cost:</span> {{ eqpt.cost }}</li>
-
-            {% endif %}
-
-            {% if eqpt.funding_agency %}
-
-            <li><span class="font-weight-bold">Funding Agency:</span> <a
-
-                href="{{ eqpt.funding_agency_link }}"></a>{{ eqpt.funding_agency }}</li>
-
-            {% endif %}
-
-            {% if eqpt.date_of_procurement %}
-
-            <li><span class="font-weight-bold">Date of procurement:</span>{{ eqpt.date_of_procurement }}</li>
-
-            {% endif %}
-
-            {% if eqpt.specifications %}
-
-            <li><span class="font-weight-bold">Description:</span>{{ eqpt.specifications|richtext }}</li>
-
-            {% endif %}
-
-            {% if eqpt.document %}
-
-            <li><span>Manual</span><a href="{{ eqpt.document.url }}">Download</a></li>
-
-            {% endif %}
-
-
-
-
-
-          </ul>
-
-
-
-        </div>
-
+        <h5 class="card-title text-center">{{eqpt.name}}</h5>
         <p class="card-text"><small class="text-muted"></small></p>
 
       </div>
@@ -204,330 +258,140 @@
 
     </div>
 
+    {% endfor %}
 
-
-    {% comment %} <div class="col-xs-12 col-sm-12 col-md-8 bread-list-item">
-
-      <div class="row">
-
-        <div class="col-xs-6 col-sm-4 col-md-4 image">
-
-          <a href="{{ eqpt.link }}">
-
-            {% image eqpt.photo_1 fill-180x180-c100 %}
-
-          </a>
-
-        </div>
-
-        <div class="col-xs-6 col-sm-7 col-md-9">
-
-          <a href="{{ eqpt.link }}">
-
-            <h3 class="text-center" style="color:#15218d; font-weight:bolder;">{{ eqpt.name }}</h3>
-
-          </a>
-
-          <ul class="bread-meta">
-
-            {% if eqpt.company %}
-
-            <li><span>Make</span> {{ eqpt.company }}</li>
-
-            {% endif %}
-
-            {% if eqpt.operator %}
-
-            <li><span>Operator</span> <a href="{{ eqpt.operator.url }}">{{ eqpt.operator }}</a></li>
-
-            {% endif %}
-
-            {% if eqpt.cost %}
-
-            <li><span>Cost</span> {{ eqpt.cost }}</li>
-
-            {% endif %}
-
-            {% if eqpt.funding_agency %}
-
-            <li><span>Funding Agency</span> <a href="{{ eqpt.funding_agency_link }}"></a>{{ eqpt.funding_agency }}</li>
-
-            {% endif %}
-
-            {% if eqpt.date_of_procurement %}
-
-            <li><span>Date of procurement</span>{{ eqpt.date_of_procurement }}</li>
-
-            {% endif %}
-
-            {% if eqpt.specifications %}
-
-            <li><span>Description</span>{{ eqpt.specifications|richtext }}</li>
-
-            {% endif %}
-
-            {% if eqpt.document %}
-
-            <li><span>Manual</span><a href="{{ eqpt.document.url }}">Download</a></li>
-
-            {% endif %}
-
-
-
-
-
-          </ul>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div> {% endcomment %}
-
-
-
-  {% endfor %}
+  </div>
 
 </div>
-
-</div>
+  <br><br>
 
 {% endif %}
 
 
 
-<div class="container border">
 
-  <div class="row padding">
+</div>
 
-    <div class="col-0 col-lg-1"></div>
 
-    <div class="col-12 col-lg-3 border-right">
 
-      <div class="row d-flex justify-content-center">
 
-        <div class="lab_faculty">
 
-          <h4 style="color:#15218d; font-weight:bolder;">Laboratory Incharge<br>
 
-            <a style="color:#4F5345; font-weight:normal;"
 
-              href="{{ page.specific.faculty_incharge.url }}">{{ page.specific.faculty_incharge }}</a>
+<div class="container border more-info">
+  <div style=" font-weight:normal; text-align:left;"> {{ page.specific.body | richtext }} </div>
 
-          </h4>
 
-        </div>
+  {% if page.faculty.all|length != 0 %}
 
-        <div class="lab_sci_off">
+  <div class="container mt-2">
 
-          <h4 style="color:#15218d; font-weight:bolder;"> Scientific Officer <br>
+    <h2>Faculty</h2>
 
-            <a style="color:#4F5345; font-weight:normal;"
+    <ul>
 
-              href="{{ page.specific.scientific_officer.url }}">{{ page.specific.scientific_officer }}</a>
+      {% for faculty in page.faculty.all %}
 
-          </h4>
+      <li>
 
-        </div>
+        <h4 class="font-weight-bold"><a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a></h3>
 
-        <div class="lab_tech_staff">
+      </li>
 
-          <h4 style="color:#15218d; font-weight:bolder;"> Technical Staff
+      <div>{{ faculty.research_statement|richtext }}</div>
 
-            {% if page.tech_staffs.all|length != 0 %}
+      {% endfor %}
 
-            <ul>
+    </ul>
 
-              {% for tech_staff in page.tech_staffs.all %}
 
-              <li>
+  </div>
 
-                <a style="color:#4F5345; font-weight:normal;"
+  {% endif %}
 
-                  href="{{ tech_staff.tech_staff.url }}">{{ tech_staff.tech_staff }}</a>
 
-                {{ tech_staff.responsibilities|richtext }}
 
-              </li>
+  {% if page.students.all|length != 0 %}
 
-              {% endfor %}
+  <div class="container mt-2">
 
-            </ul>
+    <h2>Students</h2>
 
-            {% endif %}
+    <ul>
 
-          </h4>
+      {% for student in page.students.all %}
 
-        </div>
+      <li>
 
-        <div class="lab_address">
+        <h5> <a href="{{ student.student.url }}"
+            class="font-weight-bold">{{ student.student.title}}</a>{{ student.student.specific.leaving_year|date:'Y'|isalumni }}
+        </h5>
 
-          <h4 style="color:#15218d; font-weight:bolder;">Address:<br>
+      </li>
 
-            <span style="color:#4F5345; font-weight:normal;">{{ page.specific.address }}</span>
+      <div>{{ student.research_statement|richtext }}</div>
 
-          </h4>
+      {% endfor %}
 
-          {% if page.contact_number %}
+    </ul>
 
-          <h4 style="color:#15218d; font-weight:bolder;">Contact Number:<br>
+  </div>
 
-            <span style="color:#4F5345; font-weight:normal;">{{ page.specific.contact_number }}</span>
+  {% endif %}
 
-          </h4>
+  {% if page.interns.all|length != 0 %}
 
-          {% endif %}
+  <div class="container ">
 
-        </div>
+    <h2>Interns</h2>
 
-      </div>
+    <ul>
 
-      {% if page.students.all|length != 0 %}
+      {% for intern in page.interns.all %}
 
-          <div class="container border-top mt-2">
+      <li>
 
-          <h3>Students</h3>
+        {{ intern.name }}, {{ intern.institute }}, {{ intern.start|date:'M-Y' }} to {{ intern.end|date:'M-Y' }}
 
-          <ul>
+      </li>
 
-          {% for student in page.students.all %}
+      {% endfor %}
 
-              <li>
+    </ul>
 
-                  <a href="{{ student.student.url }}">{{ student.student.title}}</a>{{ student.student.specific.leaving_year|date:'Y'|isalumni }}
+  </div>
 
-              </li>
+  {% endif %}
 
-              <div>{{ student.research_statement|richtext }}</div>
 
-          {% endfor %}
 
-          </ul>
+  {% if page.links.all|length != 0 %}
 
-    </div>
+  <div class="container  mt-2">
+    <h3>Links to refer</h3>
 
-      {% endif %}
+    <ul>
 
-        {% if page.interns.all|length != 0 %}
+      {% for refer_link in page.links.all %}
 
-            <div class="container border-top">
+      <li>
 
-        <h3>Interns</h3>
+        <a href="{{ refer_link.link }}">{{ refer_link.link }}</a>
 
-        <ul>
+      </li>
 
-          {% for intern in page.interns.all %}
+      {% endfor %}
 
-          <li>
+    </ul>
 
-            {{ intern.name }}, {{ intern.institute }}, {{ intern.start|date:'M-Y' }} to {{ intern.end|date:'M-Y' }}
-
-          </li>
-
-          {% endfor %}
-
-        </ul>
-
-      </div>
-
-        {% endif %}
-
-
-
-    </div>
-
-
-
-    <div class="col-12 col-lg-7 labbox">
-
-      <h3 class="text-center" style="color:#15218d; font-weight:bolder;">About Lab</h3>
-
-      <div class="text-center" style="color:#4F5345; font-weight:normal;"><strong> {{ page.specific.intro | richtext }}
-
-        </strong></div>
-
-      <div style="color:#4F5345; font-weight:normal; text-align:left;"> {{ page.specific.body | richtext }} </div>
-
-      <!-- <div>Contact Number: {{ page.specific.contact_number }}</div> -->
-
-
-
-      {% if page.faculty.all|length != 0 %}
-
-      <div class="container">
-
-        <h3>Faculty</h3>
-
-        <ul>
-
-          {% for faculty in page.faculty.all %}
-
-          <li>
-
-            <a href="{{ faculty.faculty.url }}">{{ faculty.faculty }}</a>
-
-          </li>
-
-          <div>{{ faculty.research_statement|richtext }}</div>
-
-          {% endfor %}
-
-        </ul>
-
-        {% endif %}
-
-      </div>
-
-
-
-
-
-
-
-
-
-      <div class="container">
-
-        {% if page.links.all|length != 0 %}
-
-        <h3>Links to refer</h3>
-
-        <ul>
-
-          {% for refer_link in page.links.all %}
-
-          <li>
-
-            <a href="{{ refer_link.link }}">{{ refer_link.link }}</a>
-
-          </li>
-
-          {% endfor %}
-
-        </ul>
-
-        {% endif %}
-
-      </div>
-
-    </div>
+    {% endif %}
 
   </div>
 
 </div>
 
 
-
-
-
-
-
-
-
-
-
+<br>
 
 
 

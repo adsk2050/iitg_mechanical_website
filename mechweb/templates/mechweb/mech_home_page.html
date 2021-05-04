@@ -253,7 +253,7 @@
 
                             {% for notification in news_annncmnts %}
                             {% if notification.info_type == "0" %}
-                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i> <a
+                            <li style="font-size: 14px;"> <a
                                     href="{{notification.url}}">{{ notification.title}}</a>
                                  </a> </a>
                                 <figure class="date">
@@ -265,7 +265,7 @@
                             {% endfor %}
 
                             {% for award in top_awards %}
-                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i>
+                            <li style="font-size: 14px;">
                                 <a>{{ award.award_title }}({{ award.get_award_type_display }}) awarded to
                                     {{ award.faculty }} by {{ award.conferrer }} {{ award.title }}</a>
                                  </a> </a>
@@ -284,7 +284,7 @@
 
                             {% for notification in news_annncmnts %}
                             {% if notification.info_type == "1" %}
-                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i> <a
+                            <li style="font-size: 14px;"> <a
                                     href="{{notification.url}}">{{ notification.title}}</a>
                                  </a> </a>
                                 <figure class="date">
@@ -304,7 +304,7 @@
                         <ul>
  {% comment %}  {% endcomment %}
                             {% for event in new_events %}
-                            <li style="font-size: 14px;"><i class="fa fa-angle-double-right"></i> <a
+                            <li style="font-size: 14px;"> <a
                                     href="{{event.url}}">{{ event.event_name}} [{{event.get_event_type_display}}]</a>
                                  </a> </a>
                                 <figure class="date">
@@ -451,3 +451,4 @@
     </script>
 
     {% endblock %}
+

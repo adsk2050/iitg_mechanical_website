@@ -2,7 +2,7 @@ import datetime
 from django import template
 from django.template.defaultfilters import stringfilter
 from wagtail.core.models import Page
-
+import random,string
 register = template.Library()
 
 @stringfilter
@@ -34,3 +34,7 @@ def breadcrumbs(context):
         'ancestors': ancestors,
         'request': context['request'],
     }
+
+@register.filter('randomid')
+def randomString(size):
+    return ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase, k = size))
