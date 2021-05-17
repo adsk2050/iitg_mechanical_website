@@ -116,25 +116,51 @@
     .tabcontent {
         border-left: 1px solid #E2E5E9;
         padding-left: 10px;
-        margin-top:20px;
-        margin-bottom:20px;
-        height:450px;
-        {% comment %} height: 400px; {% endcomment %}
+        margin-top: 20px;
+        height: 450px;
     }
-    .tabcontent a{
-        text-decoration:underline;
-        color:#61a5c2;
+
+    .tabcontent a {
+        text-decoration: underline;
+        color: #61a5c2;
     }
 
     .underline--magical {
-  background-image: linear-gradient(190deg, #a9d6e5 20%,#014f86 80%);
-  background-repeat: no-repeat;
-  background-size: 100% 0.2em;
-  background-position: 0 100%;
-  transition: background-size 0.25s ease-in;
-}
+        background-image: linear-gradient(190deg, #a9d6e5 20%, #014f86 80%);
+        background-repeat: no-repeat;
+        background-size: 100% 0.2em;
+        background-position: 0 100%;
+        transition: background-size 0.25s ease-in;
+    }
+
+    .date {
+        padding: 10px 2px;
+    }
+
+    .viewAllBtn {
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+        background: rgba(23, 23, 23, .8);
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: #fff !important;
+        text-decoration:none !important;
+        margin-right:5px;
+    }
 
 
+    .viewAllBtn>i {
+        color: #61a5c2;
+    }
+
+    .viewAllBtn:hover {
+        background: #999999;
+    }
+
+    .viewAllBtn:active {
+        background: #171717ad;
+    }
 </style>
 
 {% endblock %}
@@ -244,52 +270,72 @@
 
 
         <div class="col-sm-12 col-xs-12 col-md-8 p-sm-0 px-md-5 newsbox h-100">
-            <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center border-bottom">
                 <div id="News" class="tabcontent col-sm-12 col-md-4">
+                    <div class="row border-bottom border-top">
+                        <h4 class="mr-auto underline--magical p-2 my-2">News</h4>
+                        <a href="{{news_announcments_page.url}}" class="float-none my-3 viewAllBtn">
+                            View all<i class="ml-1 fa fa-link"></i>
+                        </a>
+                    </div>
 
-                    <h4><span class="underline--magical p-2 my-2"> News</span> </button></h4>
                     <div class="news_list">
                         <ul>
 
                             {% for notification in news_annncmnts %}
                             {% if notification.info_type == "0" %}
-                            <li style="font-size: 14px;"> <a
+                            <li style="font-size: 14px;" class="py-2"> <a
                                     href="{{notification.url}}">{{ notification.title}}</a>
-                                 </a> </a>
-                                <figure class="date">
+                                </a> </a>
+                                {% if notification.date %}
+                                <div class="date">
                                     <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
-                                </figure>
+                                </div>
+                                {% endif %}
                             </li>
 
                             {% endif %}
                             {% endfor %}
 
                             {% for award in top_awards %}
-                            <li style="font-size: 14px;">
+                            <li style="font-size: 14px;" class="py-2">
                                 <a>{{ award.award_title }}({{ award.get_award_type_display }}) awarded to
-                                    {{ award.faculty }} by {{ award.conferrer }} {{ award.title }}</a>
-                                 </a> </a>
-                                <figure class="date">
+                                    <strong>{{ award.faculty }}</strong> by <strong>{{ award.conferrer }}
+                                    </strong>{{ award.title }}</a>
+                                </a> </a>
+
+                                {% if notification.date %}
+                                <div class="date">
                                     <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
-                                </figure>
+                                </div>
+                                {% endif %}
                             </li>
                             {% endfor %}
                         </ul>
+
                     </div>
+
                 </div>
                 <div id="Announcements" class="tabcontent col-sm-12 col-md-4">
-                    <h4><span class="underline--magical p-2 my-2">Announcements</span></h4>
+                    <div class="row border-bottom border-top">
+                        <h4 class="mr-auto underline--magical p-2 my-2">Announcements</h4>
+                        <a href="{{news_announcments_page.url}}" class="float-none my-3 viewAllBtn">
+                            View all<i class="ml-1 fa fa-link"></i>
+                        </a>
+                    </div>
                     <div class="news_list">
                         <ul>
 
                             {% for notification in news_annncmnts %}
                             {% if notification.info_type == "1" %}
-                            <li style="font-size: 14px;"> <a
+                            <li style="font-size: 14px;" class="pt-3"> <a
                                     href="{{notification.url}}">{{ notification.title}}</a>
-                                 </a> </a>
-                                <figure class="date">
+                                </a> </a>
+                                {% if notification.date %}
+                                <div class="date">
                                     <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
-                                </figure>
+                                </div>
+                                {% endif %}
                             </li>
 
                             {% endif %}
@@ -298,19 +344,31 @@
 
                     </div>
                 </div>
-                <div id="Events" class="tabcontent col-sm-12 col-md-4">
-                    <h4><span class="underline--magical p-2 my-2">Events</span></h4>
+                <div id="Events" class="tabcontent col-sm-12 col-md-4 border-right">
+                    <div class="row border-bottom border-top">
+                        <h4 class="mr-auto underline--magical p-2 my-2">Events</h4>
+                        <a href="{{events_home_page.url}}" class="float-none my-3 viewAllBtn">
+                            View all<i class="ml-1 fa fa-link"></i>
+                        </a>
+                    </div>
                     <div class="news_list">
                         <ul>
- {% comment %}  {% endcomment %}
                             {% for event in new_events %}
-                            <li style="font-size: 14px;"> <a
-                                    href="{{event.url}}">{{ event.event_name}} [{{event.get_event_type_display}}]</a>
-                                 </a> </a>
-                                <figure class="date">
-                                    <font size="-1"><i class="fa fa-calendar"></i> From: {{ event.start_date }} To:
-                                        {{ event.end_date }} at {{ event.get_venue_display }}</font>
-                                </figure>
+                            <li style="font-size: 14px;" class="py-2"> <a href="{{event.url}}">{{ event.event_name}}
+                                    [{{event.get_event_type_display}}]</a>
+                                </a> </a>
+                                {% if event.start_date %}
+                                <div class="date">
+                                    <font size="-1"><i class="fa fa-calendar"></i> {{ event.start_date }}
+                                {% if event.end_date %}
+                                   - {{ event.end_date }} 
+                                {% endif %}
+                                <div class="location">
+                                    <i class="fa fa-map-marker mr-1" aria-hidden="true"></i> {{ event.get_venue_display }}
+                                </div>
+                                </font>
+                                </div>
+                                {% endif %}
                             </li>
 
                             {% endfor %}
@@ -320,135 +378,136 @@
 
                 </div>
             </div>
-            </div>
+        </div>
 
-            <div class="col-sm-12 col-md-0">
-                {% if page.yt_video_code %}
-                <div class="yt-video-div2">
-                    <iframe class="yt-video2"
-                        src="https://www.youtube-nocookie.com/embed/{{page.yt_video_code}}?modestbranding=1&showinfo=0&fs=0"
-                        frameborder="0" allowfullscreen></iframe>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-
-    <div class="w3-row w3-center w3-padding-16" style="background: linear-gradient(190deg, #222546 0%,#5085A5 100%);">
-        <div class="w3-quarter w3-section" style="color: #fff">
-            <span class="w3-xlarge">45+</span><br>
-            <span class="w3-xlarge">Faculty</span>
-        </div>
-        <div class="w3-quarter w3-section" style="color: #fff">
-            <span class="w3-xlarge">900+</span><br>
-            <span class="w3-xlarge">Students</span>
-        </div>
-        <div class="w3-quarter w3-section" style="color: #fff">
-            <span class="w3-xlarge">25+</span><br>
-            <span class="w3-xlarge">Laboratories</span>
-        </div>
-        <div class="w3-quarter w3-section" style="color: #fff">
-            <span class="w3-xlarge">25 Years</span><br>
-            <span class="w3-xlarge">Legacy</span>
-        </div>
-    </div>
-    <!-- split screen code ends -->
-    <!-- /* table for research area showcase */ -->
-    <div class="container-fluid" style="margin-bottom: 5px;margin-top:30px">
-        <div class="row">
-            <div class="col">
-                <div class="section-header">
-                    <h2 style="font-weight:bolder">Research Areas</h2>
-                </div>
-            </div>
-        </div>
-        <div class="w3-row w3-padding-16">
-            {% for category in categories %}
-            {% if category.category != '0' %}
-            <div class="w3-third">
-                <div class="single-service">
-                    <div class="service-bg">
-                        {% image category.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
-                        <h2><a
-                                href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">{{ category.title }}</a>
-                        </h2>
-                    </div>
-                    <div class="service-text sidebar-box" style="text-align: justify;text-justify: inter-word;">
-                        <p>{{ category.specific.intro|richtext }}</p>
-                    </div>
-                </div>
+        <div class="col-sm-12 col-md-0">
+            {% if page.yt_video_code %}
+            <div class="yt-video-div2">
+                <iframe class="yt-video2"
+                    src="https://www.youtube-nocookie.com/embed/{{page.yt_video_code}}?modestbranding=1&showinfo=0&fs=0"
+                    frameborder="0" allowfullscreen></iframe>
             </div>
             {% endif %}
-            {% endfor %}
         </div>
     </div>
-    <!-- end of research categories row -->
-    <div class="w3-padding-64 messagebox">
-        <div class="w3-row-padding">
-            <div class="w3-col l4 m6">
-                <span style="display: block; text-align: center">
-                    {% if page.specific.HOD_image %}
-                    {% image page.specific.HOD_image original as photo %}
-                    <img class="w3-image w3-round-large w3-hide-small" src="{{ photo.url }}" alt="{{ photo.alt }}"
-                        style="align-items: center; width:17em; height:20em; margin-top: 2em " />
-                    {% else %}
-                    {% with MEDIA_URL|add:'images/placeholder.jpg' as image_static %}
-                    <img class="w3-image w3-round-large w3-hide-small w3-grayscale" src="{{ image_static }}"
-                        alt="placeholder" width="335" height="471" />
-                    {% endwith %}
-                    {% endif %}
-                </span>
-            </div>
+</div>
 
-            <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
-            <div class="w3-col l8 m6">
-                {% if page.specific.HOD_message %}
-                <h1 class="w3-xxlarge" style="color: #ffffff"><b>From HOD's Desk</b></h1>
-                <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
+<div class="w3-row w3-center w3-padding-16" style="background: linear-gradient(190deg, #222546 0%,#5085A5 100%);">
+    <div class="w3-quarter w3-section" style="color: #fff">
+        <span class="w3-xlarge">45+</span><br>
+        <span class="w3-xlarge">Faculty</span>
+    </div>
+    <div class="w3-quarter w3-section" style="color: #fff">
+        <span class="w3-xlarge">900+</span><br>
+        <span class="w3-xlarge">Students</span>
+    </div>
+    <div class="w3-quarter w3-section" style="color: #fff">
+        <span class="w3-xlarge">25+</span><br>
+        <span class="w3-xlarge">Laboratories</span>
+    </div>
+    <div class="w3-quarter w3-section" style="color: #fff">
+        <span class="w3-xlarge">25 Years</span><br>
+        <span class="w3-xlarge">Legacy</span>
+    </div>
+</div>
+<!-- split screen code ends -->
+<!-- /* table for research area showcase */ -->
+<div class="container-fluid" style="margin-bottom: 5px;margin-top:30px">
+    <div class="row">
+        <div class="col">
+            <div class="section-header">
+                <h2 style="font-weight:bolder">Research Areas</h2>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row w3-padding-16">
+        {% for category in categories %}
+        {% if category.category != '0' %}
+        <div class="w3-third">
+            <div class="single-service">
+                <div class="service-bg">
+                    {% image category.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
+                    <h2><a
+                            href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">{{ category.title }}</a>
+                    </h2>
+                </div>
+                <div class="service-text sidebar-box" style="text-align: justify;text-justify: inter-word;">
+                    <p>{{ category.specific.intro|richtext }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<!-- end of research categories row -->
+<div class="w3-padding-64 messagebox">
+    <div class="w3-row-padding">
+        <div class="w3-col l4 m6">
+            <span style="display: block; text-align: center">
+                {% if page.specific.HOD_image %}
+                {% image page.specific.HOD_image original as photo %}
+                <img class="w3-image w3-round-large w3-hide-small" src="{{ photo.url }}" alt="{{ photo.alt }}"
+                    style="align-items: center; width:17em; height:20em; margin-top: 2em " />
+                {% else %}
+                {% with MEDIA_URL|add:'images/placeholder.jpg' as image_static %}
+                <img class="w3-image w3-round-large w3-hide-small w3-grayscale" src="{{ image_static }}"
+                    alt="placeholder" width="335" height="471" />
+                {% endwith %}
                 {% endif %}
-                <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
+            </span>
+        </div>
+
+        <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
+        <div class="w3-col l8 m6">
+            {% if page.specific.HOD_message %}
+            <h1 class="w3-xxlarge" style="color: #ffffff"><b>From HOD's Desk</b></h1>
+            <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
+            {% endif %}
+            <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
             fa fa-long-arrow-right"></i>
           </a>
           </p> -->
-                <br><br>
-                <div class="" style="display:block; text-align:right">
-                    <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong><br>
-                    <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
-                        Engineering</strong>
-                </div>
-
+            <br><br>
+            <div class="" style="display:block; text-align:right">
+                <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong><br>
+                <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
+                    Engineering</strong>
             </div>
+
         </div>
     </div>
+</div>
 
-    {% endblock %}
+{% endblock %}
 
-    {% block extra_script %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easy-ticker/2.0.0/jquery.easy-ticker.min.js"
-        integrity="sha512-tQ+m/Q8eMfIQqjhnq2v7X9/z081Mq+SkSualPcrqzYlrHPGzm2NIZRo3TB0fvwe5oj5POb29U2vCZi8LYdl/ug=="
-        crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script>
-        $(document).ready(function () { //when the document is ready
-            $(".loaderback").fadeOut("fast"); //fade out preloader. You can add your custom effects here too.
+{% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easy-ticker/2.0.0/jquery.easy-ticker.min.js"
+    integrity="sha512-tQ+m/Q8eMfIQqjhnq2v7X9/z081Mq+SkSualPcrqzYlrHPGzm2NIZRo3TB0fvwe5oj5POb29U2vCZi8LYdl/ug=="
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js">
+</script>
+<script>
+    $(document).ready(function () { //when the document is ready
+        $(".loaderback").fadeOut(
+            "fast"); //fade out preloader. You can add your custom effects here too.
+    });
+
+
+
+    $(function () {
+        $('.news_list').easyTicker({
+            direction: 'up',
+            visible: 4,
+            interval: 2500,
+            easing: 'easeInBack',
+            controls: {
+                up: '.btnUp',
+                down: '.btnDown',
+                toggle: '.btnToggle'
+            }
         });
+    });
+</script>
 
-
-
-        $(function () {
-            $('.news_list').easyTicker({
-                direction: 'up',
-                visible: 4,
-                interval: 2000,
-                easing: 'easeInBack',
-                controls: {
-                    up: '.btnUp',
-                    down: '.btnDown',
-                    toggle: '.btnToggle'
-                }
-            });
-        });
-    </script>
-
-    {% endblock %}
-
+{% endblock %}

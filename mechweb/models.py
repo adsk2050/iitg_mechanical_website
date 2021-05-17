@@ -1,5 +1,5 @@
-from datetime import date
-
+import datetime
+import pytz
 from django import forms
 from django.contrib.auth.models import AbstractUser
 from django.core.paginator import Paginator
@@ -74,7 +74,7 @@ class IntegerRangeField(models.IntegerField):
         return super(IntegerRangeField, self).formfield(**defaults)
 
 def current_year():
-    return date.today().year
+    return datetime.date.today().year
 
 def max_value_current_year(value):
     return MaxValueValidator(current_year()+1)(value)
@@ -191,7 +191,8 @@ class MechHomePage(Page):
         context['new_events'] = new_events
         context['top_awards'] = top_awards
         context['news_annncmnts'] = news_annncmnts
-
+        context['news_announcments_page'] = NewsAnnouncementHomePage.objects.first
+        context['events_home_page'] = EventHomePage.objects.first
         return context
 
     class Meta:
@@ -247,7 +248,7 @@ class NewsAnnouncementHomePage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         naalist = self.get_children().live().order_by('-first_published_at')
-        paginator = Paginator(naalist, 25)
+        paginator = Paginator(naalist, 5)
         page = request.GET.get('page')
         naalist = paginator.get_page(page)
         context['naalist'] = naalist
@@ -313,7 +314,7 @@ class EventHomePage(Page):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
         event_list = self.get_children().live().order_by('-first_published_at')
-        paginator = Paginator(event_list, 25)  # Show 1 events per page
+        paginator = Paginator(event_list, 10)  # Show 1 events per page
         page = request.GET.get('page')
         event_list = paginator.get_page(page)
         context['event_list'] = event_list
@@ -357,6 +358,13 @@ class EventPage(Page):
         InlinePanel('gallery_images', label="Gallery Images", max_num=2),
         InlinePanel('links', label="Related Links", max_num=10),
     ]
+    def is_past_due(self):
+        utc = pytz.utc
+        now = datetime.datetime.now().astimezone(self.end_date.tzinfo)
+        self.end_date.tzinfo
+        event_time = self.end_date
+        res =  now > event_time
+        return res
 
     # promote_panels=[]
     # settings_panels=[]
@@ -474,7 +482,7 @@ class FacultyHomePage(Page):
             faculty_list = faculty_list.filter(research_interests__name=tag)
         current_faculty_list = []
         past_faculty_list = []
-        today = date.today()
+        today = datetime.date.today()
         for fac in faculty_list:
             try:
                 if fac.leaving_date > today:
