@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags%}
 
 {% block body_class %}template-news-announcement-home-page{% endblock %}
 
@@ -24,19 +24,25 @@
     background-clip: border-box;
     border: 1px solid #e6e4e9;
     border-radius: 8px;
+    max-width:100%;
+    overflow:auto
 }
 
 </style>
 
 {% endblock extra_css %}
 {% block content %}
+{%breadcrumbs%}
 
 <div class="container newsContainer">
   <h1 class="text-center py-3">News And Announcements</h2>
 
     {% for news in naalist %}
     <div class="col-md-12 my-3 py-3 card card-margin">
-      <h3>{{news.title}}</h3>
+      <h3>{{news.title}}
+      {% if news.specific.badge %}
+        <span class="badge badge-danger pull-right">{{news.specific.get_badge_display}}</span>
+      {% endif %}</h3>
       <div class="ml-auto">
         <span class="badge">{{news.specific.date}}</span>
       </div>

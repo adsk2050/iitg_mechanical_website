@@ -32,7 +32,7 @@ from wagtailautocomplete.edit_handlers import AutocompletePanel
 # Importing constants and settings
 from iitg_mechanical_website.settings.base import CUSTOM_RICHTEXT, AUTH_USER_MODEL
 from .constants import LABORATORY_IN_CHARGE, FACULTY_IN_CHARGE, FACULTY_DESIGNATION, FACULTY_ROLES, FACULTY_AWARD_TYPES, \
-    FAC_PREV_WORK_TYPES
+    FAC_PREV_WORK_TYPES, NEWS_AND_ANNOUNCEMENT_BADGES
 from .constants import TEXT_PANEL_CONTENT_TYPES, LOCATIONS, EVENTS, STUDENT_PROGRAMME, MASTERS_SPECIALIZATION, \
     STAFF_DESIGNATION, PROJECT_TYPES, PUBLICATION_TYPES, LAB_TYPES, COURSE_TYPES, USER_TYPES, INTEREST_CATEGORIES
 
@@ -262,17 +262,19 @@ class NewsAnnouncementPage(Page):
     heading = models.CharField(blank=True, max_length=50)
     photo = models.ForeignKey('wagtailimages.Image', blank=True, on_delete=models.SET_NULL, null=True, related_name='+')
     description = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     info_type = models.CharField(
         default="0",
         choices=TEXT_PANEL_CONTENT_TYPES,
         max_length=50
     )
+    badge = models.CharField(choices=NEWS_AND_ANNOUNCEMENT_BADGES,blank=True,null=True,max_length=10)
     content_panels = Page.content_panels + [
         FieldPanel('title'),
         FieldPanel('description'),
         FieldPanel('date'),
         FieldPanel('info_type'),
+        FieldPanel('badge'),
         ImageChooserPanel('photo'),
     ]
 

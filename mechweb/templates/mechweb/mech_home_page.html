@@ -145,8 +145,8 @@
         border-radius: 5px;
         padding: 5px 10px;
         color: #fff !important;
-        text-decoration:none !important;
-        margin-right:5px;
+        text-decoration: none !important;
+        margin-right: 5px;
     }
 
 
@@ -284,9 +284,13 @@
 
                             {% for notification in news_annncmnts %}
                             {% if notification.info_type == "0" %}
-                            <li style="font-size: 14px;" class="py-2"> <a
-                                    href="{{notification.url}}">{{ notification.title}}</a>
-                                </a> </a>
+                            <li style="font-size: 14px;" class="py-2">
+                                <div>
+                                <a href="{{notification.url}}">{{ notification.title}}</a>
+                                {% if notification.badge %}
+                                <span class="badge badge-danger pull-right p-1">{{notification.get_badge_display}}</span>
+                                {% endif %}
+                                </div>
                                 {% if notification.date %}
                                 <div class="date">
                                     <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
@@ -328,9 +332,13 @@
 
                             {% for notification in news_annncmnts %}
                             {% if notification.info_type == "1" %}
-                            <li style="font-size: 14px;" class="pt-3"> <a
-                                    href="{{notification.url}}">{{ notification.title}}</a>
-                                </a> </a>
+                            <li style="font-size: 14px;" class="pt-3">
+                                <div>
+                                <a href="{{notification.url}}">{{ notification.title}}</a>
+                                {% if notification.badge %}
+                                <span class="badge badge-danger pull-right p-1">{{notification.get_badge_display}}</span>
+                                {% endif %}
+                                </div>
                                 {% if notification.date %}
                                 <div class="date">
                                     <font size="-1"><i class="fa fa-calendar"></i> {{ notification.date }}</font>
@@ -360,13 +368,14 @@
                                 {% if event.start_date %}
                                 <div class="date">
                                     <font size="-1"><i class="fa fa-calendar"></i> {{ event.start_date }}
-                                {% if event.end_date %}
-                                   - {{ event.end_date }} 
-                                {% endif %}
-                                <div class="location">
-                                    <i class="fa fa-map-marker mr-1" aria-hidden="true"></i> {{ event.get_venue_display }}
-                                </div>
-                                </font>
+                                        {% if event.end_date %}
+                                        - {{ event.end_date }}
+                                        {% endif %}
+                                        <div class="location">
+                                            <i class="fa fa-map-marker mr-1" aria-hidden="true"></i>
+                                            {{ event.get_venue_display }}
+                                        </div>
+                                    </font>
                                 </div>
                                 {% endif %}
                             </li>

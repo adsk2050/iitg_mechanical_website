@@ -1,20 +1,55 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags%}
 
 {% block body_class %}template-news-announcement-page{% endblock %}
 
 
+{% block extra_css %}
+
+<style>
+  body{
+      background: #F4F7FD;
+  }
+  .newsContainer a {
+    text-decoration: underline;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 1px solid #e6e4e9;
+    border-radius: 8px;
+    max-width:100%;
+    overflow:auto
+}
+
+</style>
+
+{% endblock extra_css %}
 
 {% block content %}
 
-<div class="container-fluid text-center">
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-4 ml-4 labbox">
-      <h3 class="text-center" style="color:#881125; font-weight:bolder;">{{ page.specific.heading }}</h3>
-          <div class="w3-row text-center" style="align: middle">
-            {{ page.specific.get_info_type_display }}: <br>{{ page.specific.description|richtext }} <br>{{ page.specific.date|date:"Y" }}
-          </div>
+{%breadcrumbs%}
+<div class="container newsContainer">
 
+{% with page as news %}
+    <div class="col-md-12 my-3 py-3 card card-margin">
+      <h3>{{news.title}}
+      {% if news.specific.badge %}
+        <span class="badge badge-danger pull-right">{{news.specific.get_badge_display}}</span>
+      {% endif %}</h3>
+      <div class="ml-auto">
+        <span class="badge">{{news.specific.date}}</span>
+      </div>
+      <div class="pl-4">
+      <p >{{news.specific.description |richtext}}</p>
+      </div>
     </div>
-  </div>
+{% endwith %}
+</div>
 {% endblock %}

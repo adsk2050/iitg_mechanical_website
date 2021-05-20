@@ -247,3 +247,9 @@ ALUMNI_EVENTS = (
 	('4', 'Conference'),
 	('5','Other'),
 )
+
+NEWS_AND_ANNOUNCEMENT_BADGES = (
+	('0','NEW'),
+	('1','IMPORTANT'),
+	('2','CLOSING SOON'),
+)
