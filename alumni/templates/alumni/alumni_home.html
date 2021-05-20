@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+
+<style>
+    body{
+        background: #F4F7FD;
+    }
+
+    .underline--magical {
+        background-image: linear-gradient(190deg, #a9d6e5 20%, #014f86 80%);
+        background-repeat: no-repeat;
+        background-size: 100% 0.2em;
+        background-position: 0 100%;
+        transition: background-size 0.25s ease-in;
+    }
+
+    .date {
+        padding: 10px 2px;
+    }
+
+    .viewAllBtn {
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+        background: rgba(23, 23, 23, .8);
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: #fff !important;
+        text-decoration:none !important;
+        margin-right:5px;
+    }
+
+
+    .viewAllBtn>i {
+        color: #61a5c2;
+    }
+
+    .viewAllBtn:hover {
+        background: #999999;
+    }
+
+    .viewAllBtn:active {
+        background: #171717ad;
+    }
+    .event{
+        border-bottom: dotted 1px;
+    }
+</style>
+
+{% endblock extra_css %}
+
+{% block content %}
+
+
+<h3 class="text-center pt-5">{{page.title}}</h3> 
+<div class="container d-flex justify-content-center mt-5">
+<div id="alumni-events" class="col-8 border rounded my-4">
+    <div class="row border-bottom bg-warning">
+        <h4 class="mr-auto p-2 my-2">Events</h4>
+        <a href="{{events_home_page.url}}" class=" my-3 viewAllBtn">
+            View all<i class="ml-1 fa fa-link"></i>
+        </a>
+    </div>
+    <div class="events row justify-content-center bg-light">
+        <ul>
+            {% for event in events %}
+            <li style="font-size: 14px;" class="py-2 event bg-light"> <a href="{{event.url}}">{{ event.title}}
+                    [{{event.get_event_type_display}}]</a>
+                </a> </a>
+                {% if event.start_at %}
+                <div class="date">
+                    <font size="-1"><i class="fa fa-calendar"></i> {{ event.start_at }}
+                {% if event.end_by %}
+                    - {{ event.end_by }} 
+                {% endif %}
+                <div class="location">
+                    <i class="fa fa-map-marker mr-1" aria-hidden="true"></i> {{ event.get_venue_display }}
+                </div>
+                </font>
+                </div>
+                {% endif %}
+            </li>
+
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easy-ticker/2.0.0/jquery.easy-ticker.min.js"
+    integrity="sha512-tQ+m/Q8eMfIQqjhnq2v7X9/z081Mq+SkSualPcrqzYlrHPGzm2NIZRo3TB0fvwe5oj5POb29U2vCZi8LYdl/ug=="
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js">
+</script>
+<script>
+
+    $(function () {
+        $('.events').easyTicker({
+            direction: 'up',
+            visible: 4,
+            interval: 2500,
+            easing: 'easeInBack',
+            controls: {
+                up: '.btnUp',
+                down: '.btnDown',
+                toggle: '.btnToggle'
+            }
+        });
+    });
+</script>
+
+{% endblock %}

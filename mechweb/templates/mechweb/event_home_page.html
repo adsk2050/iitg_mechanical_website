@@ -28,7 +28,11 @@
                         </div>
                         <div class="widget-49-meeting-info">
                             <span class="widget-49-pro-title">{{page.featured_event.specific.event_name}}</span>
-                            <span class="widget-49-meeting-time">{{page.featured_event.specific.start_date}} to {{event.specific.end_date}}</span>
+                            <span class="widget-49-meeting-time">{{page.featured_event.specific.start_date}} 
+                            {% if page.featured_event.specific.end_date %}
+                                to {{page.featured_event.specific.end_date}}
+                            {% endif %}    
+                            </span>
                         </div>
                     </div>
                     <ul class="widget-49-meeting-points">
@@ -73,7 +77,11 @@
                         </div>
                         <div class="widget-49-meeting-info">
                             <span class="widget-49-pro-title">{{event.specific.event_name}}</span>
-                            <span class="widget-49-meeting-time">{{event.specific.start_date}} to {{event.specific.end_date}}</span>
+                            <span class="widget-49-meeting-time">{{event.specific.start_date}} 
+                            {% if event.specific.end_date %}
+                                to {{event.specific.end_date}}
+                            {% endif %}    
+                            </span>
                         </div>
                     </div>
                     <div class="widget-49-meeting-points pt-2">

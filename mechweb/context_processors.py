@@ -5,9 +5,6 @@ def navbar(request):
 	navlist_parent = MechHomePage.objects.all()
 	if navlist_parent :
 		navlist = navlist_parent[0].get_children().filter().live().order_by('first_published_at')
-		# for item in navlist:
-		# 	item
-		# for item in nav_items:
 		ordering = {
 			"Academics":1,
 			"Research Home":2,
@@ -20,11 +17,12 @@ def navbar(request):
 			"categories home":9,
 			"aboutiitgmech":10,
 			"resource section":11,
-			"Committee Home":12,
+			"Alumni Home Page":12,
+			"Committee Home":13,
 		}
 		ordering = defaultdict(lambda: 1000, ordering)
 		navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
-		return {'navlist': navlist[:12]}
+		return {'navlist': navlist[:13]}
 	else:
 		return {'navlist':[]}
 

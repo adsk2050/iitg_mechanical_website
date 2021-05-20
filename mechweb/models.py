@@ -157,7 +157,7 @@ class MechHomePage(Page):
 
     subpage_types = ['EventHomePage', 'FacultyHomePage', 'StudentHomePage', 'ResearchHomePage', 'StaffHomePage',
                      'CourseStructure', 'AlumniHomePage', 'AwardHomePage', 'Aboutiitgmech', 'CategoriesHome',
-                     'CommitteeHomePage', 'GenericPage', 'NewsAnnouncementHomePage','ResourceSection']
+                     'CommitteeHomePage', 'GenericPage', 'NewsAnnouncementHomePage','ResourceSection','alumni.AlumniHome']
 
     max_count = 1
 
@@ -314,7 +314,7 @@ class EventHomePage(Page):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
         event_list = self.get_children().live().order_by('-first_published_at')
-        paginator = Paginator(event_list, 10)  # Show 1 events per page
+        paginator = Paginator(event_list, 10)  # Show 10 events per page
         page = request.GET.get('page')
         event_list = paginator.get_page(page)
         context['event_list'] = event_list
@@ -359,12 +359,11 @@ class EventPage(Page):
         InlinePanel('links', label="Related Links", max_num=10),
     ]
     def is_past_due(self):
-        utc = pytz.utc
-        now = datetime.datetime.now().astimezone(self.end_date.tzinfo)
-        self.end_date.tzinfo
-        event_time = self.end_date
-        res =  now > event_time
-        return res
+        if self.start_date == None:
+            return True
+        now = datetime.datetime.now().astimezone(self.start_date.tzinfo)
+        return now > self.start_date
+        
 
     # promote_panels=[]
     # settings_panels=[]

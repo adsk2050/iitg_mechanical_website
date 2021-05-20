@@ -36,7 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+
     'mechweb',
+    'alumni',
+    
     'wagtail.contrib.sitemaps',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',

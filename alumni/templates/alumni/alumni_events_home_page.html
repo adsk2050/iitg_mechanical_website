@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static%}
+
+{% block body_class %}template-event-homepage{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/events.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="container mt-5">
+<h3 class="text-center">Alumni Events</h3>
+
+<div class="row">
+{% for event in events %}
+
+    <div class="col-lg-4">
+        <div class="card card-margin">
+            <div class="card-header no-border">
+                <h5 class="card-title">{{event.specific.get_event_type_display}}</h5>
+                <div class="event-location ml-auto">
+                <span class="badge">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                  {{event.specific.get_venue_display}}
+                  </span>
+                </div>
+                {% if not event.specific.is_past_due %}
+              <div class="ml-1">
+                <span class="badge badge-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%}">Upcoming</span>
+              </div>
+                {%endif%}
+            </div>
+            <div class="card-body pt-0">
+                <div class="widget-49">
+                    <div class="widget-49-title-wrapper">
+                        <div class="widget-49-date-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%}">
+                        
+                            <span class="widget-49-date-day">{{event.specific.start_at.day}}</span>
+                            <span class="widget-49-date-month">{{event.specific.start_at|date:'F'|slice:':3'}}</span>
+                        </div>
+                        <div class="widget-49-meeting-info">
+                            <span class="widget-49-pro-title">{{event.title}}</span>
+                            <span class="widget-49-meeting-time">
+                                {{event.specific.start_at}}
+                                {% if event.specific.end_at %}
+                                to {{event.specific.end_at}}
+                                {% endif %}
+                             </span>
+                        </div>
+                    </div>
+                    <div class="widget-49-meeting-points pt-2">
+
+                        {% if event.specific.event_speakers and event.specific.event_speakers.all|length %}
+                        <span>Speaker(s):</span>
+                        <ul>
+                        {% for speaker in event.specific.event_speakers.all %}
+                            <li class="widget-49-meeting-item">
+                            <span class="font-weight-bolder">{{speaker.name}}</span>,<span>{{speaker.about}}</span>
+                            </li>
+                        {% endfor %}    
+                        </ul>
+                        
+                        {% endif %}
+                        {% if event.specific.event_urls and event.specific.event_urls.all|length %}
+                        <span>Related Link(s):</span>
+                        <ul>
+                        {% for url in event.specific.event_urls.all %}
+                            <li class="widget-49-meeting-item">
+                            <a href="{{url.url}}">{{url.title}}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        {% if event.specific.event_documents and event.specific.event_documents.all|length %}
+                        <span>Related Document(s):</span>
+                        <ul>
+                        {% for document in event.specific.event_documents.all %}
+                            <li class="widget-49-meeting-item">
+                            <a href="{{document.document.url}}">{{document.title}}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>                        
+                        {% endif %}
+                        
+                        </div> 
+                    <div class="widget-49-meeting-action">
+                        <a href="{{event.url}}" class="btn btn-sm btn-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%} btn-flash-border-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+</div>
+</div>
+
+<div class="paginatio text-center">
+    <div class="step-links text-center" style="align: middle">
+        <div class="current">
+            Page {{ events.number }} of {{ events.paginator.num_pages }}.
+        </div>
+      <div class="btn btn-sm btn-warning">
+        {% if events.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ events.previous_page_number }}">previous</a>
+        {% endif %}
+          {% if events.has_next %}
+              <a href="?page={{ events.next_page_number }}">next</a>
+              <a href="?page={{ events.paginator.num_pages }}">last &raquo;</a>
+        </div>
+          {% endif %}
+    </div>
+    <br><br>
+</div>
+{% endblock %}
