@@ -362,18 +362,25 @@
                     <div class="news_list">
                         <ul>
                             {% for event in new_events %}
-                            <li style="font-size: 14px;" class="py-2"> <a href="{{event.url}}">{{ event.event_name}}
+                            <li style="font-size: 14px;" class="py-2"> <a href="{{event.url}}">{{event.title}}
                                     [{{event.get_event_type_display}}]</a>
                                 </a> </a>
-                                {% if event.start_date %}
+                                {% if event.start_date or event.start_at%}
                                 <div class="date">
-                                    <font size="-1"><i class="fa fa-calendar"></i> {{ event.start_date }}
-                                        {% if event.end_date %}
-                                        - {{ event.end_date }}
+                                    <font size="-1"><i class="fa fa-calendar"></i> {{ event.start_date }} {{event.start_at}}
+                                        {% if event.end_date or event.end_by %}
+                                        - {{ event.end_date }} {{event.end_by}}
                                         {% endif %}
                                         <div class="location">
                                             <i class="fa fa-map-marker mr-1" aria-hidden="true"></i>
                                             {{ event.get_venue_display }}
+                                            
+                                            {% if not event.is_past_due %}
+                                                    {% comment %} <div class="ml-1"> {% endcomment %}
+                                                        <span class="badge badge-warning p-1">Upcoming</span>
+                                                    {% comment %} </div> {% endcomment %}
+                                            {% endif %}
+                                            
                                         </div>
                                     </font>
                                 </div>

@@ -1,3 +1,4 @@
+from alumni.models import AlumniEventPage
 import datetime
 import pytz
 from django import forms
@@ -118,24 +119,6 @@ class MechHomePage(Page):
                                      related_name='+')
     donate_message = models.CharField(blank=True, max_length=250)
     yt_video_code = models.CharField(blank=True,null=True,max_length=264,verbose_name="Youtube video code")
-
-    # intro = RichTextField(blank=True)
-    # user = models.OneToOneField(AUTH_USER_MODEL,related_name='mech_home_page_manager', null=True, on_delete=models.SET_NULL)
-
-    # footer links
-    # quick_link1
-    # quick_link2
-    # quick_link3
-    # quick_link4
-    # quick_link5
-    # quick_link6
-    #
-    # dept_link1
-    # dept_link2
-    # dept_link3
-    # dept_link4
-    # dept_link5
-    # dept_link6
 
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname="full"),
@@ -403,10 +386,15 @@ class EventPageLink(Orderable):
 
 
 def get_new_events():
-    a = EventPage.objects.all().live().order_by('-start_date')
-    if len(a) >= 10:
-        a = a[0:10]
-    return a
+    events = EventPage.objects.all().live().order_by('-start_date')
+    if len(events) >= 7:
+        events = events[0:7]
+    alumni_events = AlumniEventPage.objects.all().live().order_by('-start_at')
+    if len(alumni_events)>=3:
+        alumni_events = alumni_events[:3]
+    events += alumni_events
+    events = sorted(events,key = lambda ele:ele.start_date if hasattr(ele, 'start_date') else ele.start_at,reverse=True)
+    return events
 
 ######################################################
 # Can I make a generic class which covers all these repeatedly adding of data models needed to be written only once?
