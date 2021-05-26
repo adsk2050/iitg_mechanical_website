@@ -87,6 +87,8 @@ class AlumniEventPage(Page):
     class Meta:
         verbose_name = "Alumni Event"
         verbose_name_plural = "Alumni Event Plural"
+    parent_page_types = ['AlumniEventsHomePage']
+    subpage_types = []
 
     def is_past_due(self):
         if self.start_at == None:
