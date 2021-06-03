@@ -52,15 +52,25 @@
                     <div class="widget-49-meeting-points pt-2">
 
                         {% if event.specific.event_speakers and event.specific.event_speakers.all|length %}
-                        <span>Speaker(s):</span>
-                        <ul>
+                        <p>Speaker(s):</p>
+                        <div class="row d-flex justify-content-center">
                         {% for speaker in event.specific.event_speakers.all %}
-                            <li class="widget-49-meeting-item">
-                            <span class="font-weight-bolder">{{speaker.name}}</span>,<span>{{speaker.about}}</span>
-                            </li>
-                        {% endfor %}    
-                        </ul>
-                        
+                            <div class="col-12 text-center">
+                                {% if speaker.photo %}
+                                {% image speaker.photo fill-320x320 as photo%}
+                                <img class="rounded-circle m-auto" src="{{ photo.url }}" alt="{{ photo.alt }}" style="width:40%;" />
+                                
+                                {% else %}
+                                <img class="rounded-circle m-auto" src="https://www.clker.com/cliparts/3/c/9/0/15346636991003506792default_user.png" alt="{{speaker.name}}" style="width:20%;">
+                                {% endif %}
+                                <div>
+                                    <span class="font-weight-bolder name">{{speaker.name}}</span>
+                                    <p class="about">{{speaker.about}}</p>
+                                </div>
+                            </div>
+                        <hr>
+                        {% endfor %}
+                        </div>
                         {% endif %}
                         {% if event.specific.event_urls and event.specific.event_urls.all|length %}
                         <span>Related Link(s):</span>
@@ -86,7 +96,7 @@
                         
                         </div> 
                     <div class="widget-49-meeting-action">
-                        <a href="{{event.url}}" class="btn btn-sm btn-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%} btn-flash-border-primary">View</a>
+                        <a href="{{event.url}}" class="btn btn-sm btn-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%} btn-flash-border-primary">view details</a>
                     </div>
                 </div>
             </div>
