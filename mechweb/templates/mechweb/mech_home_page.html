@@ -178,8 +178,10 @@
 <div class="bd-example row d-flex justify-content-center">
     {% if page.yt_video_code %}
 
+    {% if not page.research_profile_documentary_code %}
+    
     <div class="col-sm-12 col-md-7">
-        <div id="carouselslider" class="carousel slide" data-ride="carousel">
+         <div id="carouselslider" class="carousel slide" data-ride="carousel">
             <ul class="carousel-indicators">
                 {% for photo in page.gallery_images.all %}
                 <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}"
@@ -203,9 +205,18 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+        </div> 
+    </div>
+    {% else %}
+    <div class="col-sm-12 col-md-6">
+        <div class="yt-video-div">
+            <iframe id="research-profiles-video-frame" class="yt-video"
+                src="https://www.youtube-nocookie.com/embed/{{page.research_profile_documentary_code}}?modestbranding=1" frameborder="0"
+                allowfullscreen></iframe>
         </div>
     </div>
-    <div class="col-sm-12 col-md-5">
+    {% endif %}
+    <div class="col-sm-12 col-md-6">
         <div class="yt-video-div">
             <iframe id="yt-video-frame" class="yt-video"
                 src="https://www.youtube-nocookie.com/embed/{{page.yt_video_code}}?modestbranding=1" frameborder="0"

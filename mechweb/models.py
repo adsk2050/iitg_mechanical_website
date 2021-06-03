@@ -119,12 +119,13 @@ class MechHomePage(Page):
                                      related_name='+')
     donate_message = models.CharField(blank=True, max_length=250)
     yt_video_code = models.CharField(blank=True,null=True,max_length=264,verbose_name="Youtube video code")
-
+    research_profile_documentary_code = models.CharField(blank=True,null=True,max_length=264,verbose_name="Research profile documentary video code")
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname="full"),
         FieldPanel('body', classname="full"),
         InlinePanel('gallery_images', label="Gallery Images", max_num=10),
         FieldPanel('yt_video_code'),
+        FieldPanel('research_profile_documentary_code'),
         FieldPanel('HOD_message'),
         FieldPanel('donate_message'),
         FieldPanel('donation_link'),
