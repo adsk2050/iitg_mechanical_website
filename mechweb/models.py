@@ -544,6 +544,7 @@ class FacultyPage(Page):
     scopus_profile_link = models.URLField(max_length=250, blank=True)
     google_scholar_profile_link = models.URLField(max_length=250, blank=True)
     researchgate_profile_link = models.URLField(max_length=250, blank=True)
+    irins_profile_link = models.URLField(max_length=2000,blank=True)
     #################################################################
     additional_roles = models.CharField(max_length=2, choices=FACULTY_ROLES, default='2')
     laboratory_in_charge = models.CharField(max_length=2, choices=LABORATORY_IN_CHARGE, default='14')
@@ -571,6 +572,7 @@ class FacultyPage(Page):
         FieldPanel('scopus_profile_link'),
         FieldPanel('google_scholar_profile_link'),
         FieldPanel('researchgate_profile_link'),
+        FieldPanel('irins_profile_link'),
         FieldPanel('abbreviation'),
         MultiFieldPanel([
             FieldPanel('office_address_line_1'),
