@@ -161,6 +161,7 @@
     .viewAllBtn:active {
         background: #171717ad;
     }
+
 </style>
 
 {% endblock %}
@@ -255,8 +256,8 @@
 </div>
 <!-- Split screen Code starts -->
 <div class="container-fluid newscontainer p-sm-0  pl-md-5">
-    <div class="row padding d-flex justify-content-between">
-        <div class="col-sm-12 col-xs-12 col-md-4 promo">
+    <div class="row padding d-flex justify-content-between mb-2">
+        <div class="col-md-12 col-lg-4 promo">
             <figure>
                 <img height="100px" width="100px" src="{% static "images/img2.jpg" %}">
             </figure>
@@ -280,10 +281,10 @@
         </div>
 
 
-        <div class="col-sm-12 col-xs-12 col-md-8 p-sm-0 px-md-5 newsbox h-100">
-            <div class="row d-flex justify-content-center border-bottom">
-                <div id="News" class="tabcontent col-sm-12 col-md-4">
-                    <div class="row border-bottom border-top">
+        <div class="col-md-12 col-lg-8 p-sm-0 px-md-5 newsbox h-100">
+            <div class="row d-flex justify-content-around">
+                <div id="News" class="tabcontent col-sm-12 col-md-3 card px-3">
+                    <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">News</h4>
                         <a href="{{news_announcments_page.url}}" class="float-none my-3 viewAllBtn">
                             View all<i class="ml-1 fa fa-link"></i>
@@ -331,8 +332,8 @@
                     </div>
 
                 </div>
-                <div id="Announcements" class="tabcontent col-sm-12 col-md-4">
-                    <div class="row border-bottom border-top">
+                <div id="Announcements" class="tabcontent col-sm-12 col-md-3 card px-3">
+                    <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">Announcements</h4>
                         <a href="{{news_announcments_page.url}}" class="float-none my-3 viewAllBtn">
                             View all<i class="ml-1 fa fa-link"></i>
@@ -363,8 +364,8 @@
 
                     </div>
                 </div>
-                <div id="Events" class="tabcontent col-sm-12 col-md-4 border-right">
-                    <div class="row border-bottom border-top">
+                <div id="Events" class="tabcontent col-sm-12 col-md-3 card px-3">
+                    <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">Events</h4>
                         <a href="{{events_home_page.url}}" class="float-none my-3 viewAllBtn">
                             View all<i class="ml-1 fa fa-link"></i>
@@ -407,7 +408,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-0">
+        <div class="col-sm-12 col-md-0 mt-3">
             {% if page.yt_video_code %}
             <div class="yt-video-div2">
                 <iframe class="yt-video2"
@@ -518,11 +519,8 @@
     $(document).ready(function () { //when the document is ready
         $(".loaderback").fadeOut(
             "fast"); //fade out preloader. You can add your custom effects here too.
-    });
 
-
-
-    $(function () {
+    setTimeout(()=>{
         $('.news_list').easyTicker({
             direction: 'up',
             visible: 4,
@@ -534,7 +532,9 @@
                 toggle: '.btnToggle'
             }
         });
+	},3000);
     });
+
 </script>
 
 {% endblock %}
