@@ -108,7 +108,7 @@
                             {% endif %} {% if page.specific.email_id %}
                             <li>
                                 <h4>Mail ID</h4>
-                                <p>{{ page.specific.email_id|noscrape }}</p>
+                                <p>{{ page.specific.email_id|noscrape|safe }}</p>
                             </li>
                             {% endif %} {% if page.specific.website %}
                             <li>

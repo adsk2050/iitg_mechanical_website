@@ -51,7 +51,7 @@
           {% if page.email_id %}
               <li>
                   <h4>Email ID</h4>
-                  <p>{{ page.email_id|noscrape }}</p>
+                  <p>{{ page.email_id|noscrape|safe }}</p>
               </li>
           {% endif %}
 

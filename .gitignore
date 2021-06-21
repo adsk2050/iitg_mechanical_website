@@ -10,3 +10,5 @@ static/
 mechweb.log
 secrets.json
 .idea/
+settings.json
+mechweb.code-workspace
