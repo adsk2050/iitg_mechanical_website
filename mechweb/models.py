@@ -2260,10 +2260,12 @@ class Program(Page):
     intro = RichTextField(blank=True, null=True, features=CUSTOM_RICHTEXT)
     body = RichTextField(blank=True, null=True)
     has_alumni_details = models.BooleanField(default=False)
+    duration = models.IntegerField(default=2, help_text="Program duration in years")
     content_panels = Page.content_panels + [
         FieldPanel("name"),
         FieldPanel("code"),
         FieldPanel("intro"),
+        FieldPanel("duration"),
         FieldPanel("body"),
         FieldPanel("has_alumni_details"),
         MultiFieldPanel(
@@ -2304,10 +2306,12 @@ class ProgramSpecialization(Page):
     intro = RichTextField(blank=True, null=True, features=CUSTOM_RICHTEXT)
     body = RichTextField(blank=True, null=True)
     has_alumni_details = models.BooleanField(default=True)
+    duration = models.IntegerField(default=2, help_text="Program duration in years")
 
     content_panels = Page.content_panels + [
         FieldPanel("name"),
         FieldPanel("intro"),
+        FieldPanel("duration"),
         FieldPanel("body"),
         FieldPanel("has_alumni_details"),
         InlinePanel("testimonials", label="testimonials"),
@@ -2378,9 +2382,16 @@ class StudentBatch(Page):
         validators=[MinValueValidator(1994), max_value_current_year],
     )
     table_view = models.BooleanField(default=False)
+    alumni_batch = models.BooleanField(default=False, verbose_name="Move to Alumni Corner")
     content_panels = Page.content_panels + [
         FieldPanel("enrollment_year"),
         FieldPanel("table_view"),
+        MultiFieldPanel(
+            [
+                FieldPanel("alumni_batch"),
+            ],
+            heading="Alumni corner details",
+        ),
     ]
     parent_page_types = [
         "Students",

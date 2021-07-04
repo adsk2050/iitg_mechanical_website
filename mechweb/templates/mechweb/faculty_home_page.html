@@ -161,7 +161,7 @@
                     <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
                     {% endif %}
                     {% if faculty.specific.email_id %}
-                    <li><span>Email</span> {{ faculty.specific.email_id|noscrape }}</li>
+                    <li><span>Email</span> {{ faculty.specific.email_id|noscrape|safe }}</li>
                     {% endif %}
                     {% if faculty.specific.irins_profile_link %}
                     <li><span>Research Profile:</span><a href="{{ faculty.specific.irins_profile_link }}">IIT Guwahati
@@ -251,7 +251,7 @@
                     <li><span>Contact</span> {{ faculty.specific.office_contact_number }}</li>
                     {% endif %}
                     {% if faculty.specific.email_id %}
-                    <li><span>Email</span> {{ faculty.specific.email_id|noscrape }}</li>
+                    <li><span>Email</span> {{ faculty.specific.email_id|noscrape|safe }}</li>
                     {% endif %}
                     {% if faculty.specific.irins_profile_link %}
                     <li><span>Research Profile:</span><a href="{{ faculty.specific.irins_profile_link }}">IIT Guwahati

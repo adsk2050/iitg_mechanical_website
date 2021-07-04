@@ -93,7 +93,7 @@
                       <li><span>Enrollment year</span>{{ student.specific.enrolment_year|date:"Y" }}</li>
                   {% endif %}
                   {% if student.specific.email_id %}
-                      <li><span>Email</span>{{ student.specific.email_id|noscrape }}</li>
+                      <li><span>Email</span>{{ student.specific.email_id|noscrape|safe }}</li>
                   {% endif %}
                   {% if student.specific.roll_no %}
                       <li><span>Enrollment NO.</span>{{ student.specific.roll_no }}</li>
