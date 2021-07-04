@@ -1,4 +1,4 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar cache%}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -104,7 +104,7 @@
 
 <body class="{% block body_class %}{% endblock %} d-flex flex-column min-vh-100"
   style="{% block body_style %}{% endblock %} ">
-
+{%cache 7200 navbar%}
   <!-- <header style="background-color: #3A5157;" class="blog-header py-3 row"> -->
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#222546 ">
@@ -333,7 +333,7 @@
     </nav>
   </header>
   <!-- </header> -->
-
+{%endcache%}
 
   <content>
     {% wagtailuserbar %}
@@ -344,6 +344,7 @@
   </content>
 <!-- content --> 
  <!-- Footer -->
+ {%cache 7200 footer %}
   <footer class="page-footer flex-rw font-small stylish-color-dark pt-4 mt-auto"
     style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif;">
 
@@ -605,6 +606,7 @@
 
 
   </footer>
+{%endcache%}
   <!-- Footer -->
 
   {% comment %} <script src="{% static "js/bootstrap.js" %}"></script> {% endcomment %}

@@ -17,7 +17,7 @@ import json
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-sc =  open(os.path.join(BASE_DIR, 'secrets.json'), 'r')
+sc = open(os.path.join(BASE_DIR, "secrets.json"), "r")
 secrets_txt = sc.read()
 secrets = json.loads(secrets_txt)
 sc.close()
@@ -29,104 +29,94 @@ SECRET_KEY = secrets["SECRET_KEY"]
 
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sitemaps',
-    'mechweb',
-    'alumni',
-    
-    'wagtail.contrib.sitemaps',
-    'wagtail.contrib.modeladmin',
-    'wagtail.contrib.forms',
-    'wagtail.contrib.redirects',
-    'wagtail.contrib.styleguide',
-    'wagtail.contrib.table_block',
-    'wagtail.embeds',
-    'wagtail.sites',
-    'wagtail.users',
-    'wagtail.snippets',
-    'wagtail.documents',
-    'wagtail.images',
-    'wagtail.search',
-    'wagtail.admin',
-    'wagtail.core',
-
-    'search',
-    'wagtailautocomplete',
-    'modelcluster',
-    'taggit',
-    'social_django',
-    'debug_toolbar',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
+    "mechweb",
+    "alumni",
+    "wagtail.contrib.sitemaps",
+    "wagtail.contrib.modeladmin",
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.contrib.styleguide",
+    "wagtail.contrib.table_block",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail.core",
+    "search",
+    "wagtailautocomplete",
+    "modelcluster",
+    "taggit",
+    "social_django",
+    "debug_toolbar",
 ]
 
 # # Application definition
 # SITE_ID=1
 
 MIDDLEWARE = [
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     # 'wagtail.core.middleware.SiteMiddleware', deprecated after wagtail 2.1.1 so removed it
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
-ROOT_URLCONF = 'iitg_mechanical_website.urls'
+ROOT_URLCONF = "iitg_mechanical_website.urls"
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.azuread_tenant.AzureADTenantOAuth2',
+    "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.azuread_tenant.AzureADTenantOAuth2",
 )
 
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(PROJECT_DIR, 'templates'),
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            os.path.join(PROJECT_DIR, "templates"),
         ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'mechweb.context_processors.navbar',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "mechweb.context_processors.navbar",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'iitg_mechanical_website.wsgi.application'
+WSGI_APPLICATION = "iitg_mechanical_website.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
-    # 'default': {
-    #     'ENGINE':'django.db.backends.postgresql_psycopg2',
-    #     'NAME':'mechweb',
-    #     'USER':'mechadmin',
-    #     'PASSWORD':'passworddummy',
-    #     'HOST':'127.0.0.1',
-    #     # 'HOST':'172.16.72.8'
-    # }
 }
 
 CACHES = {
@@ -140,14 +130,11 @@ CACHES = {
         },
         "KEY_PREFIX": "mechweb",
     },
-    "renditions": {
-        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "127.0.0.1:11211",
-        "TIMEOUT": 600,
-#        "OPTIONS": {
- #           "MAX_ENTRIES": 1000,
-  #      },
-    },
+    # "renditions": {
+    #     "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+    #     "LOCATION": "127.0.0.1:11211",
+    #     "TIMEOUT": 600,
+    # },
 }
 
 
@@ -156,16 +143,16 @@ CACHES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -175,108 +162,93 @@ AUTH_PASSWORD_VALIDATORS = [
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Kolkata'
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "Asia/Kolkata"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 mech = secrets["mech"]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = mech+'/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = mech + "/static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = mech+'/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = mech + "/media/"
 
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'static'),
+    os.path.join(PROJECT_DIR, "static"),
 ]
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
 # Javascript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
 # See https://docs.djangoproject.com/en/2.1/ref/contrib/staticfiles/#manifeststaticfilesstorage
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': '127.0.0.1:6379',
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#         }
-#         "KEY_PREFIX": "mechweb",
-#     }
-# }
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = "iitg_mechanical_website"
 
 # Dedault Richtext features
-RICHTEXT_BLOCKTYPES = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol']
-RICHTEXT_INLINESTYLES = ['bold', 'italic']
-RICHTEXT_ENTITIES = ['image', 'embed', 'link', 'document-link']
-RICHTEXT_MISC = ['hr']
+RICHTEXT_BLOCKTYPES = ["h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol"]
+RICHTEXT_INLINESTYLES = ["bold", "italic"]
+RICHTEXT_ENTITIES = ["image", "embed", "link", "document-link"]
+RICHTEXT_MISC = ["hr"]
 
-ALL_RICHTEXT_FEATURES = (
-    RICHTEXT_BLOCKTYPES +
-    RICHTEXT_INLINESTYLES +
-    RICHTEXT_ENTITIES + 
-    RICHTEXT_MISC
-)
+ALL_RICHTEXT_FEATURES = RICHTEXT_BLOCKTYPES + RICHTEXT_INLINESTYLES + RICHTEXT_ENTITIES + RICHTEXT_MISC
 
 CUSTOM_RICHTEXT = ALL_RICHTEXT_FEATURES
 # (
-#     RICHTEXT_BLOCKTYPES + 
+#     RICHTEXT_BLOCKTYPES +
 #     RICHTEXT_INLINESTYLES +
 #     RICHTEXT_MISC
 # )
 
-AUTH_USER_MODEL = 'mechweb.CustomUser'
-WAGTAIL_USER_EDIT_FORM = 'mechweb.forms.CustomUserEditForm'
-WAGTAIL_USER_CREATION_FORM = 'mechweb.forms.CustomUserCreationForm'
+AUTH_USER_MODEL = "mechweb.CustomUser"
+WAGTAIL_USER_EDIT_FORM = "mechweb.forms.CustomUserEditForm"
+WAGTAIL_USER_CREATION_FORM = "mechweb.forms.CustomUserCreationForm"
 # WAGTAIL_USER_CUSTOM_FIELDS = ['middle_name', 'user_type', 'uid']
-WAGTAIL_USER_CUSTOM_FIELDS = ['username', 'is_staff', 'middle_name', 'user_type', 'uid']
+WAGTAIL_USER_CUSTOM_FIELDS = ["username", "is_staff", "middle_name", "user_type", "uid"]
 
 # WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'
 # WAGTAILDOCS_DOCUMENT_MODEL = 'mechweb.CustomDocument'
 
 SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.social_auth.associate_by_email',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.auth_allowed",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.social_auth.associate_by_email",
+    "social_core.pipeline.user.create_user",
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
     # New pipeline item.
     # 'project.users.pipeline.make_intranet_user',
 )
 
-SOCIAL_AUTH_USER_MODEL = 'mechweb.CustomUser'
+SOCIAL_AUTH_USER_MODEL = "mechweb.CustomUser"
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = secrets["SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY"]
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = secrets["SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET"]
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = secrets["SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID"]
 
 # SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = '2?2WvMSFe_z4NN=Rm-0gOMrnbx4w96NW'
 # SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['first_name', 'middle_name', 'last_name', 'email', 'username']
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ["first_name", "middle_name", "last_name", "email", "username"]
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = mech+'/admin/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = mech + "/admin/"
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = BASE_URL+'/admin/'
-SOCIAL_AUTH_LOGIN_URL = mech+'/admin/login/'
+SOCIAL_AUTH_LOGIN_URL = mech + "/admin/login/"
 # SOCIAL_AUTH_LOGIN_URL = BASE_URL+'/admin/login/'
 DJANGO_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 RAISE_EXCEPTIONS = True
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
-WAGTAIL_FRONTEND_LOGIN_TEMPLATE = '/wagtailadmin/login.html'
-WAGTAIL_FRONTEND_LOGIN_URL = mech+'/admin/login/'
+WAGTAIL_FRONTEND_LOGIN_TEMPLATE = "/wagtailadmin/login.html"
+WAGTAIL_FRONTEND_LOGIN_URL = mech + "/admin/login/"
 # WAGTAIL_FRONTEND_LOGIN_URL = BASE_URL+'/admin/login/'
 # WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
 # In Azure portal app registration, add this as redirect uri: https://127.0.0.1:8000/complete/azuread-tenant-oauth2/

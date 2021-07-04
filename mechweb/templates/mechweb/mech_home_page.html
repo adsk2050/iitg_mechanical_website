@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags cache %}
 
 {% block extra_css %}
 
@@ -161,7 +161,6 @@
     .viewAllBtn:active {
         background: #171717ad;
     }
-
 </style>
 
 {% endblock %}
@@ -175,14 +174,13 @@
     </div>
 </div>
 <!-- Preloader End -->
-
 <div class="bd-example row d-flex justify-content-center">
     {% if page.yt_video_code %}
 
     {% if not page.research_profile_documentary_code %}
-    
+
     <div class="col-sm-12 col-md-6">
-         <div id="carouselslider" class="carousel slide" data-ride="carousel">
+        <div id="carouselslider" class="carousel slide" data-ride="carousel">
             <ul class="carousel-indicators">
                 {% for photo in page.gallery_images.all %}
                 <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}"
@@ -206,14 +204,14 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-        </div> 
+        </div>
     </div>
     {% else %}
     <div class="col-sm-12 col-md-6">
         <div class="research-profiles-video-div">
             <iframe id="research-profiles-video-frame" class="" style="width:100%; height:400px"
-                src="https://www.youtube-nocookie.com/embed/{{page.research_profile_documentary_code}}?modestbranding=1" frameborder="0"
-                allowfullscreen></iframe>
+                src="https://www.youtube-nocookie.com/embed/{{page.research_profile_documentary_code}}?modestbranding=1"
+                frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     {% endif %}
@@ -254,6 +252,7 @@
     </div>
     {% endif %}
 </div>
+
 <!-- Split screen Code starts -->
 <div class="container-fluid newscontainer p-sm-0  pl-md-5">
     <div class="row padding d-flex justify-content-between mb-2">
@@ -262,6 +261,7 @@
                 <img height="100px" width="100px" src="{% static "images/img2.jpg" %}">
             </figure>
 
+            {% cache 7200 aboutiitgmech %}
             <div class="promo-text">
                 <h3>About ME,IITG</h3>
                 <br>
@@ -278,6 +278,7 @@
                     {% endfor %}
                 </p>
             </div>
+            {% endcache %}
         </div>
 
 
@@ -286,11 +287,12 @@
                 <div id="News" class="tabcontent col-sm-12 col-md-3 card px-3">
                     <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">News</h4>
+                        {%cache 86400 news_announcments_page_ptr %}
                         <a href="{{news_announcments_page.url}}" class="float-none my-3 viewAllBtn">
                             View all<i class="ml-1 fa fa-link"></i>
                         </a>
+                        {%endcache%}
                     </div>
-
                     <div class="news_list">
                         <ul>
 
@@ -298,10 +300,11 @@
                             {% if notification.info_type == "0" %}
                             <li style="font-size: 14px;" class="py-2">
                                 <div>
-                                <a href="{{notification.url}}">{{ notification.title}}</a>
-                                {% if notification.badge %}
-                                <span class="badge badge-danger pull-right p-1">{{notification.get_badge_display}}</span>
-                                {% endif %}
+                                    <a href="{{notification.url}}">{{ notification.title}}</a>
+                                    {% if notification.badge %}
+                                    <span
+                                        class="badge badge-danger pull-right p-1">{{notification.get_badge_display}}</span>
+                                    {% endif %}
                                 </div>
                                 {% if notification.date %}
                                 <div class="date">
@@ -314,6 +317,7 @@
                             {% endfor %}
 
                             {% for award in top_awards %}
+
                             <li style="font-size: 14px;" class="py-2">
                                 <a>{{ award.award_title }}({{ award.get_award_type_display }}) awarded to
                                     <strong>{{ award.faculty }}</strong> by <strong>{{ award.conferrer }}
@@ -335,9 +339,12 @@
                 <div id="Announcements" class="tabcontent col-sm-12 col-md-3 card px-3">
                     <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">Announcements</h4>
+                        {%cache 86400 news_announcments_page_ptr %}
+
                         <a href="{{news_announcments_page.url}}" class="float-none my-3 viewAllBtn">
                             View all<i class="ml-1 fa fa-link"></i>
                         </a>
+                        {%endcache%}
                     </div>
                     <div class="news_list">
                         <ul>
@@ -346,10 +353,11 @@
                             {% if notification.info_type == "1" %}
                             <li style="font-size: 14px;" class="pt-3">
                                 <div>
-                                <a href="{{notification.url}}">{{ notification.title}}</a>
-                                {% if notification.badge %}
-                                <span class="badge badge-danger pull-right p-1">{{notification.get_badge_display}}</span>
-                                {% endif %}
+                                    <a href="{{notification.url}}">{{ notification.title}}</a>
+                                    {% if notification.badge %}
+                                    <span
+                                        class="badge badge-danger pull-right p-1">{{notification.get_badge_display}}</span>
+                                    {% endif %}
                                 </div>
                                 {% if notification.date %}
                                 <div class="date">
@@ -367,9 +375,11 @@
                 <div id="Events" class="tabcontent col-sm-12 col-md-3 card px-3">
                     <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">Events</h4>
+                        {%cache 86400 events_home_page_ptr%}
                         <a href="{{events_home_page.url}}" class="float-none my-3 viewAllBtn">
                             View all<i class="ml-1 fa fa-link"></i>
                         </a>
+                        {%endcache%}
                     </div>
                     <div class="news_list">
                         <ul>
@@ -379,20 +389,21 @@
                                 </a> </a>
                                 {% if event.start_date or event.start_at%}
                                 <div class="date">
-                                    <font size="-1"><i class="fa fa-calendar"></i> {{ event.start_date }} {{event.start_at}}
+                                    <font size="-1"><i class="fa fa-calendar"></i> {{ event.start_date }}
+                                        {{event.start_at}}
                                         {% if event.end_date or event.end_by %}
                                         - {{ event.end_date }} {{event.end_by}}
                                         {% endif %}
                                         <div class="location">
                                             <i class="fa fa-map-marker mr-1" aria-hidden="true"></i>
                                             {{ event.get_venue_display }}
-                                            
+
                                             {% if not event.is_past_due %}
-                                                    {% comment %} <div class="ml-1"> {% endcomment %}
-                                                        <span class="badge badge-warning p-1">Upcoming</span>
-                                                    {% comment %} </div> {% endcomment %}
+                                            {% comment %} <div class="ml-1"> {% endcomment %}
+                                                <span class="badge badge-warning p-1">Upcoming</span>
+                                                {% comment %} </div> {% endcomment %}
                                             {% endif %}
-                                            
+
                                         </div>
                                     </font>
                                 </div>
@@ -440,6 +451,7 @@
 </div>
 <!-- split screen code ends -->
 <!-- /* table for research area showcase */ -->
+{%cache 86400 research_area_showcase%}
 <div class="container-fluid" style="margin-bottom: 5px;margin-top:30px">
     <div class="row">
         <div class="col">
@@ -468,7 +480,9 @@
         {% endfor %}
     </div>
 </div>
+{%endcache%}
 <!-- end of research categories row -->
+{%cache 86400 hod_message%}
 <div class="w3-padding-64 messagebox">
     <div class="w3-row-padding">
         <div class="w3-col l4 m6">
@@ -506,6 +520,7 @@
         </div>
     </div>
 </div>
+{%endcache %}
 
 {% endblock %}
 
@@ -520,21 +535,20 @@
         $(".loaderback").fadeOut(
             "fast"); //fade out preloader. You can add your custom effects here too.
 
-    setTimeout(()=>{
-        $('.news_list').easyTicker({
-            direction: 'up',
-            visible: 4,
-            interval: 2500,
-            easing: 'swing',
-            controls: {
-                up: '.btnUp',
-                down: '.btnDown',
-                toggle: '.btnToggle'
-            }
-        });
-	},3000);
+        setTimeout(() => {
+            $('.news_list').easyTicker({
+                direction: 'up',
+                visible: 4,
+                interval: 2500,
+                easing: 'swing',
+                controls: {
+                    up: '.btnUp',
+                    down: '.btnDown',
+                    toggle: '.btnToggle'
+                }
+            });
+        }, 3000);
     });
-
 </script>
 
 {% endblock %}
