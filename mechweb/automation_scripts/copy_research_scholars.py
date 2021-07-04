@@ -73,5 +73,3 @@ for student in students:
     if student.get_programme_display() == "Research Scholar":
         copy_student(student.specific)
 exit()
-
-# python manage.py  shell < mechweb/automation_scripts/copy_research_scholars.py
