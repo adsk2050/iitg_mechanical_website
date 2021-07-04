@@ -250,7 +250,7 @@ class EventPageDocument(Orderable):
 class EventPageUrl(Orderable):
     page = ParentalKey(AlumniEventPage, on_delete=models.CASCADE, related_name="event_urls")
     title = models.CharField(max_length=264, blank=False)
-    url = models.URLField(blank=False)
+    url = models.URLField(blank=False, max_length=2083)
     panels = [FieldRowPanel([FieldPanel("title"), FieldPanel("url")])]
 
 
