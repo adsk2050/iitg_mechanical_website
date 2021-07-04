@@ -43,7 +43,7 @@ body {
   <div class="row d-flex justify-content-center">
     <div class="col-12 col-lg-6">
       <ul class="list-group">
-      {% for batch in page.get_children_order_by_title.live %}
+      {% for batch in page.current_batches.live %}
         <a href="{% pageurl batch %}" class="py-3 my-2 batch-tab">
        <i class="fa fa-user" aria-hidden="true"></i> {{batch.title}}</a>
       {% endfor %}  

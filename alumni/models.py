@@ -50,13 +50,15 @@ class AlumniHome(Page):
         if batch_id != None:
             try:
                 batch = mech.StudentBatch.objects.get(id=batch_id)
+                if batch.alumni_batch == False:
+                    batch = None
             except:
                 batch = None
                 batch_id = None
             if batch:
                 students = batch.get_children_order_by_title()
                 program = batch.get_program()
-                siblings = batch.get_siblings(inclusive=True)
+                siblings = batch.get_parent().specific.alumni_batches
         elif program_id != None:
             try:
                 program = mech.Program.objects.get(id=program_id)
@@ -70,7 +72,7 @@ class AlumniHome(Page):
                 studentsPage = mech.Students.objects.child_of(program).first()
                 siblings = program.get_siblings_with_alumni_details()
                 if studentsPage:
-                    node_children = studentsPage.get_children_order_by_title().type(mech.StudentBatch)
+                    node_children = studentsPage.alumni_batches
                     node_child_type = "batch"
                     students = studentsPage.get_children().type(mech.Student).order_by("title")
 
@@ -100,8 +102,6 @@ class AlumniHome(Page):
             alumni_list = paginator.get_page(page)
             context["alumni_list"] = alumni_list
             context["offset"] = offset
-            print(page, offset)
-        # print(node_parents, siblings, node_children)
         context["program"] = program
         context["node_parents"] = node_parents
         context["node_parent_id"] = node_parent_id
@@ -142,7 +142,7 @@ class AlumniEventsHomePage(Page):
         context = super().get_context(request, *args, **kwargs)
 
         events = AlumniEventPage.objects.live().order_by("-start_at", "-end_by")
-        paginator = Paginator(events, 10)
+        paginator = Paginator(events, 9)
         page = request.GET.get("page")
         events = paginator.get_page(page)
         context["events"] = events

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags static%}
+{% load wagtailcore_tags wagtailimages_tags static mechweb_tags%}
 
 {% block body_class %}template-event-homepage{% endblock %}
 
@@ -9,9 +9,11 @@
 {% endblock extra_css %}
 
 {% block content %}
+<div class="bg-white">
+    {%breadcrumbs%}
+    <h3 class="text-center pb-4"> <i class="fa fa-bullhorn px-2"> </i>Alumni Events</h3>
+</div>
 <div class="container mt-5">
-<h3 class="text-center">Alumni Events</h3>
-
 <div class="row">
 {% for event in events %}
 
@@ -108,22 +110,32 @@
 </div>
 </div>
 
-<div class="paginatio text-center">
+<div class="paginatio text-center bg-white py-4">
     <div class="step-links text-center" style="align: middle">
         <div class="current">
             Page {{ events.number }} of {{ events.paginator.num_pages }}.
         </div>
-      <div class="btn btn-sm btn-warning">
-        {% if events.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ events.previous_page_number }}">previous</a>
-        {% endif %}
-          {% if events.has_next %}
-              <a href="?page={{ events.next_page_number }}">next</a>
-              <a href="?page={{ events.paginator.num_pages }}">last &raquo;</a>
+        <div class="row d-flex justify-content-around">
+            {% if events.has_previous %}
+            <a class="btn btn-sm btn-warning mx-1" href="?page=1">&laquo; first</a>
+            <a class="btn btn-sm btn-warning mx-1"
+                href="?page={{ events.previous_page_number }}">previous</a>
+            {% else %}
+            <a aria-disabled="true" class="disabled btn btn-sm btn-warning mx-1">&laquo; first</a>
+            <a aria-disabled="true" class="disabled btn btn-sm btn-warning mx-1">previous</a>
+            {% endif %}
+            {% if events.has_next %}
+            <a class="btn btn-sm btn-warning mx-1"
+                href="?page={{ events.next_page_number }}">next</a>
+            <a class="btn btn-sm btn-warning mx-1"
+                href="?page={{ events.paginator.num_pages }}">last &raquo;</a>
+            {% else %}
+            <a aria-disabled="true" class="disabled btn btn-sm btn-warning mx-1">&laquo; next</a>
+            <a aria-disabled="true" class="disabled btn btn-sm btn-warning mx-1">last &raquo;</a>
+            {% endif %}
         </div>
-          {% endif %}
+        <br><br>
     </div>
-    <br><br>
 </div>
+
 {% endblock %}

@@ -2369,9 +2369,17 @@ class Students(Page):
         children = super().get_children().order_by("-title")
         return children
 
+    @property
+    def current_batches(self):
+        return StudentBatch.objects.child_of(self).filter(alumni_batch=False).order_by("-title")
+
+    @property
+    def alumni_batches(self):
+        return StudentBatch.objects.child_of(self).filter(alumni_batch=True).order_by("-title")
+
     def get_context(self, request):
         context = super(Students, self).get_context(request)
-        context["batches"] = self.get_children_order_by_title().type(StudentBatch)
+        context["batches"] = self.current_batches
         return context
 
 

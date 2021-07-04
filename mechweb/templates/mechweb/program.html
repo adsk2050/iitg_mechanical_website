@@ -254,10 +254,10 @@
 
                 <div class="row">
                   <div class="col-12">
-                    <h4 class="title p-3"><a href="{%pageurl students%}">Students</a></h4>
+                    <h4 class="title p-3"><a href="{%pageurl students%}">{{students}}</a></h4>
                     <div class="inner">
                       <ul>
-                        {% for batch in students.specific.get_children_order_by_title.live %}
+                        {% for batch in students.specific.current_batches.live %}
                         <a href="{% pageurl batch %}">
                           <li class="px-3 py-1">{{batch.title}}</li>
                         </a>
