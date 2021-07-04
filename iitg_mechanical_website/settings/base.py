@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-
     'mechweb',
     'alumni',
     
@@ -61,7 +60,7 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'social_django',
-    # 'django-redis',
+    'debug_toolbar',
 ]
 
 # # Application definition
@@ -75,7 +74,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # 'wagtail.core.middleware.SiteMiddleware', deprecated after wagtail 2.1.1 so removed it
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
@@ -130,6 +129,27 @@ DATABASES = {
     # }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        # for django-redis < 3.8.0, use:
+        # 'LOCATION': '127.0.0.1:6379',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "KEY_PREFIX": "mechweb",
+    },
+    "renditions": {
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "LOCATION": "127.0.0.1:11211",
+        "TIMEOUT": 600,
+#        "OPTIONS": {
+ #           "MAX_ENTRIES": 1000,
+  #      },
+    },
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -174,7 +194,7 @@ STATICFILES_DIRS = [
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
 # Javascript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
 # See https://docs.djangoproject.com/en/2.1/ref/contrib/staticfiles/#manifeststaticfilesstorage
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
