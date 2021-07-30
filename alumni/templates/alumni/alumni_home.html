@@ -257,8 +257,20 @@
                         <td>{{forloop.counter|add:offset}}</td>
                         <td>{{ alumnus.specific.first_name }} {{alumnus.specific.middle_name}}
                             {{alumnus.specific.last_name}}</td>
-                        <td>{{alumnus.specific.roll_no}}</td>
-                        <td>{{alumnus.specific.webmail|noscrape|safe}}</td>
+                        <td>
+                        {% if alumnus.specific.roll_no  %}
+                        {{alumnus.specific.roll_no}}</td>
+                        {% else %}
+                            -
+                        {% endif %}
+                        <td>
+                        {% if alumnus.specific.webmail %}
+                        {{alumnus.specific.webmail|noscrape|safe}}
+                        {% else %}
+                            -
+                        {% endif %}
+                        
+                        </td>
                         <td>{{alumnus.specific.leaving_year|date:"Y" }}</td>
                         <td>
                             {% if alumnus.specific.supervisor %}
@@ -280,7 +292,11 @@
                             {% else %}
                             {% for kk in alumnus.specific.custom_supervisor.all%}
                             {% if kk.supervisor_type == "co_supervisor" %}
+                            {% if kk.website %}
                             <a href="{{ kk.website }}">{{ kk.full_name }},</a>
+                            {% else %}
+                            {{kk.full_name}},
+                            {% endif %}
                             {% endif %}
                             {% endfor %}
                             {% endif %}

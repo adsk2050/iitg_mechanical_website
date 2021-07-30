@@ -2385,14 +2385,20 @@ class Students(Page):
 
 class StudentBatch(Page):
     enrollment_year = models.IntegerField(
-        _("year"),
-        default=current_year(),
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1994), max_value_current_year],
+    )
+    graduation_year = models.IntegerField(
+        null=True,
+        blank=True,
         validators=[MinValueValidator(1994), max_value_current_year],
     )
     table_view = models.BooleanField(default=False)
     alumni_batch = models.BooleanField(default=False, verbose_name="Move to Alumni Corner")
     content_panels = Page.content_panels + [
         FieldPanel("enrollment_year"),
+        FieldPanel("graduation_year"),
         FieldPanel("table_view"),
         MultiFieldPanel(
             [
@@ -2423,14 +2429,14 @@ class StudentBatch(Page):
 
 class Student(Page):
     # user = models.ForeignKey(AUTH_USER_MODEL, related_name='student_profile', null=True, on_delete=models.SET_NULL,blank=True,verbose_name="User(only if the user exists)")
-    webmail = models.EmailField(blank=False, null=True)
+    webmail = models.EmailField(blank=True, null=True)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     email_id = models.EmailField(blank=True, verbose_name="Personal Email ID")
     roll_no = models.IntegerField(blank=True, null=True)
-    enrollment_year = models.DateField(default=timezone.now)
-    leaving_year = models.DateField(default=timezone.now, blank=True, null=True)
+    enrollment_year = models.DateField(blank=True, null=True)
+    leaving_year = models.DateField(blank=True, null=True)
     is_exchange = models.BooleanField(default=False, verbose_name="International Student")
     supervisor = models.ForeignKey(
         "FacultyPage",
@@ -2448,6 +2454,7 @@ class Student(Page):
         verbose_name="Co-supervisor",
         related_name="co_supervisor",
     )
+    thesis_title = models.CharField(max_length=500, blank=True, null=True)
     contact_number = models.CharField(max_length=30, blank=True)
     hostel_address = models.CharField(max_length=264, blank=True)
     photo = models.ForeignKey(
@@ -2483,6 +2490,7 @@ class Student(Page):
             max_num=2,
             label="Supervisor/Co-supervisor/Faculty Advisor (Only if the supervisor/co-supervisor/faculty advisor is from other department)",
         ),
+        FieldPanel("thesis_title"),
         FieldPanel("hostel_address"),
         MultiFieldPanel(
             [
