@@ -84,9 +84,9 @@ def copy_student(old_stud):
 
 students = StudentPage.objects.all()
 
-# for student in students:
-#     if student.get_programme_display() == "Research Scholar":
-#         copy_student(student.specific)
+for student in students:
+    if student.get_programme_display() == "Research Scholar":
+        copy_student(student.specific)
 
 
 def moveToGraduatedBatch(stud):
