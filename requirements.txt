@@ -39,7 +39,7 @@ soupsieve==2.0.1
 sqlparse==0.3.1
 tablib==2.0.0
 Unidecode==1.1.1
-urllib3==1.25.10
+urllib3==1.26.5
 wagtail==2.11.1
 wagtail-autocomplete==0.6
 webencodings==0.5.1
