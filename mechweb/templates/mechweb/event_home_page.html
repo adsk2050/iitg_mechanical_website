@@ -1,88 +1,136 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static%}
 
 {% block body_class %}template-event-homepage{% endblock %}
 
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/events.css' %}" />
+{% endblock extra_css %}
 
 {% block content %}
-
-<div class="container-fluid text-center">
-  <h1 class="my-4">{{ page.title }}<br>
-    {% if featured_event %}
-    <small>Featured Event</small>
-    {% endif %}
-  </h1>
-  <div class="row padding">
-    <div class="col-sm-2 col-md-1"></div>
-      <div class="col-xs-12 col-sm-4 col-md-10">
-        {% if event_list.number == 1 %}
-        {% if featured_event %}
-
-          <div class="row">
-
-            <div class="col-md-8">
-              <!-- {% image page.featured_event.specific.poster fill-750x500 %} -->
-              <!-- <img class="img-fluid" src="http://placehold.it/750x500" alt=""> -->
+<div class="container mt-5">
+<h3 class="text-center">Events</h3>
+{% if page.featured_event %}
+<h4>Featured Event</h4>
+  <div class="col-lg-4">
+        <div class="card card-margin">
+            <div class="card-header no-border">
+                <h5 class="card-title">{{page.featured_event.specific.get_event_type_display}}</h5>
             </div>
+            <div class="card-body pt-0">
+                <div class="widget-49">
+                    <div class="widget-49-title-wrapper">
 
-            <div class="col-md-4">
-              <h3 class="my-3"><a href="{{ page.featured_event.url }}">{{ page.featured_event.specific.event_name }}</a></h3>
-              <p>The {{ page.featured_event.specific.get_event_type_display }} will be held from: {{ page.featured_event.specific.start_date }} to {{ page.featured_event.specific.end_date }} at {{ page.featured_event.specific.get_venue_display }}</p>
+                        <div class="widget-49-date-success"> 
+                            <span class="widget-49-date-day">{{page.featured_event.specific.start_date.day}}</span>
+                            <span class="widget-49-date-month">{{page.featured_event.specific.start_date|date:'F'|slice:':3'}}</span>
+                        </div>
+                        <div class="widget-49-meeting-info">
+                            <span class="widget-49-pro-title">{{page.featured_event.specific.event_name}}</span>
+                            <span class="widget-49-meeting-time">{{page.featured_event.specific.start_date}} 
+                            {% if page.featured_event.specific.end_date %}
+                                to {{page.featured_event.specific.end_date}}
+                            {% endif %}    
+                            </span>
+                        </div>
+                    </div>
+                    <ul class="widget-49-meeting-points">
+                        {% for item in page.featured_event.specific.links.all %}
+                          <li class="widget-49-meeting-item"><span><a href="{{item.link}}">{{item.link}}</a></span></li>
+                        {% endfor %}
+                     </ul> 
+                </div>
             </div>
-        {% endif %}
-        {% endif %}
-
-      </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-4 ml-4 labbox">
-      <h3 class="text-center" style="color:#881125; font-weight:bolder;"> Other Events</h3>
-      <ol>
-        {% for event in event_list %}
-        <li>
-          <div class="w3-row text-center">
-            <a href="{{ event.url }}">{{ event.specific.event_name }}</a>
-          </div>
-          <div class="w3-row text-center" style="align: middle">
-            The {{ event.specific.get_event_type_display }} will be held from: {{ event.specific.start_date }} to {{ event.specific.end_date }} at {{ event.specific.get_venue_display }}
-          </div>
-        </li>
-        <br><br>
-        {% endfor %}
-      </ol>
-
+        </div>
     </div>
-  </div>
+{% endif %}
+
+<div class="row">
+
+{% for event in event_list %}
+    <div class="col-lg-4">
+        <div class="card card-margin">
+            <div class="card-header no-border">
+                <h5 class="card-title">{{event.specific.get_event_type_display}}</h5>
+                <div class="event-location ml-auto">
+                <span class="badge">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                  {{event.specific.get_venue_display}}
+                  </span>
+                </div>
+                {% if not event.specific.is_past_due %}
+              <div class="ml-1">
+                <span class="badge badge-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%}">Upcoming</span>
+              </div>
+                {%endif%}
+            </div>
+            <div class="card-body pt-0">
+                <div class="widget-49">
+                    <div class="widget-49-title-wrapper">
+                        <div class="widget-49-date-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%}">
+                        
+                            <span class="widget-49-date-day">{{event.specific.start_date.day}}</span>
+                            <span class="widget-49-date-month">{{event.specific.start_date|date:'F'|slice:':3'}}</span>
+                        </div>
+                        <div class="widget-49-meeting-info">
+                            <span class="widget-49-pro-title">{{event.specific.event_name}}</span>
+                            <span class="widget-49-meeting-time">{{event.specific.start_date}} 
+                            {% if event.specific.end_date %}
+                                to {{event.specific.end_date}}
+                            {% endif %}    
+                            </span>
+                        </div>
+                    </div>
+                    <div class="widget-49-meeting-points pt-2">
+                        <ul>
+                            {% if event.specific.document %}
+                                <li class="widget-49-meeting-item">
+                                    <a href="{{ event.specific.document.url }}"> Event Document</a>
+                                </li>            
+                            {% endif %}
+                            {% for item in event.specific.links.all %}
+                                <li class="widget-49-meeting-item">
+                                    <span>
+                                        <a href="{{item.link}}">
+                                            {{item.link}}
+                                        </a>
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div> 
+                    <div class="widget-49-meeting-action">
+                        <a href="{{event.url}}" class="btn btn-sm btn-{% cycle 'warning' 'info' 'danger' 'dark' 'success' 'primary' 'secondary'%} btn-flash-border-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
 </div>
-
-
-
+</div>
+</div>
 
 <div class="paginatio text-center">
     <div class="step-links text-center" style="align: middle">
-      <div >
+        <div class="current">
+            Page {{ event_list.number }} of {{ event_list.paginator.num_pages }}.
+        </div>
+      <div class="btn btn-sm btn-warning">
         {% if event_list.has_previous %}
             <a href="?page=1">&laquo; first</a>
             <a href="?page={{ event_list.previous_page_number }}">previous</a>
         {% endif %}
-      </div>
-
-        <div class="current">
-            Page {{ event_list.number }} of {{ event_list.paginator.num_pages }}.
-        </div>
-        <div>
           {% if event_list.has_next %}
               <a href="?page={{ event_list.next_page_number }}">next</a>
               <a href="?page={{ event_list.paginator.num_pages }}">last &raquo;</a>
-          {% endif %}
         </div>
-
-
+          {% endif %}
     </div>
     <br><br>
 </div>
 
-</div>
 
 {% endblock %}

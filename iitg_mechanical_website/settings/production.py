@@ -3,7 +3,7 @@ try:
 except ImportError:
     pass
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['intranet.iitg.ac.in', 'intranet.iitg.ac.in/mech', 'www.iitg.ac.in', 'www.iitg.ac.in/mech', 'iitg.ac.in', 'iitg.ac.in/mech', '172.16.72.79']
 

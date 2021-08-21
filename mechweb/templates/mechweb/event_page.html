@@ -1,60 +1,92 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static mechweb_tags %}
 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/events.css' %}" />
+{% endblock extra_css %}
 {% block body_class %}template-event-page{% endblock %}
 
 {% block content %}
 
-      <br>
-    <div class="container-fluid">
-        <div class="row padding">
-            <div class="col">
-                <h1 class="text-center" style="color:#15218d; font-weight:bolder;">{{ page.specific.event_name }}</h1>
-                <h3 class="text-center" style="color:#15218d; font-weight:bolder;">{{ page.intro|richtext }}</h3>
+{% breadcrumbs%}
+<div class="container">
+    <h4 class="text-center"> Event</h4>
+    <div class="col-lg-8 m-auto">
+        <div class="card card-margin">
+            <div class="card-header no-border">
+                <h5 class="card-title">{{page.get_event_type_display}}</h5>
+                <div class="event-location ml-auto">
+                    <span class="badge">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        {{page.get_venue_display}}
+                    </span>
+                </div>
+                {% if not page.is_past_due %}
+                <div class="ml-1">
+                    <span class="badge badge-success">Upcoming</span>
+                </div>
+                {%endif%}
+            </div>
+            <div class="card-body pt-0">
+                <div class="widget-49">
+                    <div class="widget-49-title-wrapper">
+
+                        <div class="widget-49-date-success">
+                            <span class="widget-49-date-day">{{page.start_date.day}}</span>
+                            <span class="widget-49-date-month">{{page.start_date|date:'F'|slice:':3'}}</span>
+                        </div>
+                        <div class="widget-49-meeting-info">
+                            <span class="widget-49-pro-title">{{page.event_name}}</span>
+                            <span class="widget-49-meeting-time">{{page.start_date}}
+                                {% if page.event.specific.end_date %}
+                                to {{page.event.specific.end_date}}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row justify-content-center">
+                            {% image page.specific.poster fill-320x240 as poster%}
+                            <img class="rounded" src="{{ poster.url }}" alt="{{ poster.alt }}" style="max-width:80%;" />
+
+                        </div>
+                        <div class="widget-49-meeting-points">
+                            {{page.description|richtext}}
+                        </div>
+                        <div class="widget-49-meeting-points">
+                            <ul>
+                                {% if page.specific.document %}
+                                <li class="widget-49-meeting-item">
+                                    <a href="{{ page.specific.document.url }}"> Event Document</a>
+                                </li>
+                                {% endif %}
+                                {% for item in page.links.all %}
+                                <li class="widget-49-meeting-item">
+                                    <span>
+                                        <a href="{{item.link}}">
+                                            {{item.link}}
+                                        </a>
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% for gallery_img in page.gallery_images.all %}
+                            <div class="row justify-content-center">
+                                {% image gallery_img.image fill-320x240 as photo %}
+                                <img class="rounded" src="{{ photo.url }}" alt="{{ photo.alt }}"
+                                    style="max-width:80%;" />
+
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <div>
-        <div class=" row justify-content-md-center">{% image page.specific.poster fill-320x240 %}</div>
-        <div class=" row justify-content-md-center">{{ item.caption }}</div>
-    </div>
-    <!-- {% for item in page.gallery_images.all %}
-        <div>
-            {% image item.image fill-320x240 %}
-            <div>{{ item.caption }}</div>
-        </div>
-    {% endfor %} -->
-        <br>
-    <div class="container-fluid text-center">
-        
-        <h2>Event type: {{ page.get_event_type_display }}</h2>
-        <h4>Starts on : {{ page.start_date }} and  Ends on : {{page.end_date }}</h4>   
-        <h3>Venue: {{ page.get_venue_display }} </h3>
-        <div class="container ">    
-            
-            <h5>{{ page.description|richtext }}</h5>
-        </div>
-        <ul>
-            {% for item in page.links.all %}
-            <div>
-                <li><a href="{{item.link}}">{{item.link}}</a></li>  
-            </div>
-        {% endfor %}
-        </ul>
-	{% if page.specific.document %}
-	<div><a href="{{ page.specific.document.url }}"> Event Document</a></div>            
-	{% endif %}
-    </div>
-
-    <br><br>
-        
-    </div>
-
-
-
-
+</div>
 {% endblock content %}
 
 {% block extra_script %}

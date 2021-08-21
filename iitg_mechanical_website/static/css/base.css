@@ -1,3 +1,10 @@
+
+body{
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
 /* media queries */
 
 
@@ -45,7 +52,7 @@
     /* font-weight: bold; */
   }
 
-  .navbar-light .navbar-nav .nav-link{
+  .navbar-dark .navbar-nav .nav-link{
     color: #fff;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 0.15;
@@ -102,7 +109,7 @@
     font-size:
 
   }
-  .navbar-light .navbar-nav .nav-link{
+  .navbar-dark .navbar-nav .nav-link{
     color: #fff;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 0.15;
@@ -129,10 +136,10 @@
     width: 30px;
   }
 
-  .fixed-top .navbar-collapse {
+  /* .fixed-top .navbar-collapse {
     max-height: 100vh;
     overflow-y: auto;
-  }
+  } */
   nav {
     border-top: 1px solid rgba(255,255,255,0.1);
     display: block;
@@ -142,9 +149,9 @@
 body,html {
   /* color: #272727; */
 
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  /* width: 100%; */
+  /* height: 100%; */
+  /* min-height: 100vh; */
 
   font-family: 'Source Sans Pro', sans-serif;;
   font-style: normal;
@@ -155,6 +162,10 @@ body,html {
 }
 
 
+.body{
+  /* padding: 0 !important; */
+  /* overflow-x:hidden !important; */
+}
 .dropdown-toggle::after {
   display:none !important;  //important is added to overcome basic effect from bootstrap document
 }
@@ -168,9 +179,7 @@ body,html {
   color: #fff !important;
   font-weight: bold;
 }
-.show{
-  columns: col-md-4 !important;
-}
+
 
 .dropdown-header{
   font-weight: bold;
@@ -221,7 +230,6 @@ h1 {
 h2 ,h3{
   font-weight: 900;
   font-family: 'Bitter', sans-serif;
-  color: #222546;
 }
 
 h4 {
@@ -291,7 +299,7 @@ nav{
 }
 
 
-.navbar-light .navbar-brand{
+.navbar-dark .navbar-brand{
   color: #fff;
   font-size: 25px;
   text-transform: uppercase;
@@ -299,7 +307,7 @@ nav{
   letter-spacing: 2px;
 }
 
-.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+.navbar-dark .navbar-nav .active > .nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show > .nav-link {
 	color: #fff;
 }
 
@@ -368,37 +376,59 @@ nav{
   line-height: 1.45;
 }
 
-.carousel-inner img{
+.carousel-inner img,.yt-video{
   width: 100%;
-  height: 100%;
+  height: 400px;
+}
+.yt-video2{
+  display: none;
+  visibility: hidden;
+}
+@media (max-width:992px){
+  .carousel-inner img{
+    height: 300px;
+  }
+  .yt-video{
+    height: 300px;
+  }
+  .yt-video2{
+    visibility: visible;
+    display: block;
+    width: 100%;
+    height: 200px;
+  }
+  .carousel-caption{
+    bottom: 10px;
+  }
+}
+@media (max-width:768px) {
+    .carousel-inner img{
+    height: 200px;
+  }
+  .yt-video{
+    display: none;
+    
+  }
+  .yt-video2{
+    display: block;
+  }
 }
 
 .carousel-item{
-  height: 100vh;
-  min-height: 300px;
   background: no-repeat center center scroll;
   -webkit-background-size:cover;
-  background-size: cover;
-
 }
 
-.carousel-caption{
-  bottom: 270px;
 
-}
-s
 .carousel-caption h5{
   font-size: 45px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-top: 25px;
+  /* margin-top: 25px; */
 }
 
 .carousel-caption p{
-  width: 75%;
   margin: auto;
-  font-size: 18px;
-  line-height: 1.9;
 
 }
 
@@ -514,7 +544,7 @@ s
   position: relative;
   overflow: visible;
 }
-.sidebar-box .read-more {
+.sidebar-box .stage {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -584,14 +614,13 @@ header{
   width: 30%;
   height: auto;
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 20px;
-}
+ }
 
 /* Style the buttons that are used to open the tab content */
 .newsbox .tab button {
   display: block;
-  background: linear-gradient(190deg, #222546 0%,#5085A5 100%);
-
+  background-color: #5085A5;
+  /* background-color: #007aff; */
   /* background-color: inherit; */
   color: #fff;
   margin: 30px 0;
@@ -614,11 +643,6 @@ header{
   background-color: #ddd;
 } */
 
-.newsbox .tab button:active {
-  background-color: #fff;
-  color: black;
-}
-
 
 /* .newsbox .tab .tablinks:hover {
   background: #222546;
@@ -627,14 +651,14 @@ header{
 } */
 
 .newsbox .tab .tablinks:active {
-  background-color: #fff ;
-  /* transition: 0.9s; */
+  background-color: #90e0ef ;
+  transition: 0.9s;
   color: #fff;
   font-weight: 400;
 }
 /* Create an active/current "tab button" class */
 .newsbox .tab button.active {
-  background-color: #fff;
+  background-color: #03045e;
 }
 .newsbox{
   display: block;
@@ -643,13 +667,9 @@ header{
 
 /* Style the tab content */
 .tabcontent{
-  float: left;
-  border: 1px solid #ccc;
+  /* float: left; */
   width: 70%;
-  border-left: none;
-  height: 435px;;
-  display: none;
-  overflow-y: scroll;
+  overflow-y: hidden;
   font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -667,13 +687,11 @@ header{
 .newscontainer .promo {
   font-weight: 300;
   background: linear-gradient(190deg, #222546 0%,#5085A5 100%);
-  border-radius: 0px 0px 10px 10px;
-  color: #fff;
-  height: 432px;
+  border-radius: 10px;
+  color: #ffff; 
+ /* height: 432px; */
   margin-bottom: 20px;
-  margin-left: 30px;
-  margin-right: 30px;
-  /* margin-top: -40px; */
+  margin-top: 10px;
   text-align: center;
   overflow: hidden;
   position: relative;
@@ -681,17 +699,12 @@ header{
   font-size: 18px;
 }
 
-.promo-text .read-more{
-  position: absolute;
-  bottom: 0;
-  left: 0;
+.promo-text .stage{
+  position: relative;
   width: 100%;
   text-align: center;
-  margin: 0; padding: 30px 0;
   font-family: 'Source Sans Pro', sans-serif;
-
-  background-image: linear-gradient(to bottom, transparent, #222546);
-
+  padding: 0px;
 }
 
 .newscontainer .promo h1,
@@ -847,8 +860,6 @@ header{
 .bread-list-item {
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 4px;
-  margin: 12px;
-  overflow: hidden;
   display: block;
 }
 
@@ -864,7 +875,6 @@ header{
 }
 
 .bread-list-item .image {
-  background-color: #eb7400;
   margin: 0;
   max-width: 160px;
   max-height: 180px;
@@ -1025,10 +1035,6 @@ header{
   /* background: transparent; */
   height: 60px;
   margin: 10px;
-}
-
-.btn:hover {
-  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .layoutcard .cards {
@@ -1331,13 +1337,10 @@ h2{
 
 .labbox{
   border-radius: 2px;
-  border: 1px solid #ccc;
   padding: 10px;
 }
 
   .lab_faculty , .lab_sci_off , .lab_tech_staff , .lab_address{
-    border: 2px solid #ccc;
-    border-radius: 3px;
     padding: 5px;
     margin: 2px;
     background-color: linear-gradient(190deg, #222546 0%,#5085A5 100%);
@@ -1346,18 +1349,9 @@ h2{
     width: 300px;
   }
 
-  .eqptlist span{
-    color: #222546;
-    font-weight: 200;
-  }
-
-  .eqptlist li{
-    color: #222546;
-    font-weight: normal;
-  }
 }
 /*  lab page css end */
-
+list-style
 /*  award css*/
 
 .awardscont .awardstab{

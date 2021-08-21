@@ -238,3 +238,18 @@ FAC_PREV_WORK_TYPES = (
 	('3', 'PostDoc'),
 	('4', 'Work'),
 )
+
+ALUMNI_EVENTS = (
+	('0','Alumni Talk'),
+	('1','Seminar'),
+	('2','Meeting'),
+	('3', 'Informal event'),
+	('4', 'Conference'),
+	('5','Other'),
+)
+
+NEWS_AND_ANNOUNCEMENT_BADGES = (
+	('0','NEW'),
+	('1','IMPORTANT'),
+	('2','CLOSING SOON'),
+)

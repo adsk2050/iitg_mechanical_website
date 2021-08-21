@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static mechweb_tags %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/events.css' %}" />
+
+<style>
+    .justify-inter-word {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .description,.biosketch{
+        color: #515563;
+    }
+    .name{
+        color:rgba(24, 35, 89, 0.85);
+        font-size:20px;
+    }
+    ::selection{
+    background-color:#FFDC00 !important;
+    }
+
+</style>
+{% endblock extra_css %}
+{% block body_class %}template-event-page{% endblock %}
+
+{% block content %}
+<div class="bg-white">
+    {% breadcrumbs%}
+    <div class="pb-3    ">
+        <h4 class="text-center"> <i class="fa fa-bullhorn px-2"></i>Event</h4>
+</div>
+</div>
+<div class="container pt-4">
+    <div class="col-lg-8 m-auto">
+        <div class="card card-margin">
+            <div class="card-header no-border bg-warning mb-2">
+                <h5 class="card-title">{{page.get_event_type_display}}</h5>
+                <div class="event-location ml-auto">
+                    <span class="badge">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        {{page.get_venue_display}}
+                    </span>
+                </div>
+                {% if not page.is_past_due %}
+                <div class="ml-1">
+                    <span class="badge badge-success">Upcoming</span>
+                </div>
+                {%endif%}
+            </div>
+            <div class="card-body pt-0">
+                <div class="widget-49">
+                    <div class="widget-49-title-wrapper justify-content-between">
+
+                        <div class="widget-49-date-success">
+                            <span class="widget-49-date-day">{{page.start_at.day}}</span>
+                            <span class="widget-49-date-month">{{page.start_at|date:'F'|slice:':3'}}</span>
+                        </div>
+                        <div class="widget-49-pro-title">
+                            {{page.title}}
+                        </div>
+                        <div class="widget-49-meeting-info">
+                            <span class="widget-49-pro-title">{{page.event_name}}</span>
+                            <span class="widget-49-meeting-time">{{page.start_at}}
+                                {% if page.end_by %}
+                                to {{page.end_by}}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                        <hr>
+                    <div>
+                        {% comment %} Event description starts {% endcomment %}
+                        {% if page.description %}
+                        <div class="justify-inter-word description">
+                            {{page.description}}
+                        </div>
+                        {% endif %}
+                        {% comment %} Event Poster  {% endcomment %}
+                        {% if page.poster %}
+                        <div class="row justify-content-center">
+                            {% image page.poster original as poster%}
+                            <img class="rounded" src="{{ poster.url }}" alt="{{ poster.alt }}" style="max-width:80%;" />
+                        </div>
+                        {% endif %}
+
+                        {% if page.description or page.poster %}
+                        <hr>
+                        {% endif %}
+                        {% comment %} Speakers starts {% endcomment %}
+                        {% if page.event_speakers and page.event_speakers.all|length %}
+                        <p>Speaker(s):</p>
+                        {% for speaker in page.event_speakers.all %}
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12 col-md-4 text-center">
+                                {% if speaker.photo %}
+                                {% image speaker.photo fill-320x320 as photo%}
+                                <img class="rounded-circle m-auto" src="{{ photo.url }}" alt="{{ photo.alt }}" style="width:70%;" />
+                                
+                                {% else %}
+                                <img class="rounded-circle m-auto" src="https://www.clker.com/cliparts/3/c/9/0/15346636991003506792default_user.png" alt="{{speaker.name}}" style="width:70%;">
+                                {% endif %}
+                                <div>
+                                    <span class="font-weight-bolder name">{{speaker.name}}</span>
+                                    <p class="about">{{speaker.about}}</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 justify-inter-word biosketch">
+                                {% if speaker.bio %}
+                                <p>
+                                    {{speaker.bio}}
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr>
+                        {% endfor %}
+
+                        {% endif %}
+
+                        <div class="row justify-content-around">
+                            {% comment %} URLS starts {% endcomment %}
+                            {% if page.event_urls and page.event_urls.all|length %}
+                            <div class="widget-49-meeting-points col-6 col-md-4">
+                                <span>Related Link(s):</span>
+                                <ul>
+                                    {% for url in page.event_urls.all %}
+                                    <li class="widget-49-meeting-item">
+                                        <a href="{{url.url}}">{{url.title}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                            {% comment %} Documents starts {% endcomment %}
+                            {% if page.event_documents and page.event_documents.all|length %}
+                            <div class="widget-49-meeting-points col-6 col-md-4">
+                                <span>Related Document(s):</span>
+                                <ul>
+                                    {% for document in page.event_documents.all %}
+                                    <li class="widget-49-meeting-item">
+                                        <a href="{{document.document.url}}">{{document.title}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if page.event_urls.all|length  or page.event_documents.all|length %}
+                        <hr>
+                        {% endif %}
+                        {% if page.gallery_images.all|length %}
+                            <span>Gallery:</span>
+                            {% for gallery_img in page.gallery_images.all %}
+                            <div class="row justify-content-center my-2">
+                                {% image gallery_img.image original as photo %}
+                                <img class="rounded" src="{{ photo.url }}" alt="{{ photo.alt }}"
+                                    style="max-width:80%;" />
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+
+
+
+{% endblock %}

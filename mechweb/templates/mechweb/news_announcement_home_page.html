@@ -1,29 +1,76 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags%}
 
 {% block body_class %}template-news-announcement-home-page{% endblock %}
 
 
+{% block extra_css %}
 
+<style>
+  body{
+      background: #F4F7FD;
+  }
+  .newsContainer a {
+    text-decoration: underline;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 1px solid #e6e4e9;
+    border-radius: 8px;
+    max-width:100%;
+    overflow:auto
+}
+
+</style>
+
+{% endblock extra_css %}
 {% block content %}
+{%breadcrumbs%}
 
-<div class="container-fluid text-center">
-  <h1 class="my-4">{{ page.title }}</h1>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-4 ml-4 labbox">
-      <h3 class="text-center" style="color:#881125; font-weight:bolder;"> News and Announcements</h3>
-      <ol>
-        {% for notification in naalist %}
-        <li>
-          <div class="w3-row text-center">
-            <a href="{{ notification.url }}">{{ notification.specific.heading }}</a>
-          </div>
-        </li>
-        <br><br>
-        {% endfor %}
-      </ol>
+<div class="container newsContainer">
+  <h1 class="text-center py-3">News And Announcements</h2>
+
+    {% for news in naalist %}
+    <div class="col-md-12 my-3 py-3 card card-margin">
+      <h3>{{news.title}}
+      {% if news.specific.badge %}
+        <span class="badge badge-danger pull-right">{{news.specific.get_badge_display}}</span>
+      {% endif %}</h3>
+      <div class="ml-auto">
+        <span class="badge">{{news.specific.date}}</span>
+      </div>
+      <div class="pl-4 border-left">
+      <p >{{news.specific.description |richtext}}</p>
+      </div>
 
     </div>
-  </div>
 
+    {% endfor %}
+</div>
+
+<div class="paginatio text-center">
+    <div class="step-links text-center" style="align: middle">
+        <div class="current">
+            Page {{ naalist.number }} of {{ naalist.paginator.num_pages }}.
+        </div>
+      <div class="btn btn-sm btn-warning">
+        {% if naalist.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ naalist.previous_page_number }}">previous</a>
+        {% endif %}
+          {% if naalist.has_next %}
+              <a href="?page={{ naalist.next_page_number }}">next</a>
+              <a href="?page={{ naalist.paginator.num_pages }}">last &raquo;</a>
+        </div>
+          {% endif %}
+    </div>
+    <br><br>
+</div>
 {% endblock %}

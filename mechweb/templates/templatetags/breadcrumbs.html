@@ -16,10 +16,12 @@
     hyphens:auto;
 } {% endcomment %}
 
-.breadcrumb li:hover{
-    color:#222546;
-    background:antiquewhite;
-    border-radius:8%;
+.breadcrumb .normal:hover{
+    background:#999ca3;
+    border-radius:3%;
+}
+.breadcrumb {
+    background:inherit;
 }
 
 .breadcrumb-item .item,.breadcrumb-item i {
@@ -39,14 +41,15 @@
 
 </style>
 <div class="">
-    <ol class="breadcrumb bg-white">
+    <ol class="breadcrumb">
         {% for ancestor in ancestors %}
         {% if forloop.last %}
         <li class="breadcrumb-item active"><span class="item my-auto">{{ ancestor }}</span></li>
         {% else %}
-        <li class=" mr-2 py-2 px-1"><a class="breadcrumb-item" href="{% pageurl ancestor %}"><span class="mr-1 item">{{ ancestor }}</span><i class="fa fa-angle-right  mx-1"></i></a></li>
+        <li class="normal mr-2"><a class="breadcrumb-item py-2 px-1" href="{% pageurl ancestor %}"><span class="mr-1 item">{{ ancestor }}</span><i class="fa fa-angle-right  mx-1"></i></a></li>
         {% endif %}
         {% endfor %}
     </ol>
 </div>
+</nav>
 {% endif %}

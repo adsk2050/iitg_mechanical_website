@@ -181,7 +181,7 @@ def copy_course():
 
 
 
-# opne the shell using python manage.py shell and use this script like this:
+# open the shell using python manage.py shell and use this script like this:
 
 # from mechweb.automation_scripts.copy_courses import *
 # init_program_and_sem()
