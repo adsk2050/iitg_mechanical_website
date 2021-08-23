@@ -236,7 +236,7 @@ class MechHomePage(Page):
                 hod = hod[0]
                 hod_name = hod.__str__()
                 hod_url = hod.url
-                hod_contact = "<p>Office:" + hod.office_address_line_1 + ",<br> Contact: " + hod.office_contact_number + ",<br> Email: " + hod.email_id + "</p>"
+                hod_contact = "<p>Office: " + hod.office_address_line_1 + "<br> Ph. : " + hod.office_contact_number + "<br> Email: " + hod.email_id + "</p>"
         except:
             pass
         # how to raise error in console ?
@@ -773,7 +773,7 @@ class FacultyPage(Page):
         for lab_relation in lab_relation_list:
             lab = lab_relation.page
             lab_list.append(lab)
-
+        lab_list = list(set(lab_list))
         pub_relation_list = self.faculty_pub.all()
         pub_list = []
         for pub_relation in pub_relation_list:

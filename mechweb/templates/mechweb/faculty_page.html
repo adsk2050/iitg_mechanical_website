@@ -169,6 +169,7 @@
 
         <!-- Right Column -->
         <div class="w3-twothird">
+        {% if page.specific.intro or page.specific.body %}
             <div class="w3-container card   w3-margin-bottom">
                 <h2 class=" w3-padding-16"><i
                         class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i>About</h2>
@@ -177,6 +178,7 @@
                     <p>{{ page.specific.body|richtext }}</p>
                 </div>
             </div>
+        {% endif %}
 
             <!-- <div class="w3-container card  w3-margin-bottom">
         <h2 class=" w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i>Awards and Achievements</h2>

@@ -500,21 +500,19 @@
             </span>
         </div>
 
-        <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
         <div class="w3-col l8 m6">
             {% if page.specific.HOD_message %}
             <h1 class="w3-xxlarge" style="color: #ffffff"><b>From HOD's Desk</b></h1>
             <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
             {% endif %}
-            <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
-            fa fa-long-arrow-right"></i>
-          </a>
-          </p> -->
             <br><br>
             <div class="" style="display:block; text-align:right">
-                <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong><br>
-                <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
-                    Engineering</strong>
+                <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong>
+                <div style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
+                    Engineering</div>
+                    <div style="text-align: right; padding-right:40px;">
+                    {{hod_contact |safe}}
+                    </div>
             </div>
 
         </div>
