@@ -3419,7 +3419,7 @@ class MinutesOfMeetingsHomePage(Page):
             show_only_yearly = models.BooleanField(default=False, verbose_name="Show only yearly MoM")
             file = models.ForeignKey(
                 "wagtaildocs.Document",
-                blank=False,
+                blank=True,
                 null=True,
                 on_delete=models.SET_NULL,
                 related_name="+",
@@ -3457,7 +3457,7 @@ class MinutesOfMeetingsHomePage(Page):
                 preview_modes = []
 
             @property
-            def get_children(self):
+            def get_ordered_children(self):
                 return self.MonthlyMinutesOfMeeting.objects.child_of(self).order_by("month")
 
     parent_page_types = ["MechHomePage"]
