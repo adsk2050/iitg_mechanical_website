@@ -1,3 +1,4 @@
+from django.core import paginator
 from alumni.models import AlumniEventPage
 import datetime
 import pytz
@@ -218,6 +219,7 @@ class MechHomePage(Page):
         "NewsAnnouncementHomePage",
         "ResourceSection",
         "alumni.AlumniHome",
+        "MinutesOfMeetingsHomePage",
     ]
 
     max_count = 1
@@ -239,7 +241,6 @@ class MechHomePage(Page):
                 hod_contact = "<p>Office: " + hod.office_address_line_1 + "<br> Ph. : " + hod.office_contact_number + "<br> Email: " + hod.email_id + "</p>"
         except:
             pass
-        # how to raise error in console ?
 
         categories = get_categories()
         new_events = get_new_events()
@@ -254,6 +255,7 @@ class MechHomePage(Page):
         context["news_annncmnts"] = news_annncmnts
         context["news_announcments_page"] = NewsAnnouncementHomePage.objects.first
         context["events_home_page"] = EventHomePage.objects.first
+        context["minutes_page"] = MinutesOfMeetingsHomePage.objects.first
         return context
 
     class Meta:
@@ -2555,6 +2557,10 @@ class Semester(Page):
         context["semesters"] = [context["page"]]
         return context
 
+    @property
+    def get_children(self):
+        return Course.objects.child_of(self).live().order_by("code")
+
 
 class EffectiveTimePeriod(Page):
     is_latest = models.BooleanField(default=False, verbose_name="Is this latest course structure?")
@@ -2570,7 +2576,7 @@ class EffectiveTimePeriod(Page):
     def get_context(self, request):
         context = super(EffectiveTimePeriod, self).get_context(request)
         context["semesters"] = self.get_children().type(Semester)
-        context["courses"] = self.get_children().type(Course)
+        context["courses"] = Course.objects.child_of(self).live().order_by("code")
         return context
 
 
@@ -3360,7 +3366,6 @@ class OutReach(Page):
     subpage_types = []
     body = models.TextField(blank=True, null=True, verbose_name="Institute/Event")
     date = models.DateField(default=timezone.now, null=True)
-    subpage_types = []
     content_panels = Page.content_panels + [
         InlinePanel("faculty_incharges", label="Faculty"),
         InlinePanel("custom_faculty_incharges", label="Other Faculty"),
@@ -3382,3 +3387,80 @@ class OutReachCustomFaculty(Orderable):
     full_name = models.CharField(blank=False, null=True, max_length=264)
     website = models.URLField(blank=True, null=True)
     panels = [FieldPanel("full_name"), FieldPanel("website")]
+
+
+from .constants import MONTHS
+
+
+class MinutesOfMeetingsHomePage(Page):
+    class MinutesOfMeetingCategory(Page):
+        about = RichTextField(blank=True, null=True, features=CUSTOM_RICHTEXT)
+
+        content_panels = Page.content_panels + [
+            FieldPanel("about"),
+        ]
+
+        parent_page_types = ["MinutesOfMeetingsHomePage"]
+        subpage_types = ["YearlyMinutesOfMeeting"]
+
+        def get_context(self, request, *args, **kwargs):
+            context = super().get_context(request, *args, **kwargs)
+            page = request.GET.get("page")
+            children = self.YearlyMinutesOfMeeting.objects.child_of(self).order_by("-year").live()
+            paginator = Paginator(children, 5)
+            context["children"] = paginator.get_page(page)
+            return context
+
+        class YearlyMinutesOfMeeting(Page):
+            year = models.IntegerField(
+                blank=False,
+                validators=[MinValueValidator(1994), max_value_current_year],
+            )
+            show_only_yearly = models.BooleanField(default=False, verbose_name="Show only yearly MoM")
+            file = models.ForeignKey(
+                "wagtaildocs.Document",
+                blank=False,
+                null=True,
+                on_delete=models.SET_NULL,
+                related_name="+",
+                verbose_name="File",
+            )
+
+            content_panels = Page.content_panels + [
+                FieldPanel("year"),
+                FieldPanel("show_only_yearly"),
+                DocumentChooserPanel("file"),
+            ]
+
+            parent_page_types = ["MinutesOfMeetingCategory"]
+            subpage_types = ["MonthlyMinutesOfMeeting"]
+            preview_modes = []
+
+            class MonthlyMinutesOfMeeting(Page):
+                month = models.CharField(max_length=264, choices=MONTHS, blank=False, verbose_name="Month")
+                file = models.ForeignKey(
+                    "wagtaildocs.Document",
+                    blank=False,
+                    null=True,
+                    on_delete=models.SET_NULL,
+                    related_name="+",
+                    verbose_name="File",
+                )
+
+                content_panels = Page.content_panels + [
+                    FieldPanel("month"),
+                    DocumentChooserPanel("file"),
+                ]
+
+                parent_page_types = ["YearlyMinutesOfMeeting"]
+                subpage_types = []
+                preview_modes = []
+
+            @property
+            def get_children(self):
+                return self.MonthlyMinutesOfMeeting.objects.child_of(self).order_by("month")
+
+    parent_page_types = ["MechHomePage"]
+    subpage_types = ["MinutesOfMeetingCategory"]
+    content_panels = Page.content_panels + []
+    max_count = 1

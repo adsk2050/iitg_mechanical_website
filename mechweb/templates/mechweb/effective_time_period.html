@@ -37,9 +37,9 @@ body {
 
 
 
-<div style="background:#2a6f97">
+<div style="background:#cce5ff">
 <br>
-<h2 class="text-center text-white" > <strong>Course Structure ({{page}})</strong></h2>
+<h2 class="text-center" > <strong>Course Structure ({{page}})</strong></h2>
 <br>
 </div>
 
@@ -59,7 +59,7 @@ body {
 <div class="table-responsive-lg container-fluid">
 
 <table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll;">
-    <thead style="background-color:#014f86;color:#fff">
+    <thead style="background-color:#ffed99;color:#000">
         <tr>
             <th scope="col">Course No.</th>
             <th scope="col">Course Name</th>
@@ -71,7 +71,7 @@ body {
         </tr>
     </thead>
     <tbody>
-        {% for course in sem.get_children %}
+        {% for course in sem.specific.get_children %}
         <tr>
 
             <td><a href="{{course.url}}">{{ course.specific.code }}</a></td>
@@ -101,7 +101,7 @@ body {
 <div class="table-responsive-md container-fluid">
 
 <table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll; ">
-    <thead style="background-color:#014f86;color:white">
+    <thead style="background-color:#ffed99;color:white">
         <tr>
             <th scope="col">Course No.</th>
             <th scope="col">Course Name</th>
