@@ -2558,7 +2558,7 @@ class Semester(Page):
         return context
 
     @property
-    def get_children(self):
+    def get_ordered_children(self):
         return Course.objects.child_of(self).live().order_by("code")
 
 
