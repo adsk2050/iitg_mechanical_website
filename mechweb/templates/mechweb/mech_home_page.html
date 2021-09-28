@@ -241,7 +241,11 @@
                 {% for photo in page.gallery_images.all %}
                 {% image photo.photo original as tmp_photo %}
                 <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
-                    <img src="{{ tmp_photo.url }}" class="d-block w-100" alt="...">
+                    {% if forloop.counter0 %}
+                        <img data-src="{{ tmp_photo.url }}" class="d-block w-100" alt={{photo.caption}}>
+                    {% else %}
+                        <img src="{{ tmp_photo.url }}" class="d-block w-100" alt={{photo.caption}}>
+                    {% endif %}
                     <div class="carousel-caption">{{ photo.caption }}</div>
                 </div>
                 {% endfor %}
@@ -553,4 +557,15 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+        $(function() {
+            $('#carouselslider').bind('slide.bs.carousel', function (e) {
+                var image = $(e.relatedTarget).find('img[data-src]');
+                image.attr('src', image.data('src'));
+                image.removeAttr('data-src');
+            });
+        });
+    });
+</script>
 {% endblock %}
