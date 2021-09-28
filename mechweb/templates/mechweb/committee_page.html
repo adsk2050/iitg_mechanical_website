@@ -44,14 +44,14 @@
 <div class="w3-container city" style="display:block">
   <div class="table-wrapper">
     <table class="table table-hover">
-        <thead class="text-center text-info">
+        <thead class=" text-info">
           <tr>
 
               <th style="word-wrap: break-word;max-width: 200px">Designation</th>
               <th style="word-wrap: break-word;max-width: 200px">Faculty Name</th>
           </tr>
         </thead>
-        <tbody class="text-center">
+        <tbody class="">
           {% for fac_mem in page.specific.faculty.all %}
         <tr>
             {% if page.specific.faculty.all|length != 0 %}
@@ -72,13 +72,13 @@
 <div class="w3-container city" style="display:block">
   <div class="table-wrapper">
     <table class="table table-hover">
-        <thead class="text-center text-info">
+        <thead class="text-info">
           <tr>
               <th style="word-wrap: break-word;max-width: 200px">Designation</th>
               <th style="word-wrap: break-word;max-width: 200px">Student Name</th>
           </tr>
         </thead>
-        <tbody class="text-center">
+        <tbody class="">
           {% for stud_mem in page.specific.students.all %}
         <tr>
             {% if page.specific.students.all|length != 0%}
@@ -100,13 +100,13 @@
 <div class="w3-container city" style="display:block">
   <div class="table-wrapper">
     <table class="table table-hover">
-        <thead class="text-center text-info">
+        <thead class="text-info">
           <tr>
               <th style="word-wrap: break-word;max-width: 200px">Designation</th>
               <th style="word-wrap: break-word;max-width: 200px"> Name</th>
           </tr>
         </thead>
-        <tbody class="text-center">
+        <tbody class="">
           {% for other in page.specific.com_other.all %}
         <tr>
             {% if page.specific.com_other.all|length != 0 %}

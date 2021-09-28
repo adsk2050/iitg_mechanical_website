@@ -473,7 +473,7 @@
             <div class="single-service">
                 <div class="service-bg">
                     {% image category.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
-                    <a href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}"><h2>{{ category.title }} </h2></a>
+                    <a href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}"><h3>{{ category.title }} </h3></a>
                 </div>
                 <div class="service-text sidebar-box" style="text-align: justify;text-justify: inter-word;">
                     <p>{{ category.specific.intro|richtext }}</p>
