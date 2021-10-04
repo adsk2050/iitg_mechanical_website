@@ -1,5 +1,5 @@
 from collections import defaultdict
-from .models import MechHomePage, ResearchLabPage
+from .models import MechHomePage, ResearchLabPage, FooterColumn
 
 
 def navbar(request):
@@ -28,6 +28,10 @@ def navbar(request):
     else:
         return {"navlist": []}
 
+
+def footer(request):
+    result = {"footer": list(FooterColumn.objects.all().order_by("column_no"))}
+    return result
 
 # def get_mech_workshop():
 # 	workshop = ResearchLabPage.objects.all().get(name="Mechanical Workshop")

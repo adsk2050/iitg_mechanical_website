@@ -15,14 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
-from wagtail.admin.edit_handlers import (
-    FieldRowPanel,
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-    TabbedInterface,
-    ObjectList,
-)
+from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, TabbedInterface, ObjectList, PageChooserPanel
 
 # , StreamFieldPanel
 from wagtail.core.fields import RichTextField
@@ -3464,3 +3457,39 @@ class MinutesOfMeetingsHomePage(Page):
     subpage_types = ["MinutesOfMeetingCategory"]
     content_panels = Page.content_panels + []
     max_count = 1
+
+
+
+
+from django.db import models
+
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.snippets.models import register_snippet
+from modelcluster.models import ClusterableModel
+
+@register_snippet
+class FooterColumn(ClusterableModel, models.Model):
+    column_no = models.IntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)], blank=False)
+    title = models.CharField(max_length=264)
+    panels = [FieldPanel("title"), FieldPanel("column_no"), InlinePanel("footer_links", label="Footer Links")]
+
+    def __str__(self):
+        return self.title
+
+
+class CustomLink(Orderable):
+    page = ParentalKey(FooterColumn, on_delete=models.CASCADE, related_name="footer_links")
+    title = models.CharField(max_length=264, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+    internal_page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("url"),
+        PageChooserPanel("internal_page", None, True),
+    ]
