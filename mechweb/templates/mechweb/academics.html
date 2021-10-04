@@ -8,11 +8,8 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
-body {
-  {% comment %} background: #eee; {% endcomment %}
-  {% comment %} font-family: "times new roman", serif; {% endcomment %}
+.directory-list {
   line-height: 30px;
-  {% comment %} background: linear-gradient(90deg, #ffffff 50%, antiquewhite 50%); {% endcomment %}
 }
 
 
@@ -106,27 +103,21 @@ background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg id='wave' style='
 
 {% block content %}
 
-    {% comment %} <ol class="breadcrumb bg-white">
-        <li class="ml-3 breadcrumb-item active">Academics</li>
-    </ol> {% endcomment %}
-<div class="">
-{% breadcrumbs%}
-<div class="">
-<div style="background:#2a6f97;">
-<br>
-<h2 class="text-center text-white" > <strong>{{page.title}}</strong></h2>
-<br>
-</div>
 
-<div class="box container pt-5">
-  <ul class="directory-list">
-  {{tree_structure |safe}}
-  </ul>
-<br>
+<div class="fluid-container bg-light">
+  <div class="bg-white">
+    <br>
+    <h2 class="text-center text-warning" > <strong>{{page.title}}</strong></h2>
+    <hr>
+  </div>
 
-</div>
-
-</div>
+  <div class="box container pt-5 bg-white">
+      <ul class="directory-list">
+      {{tree_structure |safe}}
+      </ul>
+    <br>
+  </div>
+  <br>
 </div>
 
 {% endblock %}

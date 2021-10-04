@@ -1,30 +1,37 @@
 from collections import defaultdict
-from .models import MechHomePage, ResearchLabPage
+from .models import MechHomePage, ResearchLabPage, FooterColumn
+
 
 def navbar(request):
-	navlist_parent = MechHomePage.objects.all()
-	if navlist_parent :
-		navlist = navlist_parent[0].get_children().filter().live().order_by('first_published_at')
-		ordering = {
-			"Academics":1,
-			"Research Home":2,
-			"Student Home":3,
-			"faculty home page":4,
-			"Staff Home":5,
-			"Awards Home":6,
-			"Alumni Home":7,
-			"Event Home":8,
-			"categories home":9,
-			"aboutiitgmech":10,
-			"resource section":11,
-			"Alumni Home Page":12,
-			"Committee Home":13,
-		}
-		ordering = defaultdict(lambda: 1000, ordering)
-		navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
-		return {'navlist': navlist[:13]}
-	else:
-		return {'navlist':[]}
+    navlist_parent = MechHomePage.objects.all()
+    if navlist_parent:
+        navlist = navlist_parent[0].get_children().filter().live().order_by("first_published_at")
+        ordering = {
+            "Academics": 1,
+            "Research Home": 2,
+            "Student Home": 3,
+            "faculty home page": 4,
+            "Staff Home": 5,
+            "Awards Home": 6,
+            "Alumni Home": 7,
+            "Event Home": 8,
+            "categories home": 9,
+            "aboutiitgmech": 10,
+            "resource section": 11,
+            "Alumni Home Page": 12,
+            "Committee Home": 13,
+            "minutes of meetings home page": 14,
+        }
+        ordering = defaultdict(lambda: 1000, ordering)
+        navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
+        return {"navlist": navlist[:14]}
+    else:
+        return {"navlist": []}
+
+
+def footer(request):
+    result = {"footer": list(FooterColumn.objects.all().order_by("column_no"))}
+    return result
 
 # def get_mech_workshop():
 # 	workshop = ResearchLabPage.objects.all().get(name="Mechanical Workshop")

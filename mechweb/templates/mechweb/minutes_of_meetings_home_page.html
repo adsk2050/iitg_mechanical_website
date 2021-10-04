@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load mechweb_tags %}
+{% block extra_css%}
+<style>
+    .category-card {
+        transition: .4s;
+    }
+    .category-card h3{
+        color:#07294D;
+    }
+
+    .category-card:hover {
+        background: #eb4229 !important;
+        cursor: pointer;
+    }
+
+    .category-card a,
+    .category-card:hover a {
+        text-decoration: None;
+
+    }
+
+    .category-card:hover i,
+    .category-card:hover h3,
+    .category-card:hover p {
+        color: white !important;
+
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% breadcrumbs%}
+<div class="container text-center my-4">
+    <h1>{{page.title}}</h1>
+
+    <div class="row d-flex justify-content-center mt-5">
+        {% for category in page.get_children.live %}
+            <div class="col-sm-4 card category-card">
+            <a href="{{category.url}}">
+                <div class="p-3">
+                    <h3 class="title">{{category.title}}</h3>
+                    <p>{{category.about}}</p>
+                </div>
+            </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% comment %} border bg-{% cycle 'info' 'warning' 'danger' 'dark' 'success' 'primary' 'secondary'%} {% endcomment %}
+{% endblock content%}

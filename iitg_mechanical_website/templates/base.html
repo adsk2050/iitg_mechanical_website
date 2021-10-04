@@ -23,7 +23,15 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link href="https://fonts.googleapis.com/css?family=Bitter&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRDCP8R0KL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
+    gtag('config', 'G-KRDCP8R0KL');
+  </script>
 
   {% block extra_css %}
   {# Override this in templates to add extra stylesheets #}
@@ -46,22 +54,27 @@
 
 
     body {
-      font-family: 'Source Sans Pro'
+      font-family: 'Open Sans', sans-serif;
     }
 
     ::-moz-selection {
       /* Code for Firefox */
-      background: #61a5c2;
+      background: #FFDC00 !important;
+      color: #000000 !important;
     }
 
     ::selection {
-      background: #61a5c2;
+      background: #FFDC00 !important;
+      color: #000000 !important;
     }
 
     a:link:hover {
       color: #222546;
     }
 
+    footer a:link:hover {
+      color: #fff !important;
+    }
     .custom-gradient-bg {
       background-image: linear-gradient(to right top, #a9d6e5, #c4dff0, #dce8f6, #f0f3fb, #ffffff);
       background-repeat: repeat no-repeat;
@@ -90,7 +103,6 @@
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #ffffff;
     background-clip: border-box;
     border: 1px solid #e6e4e9;
     border-radius: 8px;
@@ -188,7 +200,7 @@
 
                   {% if page_type == 'Student Home' %}
 
-            <li class="nav-item">
+            {% comment %} <li class="nav-item">
               <div class="dropdown show">
                 <a class="nav-link dropdown-toggle dropbtn" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false"
@@ -213,7 +225,7 @@
                   </ul>
                 </div>
               </div>
-            </li>
+            </li> {% endcomment %}
             {% endif %}
 
             {% if page_type == 'Research Home' %}
@@ -261,12 +273,15 @@
             </li>
             {% endif %}
 
-            {% if page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == "Committee Home" or page_type == 'generic page' or page_type == 'Academics' %}
+            {% if page_type == 'minutes of meetings home page' or page_type == 'Research Home' or page_type == 'Course Structure' or page_type == 'Student Home' or page_type == 'aboutiitgmech' or page_type == 'categories home' or page_type == 'Event Home' or page_type == 'Alumni Home' or page_type == "Committee Home" or page_type == 'generic page' or page_type == 'Academics' %}
 
             {% else %}
-            <li class="nav-item"> <a class="nav-link" role="button"
-                style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;"
-                href="{{ child.url }}">{{ child.title }}</a></li>
+            <li class="nav-item">
+              <a class="nav-link" role="button"
+                  style="color: #fff; font-family:'Source Sans Pro', sans-serif;; line-height:1.45;"
+                  href="{{ child.url }}">{{ child.title }}
+              </a>
+            </li>
 
             {% endif %}
 
@@ -342,276 +357,13 @@
 
     </div>
   </content>
-<!-- content --> 
- <!-- Footer -->
- {%cache 7200 footer %}
-  <footer class="page-footer flex-rw font-small stylish-color-dark pt-4 mt-auto"
-    style="background-color: #222546; font-family: 'Source Sans Pro', sans-serif;">
-
-    <!-- Footer Links -->
-    <div class="container-fluid text-center text-md-left">
-
-      <!-- Grid row -->
-      <div class="row">
-
-        <!-- Grid column -->
-        <div class="col-md-4 mx-auto">
-
-          <!-- Content -->
-          <h6 class="font-weight-bold ml-1 mt-3 mb-4">Department of Mechanical Engineering</h6>
-          <div class="ml-1 font-weight-light">
-            Indian Institute of Technology Guwahati
-          </div>
-          <div class="ml-1 font-weight-light">
-            North Guwahati, Guwahati, Assam 781039
-          </div><br>
-          <div class="">
-            <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-              <i class="fa fa-envelope">&nbsp;&nbsp;&nbsp;</i>mechoff@iitg.ac.in
-            </a>
-          </div>
-          <div class="">
-            <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-              <i class="fa fa-phone">&nbsp;&nbsp;&nbsp;</i> +91 361 2582700
-            </a>
-          </div>
-          <div class="">
-            <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-              <i class="fa fa-fax">&nbsp;&nbsp;</i> +91 361 2582699
-            </a>
-          </div>
-          <div class="">
-            <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
-              <i class="fa fa-chrome">&nbsp;</i> <a href="http://www.iitg.ac.in/mechold"> Old Website</a>
-            </a>
-          </div>
-
-
-        </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none">
-
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
-
-          <!-- Links -->
-          <!-- <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Forms</h6>
-
-                <ul class="list-unstyled" style="list-style: disc;">
-                  <li>
-                    <a href="http://www.iitg.ac.in/mmech/files/misc/TA_form.pdf">TA Form</a>
-                  </li>
-                  <li>
-                    <a href="http://www.iitg.ac.in/mech/files/misc/Forms/Leave_Form.pdf">TA leave</a>
-                  </li>
-                  <li>
-                    <a href="http://www.iitg.ac.in/mech/files/misc/Re_joining.pdf">TA rejoin</a>
-                  </li>
-                  <li>
-                    <a href="http://www.iitg.ac.in/mech/files/misc/Workshop%20job%20order%20form.pdf">Job order</a>
-                  </li>
-                </ul> -->
-
-        </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none">
-
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
-
-          <!-- Links -->
-          <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Quick links</h6>
-
-          <ul class="list-unstyled" style="list-style: disc;">
-            <li>
-              <a href="{% url 'wagtail_serve' '' %}recruitment">Faculty Recruitment</a>
-            </li>
-            <li>
-              <a href="{% url 'wagtail_serve' '' %}search">Search</a>
-            </li>
-            <li>
-              <a href="http://www.iitg.ac.in/">IITG Home</a>
-            </li>
-            <li>
-              <a href="https://www.iitg.ac.in/mechold/includes/workshop/index.html">Central Workshop</a>
-            </li>
-            <li>
-              <a href="http://www.iitg.ac.in/phones/">Phone Directory</a>
-            </li>
-            <li>
-              <a href="http://www.iitg.ac.in/mechold/Rutag-pal/index1.htm">RuTAG-NE</a>
-            </li>
-
-          </ul>
-
-        </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none">
-
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
-
-          <!-- Links -->
-          <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Departmental Links</h6>
-
-          <ul class="list-unstyled" style="list-style: disc;">
-            <li>
-              {% if request.user.is_authenticated %}
-              Hello {{ request.user.first_name }}, <a href="{% url 'wagtail_serve' ''%}admin">Go to CMS</a>
-              {% else %}
-              <a href="{% url 'wagtail_serve' '' %}admin/login/?next={% url 'wagtail_serve' '' %}admin/">Hi Guest!
-                Login?</a>
-              {% endif %}
-            </li>
-            <li>
-              {% for child in navlist %}
-              {% with page_type=child.content_type.name %}
-              {% if page_type == 'Committee Home' %}
-              <a href="{{ child.url }}">{{ child.title }}</a>
-              {% else %}
-              {% endif %}
-              {% endwith %}
-              {% endfor %}
-            </li>
-            <li>
-              {% for child in navlist %}
-              {% with page_type=child.content_type.name %}
-              {% if page_type == 'Event Home' %}
-              <a href="{{ child.url }}">{{ child.title }}</a>
-              {% endif %}
-              {% endwith %}
-              {% endfor %}
-            </li>
-            <!-- <li>
-                    <a href="http://www.iitg.ac.in/mech/meadmin.php">Departmental Committees</a>
-                  </li> -->
-            <li>
-              <a href="{% url 'wagtail_serve' '' %}downloads">Downloads</a>
-            </li>
-            <li>
-              <a href="http://172.16.73.54/mrbs/web/day.php?year=2019&month=06&day=17&area=3&room=12">Online Hall
-                Booking</a>
-            </li>
-            <li>
-              <a href="{% url 'wagtail_serve' '' %}useful-links">Useful links</a>
-            </li>
+<!-- content -->
+ 
+<!-- Footer --> 
+{% include "footer.html" %}
 
 
 
-          </ul>
-
-        </div>
-        <!-- Grid column -->
-
-      </div>
-      <!-- Grid row -->
-
-    </div>
-    <!-- Footer Links -->
-
-
-    <!-- Call to action -->
-    <!-- <ul class="list-unstyled list-inline text-center py-2">
-            <li class="list-inline-item">
-              <h5 class="mb-1">Register for free</h5>
-            </li>
-            <li class="list-inline-item">
-              <a href="#!" class="btn btn-danger btn-rounded">Sign up!</a>
-            </li>
-          </ul> -->
-    <!-- Call to action -->
-
-    <hr>
-
-    <!-- Social buttons -->
-    <!-- <ul class="list-unstyled list-inline text-center">
-            <li class="list-inline-item">
-              <a class="btn-floating btn-fb mx-1" style="color: #fff" href="#!">
-                <i class="fa fa-facebook-square fa-2x"></i>      </a>
-            </li>
-            <li class="list-inline-item">
-              <a class="btn-floating btn-tw mx-1" style="color: #fff" href="#!">
-                <i class="fa fa-twitter fa-2x"> </i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a class="btn-floating btn-gplus mx-1" style="color: #fff" href="#!">
-                <i class="fa fa-google-plus-g fa-2x"> </i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a class="btn-floating btn-li mx-1" style="color: #fff" href="#!">
-                <i class="fa fa-linkedin-in fa-2x"> </i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a class="btn-floating btn-dribbble mx-1" style="color: #fff" href="#!">
-                <i class="fa fa-dribbble fa-2x"> </i>
-              </a>
-            </li>
-          </ul> -->
-    <!-- Social buttons -->
-
-    <!-- Copyright -->
-    <div class="w3-container">
-      <div class="w3-third">
-        <div class="ml-1 font-weight-light">
-          Website Queries
-        </div>
-        <div class="">
-          <a class="btn-floating btn-fb mx-1" style="color:#fff" href="mailto:mechwebadmin@iitg.ac.in">
-            <i class="fa fa-envelope"></i> mechwebadmin@iitg.ac.in
-          </a>
-        </div>
-        <div class="ml-1 font-weight-light">
-          Developed by <a href="https://github.com/adsk2050/iitg_mechanical_website">Mechanical Website Team</a>
-        </div>
-        {% comment %} <div class="ml-1 font-weight-light">
-          Last Updated: 30/9/2020
-        </div> {% endcomment %}
-      </div>
-
-      <div class="w3-third">
-        <div class="copyright text-center py-3">© 2021 Department of ME,<a href="https://iitg.ac.in"
-            style="color: #fff"> IIT Guwahati</a>
-          <br><br>
-          {% comment %} <span class=""><a href="https://forms.gle/XrjrddqviPbfhS3t9" style="color: #fff">Website
-              feedback form</a></span> {% endcomment %}
-        </div>
-      </div>
-
-
-
-      <!-- Copyright -->
-      <div class="w3-third">
-        <div class="w3-row" style="padding:10px">
-          <div align='center'><a href='https://www.hit-counts.com/'><img
-                src='https://www.hit-counts.com/counter.php?t=MTQ1MTk1NA==' border='2' alt='logo creation'></a><BR><a
-              href='https://www.glowgraphics.co.uk/'></a></div>
-        </div>
-
-
-        <div class="w3-row">
-          <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-
-  </footer>
-{%endcache%}
-  <!-- Footer -->
-
-  {% comment %} <script src="{% static "js/bootstrap.js" %}"></script> {% endcomment %}
-  {% comment %} <script src="{% static "js/jquery-1.11.3.min.js" %}"></script> {% endcomment %}
-  {# Global javascript #}
   <script type="text/javascript" src="{% static 'js/iitg_mechanical_website.js' %}"></script>
 
 
@@ -659,8 +411,6 @@
     }
 
     showTime();
-
-    /*---------------*/
   </script>
 
   {% block extra_script %}

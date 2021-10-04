@@ -76,7 +76,6 @@
     .stage a {
         line-height: 1em;
         letter-spacing: 0.06em;
-        font-family: 'Lato', sans-serif;
         font-weight: normal;
         font-size: 16px;
         text-decoration: none;
@@ -161,6 +160,13 @@
     .viewAllBtn:active {
         background: #171717ad;
     }
+
+    .lightBackground {
+        background: #F4F4F4;
+    }
+    .lightBackground1 {
+        background: #f9f9f9;
+    }
 </style>
 
 {% endblock %}
@@ -174,13 +180,13 @@
     </div>
 </div>
 <!-- Preloader End -->
-<div class="bd-example row d-flex justify-content-center">
+<div class="bd-example row d-flex justify-content-center lightBackground">
     {% if page.yt_video_code %}
 
     {% if not page.research_profile_documentary_code %}
 
     <div class="col-sm-12 col-md-6">
-        <div id="carouselslider" class="carousel slide" data-ride="carousel">
+        <div id="carouselslider" class="carousel slide carousel-fade" data-ride="carousel" data-interval="6000">
             <ul class="carousel-indicators">
                 {% for photo in page.gallery_images.all %}
                 <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}"
@@ -223,8 +229,8 @@
         </div>
     </div>
     {% else %}
-    <div class="col-sm-12 col-md-8">
-        <div id="carouselslider" class="carousel slide" data-ride="carousel">
+    <div class="col-sm-12 col-md-10">
+        <div id="carouselslider" class="carousel slide carousel-fade" data-ride="carousel" data-interval="6000" style="z-index: 0;">
             <ul class="carousel-indicators">
                 {% for photo in page.gallery_images.all %}
                 <li data-target="#carouselslider" data-slide-to="{{ forloop.counter0 }}"
@@ -235,7 +241,11 @@
                 {% for photo in page.gallery_images.all %}
                 {% image photo.photo original as tmp_photo %}
                 <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
-                    <img src="{{ tmp_photo.url }}" class="d-block w-100" alt="...">
+                    {% if forloop.counter0 %}
+                        <img data-src="{{ tmp_photo.url }}" class="d-block w-100" alt={{photo.caption}}>
+                    {% else %}
+                        <img src="{{ tmp_photo.url }}" class="d-block w-100" alt={{photo.caption}}>
+                    {% endif %}
                     <div class="carousel-caption">{{ photo.caption }}</div>
                 </div>
                 {% endfor %}
@@ -254,9 +264,9 @@
 </div>
 
 <!-- Split screen Code starts -->
-<div class="container-fluid newscontainer p-sm-0  pl-md-5">
+<div class="container-fluid newscontainer p-sm-0  pl-md-5 ">
     <div class="row padding d-flex justify-content-between mb-2">
-        <div class="col-md-12 col-lg-4 promo">
+        <div class="col-md-12 col-lg-4 promo lightBackground">
             <figure>
                 <img height="100px" width="100px" src="{% static "images/img2.jpg" %}">
             </figure>
@@ -284,7 +294,7 @@
 
         <div class="col-md-12 col-lg-8 p-sm-0 px-md-5 newsbox h-100">
             <div class="row d-flex justify-content-around">
-                <div id="News" class="tabcontent col-sm-12 col-md-3 card px-3">
+                <div id="News" class="tabcontent col-sm-12 col-md-3 card px-3 lightBackground1">
                     <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">News</h4>
                         {%cache 86400 news_announcments_page_ptr %}
@@ -336,7 +346,7 @@
                     </div>
 
                 </div>
-                <div id="Announcements" class="tabcontent col-sm-12 col-md-3 card px-3">
+                <div id="Announcements" class="tabcontent col-sm-12 col-md-3 card px-3 lightBackground1">
                     <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">Announcements</h4>
                         {%cache 86400 news_announcments_page_ptr %}
@@ -372,7 +382,7 @@
 
                     </div>
                 </div>
-                <div id="Events" class="tabcontent col-sm-12 col-md-3 card px-3">
+                <div id="Events" class="tabcontent col-sm-12 col-md-3 card px-3 lightBackground1">
                     <div class="row">
                         <h4 class="mr-auto underline--magical p-2 my-2">Events</h4>
                         {%cache 86400 events_home_page_ptr%}
@@ -431,20 +441,20 @@
     </div>
 </div>
 
-<div class="w3-row w3-center w3-padding-16" style="background: linear-gradient(190deg, #222546 0%,#5085A5 100%);">
-    <div class="w3-quarter w3-section" style="color: #fff">
+<div class="w3-row w3-center w3-padding-16 text-white" style="background:#171717cc">
+    <div class="w3-quarter w3-section">
         <span class="w3-xlarge">45+</span><br>
         <span class="w3-xlarge">Faculty</span>
     </div>
-    <div class="w3-quarter w3-section" style="color: #fff">
+    <div class="w3-quarter w3-section">
         <span class="w3-xlarge">900+</span><br>
         <span class="w3-xlarge">Students</span>
     </div>
-    <div class="w3-quarter w3-section" style="color: #fff">
+    <div class="w3-quarter w3-section">
         <span class="w3-xlarge">25+</span><br>
         <span class="w3-xlarge">Laboratories</span>
     </div>
-    <div class="w3-quarter w3-section" style="color: #fff">
+    <div class="w3-quarter w3-section">
         <span class="w3-xlarge">25 Years</span><br>
         <span class="w3-xlarge">Legacy</span>
     </div>
@@ -467,9 +477,7 @@
             <div class="single-service">
                 <div class="service-bg">
                     {% image category.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
-                    <h2><a
-                            href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">{{ category.title }}</a>
-                    </h2>
+                    <a href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}"><h3>{{ category.title }} </h3></a>
                 </div>
                 <div class="service-text sidebar-box" style="text-align: justify;text-justify: inter-word;">
                     <p>{{ category.specific.intro|richtext }}</p>
@@ -482,7 +490,7 @@
 </div>
 {%endcache%}
 <!-- end of research categories row -->
-{%cache 86400 hod_message%}
+{% comment %} {%cache 86400 hod_message%}
 <div class="w3-padding-64 messagebox">
     <div class="w3-row-padding">
         <div class="w3-col l4 m6">
@@ -500,27 +508,25 @@
             </span>
         </div>
 
-        <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Pixels, who?</b></h1> -->
         <div class="w3-col l8 m6">
             {% if page.specific.HOD_message %}
             <h1 class="w3-xxlarge" style="color: #ffffff"><b>From HOD's Desk</b></h1>
             <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
             {% endif %}
-            <!-- <p class="read-more"> <a href="{{ hod_url }}" class="btn-area button">Read more.. <i class="
-            fa fa-long-arrow-right"></i>
-          </a>
-          </p> -->
             <br><br>
             <div class="" style="display:block; text-align:right">
-                <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong><br>
-                <strong style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
-                    Engineering</strong>
+                <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong>
+                <div style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
+                    Engineering</div>
+                    <div style="text-align: right; padding-right:40px;">
+                    {{hod_contact |safe}}
+                    </div>
             </div>
 
         </div>
     </div>
 </div>
-{%endcache %}
+{%endcache %} {% endcomment %}
 
 {% endblock %}
 
@@ -539,7 +545,7 @@
             $('.news_list').easyTicker({
                 direction: 'up',
                 visible: 4,
-                interval: 2500,
+                interval: 4000,
                 easing: 'swing',
                 controls: {
                     up: '.btnUp',
@@ -551,4 +557,15 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+        $(function() {
+            $('#carouselslider').bind('slide.bs.carousel', function (e) {
+                var image = $(e.relatedTarget).find('img[data-src]');
+                image.attr('src', image.data('src'));
+                image.removeAttr('data-src');
+            });
+        });
+    });
+</script>
 {% endblock %}

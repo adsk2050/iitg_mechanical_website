@@ -1,0 +1,135 @@
+<style>
+.page-footer a{
+    color:white !important;
+}
+.page-footer a:hover{
+    color:white !important;
+}
+.footer-divider{
+        border: 0;
+        border-top: 1px solid #eee;
+        margin: 20px 0;
+        width: 100%!important;  
+}
+@media only screen and (max-width: 768px) {
+    .footer-col{
+        border: 0;
+        border-top: 1px solid #eee;
+        margin: 20px 0;
+        width: 100%!important;
+    }
+}
+
+</style>
+  <footer class="page-footer flex-rw pt-4 mt-auto"
+    style="background-color: #222546;">
+
+    <div class="container-fluid text-center text-md-left">
+
+      <div class="row d-flex justify-content-around">
+        <!-- Contact info -->
+        <div class="col-md-4 pl-3">
+
+          <h4 class="font-weight-bold ml-1 mt-3 mb-4 text-warning">Department of Mechanical Engineering</h4>
+          <h6 class="pl-1 font-weight-light text-warning">
+            Indian Institute of Technology Guwahati
+          </h6>
+          <h6 class="pl-1 font-weight-light ">            
+            North Guwahati, Guwahati, Assam 781039
+          </h6>
+          <br>
+          <div class="footer-link">
+            <a class="btn-floating btn-fb mx-1" href="mailto:mechoff@iitg.ac.in">
+              <i class="fa fa-envelope text-info">&nbsp;&nbsp;&nbsp;</i>mechoff@iitg.ac.in
+            </a>
+          </div>
+          <div class="footer-link">
+            <div class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+              <i class="fa fa-phone text-info">&nbsp;&nbsp;&nbsp;</i> +91 361 2582700
+            </div>
+          </div>
+          <div class="footer-link">
+            <div class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+              <i class="fa fa-fax text-info">&nbsp;&nbsp;</i> +91 361 2582699
+            </div>
+          </div>
+          <div class="footer-link">
+            <a class="btn-floating btn-fb mx-1" style="color:#fff" href="#!">
+              <i class="fa fa-chrome text-info">&nbsp;</i> <a href="http://www.iitg.ac.in/mechold"> Old Website</a>
+            </a>
+          </div>
+
+        </div>
+
+        <hr>
+
+        {% for footer_col in footer %}
+        <hr class="footer-col">
+        <div class="col-md-2">
+            <h6 class="font-weight-bold text-uppercase mt-3 mb-4 text-info">{{footer_col.title}}</h6>
+            <ul class="list-unstyled" style="list-style: disc;">
+                {% for item in footer_col.footer_links.all %}
+                <li>
+                {% if item.internal_page %}
+                <a href="{{item.internal_page.url}}">                
+                    {% if item.title %}
+                        {{item.title}}
+                    {% else %}
+                        {{item.internal_page.title}}
+                    {% endif %}
+                </a>
+                {% else %}
+                    <a href="{{item.url}}">{{item.title}}</a>
+                {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <hr class="footer-divider">
+
+    <!-- Copyright -->
+    <div class="container-fluid text-med-left">
+    <div class="row d-flex justify-content-between">
+      <div class="col">
+        <div class="pl-1 font-weight-light text-danger">
+          Website Queries
+        </div>
+        <div class="">
+          <a class="btn-floating btn-fb nowarp ml-1" href="mailto:mechwebadmin@iitg.ac.in">
+            <i class="fa fa-envelope text-info"></i> mechwebadmin@iitg.ac.in
+          </a>
+        </div>
+        <br>
+        <div class="ml-1 font-weight-light">
+          <small>Developed by Mechanical Website Team</small>
+        </div>
+      </div>
+      <div class="col">
+        <div class="copyright text-center py-3">© 2021 Department of ME,<a href="https://iitg.ac.in"
+            style="color: #fff"> IIT Guwahati</a>
+        <br>
+        </div>
+      </div>
+
+
+      <div class="col">
+        <div class="w3-row" style="padding:10px">
+          <div align='center'><a href='https://www.hit-counts.com/'><img
+                src='https://www.hit-counts.com/counter.php?t=MTQ1MTk1NA==' border='2' alt='logo creation'></a><BR><a
+              href='https://www.glowgraphics.co.uk/'></a></div>
+        </div>
+
+        <div class="w3-row">
+          <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+  </footer>

@@ -1,3 +1,4 @@
+from django.core import paginator
 from alumni.models import AlumniEventPage
 import datetime
 import pytz
@@ -14,14 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
-from wagtail.admin.edit_handlers import (
-    FieldRowPanel,
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-    TabbedInterface,
-    ObjectList,
-)
+from wagtail.admin.edit_handlers import FieldRowPanel, FieldPanel, InlinePanel, MultiFieldPanel, TabbedInterface, ObjectList, PageChooserPanel
 
 # , StreamFieldPanel
 from wagtail.core.fields import RichTextField
@@ -218,6 +212,7 @@ class MechHomePage(Page):
         "NewsAnnouncementHomePage",
         "ResourceSection",
         "alumni.AlumniHome",
+        "MinutesOfMeetingsHomePage",
     ]
 
     max_count = 1
@@ -236,10 +231,9 @@ class MechHomePage(Page):
                 hod = hod[0]
                 hod_name = hod.__str__()
                 hod_url = hod.url
-                hod_contact = "<p>Office:" + hod.office_address_line_1 + ",<br> Contact: " + hod.office_contact_number + ",<br> Email: " + hod.email_id + "</p>"
+                hod_contact = "<p>Office: " + hod.office_address_line_1 + "<br> Ph. : " + hod.office_contact_number + "<br> Email: " + hod.email_id + "</p>"
         except:
             pass
-        # how to raise error in console ?
 
         categories = get_categories()
         new_events = get_new_events()
@@ -254,6 +248,7 @@ class MechHomePage(Page):
         context["news_annncmnts"] = news_annncmnts
         context["news_announcments_page"] = NewsAnnouncementHomePage.objects.first
         context["events_home_page"] = EventHomePage.objects.first
+        context["minutes_page"] = MinutesOfMeetingsHomePage.objects.first
         return context
 
     class Meta:
@@ -773,7 +768,7 @@ class FacultyPage(Page):
         for lab_relation in lab_relation_list:
             lab = lab_relation.page
             lab_list.append(lab)
-
+        lab_list = list(set(lab_list))
         pub_relation_list = self.faculty_pub.all()
         pub_list = []
         for pub_relation in pub_relation_list:
@@ -2555,6 +2550,10 @@ class Semester(Page):
         context["semesters"] = [context["page"]]
         return context
 
+    @property
+    def get_ordered_children(self):
+        return Course.objects.child_of(self).live().order_by("code")
+
 
 class EffectiveTimePeriod(Page):
     is_latest = models.BooleanField(default=False, verbose_name="Is this latest course structure?")
@@ -2570,7 +2569,7 @@ class EffectiveTimePeriod(Page):
     def get_context(self, request):
         context = super(EffectiveTimePeriod, self).get_context(request)
         context["semesters"] = self.get_children().type(Semester)
-        context["courses"] = self.get_children().type(Course)
+        context["courses"] = Course.objects.child_of(self).live().order_by("code")
         return context
 
 
@@ -3360,7 +3359,6 @@ class OutReach(Page):
     subpage_types = []
     body = models.TextField(blank=True, null=True, verbose_name="Institute/Event")
     date = models.DateField(default=timezone.now, null=True)
-    subpage_types = []
     content_panels = Page.content_panels + [
         InlinePanel("faculty_incharges", label="Faculty"),
         InlinePanel("custom_faculty_incharges", label="Other Faculty"),
@@ -3382,3 +3380,116 @@ class OutReachCustomFaculty(Orderable):
     full_name = models.CharField(blank=False, null=True, max_length=264)
     website = models.URLField(blank=True, null=True)
     panels = [FieldPanel("full_name"), FieldPanel("website")]
+
+
+from .constants import MONTHS
+
+
+class MinutesOfMeetingsHomePage(Page):
+    class MinutesOfMeetingCategory(Page):
+        about = RichTextField(blank=True, null=True, features=CUSTOM_RICHTEXT)
+
+        content_panels = Page.content_panels + [
+            FieldPanel("about"),
+        ]
+
+        parent_page_types = ["MinutesOfMeetingsHomePage"]
+        subpage_types = ["YearlyMinutesOfMeeting"]
+
+        def get_context(self, request, *args, **kwargs):
+            context = super().get_context(request, *args, **kwargs)
+            page = request.GET.get("page")
+            children = self.YearlyMinutesOfMeeting.objects.child_of(self).order_by("-year").live()
+            paginator = Paginator(children, 5)
+            context["children"] = paginator.get_page(page)
+            return context
+
+        class YearlyMinutesOfMeeting(Page):
+            year = models.IntegerField(
+                blank=False,
+                validators=[MinValueValidator(1994), max_value_current_year],
+            )
+            show_only_yearly = models.BooleanField(default=False, verbose_name="Show only yearly MoM")
+            file = models.ForeignKey(
+                "wagtaildocs.Document",
+                blank=True,
+                null=True,
+                on_delete=models.SET_NULL,
+                related_name="+",
+                verbose_name="File",
+            )
+
+            content_panels = Page.content_panels + [
+                FieldPanel("year"),
+                FieldPanel("show_only_yearly"),
+                DocumentChooserPanel("file"),
+            ]
+
+            parent_page_types = ["MinutesOfMeetingCategory"]
+            subpage_types = ["MonthlyMinutesOfMeeting"]
+            preview_modes = []
+
+            class MonthlyMinutesOfMeeting(Page):
+                month = models.CharField(max_length=264, choices=MONTHS, blank=False, verbose_name="Month")
+                file = models.ForeignKey(
+                    "wagtaildocs.Document",
+                    blank=False,
+                    null=True,
+                    on_delete=models.SET_NULL,
+                    related_name="+",
+                    verbose_name="File",
+                )
+
+                content_panels = Page.content_panels + [
+                    FieldPanel("month"),
+                    DocumentChooserPanel("file"),
+                ]
+
+                parent_page_types = ["YearlyMinutesOfMeeting"]
+                subpage_types = []
+                preview_modes = []
+
+            @property
+            def get_ordered_children(self):
+                return self.MonthlyMinutesOfMeeting.objects.child_of(self).order_by("month")
+
+    parent_page_types = ["MechHomePage"]
+    subpage_types = ["MinutesOfMeetingCategory"]
+    content_panels = Page.content_panels + []
+    max_count = 1
+
+
+
+
+from django.db import models
+
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.snippets.models import register_snippet
+from modelcluster.models import ClusterableModel
+
+@register_snippet
+class FooterColumn(ClusterableModel, models.Model):
+    column_no = models.IntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)], blank=False)
+    title = models.CharField(max_length=264)
+    panels = [FieldPanel("title"), FieldPanel("column_no"), InlinePanel("footer_links", label="Footer Links")]
+
+    def __str__(self):
+        return self.title
+
+
+class CustomLink(Orderable):
+    page = ParentalKey(FooterColumn, on_delete=models.CASCADE, related_name="footer_links")
+    title = models.CharField(max_length=264, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+    internal_page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("url"),
+        PageChooserPanel("internal_page", None, True),
+    ]

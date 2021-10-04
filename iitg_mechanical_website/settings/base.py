@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     "social_django",
-    "debug_toolbar",
+    # "debug_toolbar",
 ]
 
 # # Application definition
@@ -72,7 +72,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
     # 'wagtail.core.middleware.SiteMiddleware', deprecated after wagtail 2.1.1 so removed it
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
@@ -100,6 +100,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "mechweb.context_processors.navbar",
+                "mechweb.context_processors.footer",
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
             ],
@@ -209,7 +210,6 @@ CUSTOM_RICHTEXT = ALL_RICHTEXT_FEATURES
 AUTH_USER_MODEL = "mechweb.CustomUser"
 WAGTAIL_USER_EDIT_FORM = "mechweb.forms.CustomUserEditForm"
 WAGTAIL_USER_CREATION_FORM = "mechweb.forms.CustomUserCreationForm"
-# WAGTAIL_USER_CUSTOM_FIELDS = ['middle_name', 'user_type', 'uid']
 WAGTAIL_USER_CUSTOM_FIELDS = ["username", "is_staff", "middle_name", "user_type", "uid"]
 
 # WAGTAILIMAGES_IMAGE_MODEL = 'mechweb.CustomImage'

@@ -2,32 +2,44 @@
 
 {% load static %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags mechweb_tags%}
 
 {% block body_class %}template-publication-homepage{% endblock %}
 
+{% block extra_css %}
+<style>
+.committee_name{
+  color:#000;
+}
+.committee_name:hover{
+  text-decoration:none;
+}
+
+.list-group-item:hover{
+  background: #f5f5f5 !important;
+}
+</style>
+{% endblock extra_css %}
+
 {% block content %}
 
-<div class="container-fluid pubcont">
-  <h1 class="text-center">Departmental Committees</h1>
+<div class="container-fluid my-5">
+  <h1 class="text-center text-warning">Departmental Committees</h1>
   <!-- Intro -->
   <div class="about">{{ page.about|richtext }}</div>
-  <hr>
 </div>
 
-
-
-
-
-    <div id="ug_lab" class="w3-container city" >
-        <ul class="list-group  text-center"  style="width: 50%; margin: auto">
-            {% for committee in com_list %}
-                <li class="list-group-item">
-                    <a href="{{ committee.url }}"><h4>{{ committee.specific.name }}</h4></a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+<div class="py-5 bg-light">
+    <ul class="list-group text-center"  style="width: 70%; margin: auto">
+        <div class="row">
+        {% for committee in com_list %}
+            <li class="col-sm-12 col-lg-4 col-md-5 committee_box">
+                <a class="committee_name" href="{{ committee.url }}"><h4 class="list-group-item mx-2 p-5 text-primary">{{ committee.specific.name }}</h4></a>
+            </li>
+        {% endfor %}
+        </div>
+    </ul>
+</div>
 
 
 

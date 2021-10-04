@@ -5,22 +5,25 @@
 {% block extra_css %}
 
 <style>
+    .sem-title {
+            {
+            % comment %
+        }
 
-body {
-  line-height: 30px;
-}
+        background:antiquewhite;
 
-.sem-title{
-    {% comment %} background:antiquewhite; {% endcomment %}
-}
-/* tr{
+            {
+            % endcomment %
+        }
+    }
+
+    /* tr{
     cursor:pointer;
 } */
 
-.table a{
-    text-decoration:underline !important;
-}
-
+    .table a {
+        text-decoration: underline !important;
+    }
 </style>
 
 {% endblock extra_css %}
@@ -31,111 +34,114 @@ body {
 {% block content %}
 
 <div class="">
-<div class="">
-<!-- add breadcrumbs -->
-{% breadcrumbs%}
+    <div class="">
+        <!-- add breadcrumbs -->
+        {% breadcrumbs%}
 
 
 
-<div style="background:#2a6f97">
-<br>
-<h2 class="text-center text-white" > <strong>Course Structure ({{page}})</strong></h2>
-<br>
-</div>
+        <div style="background:#cce5ff">
+            <br>
+            <h2 class="text-center"> <strong>Course Structure ({{page}})</strong></h2>
+            <br>
+        </div>
 
-<div class="text-center row d-flex justify-content-center" >
+        <div class="text-center row d-flex justify-content-center">
 
-    {% for sem in semesters %}
-
-
-<div class="col-sm-12 col-md-6">
-<div class="">
-
-<div class="sem-title">
-<br>
-<a href="{% pageurl sem %}"><h2 class="text-center" style="font-weight:bolder;">Semester {{ sem.specific.semester_number }}</h2></a>
-<p class="text-muted">(click on course no. to open course page)</p>
-</div>
-<div class="table-responsive-lg container-fluid">
-
-<table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll;">
-    <thead style="background-color:#014f86;color:#fff">
-        <tr>
-            <th scope="col">Course No.</th>
-            <th scope="col">Course Name</th>
-            <th scope="col">L</th>
-            <th scope="col">T</th>
-            <th scope="col">P</th>
-            <th scope="col" style="text-align: center">Credits</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        {% for course in sem.get_children %}
-        <tr>
-
-            <td><a href="{{course.url}}">{{ course.specific.code }}</a></td>
-            <td>{{ course.specific.name }}</td>
-            <td>{{ course.specific.lectures }}</td>
-            <td>{{ course.specific.tutorials }}</td>
-            <td>{{ course.specific.practicals }}</td>
-            <td style="text-align: center">{{ course.specific.credits }}</td>
-
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
-<br><br>
-</div>
-</div>
-{% comment %} <br> {% endcomment %}
-    {% endfor %}
+            {% for sem in semesters %}
 
 
-{% if courses %}
+            <div class="col-sm-12 col-md-6">
+                <div class="">
 
-<div class="col-12">
+                    <div class="sem-title">
+                        <br>
+                        <a href="{% pageurl sem %}">
+                            <h2 class="text-center" style="font-weight:bolder;">Semester
+                                {{sem.specific.semester_number}}</h2>
+                        </a>
+                        <p class="text-muted">(click on course no. to open course page)</p>
+                    </div>
+                    <div class="table-responsive-lg container-fluid">
 
-<br><br>
-<div class="table-responsive-md container-fluid">
+                        <table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll;">
+                            <thead style="background-color:#ffed99;color:#000">
+                                <tr>
+                                    <th scope="col">Course No.</th>
+                                    <th scope="col">Course Name</th>
+                                    <th scope="col">L</th>
+                                    <th scope="col">T</th>
+                                    <th scope="col">P</th>
+                                    <th scope="col" style="text-align: center">Credits</th>
 
-<table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll; ">
-    <thead style="background-color:#014f86;color:white">
-        <tr>
-            <th scope="col">Course No.</th>
-            <th scope="col">Course Name</th>
-            <th scope="col">L</th>
-            <th scope="col">T</th>
-            <th scope="col">P</th>
-            <th scope="col" style="text-align: center">Credits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in sem.specific.get_ordered_children %}
+                                <tr>
 
-        </tr>
-    </thead>
-    <tbody>
+                                    <td><a href="{{course.url}}">{{ course.specific.code }}</a></td>
+                                    <td>{{ course.specific.name }}</td>
+                                    <td>{{ course.specific.lectures }}</td>
+                                    <td>{{ course.specific.tutorials }}</td>
+                                    <td>{{ course.specific.practicals }}</td>
+                                    <td style="text-align: center">{{ course.specific.credits }}</td>
 
-          {% for course in courses  %}
-        <tr onclick="window.location='{{course.url}}';">
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+            {% comment %} <br> {% endcomment %}
+            {% endfor %}
 
-            <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
-            <td>{{ course.specific.name }}</td>
-            <td>{{ course.specific.lectures }}</td>
-            <td>{{ course.specific.tutorials }}</td>
-            <td>{{ course.specific.practicals }}</td>
-            <td style="text-align: center">{{ course.specific.credits }}</td>
 
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            {% if courses %}
 
-<br><br>
-</div>
-</div>
+            <div class="col-12">
 
-{% endif %}
+                <br><br>
+                <div class="table-responsive-md container-fluid">
 
-</div>
-</div>
+                    <table class="table table-lg table-striped table-hover" style="margin: auto;overflow-x:scroll; ">
+                        <thead style="background-color:#ffed99;color:#000">
+                            <tr>
+                                <th scope="col">Course No.</th>
+                                <th scope="col">Course Name</th>
+                                <th scope="col">L</th>
+                                <th scope="col">T</th>
+                                <th scope="col">P</th>
+                                <th scope="col" style="text-align: center">Credits</th>
 
-{% endblock %}
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for course in courses %}
+                            <tr onclick="window.location='{{course.url}}';">
+
+                                <td><a href="{{ course.url }}">{{ course.specific.code }}</a></td>
+                                <td>{{ course.specific.name }}</td>
+                                <td>{{ course.specific.lectures }}</td>
+                                <td>{{ course.specific.tutorials }}</td>
+                                <td>{{ course.specific.practicals }}</td>
+                                <td style="text-align: center">{{ course.specific.credits }}</td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <br><br>
+                </div>
+            </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% endblock %}
