@@ -572,7 +572,7 @@ class FacultyHomePage(Page):
     # def list_common_interests(self):
 
     def serve(self, request):
-        faculty_list = FacultyPage.objects.all().order_by("first_name", "middle_name", "last_name")
+        faculty_list = FacultyPage.objects.all().order_by("additional_roles", "first_name", "middle_name", "last_name")
 
         all_research_interests = faculty_interests()
         all_categories = get_categories()
@@ -3459,13 +3459,12 @@ class MinutesOfMeetingsHomePage(Page):
     max_count = 1
 
 
-
-
 from django.db import models
 
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.snippets.models import register_snippet
 from modelcluster.models import ClusterableModel
+
 
 @register_snippet
 class FooterColumn(ClusterableModel, models.Model):

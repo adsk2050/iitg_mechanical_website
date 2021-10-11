@@ -110,7 +110,7 @@
 
 <script>
   function listenSearchQuery(){
-    input = document.getElementById('inlineFormInputGroupSearch');
+    const input = document.getElementById('inlineFormInputGroupSearch');
     document.getElementById("research_interest_input").value = "";
     searchQuery(input.value);
   }
@@ -135,7 +135,7 @@
 
   function searchQuery(query) {
     // Declare variables
-    var li, a, b, i, atxtValue, btxtValue, liwa, liwa, awa, iwa, txtValuewa;
+    var li, a, b, i, atxtValue, btxtValue, liwa, awa, iwa, txtValuewa;
     query = query.toUpperCase();
     // ul = document.getElementById("myUL");
     li = document.getElementsByClassName("bread-list-item");
@@ -152,7 +152,9 @@
         li[i].style.display = "none";
       }
     }
-    ulwa = document.getElementById("research_interests");
+    const ulwa = document.getElementById("research_interests");
+    if(!liwa)
+      return;
     liwa = ulwa.getElementsByClassName("research_interest");
 
     // Loop through all list items, and hide those who don't match the search query
@@ -225,9 +227,9 @@
                   </div>
                   <div>
                     {% if faculty.specific.get_additional_roles_display == "HoD" %}
-                    <h5>Head of Department</h5>
+                    <h5 class="text-primary">Head of Department</h5>
                     {% endif %}
-                    <strong>{% if faculty.on_visit %}Visiting {% endif %} {{ faculty.specific.get_designation_display }}
+                    <strong class="text-info">{% if faculty.on_visit %}Visiting {% endif %} {{ faculty.specific.get_designation_display }}
                       {% if faculty.on_lien %}on lien{% endif %}{% if faculty.on_depute %}on
                       deputation{% endif %}</strong>
                   </div>
