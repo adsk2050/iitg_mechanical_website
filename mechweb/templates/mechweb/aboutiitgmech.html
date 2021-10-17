@@ -5,55 +5,113 @@
 
 {% load wagtailcore_tags wagtailimages_tags %}
 
+
 {% block body_class %}template-aboutiitgmech-page{% endblock %}
+{% block extra_css %}
+<style>
+
+html, body{
+  margin:0px; padding:0px;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+#hero1{
+{% image page.photo original as background_image %}
+
+ background:url({{background_image.url}});
+  background-size:cover;
+  background-position:center center;
+  background-attachment:fixed;
+}
+
+.hero, .content{
+  text-align:center; 
+  position:relative;
+  width: 100%;
+}
+
+.inner{
+  min-height:600px;
+  position: relative;
+}
+
+.hero .inner{
+  background: rgba(0,0,0,0.4) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAD0lEQVQIW2NkQABjRmQOAAM+AGkQsDBSAAAAAElFTkSuQmCC) repeat;
+  }
+
+
+.copy{
+  position:absolute; 
+  top:50%; 
+  height:10em; 
+  margin-top:-5em; 
+  width:100%;
+}
+
+
+
+h1{
+  margin:0px;
+  font-family: 'Roboto Slab', serif;
+  font-weight:400;
+  font-size:32px;
+  padding:0px 20px;
+}
+
+p{
+  font-size:large;
+  padding:0px 20px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+
+</style>
+
+{% endblock extra_css %}
 
 {% block content %}
-<!-- Header -->
-<header class="w3-display-container-fluid w3-content w3-wide" style="width:100%;min-width:500px" id="home">
-  <img class="w3-image" src="{% static "images/img2.jpg" %}" " width="1600" height="800">
-  <div class="w3-display-bottomleft w3-padding-large w3-opacity">
-    <h1 class="w3-xxlarge">Mechanical Department, IIT Guwahati</h1>
-  </div>
-</header>
 
-<!-- Page content -->
-<div class="w3-content" style="max-width:1100px">
-
-  <!-- About Section -->
-  <div class="w3-row w3-padding-64" id="about">
-    <!-- <div class="w3-col m6 w3-padding-large w3-hide-small">
-     <img src="{% static "images/img2.jpg" %}" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="800" height="1000" style="width:100%; height:100%; top:50%;">
-    </div> -->
-
-    <div class="w3-col m12 w3-padding-large" style="text-align: justify;  text-justify: inter-word;">
-      <h1 class="w3-center">About the Department</h1><br>
-      <p class="w3-large">{{ page.about|richtext}}</p>
+<section id="hero1" class="hero">
+  <div class="inner">
+    <div class="copy">
+    <h1 class="text-white">Mechanical Department, IIT Guwahati</h1>
+    <p></p>
     </div>
   </div>
+</section>
 
-
-
-  <hr>
-  <div class="w3-row w3-padding-64" id="menu" style="text-align: justify;  text-justify: inter-word;">
-    <div class="w3-col l12 w3-padding-large">
-      <h1 class="w3-center">History</h1><br>
-      <p class="w3-large w3-hide-medium">{{ page.history|richtext }}</p>
-
+<section>
+  <div class="">
+    <div class="pt-4">
+    <h1 class="text-center pb-3">About the Department</h1>
+    <div class="container">{{ page.about|richtext}} </div>
     </div>
   </div>
+</section>
 
-    <hr>
-
-    <div class="w3-row w3-padding-64" id="menu" style="text-align: justify;  text-justify: inter-word;">
-      <div class="w3-col l12 w3-padding-large">
-        <h1 class="w3-center">Our Vision</h1><br>
-        <p class="w3-large w3-hide-medium">{{ page.vision|richtext }}</p>
-
-      </div>
+<section>
+  <div class="">
+    <div class="">
+        <h1 class="text-center pb-3">History</h1>
+    <div class="container">{{ page.history|richtext}} </div>
     </div>
-
-<!-- End page content -->
-</div>
-
+  </div>
+</section>
+<section>
+  <div class="">
+    <div class="">
+    <h1 class="text-center pb-3">Our Vision</h1>
+    <div class="container">{{ page.vision|richtext}} </div>
+    </div>
+  </div>
+</section>
+  <br>
 
 {% endblock %}
