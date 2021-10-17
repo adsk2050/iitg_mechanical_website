@@ -17,14 +17,11 @@ def navbar(request):
             "Event Home": 8,
             "categories home": 9,
             "aboutiitgmech": 10,
-            "resource section": 11,
-            "Alumni Home Page": 12,
-            "Committee Home": 13,
-            "minutes of meetings home page": 14,
+            "Alumni Home Page": 11,
         }
         ordering = defaultdict(lambda: 1000, ordering)
         navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
-        return {"navlist": navlist[:14]}
+        return {"navlist": navlist[:11]}
     else:
         return {"navlist": []}
 
@@ -32,6 +29,7 @@ def navbar(request):
 def footer(request):
     result = {"footer": list(FooterColumn.objects.all().order_by("column_no"))}
     return result
+
 
 # def get_mech_workshop():
 # 	workshop = ResearchLabPage.objects.all().get(name="Mechanical Workshop")
