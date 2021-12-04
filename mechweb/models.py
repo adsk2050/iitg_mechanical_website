@@ -386,8 +386,8 @@ class EventHomePage(Page):
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        event_list = self.get_children().live().order_by("-first_published_at")
-        paginator = Paginator(event_list, 10)  # Show 10 events per page
+        event_list = EventPage.objects.live().order_by("-start_date", "-end_date")
+        paginator = Paginator(event_list, 9)  # Show 10 events per page
         page = request.GET.get("page")
         event_list = paginator.get_page(page)
         context["event_list"] = event_list
