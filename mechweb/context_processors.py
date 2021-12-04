@@ -10,7 +10,7 @@ def navbar(request):
             "Academics": 1,
             "Research Home": 2,
             "Student Home": 3,
-            "faculty home page": 4,
+            "Faculty Home": 4,
             "Staff Home": 5,
             "Awards Home": 6,
             "Alumni Home": 7,
