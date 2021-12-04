@@ -586,15 +586,18 @@ class FacultyHomePage(Page):
             faculty_list = faculty_list.filter(research_interests__name=tag)
         current_faculty_list = []
         past_faculty_list = []
+        visiting_faculty_list = []
         today = datetime.date.today()
         for fac in faculty_list:
             try:
-                if fac.leaving_date > today:
+                if fac.on_lien:
                     current_faculty_list.append(fac)
-                else:
-                    if fac.on_lien:
-                        current_faculty_list.append(fac)
+                elif fac.on_visit:
+                    visiting_faculty_list.append(fac)
+                elif fac.leaving_date and fac.leaving_date < today:
                     past_faculty_list.append(fac)
+                else:
+                    current_faculty_list.append(fac)
             except TypeError:
                 current_faculty_list.append(fac)
             # check this bro!! what is name?? both models faculty page or facultyhomepage or facultyresearchinteresttag  dont have name keyword... maybe name keyword is in clustertaggablemanager source code
@@ -609,6 +612,7 @@ class FacultyHomePage(Page):
                 "page": self,
                 "current_faculty_list": current_faculty_list,
                 "past_faculty_list": past_faculty_list,
+                "visiting_faculty_list": visiting_faculty_list,
                 "all_research_interests": all_research_interests,
                 "all_categories": all_categories,
                 "cat": cat,
@@ -618,8 +622,8 @@ class FacultyHomePage(Page):
             },
         )
 
-        class Meta:
-            verbose_name = "Faculty Home"
+    class Meta:
+        verbose_name = "Faculty Home"
 
 
 class FacultyResearchInterestTag(TaggedItemBase):
