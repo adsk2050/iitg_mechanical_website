@@ -151,14 +151,6 @@ class CustomUser(AbstractUser):
 class MechHomePage(Page):
     intro = models.CharField(blank=True, max_length=500)
     body = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-    HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
-    HOD_image = models.ForeignKey(
-        "wagtailimages.Image",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="+",
-    )
     donation_link = models.URLField(max_length=250, blank=True)
     donate_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -181,10 +173,8 @@ class MechHomePage(Page):
         InlinePanel("gallery_images", label="Gallery Images", max_num=10),
         FieldPanel("yt_video_code"),
         FieldPanel("research_profile_documentary_code"),
-        FieldPanel("HOD_message"),
         FieldPanel("donate_message"),
         FieldPanel("donation_link"),
-        ImageChooserPanel("HOD_image"),
         ImageChooserPanel("donate_image"),
     ]
 
@@ -220,29 +210,13 @@ class MechHomePage(Page):
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        navlist = self.get_children().live().order_by("-first_published_at")
-        hod_name = "Head of Department"
-        hod_image = "0"
-        hod_url = "0"
-        hod_contact = "0"
-        try:
-            hod = get_hod()
-            if hod.count() == 1:
-                hod = hod[0]
-                hod_name = hod.__str__()
-                hod_url = hod.url
-                hod_contact = "<p>Office: " + hod.office_address_line_1 + "<br> Ph. : " + hod.office_contact_number + "<br> Email: " + hod.email_id + "</p>"
-        except:
-            pass
+        # navlist = self.get_children().live().order_by("-first_published_at")
 
         categories = get_categories()
         new_events = get_new_events()
         top_awards = get_new_awards()
         # context['navlist'] = navlist
         context["categories"] = categories
-        context["hod_name"] = hod_name
-        context["hod_url"] = hod_url
-        context["hod_contact"] = hod_contact
         context["new_events"] = new_events
         context["top_awards"] = top_awards
         context["news_annncmnts"] = news_annncmnts
@@ -274,6 +248,14 @@ class Aboutiitgmech(Page):
     vision = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
     history = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
     about = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    HOD_message = RichTextField(blank=True, features=CUSTOM_RICHTEXT)
+    HOD_image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
     photo = models.ForeignKey(
         "wagtailimages.Image",
         on_delete=models.SET_NULL,
@@ -286,12 +268,34 @@ class Aboutiitgmech(Page):
         FieldPanel("vision", classname="full"),
         FieldPanel("history", classname="full"),
         FieldPanel("about", classname="full"),
+        FieldPanel("HOD_message"),
         ImageChooserPanel("photo"),
+        ImageChooserPanel("HOD_image"),
     ]
 
     parent_page_types = ["MechHomePage"]
     subpage_types = []
     max_count = 1
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        hod_name = "Head of Department"
+        hod_url = "0"
+        hod_contact = "0"
+        try:
+            hod = get_hod()
+            if hod.count() == 1:
+                hod = hod[0]
+                hod_name = hod.__str__()
+                hod_url = hod.url
+                hod_contact = "Office: " + hod.office_address_line_1 + "<br> Ph. : " + hod.office_contact_number + "<br> Email: " + hod.email_id
+        except:
+            pass
+        context["hod_name"] = hod_name
+        context["hod_url"] = hod_url
+        context["hod_contact"] = hod_contact
+
+        return context
 
 
 ######################################################

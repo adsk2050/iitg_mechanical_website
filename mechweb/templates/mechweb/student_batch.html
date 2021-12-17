@@ -53,6 +53,10 @@ opacity:0.8;
 .student_batch a:hover{
     background:#a9d6e5;
 }
+.external-link a:hover{
+    text-decoration:none;
+    background:white;
+}
 </style>
 
 {% endblock extra_css %}
@@ -77,7 +81,7 @@ opacity:0.8;
 
 <br>
 <div class="">
-<div class="container">
+{% comment %} <div class="container">
 <div class="row">
     <div class="col-6 mr-auto">
     {% with page.specific.get_prev_sibling as prev_page %}
@@ -96,7 +100,7 @@ opacity:0.8;
     </div>
 </div>
 </div>
-<hr>
+<hr> {% endcomment %}
 
 
 {% if page.table_view %}
@@ -167,31 +171,30 @@ opacity:0.8;
 <div>
 <div class="row bread-list justify-content-center" id="myUL" >
 {% for student in page.get_children_order_by_title.live %}
-  <div class="col-xs-12 col-lg-3 col-md-5 bread-list-item p-2 m-2" style="background:#edf2fb;">
+  <div class="col-xs-12 col-lg-3 col-md-5 bread-list-item p-2 m-2">
 
       <div class="row align-items-center">
           <div class="col-5">
             {% comment %} <a href="{{ student.url }}"> {% endcomment %}
             <a>
           {% if student.specific.photo %}
-            {% image student.specific.photo fill-100x100 as photo %}
-            <img src="{{ photo.url }}" alt="{{ photo.alt }}" class="rounded-circle" style="width:100%" >
+          {% image student.specific.photo  format-webp webpquality-50 style='max-width:200px; max-height:200px;' class="rounded img-thumbnail" %}
           {% else %}
           
-          <img  src="https://www.nmeaf.org/sites/default/themes/nichols/images/icon-student.png" class="rounded" style="width:100%">
+          <img  src="https://www.nmeaf.org/sites/default/themes/nichols/images/icon-student.png" class="rounded img-thumbnail img-fluid" style="width:100%">
           {% endif %}
               </a>
 
                    <div class="row web-links d-flex justify-content-center"> 
                         {% if student.specific.website %}
-                        <div class="col-6 mt-3">
+                        <div class="col-6 mt-3 external-link">
                         <a href="{{student.specific.website}}" target="_blank"><i class="fa fa-globe fa-2x" aria-hidden="true"></i></a>
                         </div>
                         {% endif %}
 
                         {% if student.specific.linkedin %}
-                        <div class="col-6 mt-3">
-                        <a href="{{student.specific.linkedin}}" target="_blank"> <i class="fa fa-linkedin fa-2x" data-toggle="tooltip" data-placement="top" title="linkedin profile" style="color:rgb(10, 102, 194)" aria-hidden="true"></i></a>
+                        <div class="col-6 mt-3 external-link">
+                        <a href="{{student.specific.linkedin}}" target="_blank"> <i class="fa fa-linkedin fa-2x" data-toggle="tooltip" data-placement="top" title="Linkedin Profile" style="color:rgb(10, 102, 194)" aria-hidden="true"></i></a>
                         </div>
                         {% endif %}
                     </div>
@@ -200,7 +203,7 @@ opacity:0.8;
              
 	      {% comment %} <a href="{{ student.url }}"> {% endcomment %}
               <a>
-                  <h3> {{ student }}</h3>   
+                  <h3 class="text-info"> {{ student }}</h3>   
               </a>
               <ul class="bread-meta">
                   {% if student.specific.enrollment_year %}

@@ -446,50 +446,6 @@ nav{
   font-size: 18px;
   }
 
-.single-service {
-  margin: 10px;
-  border: 1px solid #ebebeb;
-  text-align: center;
-  background: #fff;
-  border-radius: 10px;
-}
-
-.service-bg{
-  height: 200px;
-  position: relative;
-}
-
-.service-bg-1{
-  background: url("/static/images/img1.jpg");
-  -webkit-background-size:cover;
-  background-size: cover;
-  background-position: center;
-}
-
-.service-bg a{
-  color: #fff;
-  background: #231f20;
-  border: 1px solid;
-  font-size: 17px;
-  text-align: center;
-  font-weight: 700;
-  padding: 15px;
-  position: absolute;
-  left: 8%;
-  width: 84%;
-  margin: 0;
-  bottom: -25px;
-  border-radius: 25px;
-  letter-spacing: 2px;
-}
-
-.service-bg a:hover {
-  background: #373334;
-  color: #fff !important;
-}
-.service-bg a:active {
-  background: #171717ad;
-}
 .button4 {
   background-color: white;
   color: black;

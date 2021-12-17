@@ -277,12 +277,12 @@
                 <h2>About ME,IITG</h2>
                 <br>
                 <p class="" style="text-align: justify;text-justify: inter-word">{{ page.intro }}</p>
-                <p class="">
+                <p class="text-center">
                     {% for child in navlist %}
                     {% with page_type=child.content_type.name %}
                     {% if page_type == 'aboutiitgmech' %}
                 
-                    <a class="customBtn p-3" href="{{ child.url }}">Read More</a>
+                    <a class="customBtn p-3" href="{{ child.url }}">Read More <i class="fa fa-book"></i></a>
                     
                     {% endif %}
                     {% endwith %}
@@ -295,9 +295,9 @@
 
         <div class="col-md-12 col-lg-8 p-sm-0 px-md-5 newsbox h-100">
             <div class="row d-flex justify-content-around">
-                <div id="News" class="tabcontent col-sm-12 col-md-3 card px-3 lightBackground1">
+                <div id="News" style="max-width:325px;" class="tabcontent col-sm-12 col-md-4 card px-3 lightBackground1">
                     <div class="row">
-                        <h4 class="mr-auto underline--magical p-2 my-2">News</h4>
+                        <h4 class="mr-auto underline--magical p-2 my-2">News <i class="fa fa-newspaper"></i></h4>
                         {%cache 86400 news_announcments_page_ptr %}
                         <a href="{{news_announcments_page.url}}" class="float-none my-3 customBtn">
                             View all<i class="ml-1 fa fa-link"></i>
@@ -347,9 +347,9 @@
                     </div>
 
                 </div>
-                <div id="Announcements" class="tabcontent col-sm-12 col-md-3 card px-3 lightBackground1">
+                <div id="Announcements" style="max-width:325px;" class="tabcontent col-sm-12 col-md-4 card px-3 lightBackground1">
                     <div class="row">
-                        <h4 class="mr-auto underline--magical p-2 my-2">Announcements</h4>
+                        <h4 class="mr-auto underline--magical p-2 my-2">Announcements<i class="fa ml-1 fa-bullhorn"></i></h4>
                         {%cache 86400 news_announcments_page_ptr %}
 
                         <a href="{{news_announcments_page.url}}" class="float-none my-3 customBtn">
@@ -383,9 +383,9 @@
 
                     </div>
                 </div>
-                <div id="Events" class="tabcontent col-sm-12 col-md-3 card px-3 lightBackground1">
+                <div id="Events" style="max-width:325px;" class="tabcontent col-sm-12 col-md-4 card px-3 lightBackground1">
                     <div class="row">
-                        <h4 class="mr-auto underline--magical p-2 my-2">Events</h4>
+                        <h4 class="mr-auto underline--magical p-2 my-2">Events <i class="fa fa-calendar-alt"></i></h4>
                         {%cache 86400 events_home_page_ptr%}
                         <a href="{{events_home_page.url}}" class="float-none my-3 customBtn">
                             View all<i class="ml-1 fa fa-link"></i>
@@ -445,19 +445,21 @@
 <div class="row d-flex justify-content-around text-white text-center" style="background:#171717cc">
     <div class="col-12 col-md-3 p-5">
         <span class="w3-xlarge">45+</span><br>
-        <span class="w3-xlarge">Faculty</span>
+        <span class="w3-xlarge">Faculty <i class="fa fa-users" aria-hidden="true"></i>
+        </span>
     </div>
     <div class="col-12 col-md-3 p-5">
         <span class="w3-xlarge">900+</span><br>
-        <span class="w3-xlarge">Students</span>
+        <span class="w3-xlarge">Students <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+        </span>
     </div>
     <div class="col-12 col-md-3 p-5">
         <span class="w3-xlarge">25+</span><br>
-        <span class="w3-xlarge">Laboratories</span>
+        <span class="w3-xlarge">Laboratories <i class="fa fa-flask" aria-hidden="true"></i></span>
     </div>
     <div class="col-12 col-md-3 p-5">
         <span class="w3-xlarge">25 Years</span><br>
-        <span class="w3-xlarge">Legacy</span>
+        <span class="w3-xlarge">Legacy <i class="fa fa-trophy" aria-hidden="true"></i></span>
     </div>
 </div>
 <!-- split screen code ends -->
@@ -471,63 +473,48 @@
             </div>
         </div>
     </div>
-    <div class="w3-row w3-padding-16">
+    <div class="row justify-content-center">
         {% for category in categories %}
         {% if category.category != '0' %}
-        <div class="w3-third">
-            <div class="single-service">
-                <div class="service-bg">
-                    {% image category.specific.photo original style='width:100%; height:100%; object-fit: contain' %}
-                    <a class="customBtn" href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}"><h3>{{ category.title }} </h3></a>
-                </div>
-                <div class="service-text sidebar-box" style="text-align: justify;text-justify: inter-word;">
-                    <p>{{ category.specific.intro|richtext }}</p>
+        <style>
+            .customBtn h4{
+                margin:0px;
+                font-family: ''Open Sans', sans-serif !important;
+                padding:0px 20px;
+                color:white !important;
+              }
+              
+              p{
+                font-size:medium;
+                padding:0px 20px;
+                text-align: justify;
+                text-justify: inter-word;
+              }
+                .customBtn{
+                  background:#231f20;
+              }
+        </style>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+                {% image category.specific.photo original as photo %}
+                <a href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">
+                <img class="card-img-top img-fluid rounded" style="max-height:200px;" src="{{photo.url}}" alt="">
+            </a>
+                <div class="card-body">
+                    <div class="text-center">
+                  <a class="customBtn px-5 py-4" href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}"><h4> {{ category.title }}</h4></a>
+                    </div>
+                  <p class="p-2">{{ category.specific.intro|richtext }}</p>
                 </div>
             </div>
         </div>
         {% endif %}
         {% endfor %}
     </div>
+    <br>
 </div>
 {%endcache%}
 <!-- end of research categories row -->
-{% comment %} {%cache 86400 hod_message%}
-<div class="w3-padding-64 messagebox">
-    <div class="w3-row-padding">
-        <div class="w3-col l4 m6">
-            <span style="display: block; text-align: center">
-                {% if page.specific.HOD_image %}
-                {% image page.specific.HOD_image original as photo %}
-                <img class="w3-image w3-round-large w3-hide-small" src="{{ photo.url }}" alt="{{ photo.alt }}"
-                    style="align-items: center; width:17em; height:20em; margin-top: 2em " />
-                {% else %}
-                {% with MEDIA_URL|add:'images/placeholder.jpg' as image_static %}
-                <img class="w3-image w3-round-large w3-hide-small w3-grayscale" src="{{ image_static }}"
-                    alt="placeholder" width="335" height="471" />
-                {% endwith %}
-                {% endif %}
-            </span>
-        </div>
-
-        <div class="w3-col l8 m6">
-            {% if page.specific.HOD_message %}
-            <h1 class="w3-xxlarge" style="color: #ffffff"><b>From HOD's Desk</b></h1>
-            <p class="w3-xlarge">{{ page.specific.HOD_message|richtext }}</p>
-            {% endif %}
-            <br><br>
-            <div class="" style="display:block; text-align:right">
-                <strong style="text-align: right; padding-right:40px;">{{ hod_name }}</strong>
-                <div style="text-align: right; padding-right:40px;">HOD, Department of Mechanical
-                    Engineering</div>
-                    <div style="text-align: right; padding-right:40px;">
-                    {{hod_contact |safe}}
-                    </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-{%endcache %} {% endcomment %}
 
 {% endblock %}
 

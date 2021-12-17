@@ -1,20 +1,33 @@
 {% extends "base.html" %}
 
 {% load static %}
-
+{% load mechweb_tags %}
 
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-genericpage-page{% endblock %}
 
 {% block content %}
+{% breadcrumbs%}
+<style>
 
-<!-- Page content -->
-<div class="w3-content w3-margin-top" style="max-width:1400px; padding-top:110px;">
-<h1 class="w3-center">{{ page.title }}</h1><br>
-      <p class="w3-large">{{ page.body|richtext}}</p>
-
+.container a{
+   text-decoration:underline;
+   color:#61a5c2;
+}
+</style>
+<div class="bg-light">
+      <br>
+<h1 class="text-center text-warning"> {{page.title}}</h1>
+<br>
+<div class="container card">
+<br>
+<div>
+{{page.body|richtext}}
 </div>
-<!-- End page content -->
-
+<br>
+</div>
+<br>
+</div>
+<br>
 {% endblock %}
