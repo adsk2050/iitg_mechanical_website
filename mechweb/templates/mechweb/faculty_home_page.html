@@ -183,7 +183,7 @@
     </a>
     <a href="javascript:void(0)" onclick="openCity(event, 'visit');">
       <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding"
-        style="text-align:center; font-size:1.2em; color: #222546">Visiting Faculty</div>
+        style="text-align:center; font-size:1.2em; color: #222546">Honorary/Visiting Faculty</div>
     </a>
     <a href="javascript:void(0)" onclick="openCity(event, 'past');">
       <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding"
@@ -318,7 +318,7 @@
                     {% if faculty.specific.get_additional_roles_display == "HoD" %}
                     <h5 class="text-primary">Head of Department</h5>
                     {% endif %}
-                    <strong class="text-info">{% if faculty.on_visit %} {% endif %} {{ faculty.specific.get_designation_display }}
+                    <strong class="text-info">{{ faculty.specific.get_designation_display }}
                       {% if faculty.on_lien %}on lien{% endif %}{% if faculty.on_depute %}on
                       deputation{% endif %}</strong>
                   </div>

@@ -154,6 +154,7 @@ FACULTY_DESIGNATION = (
     ("3", "Associate Professor"),
     ("2", "Assistant Professor"),
     ("4", "Visiting Professor"),
+    ("5", "Honorary Professor"),
 )
 
 FACULTY_AWARD_TYPES = (
