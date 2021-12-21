@@ -498,11 +498,11 @@
             <div class="card">
                 {% image category.specific.photo original as photo %}
                 <a href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">
-                <img class="card-img-top img-fluid rounded" style="max-height:200px;" src="{{photo.url}}" alt="">
+                <img class="card-img-top img-fluid rounded" style="max-height:275px;" src="{{photo.url}}" alt="">
             </a>
                 <div class="card-body">
                     <div class="text-center">
-                  <a class="customBtn px-5 py-4" href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}"><h4> {{ category.title }}</h4></a>
+                  <a class="customBtn px-5 py-4" href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}"><h5> {{ category.title }}</h5></a>
                     </div>
                   <p class="p-2">{{ category.specific.intro|richtext }}</p>
                 </div>
