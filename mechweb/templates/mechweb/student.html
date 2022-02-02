@@ -48,7 +48,7 @@
 
 <div class="">
 
-<div class=""style="background:#edf2fb;">
+<div class="">
 <!-- add breadcrumbs -->
 {% breadcrumbs%}
 
@@ -63,16 +63,16 @@
     <div class="col-sm-12 col-md-4">
       <!-- {{ page.title }} -->
 
-      <div class="card text-dark" style="background-image: linear-gradient(to right top, #a9d6e5, #7ea7be, #597997, #3b4d6e, #222546);">
+      <div class="card text-dark">
         <br>
         <div class="m-auto">
 
           {% if page.photo %}
-            {% image page.photo fill-300x300 as photo %}
-            <img src="{{ photo.url }}" alt="{{ photo.alt }}" class="rounded-circle" style="width:100%" >
+            {% image page.photo original as photo %}
+            <img src="{{ photo.url }}" alt="{{ photo.alt }}" class="thumbnail" style='max-width:200px; max-height:200px;' >
           {% else %}
           
-          <img  src="https://www.nmeaf.org/sites/default/themes/nichols/images/icon-student.png" class="rounded" >
+          <img  src="https://www.nmeaf.org/sites/default/themes/nichols/images/icon-student.png" class="thumbnail" style='max-width:200px; max-height:200px;'>
           {% endif %}
         </div>
         <br>
@@ -179,6 +179,7 @@
           {% if page.intro %}
           <p>{{ page.intro }}</p>
           {% else %}
+          No description provided.
           <br><br>
           {% endif %}
         <p>{{ page.body|richtext }}</p>

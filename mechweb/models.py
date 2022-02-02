@@ -811,12 +811,20 @@ class FacultyPage(Page):
         for course_relation in course_relation_list:
             course = course_relation.page
             course_list.append(course)
-
+        # students
+        students = self.supervisor.all()
+        students_copy = [student for student in students]
+        other_students = self.co_supervisor.all()
+        for student in other_students:
+            students_copy.append(student)
+        print(students_copy)
         context = super().get_context(request)
         context["lab_list"] = lab_list
         context["pub_list"] = pub_list
         context["project_list"] = project_list
         context["course_list"] = course_list
+        context["students"] = students_copy
+        context["other_students"] = other_students
         return context
 
     parent_page_types = ["FacultyHomePage"]

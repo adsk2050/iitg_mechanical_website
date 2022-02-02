@@ -43,6 +43,9 @@
 .w3-text-blue{
     color:#222546 !important;
 }
+.studlist{
+    list-style: circle !important;
+}
 </style>
 
 {% endblock extra_css %}
@@ -288,6 +291,26 @@
         </div>
 
       </div> -->
+
+
+      {% if students %}
+      <div class="container card mb-3">
+          <h2 class="p-1"><i
+                  class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i>Students
+          </h2>
+          <ul>
+              <div class="container row  ml-3 ">
+              {% for student in students %}
+
+                  <li class="studlist col-lg-3 col-md-6 col-sm-12">
+                      <h5 class=""><a href="{{ student.url }}">{{ student }}</a></h5>
+                  </li>
+                  <hr>
+                  {% endfor %}
+                </div>
+          </ul>
+
+          {% endif %}
 
             <div>
                 {% for pic in page.gallery_images.all %}
