@@ -817,7 +817,7 @@ class FacultyPage(Page):
         other_students = self.co_supervisor.all()
         for student in other_students:
             students_copy.append(student)
-        print(students_copy)
+
         context = super().get_context(request)
         context["lab_list"] = lab_list
         context["pub_list"] = pub_list

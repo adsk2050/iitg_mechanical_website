@@ -18,10 +18,11 @@ def navbar(request):
             "categories home": 9,
             "aboutiitgmech": 10,
             "Alumni Home Page": 11,
+            "minutes of meetings home page": 12,
         }
         ordering = defaultdict(lambda: 1000, ordering)
         navlist = sorted(navlist, key=lambda x: ordering[x.content_type.name])
-        return {"navlist": navlist[:11]}
+        return {"navlist": navlist[:12]}
     else:
         return {"navlist": []}
 
