@@ -494,11 +494,12 @@
         </style>
         {% for category in categories %}
         {% if category.category != '0' %}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
             <div class="card">
                 {% image category.specific.photo original as photo %}
                 <a href="{% url 'wagtail_serve' '' %}faculty?cat={{ category.category }}">
-                <img class="card-img-top img-fluid rounded" style="max-height:275px;" src="{{photo.url}}" alt="">
+                <img class="card-img-top img-fluid rounded" style="height:350px" src="{{photo.url}}" alt="">
+
             </a>
                 <div class="card-body">
                     <div class="text-center">
