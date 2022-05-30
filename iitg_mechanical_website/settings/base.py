@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "mechweb",
     "alumni",
+    "room_booking_portal",
     "wagtail.contrib.sitemaps",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.forms",
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     "taggit",
     "social_django",
     # "debug_toolbar",
+    "rest_framework",
 ]
 
 # # Application definition

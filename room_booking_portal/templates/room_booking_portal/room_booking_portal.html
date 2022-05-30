@@ -27,12 +27,49 @@
 
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
         <script type="module">
-            const myModal = new window.bootstrap.Modal(
-                document.getElementById("exampleModal"),
+            const roomsData = JSON.parse(`{{ roomsStr| safe}}`);
+            const roomsDataDict = {}
+            roomsData.forEach(room=>{
+                roomsDataDict[room.id] = room.title
+            })
+            const slotBookingModal = new window.bootstrap.Modal(
+                document.getElementById("slotBookingModal"),
                 {}
             );
+            const eventInfoModal = new window.bootstrap.Modal(
+                document.getElementById("eventInfoModal"),
+                {}
+            );
+            const eventInfoModalBody = document.getElementById("eventInfoModalBody");
+            const eventInfoModalLabel= document.getElementById("eventInfoModalLabel");
             const slotBookingForm = document.getElementById("slotBookingForm");
 
+            function showToast(msg){
+                document.getElementById("msgToastBody").innerHTML = msg;
+                new window.bootstrap.Toast(document.querySelector('#msgToast')).show();
+            }
+            function getEventInfoBody(data){
+                    var res = document.createElement('form');
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            const inputGrpEle = document.createElement('div');
+                            inputGrpEle.className = "input-group mb-3";
+                            const inputTitleEle = document.createElement('span');
+                            inputTitleEle.className = "input-group-text";
+                            
+                            inputTitleEle.innerHTML= key;
+                            const inputEle = document.createElement('input');
+                            inputEle.className += "form-control";
+                            inputEle.readonly = true;
+                            inputEle.placeholder = data[key];
+                            inputGrpEle.appendChild(inputTitleEle);
+                            inputGrpEle.appendChild(inputEle);
+                            res.appendChild(inputGrpEle);
+                        }
+                    }
+                    
+                    return res;
+                }
 
             document.addEventListener("DOMContentLoaded", function () {
                 var calendarEl = document.getElementById("calendar");
@@ -48,9 +85,13 @@
                     eventLimit: true,
                 });
 
+                function getEventTitle(title,room){
+                    return `${title} [${room}]`;
+                }
+
+                // handle click event
                 calendar.on("dateClick", function (info) {
                     const timeSelected = new Date(info.dateStr);
-                    console.log(info, timeSelected);
                     const startTime = document.getElementById("startTime");
                     if(startTime){
                         const startTimeFP = window.flatpickr(startTime, {
@@ -62,7 +103,7 @@
 
                     const endTime = document.getElementById("endTime");
                     if(endTime){
-                        const endTomeFP = window.flatpickr(endTime, {
+                        const endTimeFP = window.flatpickr(endTime, {
                             enableTime: true,
                             dateFormat: "Y-m-d H:i",
                             defaultDate: new Date(
@@ -70,36 +111,108 @@
                             ),
                         });
                     }
-                    myModal.show();
+                    slotBookingModal.show();
                 });
+
+                calendar.on("eventClick",function(info){
+                    var props = info.event.extendedProps;
+                    info = info.event;
+                    const data = {
+                        Name:props.user.name,
+                        Email: props.user.email,
+                        Room: props.room,
+                        Reason:props.reason,
+                        "Start Time": info.start.toLocaleString(),
+                        "End Time": info.end.toLocaleString(),
+                    }
+
+                    eventInfoModalLabel.innerHTML = info.title;
+                    eventInfoModalBody.innerHTML = "";
+
+                    const readOnlyForm = getEventInfoBody(data);
+                    readOnlyForm.setAttribute("id",info.id);
+
+                    eventInfoModalBody.appendChild(readOnlyForm);
+
+                    eventInfoModal.show();
+
+                });
+
+                // fetch all the events and add to the calendar
+                
+                fetch("{{request.path}}booking").then(resp=>{
+                    // console.log(resp);
+                    return resp.json()
+                }).then(data=>{
+                    // console.log(data); 
+                    data.forEach(itm=>{
+                        calendar.addEvent({
+                            id:itm.id,
+                            title: getEventTitle(itm.title,itm.room) ,
+                            start: itm.startTime,
+                            end: itm.endTime,
+                            reason : itm.reason,
+                            user: itm.user,
+                            room: itm.room,
+                        });
+                    })
+
+                }).catch(error=>console.error(error));
+
                 calendar.render();
             
-
                 slotBookingForm.addEventListener("submit",function(event){
                     event.preventDefault();
                     // TODO: save in database
+                    var formData = new FormData(this);
+                    formData.set("user",{{request.user.id}})
 
-                    var formData = new FormData(slotBookingForm);
-                    console.log(formData);
-                    for (var [key, value] of formData.entries()) { 
-                        console.log(key, value);
-                    }
+                    fetch("{{request.path}}booking/",{method:"POST",body:formData})
+                    .then(resp=>{
+                        console.log(resp);
+                        return resp.json()}
+                    )
+                    .then(resp=>{
+                        if(resp.status !="success"){
+                            console.error(resp.data);
+                            showToast(JSON.stringify(resp.data))
+                        }
+                        else{
+                            // Note: not getting booking id here
+                            calendar.addEvent({
+                                id: Math.random(), // update this
+                                title: resp.data.title ,
+                                start: resp.data.startTime,
+                                end: resp.data.endTime,
+                                reason : resp.data.reason,
+                                user: {
+                                    name: "{{request.user.get_full_name}}",
+                                    email: "{{request.user.email}}",
+                                },
+                                room: resp.data.room,
+                            });
 
-                      
-                    calendar.addEvent({
-                        title: 'dynamic event',
-                        start: new Date(),
-                        allDay: true
+                            slotBookingModal.hide();
+
+                            showToast(`${roomsDataDict[resp.data.room]} booked for ${resp.data.title}`);
+                        }
+                    })
+                    .catch(err=>{
+                        showToast(JSON.stringify(err));
+                        console.error(err)
                     });
                               
-                    myModal.hide();
                 
                 });
             
             });
-
-
+            
         </script>
+        <style>
+            .fc-event{
+                cursor: pointer;
+            }            
+        </style>
     </head>
     <body>
 
@@ -112,20 +225,30 @@
                 </a>
             </div>
         </nav>
-
-        <div
-            class="modal fade"
-            id="exampleModal"
+        <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="msgToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-warning text-light">
+                    <h5 class="my-0">Message</h5>
+                </div>
+                <div class="toast-body" id="msgToastBody">
+                </div>
+                </div>  
+            </div>
+        </div>
+          
+        
+        <div class="modal fade"
+            id="slotBookingModal"
             data-bs-backdrop="static"
             data-bs-keyboard="false"
             tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
+            aria-labelledby="slotBookingModalLabel"
+            aria-hidden="true" >
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
+                        <h5 class="modal-title" id="slotBookingModalLabel">
                             Book a slot
                         </h5>
                         <button
@@ -137,41 +260,40 @@
                     </div>
                     <div class="modal-body container">
                         {% if canEdit %}
-                        
+                        <!-- TODO: remove default values-->
                         <form class="" id="slotBookingForm" >
+                            {% csrf_token %}
                             <label for="bookingUser">User</label>
-                            <input class="form-control" id="bookingUser" placeholder="{{request.user}}" readonly required></input>
-                            <label for="bookingTitle">Title</label>
-                            <input class="form-control" id="bookingTitle" required/>
-                            <label for="bookingReason">Reason</label>
-                            <input class="form-control" id="bookingReason" required/>
-                            <label for="rooms">Room </label>
-                            <select id="rooms" class="form-control" required>
-                                <option value="volvo">Seminar Hall</option>
-                                <option value="saab">Conference Hall</option>
-                                <option value="opel">Committee Hall</option>
-                                <option value="audi">1G1</option>
+                            <input class="form-control" id="bookingUser" name="user" value="{{request.user}}" readonly required></input>
+                            <label for="bookingTitle" >Title</label>
+                            <input class="form-control" id="bookingTitle" name="title" value="title" required/>
+                            <label for="bookingReason" >Reason</label>
+                            <input class="form-control" id="bookingReason" name="reason" value="reason for booking" required/>
+                            <label for="rooms" >Room </label>
+                            <select id="room" name ="room" class="form-control" required>
+                                <option disabled selected value> -- select an option -- </option>
+                                {% for room in rooms  %}
+                                <option value="{{room.id}}">{{room.title}}</option>
+                                {% endfor %}
                             </select>
                             
-                            <label for="startTime" >Start Time</label>
+                            <label for="startTime"  >Start Time</label>
 
-                            <input
+                            <input name="startTime"
                                 class="flatpickr flatpickr-input flatpickr-mobile form-control"
                                 tabindex="1"
                                 type="datetime-local"
                                 placeholder="Select DateTime.."
                                 id="startTime"
-                                required
-                            />
+                                required />
                             <label for="endTime">End Time</label>
-                            <input
+                            <input name="endTime"
                                 class="flatpickr flatpickr-input flatpickr-mobile form-control"
                                 tabindex="1"
                                 type="datetime-local"
                                 placeholder="Select DateTime.."
                                 id="endTime"
-                                required
-                            />
+                                required />
                             <br>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -214,6 +336,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="eventInfoModal" tabindex="-1" aria-labelledby="eventInfoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="eventInfoModalLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="eventInfoModalBody">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
 
         <div class="container mt-5">
             <div id="calendar"></div>
