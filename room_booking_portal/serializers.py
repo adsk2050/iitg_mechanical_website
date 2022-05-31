@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Booking, RoomForBookingPortal
 from mechweb.models import CustomUser
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -40,11 +41,16 @@ class BookingWriteSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer
 
     def validate(self, data):
-        
+
         start = data["startTime"]
         end = data["endTime"]
+        room = data["room"]
         if start >= end:
             raise ValidationError("StartTime should be before endTime")
+
+        bookingConflict = Booking.objects.filter(Q(room=room), Q(Q(startTime__gte=start), Q(startTime__lt=end)) | Q(Q(endTime__gt=start), Q(endTime__lte=end))).exists()
+        if bookingConflict:
+            raise ValidationError("Booking timing for " + room.title + " is conflicting with other bookings.")
         return data
 
     class Meta:

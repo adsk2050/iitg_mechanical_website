@@ -23,7 +23,7 @@ class RoomForBookingPortal(ClusterableModel, models.Model):
 class Booking(models.Model):
     user = models.ForeignKey("mechweb.CustomUser", null=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=264, blank=False)
-    reason = models.CharField(max_length=264)
+    reason = models.CharField(max_length=264, blank=True)
     room = models.ForeignKey(RoomForBookingPortal, on_delete=models.CASCADE)
     startTime = models.DateTimeField(blank=False)
     endTime = models.DateTimeField(blank=False)
