@@ -48,7 +48,7 @@ class BookingWriteSerializer(serializers.ModelSerializer):
         if start >= end:
             raise ValidationError("StartTime should be before endTime")
 
-        bookingConflict = Booking.objects.filter(Q(room=room), Q(Q(startTime__gte=start), Q(startTime__lt=end)) | Q(Q(endTime__gt=start), Q(endTime__lte=end))).exists()
+        bookingConflict = Booking.objects.filter(Q(room=room), ~Q(Q(startTime__gte=end) | Q(endTime__lte=start))).exists()
         if bookingConflict:
             raise ValidationError("Booking timing for " + room.title + " is conflicting with other bookings.")
         return data
