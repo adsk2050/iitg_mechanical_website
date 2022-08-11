@@ -495,7 +495,10 @@ def get_new_events():
     alumni_events = AlumniEventPage.objects.all().live().order_by("-start_at")
     if len(alumni_events) >= 3:
         alumni_events = alumni_events[:3]
-    events += alumni_events
+    try:
+        events += alumni_events
+    except:
+        pass
     events = sorted(
         events,
         key=lambda ele: ele.start_date if hasattr(ele, "start_date") else ele.start_at,
